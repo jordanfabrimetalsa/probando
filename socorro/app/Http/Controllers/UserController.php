@@ -18,7 +18,27 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('module.usuario.index');
+        $users = User::all();
+        return view('module.usuario.index', compact('users'));
+    }
+
+    public function store(Request $request){
+        try{
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role = $request->role;
+            $user->status = $request->status;
+            $user->password = Hash::make($request->password);
+
+            if($user->save()){
+                return redirect()->route('usuarios')->with('success', 'Usuario creado correctamente');
+            }else{
+                return back()->with('error', 'Error al crear el usuario');
+            }
+        }catch(Exception $e){
+            return back()->with('error', $e);
+        }
     }
 
     public function logout(Request $request){
@@ -37,7 +57,8 @@ class UserController extends Controller
             $user = new User();
             $user->name = 'admin';
             $user->email = 'admin@admin.com';
-            $user->rol = 'admin';
+            $user->role = 'admin';
+            $user->status = 'A';
             $user->password = Hash::make('admin');
 
             if($user->save()){

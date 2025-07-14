@@ -18,17 +18,18 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-2">
-                <table class="table align-items-center mb-0 datatable table-striped table-bordered">
-                  <thead>
+                <table class="table align-items-center mb-0 datatable table-striped table-bordered border-radius-lg">
+                  <thead class="table-dark">
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rol</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ingresado</th>
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Rol</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Ingresado</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach ($users as $user)
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
@@ -36,55 +37,37 @@
                             <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">John Michael</h6>
-                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                            <h6 class="mb-0 text-sm">{{$user->name}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{$user->email}}</p>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Admin</p>
-                        <p class="text-xs text-secondary mb-0">Organization</p>
+                        <p class="text-xs font-weight-bold mb-0">{{$user->role}}</p>
+                        <p class="text-xs text-secondary mb-0">Voluntario CSA</p>
                       </td>
+                      @if($user->status == 'A')
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                        <span class="badge badge-sm bg-gradient-success">Activo</span>
                       </td>
+                      @else
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-danger">Inactivo</span>
+                      </td>
+                      @endif
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{$user->created_at}}</span>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs btn btn-warning text-white" data-toggle="tooltip" data-original-title="Edit user" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs btn btn-danger text-white" data-toggle="tooltip" data-original-title="Edit user" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa-solid fa-trash"></i>
                         </a>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user2">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
-                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">Programator</p>
-                        <p class="text-xs text-secondary mb-0">Developer</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -103,27 +86,27 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
-        <form class="form" method="POST" action="">
+        <form class="form" method="POST" action="{{route('usuarios.store')}}">
           @csrf
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Nombre</label>
-            <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" autocomplete="off">
+            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password" autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Confirmar Password</label>
-            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" autocomplete="off">
+            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password_confirmation" autocomplete="off">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Rol</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example">
+            <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
               <option selected>Seleccione el Rol</option>
               <option value="admin">Admin</option>
               <option value="leader">Lider</option>
@@ -132,10 +115,10 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Estado</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example">
+            <select class="form-select border border-gray p-2" aria-label="Default select example" name="status">
               <option selected>Seleccione el Estado</option>
-              <option value="activo">Activo</option>
-              <option value="inactivo">Inactivo</option>
+              <option value="A">Activo</option>
+              <option value="I">Inactivo</option>
             </select>
           </div>
           <button type="submit" class="btn btn-success btn-sm">Guardar</button>
