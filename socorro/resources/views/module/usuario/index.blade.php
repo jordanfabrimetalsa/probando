@@ -18,10 +18,11 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-2">
-                <table class="table align-items-center mb-0 datatable table-striped table-bordered border-radius-lg">
+                <table id="datatableUser" class="table align-items-center mb-0 table-striped table-bordered border-radius-lg">
                   <thead class="table-dark">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Rol</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Ingresado</th>
@@ -29,45 +30,6 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($users as $user)
-                    <tr>
-                      <td>
-                        <div class="d-flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{$user->name}}</h6>
-                            <p class="text-xs text-secondary mb-0">{{$user->email}}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{$user->role}}</p>
-                        <p class="text-xs text-secondary mb-0">Voluntario CSA</p>
-                      </td>
-                      @if($user->status == 'A')
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Activo</span>
-                      </td>
-                      @else
-                      <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-danger">Inactivo</span>
-                      </td>
-                      @endif
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{$user->created_at}}</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs btn btn-warning text-white" data-toggle="tooltip" data-original-title="Edit user" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs btn btn-danger text-white" data-toggle="tooltip" data-original-title="Edit user" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -86,7 +48,7 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
-        <form class="form" method="POST" action="{{route('usuarios.store')}}">
+        <form id="formUsuario" class="form" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Nombre</label>
@@ -121,6 +83,10 @@
               <option value="I">Inactivo</option>
             </select>
           </div>
+          <div class="mb-3">
+            <label>Imagen</label>
+            <input type="file" class="form-control border border-gray p-2" id="exampleInputPassword1" id="image" name="image">
+          </div>
           <button type="submit" class="btn btn-success btn-sm">Guardar</button>
         </form>
       </div>
@@ -131,3 +97,110 @@
   </div>
 </div>
 @endsection
+
+@push('script')
+    <script>
+          var datatableUser;
+          
+          $(document).ready(function(){
+            datatableUser = $('#datatableUser').DataTable({
+              ajax: {
+                url: '{{ route("usuarios.data") }}',
+                dataSrc: ''
+              },
+              language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+              },
+              columns: [
+                { data: 'name',
+                  dataemail: 'email',
+                  render:function(data){
+                    return data = '<h6 class="mb-0 text-sm">'+data+'</h6>'
+                  }
+                },
+                { data: 'email' ,
+                  render:function(data){
+                    return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+                  }
+                },
+                { data: 'role' },
+                {
+                  data: 'status',
+                  render: function(data) {
+                    return data === 'A'
+                      ? '<span class="badge bg-success">Activo</span>'
+                      : '<span class="badge bg-danger">Inactivo</span>';
+                  }
+                },
+                {
+                  data: 'created_at',
+                  render: function(data) {
+                    return moment(data).format('DD-MM-YYYY HH:mm');
+                  }
+                },
+                {
+                  data: null,
+                  orderable: false,
+                  searchable: false,
+                  render: function(data, type, row) {
+                    return `
+                      <a href="javascript:;" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-danger text-white">
+                        <i class="fa-solid fa-trash"></i>
+                      </a>`;
+                  }
+                }
+              ]
+            });
+          });
+
+          $('#formUsuario').submit(function(e){
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: '{{route('usuarios.store')}}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Exito.',
+                        text: 'Usuario registrado correctamente',
+                    });
+                    
+                    $('#exampleModal').modal('hide');
+                    datatableUser.ajax.reload();
+                },
+                error: function(error){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error.',
+                        text: 'Error al registrar usuario',
+                    });
+                    $('#exampleModal').modal('hide');
+                }
+            });
+          });
+    </script>
+@endpush

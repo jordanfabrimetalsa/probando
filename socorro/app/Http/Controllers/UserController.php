@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Models\Imagen;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -18,8 +20,11 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
-        return view('module.usuario.index', compact('users'));
+        return view('module.usuario.index');
+    }
+
+    public function data(){
+        return response()->json(User::all());
     }
 
     public function store(Request $request){
@@ -30,14 +35,42 @@ class UserController extends Controller
             $user->role = $request->role;
             $user->status = $request->status;
             $user->password = Hash::make($request->password);
+            $user->save();
+            $id_user = $user->id;
 
-            if($user->save()){
-                return redirect()->route('usuarios')->with('success', 'Usuario creado correctamente');
+            if($this->up_image($request, $id_user)){
+                return response()->json(['success' => 'Usuario creado correctamente']);
             }else{
-                return back()->with('error', 'Error al crear el usuario');
+                return response()->json(['error' => 'Error al crear el usuario']);
             }
         }catch(Exception $e){
-            return back()->with('error', $e);
+            return response()->json(['error' => $e]);
+        }
+    }
+
+    public function destroy($id){
+        try{
+            $user = User::find($id);
+            $user->delete();
+            return response()->json(['success' => 'Usuario eliminado correctamente']);
+        }catch(Exception $e){
+            return response()->json(['error' => $e]);
+        }
+    }
+
+    public function up_image($request, $id_user){
+        try{
+            $path = $request->file('image')->store('images', 'public');
+            $name = basename($path);
+
+            $image = new Imagen();
+            $image->name = $name;
+            $image->path = $path;
+            $image->user_id = $id_user;
+            $image->save();
+            return response()->json(['success' => 'Imagen actualizada correctamente']);
+        }catch(Exception $e){
+            return response()->json(['error' => $e]);
         }
     }
 
@@ -46,9 +79,9 @@ class UserController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect()->route('login')->with('success', 'Sesion cerrada correctamente');
+            return response()->json(['success' => 'Sesion cerrada correctamente']);
         }catch(Exception $e){
-            return back()->with('error', $e);
+            return response()->json(['error' => $e]);
         }
     }
 
@@ -62,12 +95,12 @@ class UserController extends Controller
             $user->password = Hash::make('admin');
 
             if($user->save()){
-                return back()->with('success', 'Usuario creado correctamente');
+                return response()->json(['success' => 'Usuario creado correctamente']);
             }else{
-                return back()->with('error', 'Error al crear el usuario');
+                return response()->json(['error' => 'Error al crear el usuario']);
             }
         }catch(Exception $e){
-            return back()->with('error', $e);
+            return response()->json(['error' => $e]);
         }
     }
 
@@ -79,16 +112,16 @@ class UserController extends Controller
                 if(Hash::check($request->password, $user->password)){
                     Auth::login($user);
                     $request->session()->regenerate();
-                    return redirect()->route('dashboard')->with('success', 'Inicio de sesión exitoso');
+                    return response()->json(['success' => 'Inicio de sesión exitoso']);
                 }else{
-                    return back()->with('error', 'Contraseña incorrecta');
+                    return response()->json(['error' => 'Contraseña incorrecta']);
                 }
             }else{
-                return back()->with('error', 'Usuario no encontrado');
+                return response()->json(['error' => 'Usuario no encontrado']);
             }
 
         }catch(Exception $e){
-            return back()->with('error', $e);
-        }
+            return response()->json(['error' => $e]);
+        }   
     }
 }

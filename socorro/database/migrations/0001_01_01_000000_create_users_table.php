@@ -20,6 +20,7 @@ return new class extends Migration
             $table->char('status', 1)->default('A');
             $table->string('password');
             $table->rememberToken();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
 
