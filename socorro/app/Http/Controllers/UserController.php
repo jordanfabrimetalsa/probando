@@ -48,6 +48,27 @@ class UserController extends Controller
         }
     }
 
+    public function edit($id){
+        try{
+            $user = User::find($id);
+            return response()->json($user);
+        }catch(Exception $e){
+            return response()->json(['error' => $e]);
+        }
+    }
+
+    public function update(Request $request, $id){
+        try{
+            $user = User::find($id);
+            $user->role = $request->role;
+            $user->status = $request->status;
+            $user->save();
+            return response()->json(['success' => 'Usuario actualizado correctamente']);
+        }catch(Exception $e){
+            return response()->json(['error' => $e]);
+        }
+    }
+
     public function destroy($id){
         try{
             $user = User::find($id);

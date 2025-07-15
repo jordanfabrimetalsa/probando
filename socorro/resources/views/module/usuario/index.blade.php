@@ -96,6 +96,45 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EditModalLabel">Editar Usuario - <span id="name"></span></h5>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="formUsuarioEdit" class="form" method="POST">
+          @csrf
+          @method('PUT')
+          <input type="hidden" id="id" name="id">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Rol</label>
+            <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
+              <option selected>Seleccione el Rol</option>
+              <option value="admin">Admin</option>
+              <option value="leader">Lider</option>
+              <option value="comun">Común</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Estado</label>
+            <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
+              <option selected>Seleccione el Estado</option>
+              <option value="A">Activo</option>
+              <option value="I">Inactivo</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('script')
@@ -132,7 +171,7 @@
                 { data: 'name',
                   dataemail: 'email',
                   render:function(data){
-                    return data = '<h6 class="mb-0 text-sm">'+data+'</h6>'
+                    return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
                   }
                 },
                 { data: 'email' ,
@@ -140,7 +179,11 @@
                     return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
                   }
                 },
-                { data: 'role' },
+                { data: 'role' ,
+                  render:function(data){
+                    return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+                  }
+                },
                 {
                   data: 'status',
                   render: function(data) {
@@ -152,7 +195,7 @@
                 {
                   data: 'created_at',
                   render: function(data) {
-                    return moment(data).format('DD-MM-YYYY HH:mm');
+                    return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD-MM-YYYY HH:mm')+'</p>';
                   }
                 },
                 {
@@ -161,10 +204,10 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editUser(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-danger text-white">
+                      <a onclick="deleteUser(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
                       </a>`;
                   }
@@ -202,5 +245,99 @@
                 }
             });
           });
+
+          $('#formUsuarioEdit').submit(function(e){
+            e.preventDefault();
+            let id = $('#id').val();
+            let formData = new FormData(this);
+            $.ajax({
+                url: 'usuarios/update/'+id,
+                type: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Exito.',
+                        text: 'Usuario actualizado correctamente',
+                    });
+                    
+                    $('#EditModal').modal('hide');
+                    datatableUser.ajax.reload();
+                },
+                error: function(error){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error.',
+                        text: 'Error al actualizar usuario',
+                    });
+                    $('#EditModal').modal('hide');
+                }
+            });
+          });
+
+          function editUser(id){
+            console.log('entra aqui');
+             $.ajax({
+                url: 'usuarios/edit/'+id,
+                type: 'GET',
+                success: function(response){
+                    $('#EditModal').modal('show');
+                    $('#formUsuselected').attr('action', 'usuarios/update/'+id);
+                    $('#role').val(response.role);
+                    $('#status').val(response.status);
+                    $('#name').text(response.name);
+                    $('#id').val(response.id);
+                },
+                error: function(error){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error.',
+                        text: 'Error al editar usuario',
+                    });
+                }
+            });
+          }
+
+          function deleteUser(id){
+            Swal.fire({
+              title: "¿Estas seguro de eliminar el usuario?",
+              text: "No podrás revertir esto!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Si, eliminarlo!"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  url: 'usuarios/destroy/'+id,
+                  type: 'DELETE',
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function(response){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Exito.',
+                            text: 'Usuario eliminado correctamente',
+                        });
+                        datatableUser.ajax.reload();
+                    },
+                    error: function(error){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error.',
+                            text: 'Error al eliminar usuario: ' + JSON.stringify(error),
+                        });
+                    }
+                });
+              }
+            });
+          }
     </script>
 @endpush
