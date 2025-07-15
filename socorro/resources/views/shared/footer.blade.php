@@ -6,8 +6,7 @@
                 © <script>
                   document.write(new Date().getFullYear())
                 </script>,
-                Derechos Reservados <i class="fa fa-heart"></i> Por
-                <a href="·" class="font-weight-bold" target="_blank">CSA Chile.</a>
+                Derechos Reservados Por el equipo de CSA Chile
               </div>
             </div>
             <div class="col-lg-6">

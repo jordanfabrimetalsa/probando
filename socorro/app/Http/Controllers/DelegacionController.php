@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class VoluntarioController extends Controller
+class DelegacionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('module.voluntario.index');
+        //
     }
 
     /**
