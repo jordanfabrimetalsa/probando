@@ -16,9 +16,9 @@
                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Agregar Usuario</button>
               </div>
             </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive p-2">
-                <table id="datatableUser" class="table align-items-center mb-0 table-striped table-bordered border-radius-lg">
+            <div class="card-body  pb-2 p-4">
+              <div class="w-100 p-2 mb-4" style="overflow-x: auto;">
+                <table id="datatableUser" class="display responsive nowrap table align-items-center mb-0 table-striped table-bordered border-radius-lg" style="width: 100%;">
                   <thead class="table-dark">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
@@ -39,6 +39,7 @@
       </div>
     </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -167,6 +168,24 @@
                     "previous": "Anterior"
                 }
               },
+              dom: 'Bfrtip', 
+              buttons: [
+                  {
+                      extend: 'excel',
+                      text: '<i class="fas fa-file-excel"></i> Exportar Excel',
+                      className: 'btn btn-success'
+                  },
+                  {
+                      extend: 'pdf',
+                      text: '<i class="fas fa-file-pdf"></i> Exportar PDF',
+                      className: 'btn btn-danger'
+                  },
+                  {
+                      extend: 'print',
+                      text: '<i class="fas fa-print"></i> Imprimir',
+                      className: 'btn btn-primary'
+                  }
+              ],
               columns: [
                 { data: 'name',
                   dataemail: 'email',
@@ -202,6 +221,7 @@
                   data: null,
                   orderable: false,
                   searchable: false,
+                  responsive: true,
                   render: function(data, type, row) {
                     return `
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="editUser(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">

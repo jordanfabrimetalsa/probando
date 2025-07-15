@@ -18,7 +18,7 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-2">
-                <table id="datatableUser" class="table align-items-center mb-0 table-striped table-bordered border-radius-lg">
+                <table id="datatableVoluntario" class="table align-items-center mb-0 table-striped table-bordered border-radius-lg">
                   <thead class="table-dark">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
@@ -48,32 +48,85 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
-        <form id="formUsuario" class="form" method="POST" enctype="multipart/form-data">
+        <form id="formVoluntario" class="form" method="POST" enctype="multipart/form-data">
           @csrf
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nombre</label>
-            <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Delegación</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                    <option selected>Seleccione Opción</option>
+                    <option value="S">Sí</option>
+                    <option value="N">No</option>
+                </select>   
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Delegación</label>
-            <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Apellido</label>
+                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="lastname" aria-describedby="emailHelp">
+              </div>
+            </div>
           </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Telefono</label>
+                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="phone" aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Alergico</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                    <option selected>Seleccione Opción</option>
+                    <option value="S">Sí</option>
+                    <option value="N">No</option>
+                </select>   
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Enfermedad</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                    <option selected>Seleccione Opción</option>
+                    <option value="S">Sí</option>
+                    <option value="N">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Medicamento</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                    <option selected>Seleccione Opción</option>
+                    <option value="S">Sí</option>
+                    <option value="N">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password" autocomplete="off">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Confirmar Password</label>
             <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password_confirmation" autocomplete="off">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Rol</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
-              <option value="comun">Común</option>
-            </select>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Estado</label>

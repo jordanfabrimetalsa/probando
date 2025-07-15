@@ -133,16 +133,16 @@ class UserController extends Controller
                 if(Hash::check($request->password, $user->password)){
                     Auth::login($user);
                     $request->session()->regenerate();
-                    return response()->json(['success' => 'Inicio de sesión exitoso']);
+                    return redirect()->route('dashboard');
                 }else{
-                    return response()->json(['error' => 'Contraseña incorrecta']);
+                    return redirect()->route('login')->with('error', 'Contraseña incorrecta');
                 }
             }else{
-                return response()->json(['error' => 'Usuario no encontrado']);
+                return redirect()->route('login')->with('error', 'Usuario no encontrado');
             }
 
         }catch(Exception $e){
-            return response()->json(['error' => $e]);
+            return redirect()->route('login')->with('error', $e);
         }   
     }
 }
