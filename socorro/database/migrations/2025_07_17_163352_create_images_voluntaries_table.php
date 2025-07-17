@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('delegations', function (Blueprint $table) {
+        Schema::create('images_voluntaries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('voluntary_id')->constrained('voluntaries')->cascadeOnDelete();
             $table->string('name');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('delegations');
+        Schema::dropIfExists('images_voluntaries');
     }
 };

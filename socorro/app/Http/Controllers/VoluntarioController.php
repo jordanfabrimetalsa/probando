@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Voluntario;
 
 class VoluntarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return view('module.voluntario.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function data()
+    {
+        $voluntarios = Voluntario::all();
+        return response()->json($voluntarios);
+    }
+
+
     public function create()
     {
         //

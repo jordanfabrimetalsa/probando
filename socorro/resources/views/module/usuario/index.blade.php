@@ -44,7 +44,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formUsuario" class="form" method="POST" enctype="multipart/form-data">
@@ -101,7 +101,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="EditModalLabel">Editar Usuario</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formUsuarioEdit" class="form" method="POST">

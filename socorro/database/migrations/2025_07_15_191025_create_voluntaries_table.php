@@ -6,20 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('voluntaries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('delegation_id')->constrained('delegations')->cascadeOnDelete();
+            $table->string('document', 10);
+            $table->string('name');
+            $table->string('lastname');
+            $table->string('email');
+            $table->string('phone');
+            $table->date('birthday');
+            $table->enum('gender', ['M', 'F'])->default('M');
+            $table->boolean('allergic')->default(false);
+            $table->boolean('disease')->default(false);
+            $table->boolean('medicine')->default(false);
+            $table->boolean('vehicle')->default(false);
+            $table->boolean('license')->default(false);
+            $table->string('password', 255);
+            $table->enum('type', ['V', 'A'])->default('A');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('voluntaries');

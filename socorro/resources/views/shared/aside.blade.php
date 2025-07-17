@@ -11,7 +11,7 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard.html">
-            <i class="material-symbols-rounded opacity-5">home</i>
+            <i class="material-symbols-rounded opacity-5">analytics</i>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
@@ -19,6 +19,12 @@
           <a class="nav-link text-dark" href="{{ route('usuarios') }}">
             <i class="material-symbols-rounded opacity-5">person</i>
             <span class="nav-link-text ms-1">Usuarios</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
+            <i class="material-symbols-rounded opacity-5">home</i>
+            <span class="nav-link-text ms-1">Delegaciones</span>
           </a>
         </li>
         <li class="nav-item">
