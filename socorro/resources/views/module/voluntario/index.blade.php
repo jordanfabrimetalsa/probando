@@ -305,12 +305,16 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntario(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                        <i class="fa-regular fa-user"></i>
+                      </a>
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntario(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
                       <a onclick="deleteVoluntario(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
-                      </a>`;
+                      </a>
+                      `;
                   }
                 }
         ],
