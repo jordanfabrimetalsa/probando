@@ -16,10 +16,10 @@
                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Agregar Usuario</button>
               </div>
             </div>
-            <div class="card-body  pb-2 p-4">
-              <div class="w-100 p-2 mb-4" style="overflow-x: auto;">
-                <table id="datatableUser" class="display responsive nowrap table align-items-center mb-0 table-striped table-bordered border-radius-lg" style="width: 100%;">
-                  <thead class="table-dark">
+            <div class="card-body p-4">
+              <div class="w-100 p-2 mb-4">
+                <table id="datatableUser" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                  <thead class="table-dark text-center">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
@@ -29,7 +29,7 @@
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="text-center">
                   </tbody>
                 </table>
               </div>
@@ -102,7 +102,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="EditModalLabel">Editar Usuario - <span id="name"></span></h5>
+        <h5 class="modal-title" id="EditModalLabel">Editar Usuario</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="modal-body">
@@ -110,6 +110,9 @@
           @csrf
           @method('PUT')
           <input type="hidden" id="id" name="id">
+          <div class="mb-3">
+            <p>Nombre Usuario: <span id="name"></span></p>
+          </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Rol</label>
             <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
@@ -168,23 +171,27 @@
                     "previous": "Anterior"
                 }
               },
-              dom: 'Bfrtip', 
+              responsive: {
+                details: {
+                  type: 'inline'
+                }
+              },
+              dom:
+                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                "<'row'<'col-12'tr>>" +
+                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+
               buttons: [
-                  {
-                      extend: 'excel',
-                      text: '<i class="fas fa-file-excel"></i> Exportar Excel',
-                      className: 'btn btn-success'
-                  },
-                  {
-                      extend: 'pdf',
-                      text: '<i class="fas fa-file-pdf"></i> Exportar PDF',
-                      className: 'btn btn-danger'
-                  },
-                  {
-                      extend: 'print',
-                      text: '<i class="fas fa-print"></i> Imprimir',
-                      className: 'btn btn-primary'
-                  }
+                {
+                  extend: 'excelHtml5',
+                  text: '<i class="fa-solid fa-file-excel"></i>',
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'print',
+                  text: '<i class="fa-solid fa-print"></i>',
+                  className: 'btn btn-primary'
+                }
               ],
               columns: [
                 { data: 'name',
@@ -221,7 +228,6 @@
                   data: null,
                   orderable: false,
                   searchable: false,
-                  responsive: true,
                   render: function(data, type, row) {
                     return `
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="editUser(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
