@@ -39,7 +39,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Registrar Delegación</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formDelegation" class="form" method="POST" enctype="multipart/form-data">
@@ -67,7 +67,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="EditModalLabel">Editar Delegación</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formDelegationEdit" class="form" method="POST">
@@ -141,6 +141,11 @@
             extend: 'pdfHtml5',
             text: '<i class="fa-solid fa-file-pdf"></i>',
             className: 'btn btn-danger me-2'
+          },
+          {
+            extend: 'print',
+            text: '<i class="fa-solid fa-print"></i>',
+            className: 'btn btn-primary me-2'
           },
           {
             extend: 'csvHtml5',

@@ -178,7 +178,6 @@
                 "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
                 "<'row'<'col-12'tr>>" +
                 "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
-
               buttons: [
                 {
                   extend: 'excelHtml5',
@@ -188,7 +187,12 @@
                 {
                   extend: 'print',
                   text: '<i class="fa-solid fa-print"></i>',
-                  className: 'btn btn-primary'
+                  className: 'btn btn-primary me-2'
+                },
+                {
+                  extend: 'csvHtml5',
+                  text: '<i class="fa-solid fa-file-csv"></i>',
+                  className: 'btn btn-info me-2'
                 }
               ],
               columns: [

@@ -21,9 +21,9 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Rol</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Ingresado</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
                   </thead>
@@ -43,7 +43,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Registrar Voluntario</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formVoluntario" class="form" method="POST" enctype="multipart/form-data">
@@ -52,10 +52,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Delegación<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
-                    <option selected>Seleccione Opción</option>
-                    <option value="S">Sí</option>
-                    <option value="N">No</option>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="delegation_id" name="delegation_id">
+                    @foreach ($delegations as $delegation)
+                        <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
+                    @endforeach
                 </select>   
               </div>
             </div>
@@ -64,13 +64,13 @@
             <div class="col-12">
               <div class="mb-3">
                 <label>Imagen</label>
-                <input type="file" class="form-control border border-gray p-2" id="exampleInputPassword1" id="image" name="image">
+                <input type="file" class="form-control border border-gray p-2" id="image" name="image">
               </div>
             </div>
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Número de Documento<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="document" name="document" aria-describedby="emailHelp">
               </div>
             </div>
           </div>
@@ -78,13 +78,13 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp">
               </div>
             </div>
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Apellido<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="lastname" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="lastname" name="lastname" aria-describedby="emailHelp">
               </div>
             </div>
           </div>
@@ -92,13 +92,13 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email<span class="text-danger">*</span></label>
-                <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
+                <input type="email" class="form-control border border-gray p-2" id="email" name="email" aria-describedby="emailHelp">
               </div>
             </div>
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Telefono<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="phone" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="phone" name="phone" aria-describedby="emailHelp">
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha Nacimiento<span class="text-danger">*</span></label>
-                <input type="date" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
+                <input type="date" class="form-control border border-gray p-2" id="birthday" name="birthday" aria-describedby="emailHelp">
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Sexo<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="gender" name="gender">
                     <option selected>Seleccione Opción</option>
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
@@ -125,30 +125,30 @@
             <div class="col-4">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Alergico<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="allergic" name="allergic">
                     <option selected>Seleccione Opción</option>
-                    <option value="S">Sí</option>
-                    <option value="N">No</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
                 </select>   
               </div>
             </div>
             <div class="col-4">
                 <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Enfermedad<span class="text-danger">*</span></label>
-                  <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="disease" name="disease">
                       <option selected>Seleccione Opción</option>
-                      <option value="S">Sí</option>
-                      <option value="N">No</option>
+                      <option value="1">Sí</option>
+                      <option value="0">No</option>
                   </select>
                 </div>  
               </div>
               <div class="col-4">
                 <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Medicamento<span class="text-danger">*</span></label>
-                  <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="medicine" name="medicine">
                       <option selected>Seleccione Opción</option>
-                      <option value="S">Sí</option>
-                      <option value="N">No</option>
+                      <option value="1">Sí</option>
+                      <option value="0">No</option>
                   </select>
                 </div>
               </div>
@@ -158,10 +158,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">¿Tiene Vehiculo?<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="vehicle" name="vehicle">
                     <option selected>Seleccione Opción</option>
-                    <option value="S">Sí</option>
-                    <option value="N">No</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
                 </select>
               </div>
             </div>
@@ -170,10 +170,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">¿Tiene Licencia de Conducir Clase B?<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="license" name="license">
                     <option selected>Seleccione Opción</option>
-                    <option value="S">Sí</option>
-                    <option value="N">No</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
                 </select>
               </div>
             </div>
@@ -182,7 +182,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password_confirmation" autocomplete="off">
+                <input type="password" class="form-control border border-gray p-2" id="password" name="password" autocomplete="off">
               </div>
             </div>
           </div>
@@ -190,10 +190,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="status">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
                   <option selected>Seleccione el Estado</option>
-                  <option value="A">Activo</option>
-                <option value="I">Inactivo</option>
+                  <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
               </select>
               </div>
             </div>
@@ -202,7 +202,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Tipo de Socorrista</label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" name="type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="type" name="type">
                   <option selected>Seleccione el Tipo</option>
                   <option value="V">Voluntario</option>
                 <option value="A">Aspirante</option>
@@ -262,12 +262,75 @@
 
 @push('script')
 <script>
+    var datatableVoluntaries;
     $(document).ready(function(){
-      $('#datatableVoluntaries').DataTable({
-        $.ajax{
+      datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+        ajax: {
           url: '{{ route("voluntarios.data") }}',
           dataSrc: ''
         },
+        columns: [
+          { data: 'name',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'email',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'phone',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'status',
+            render: function(data){
+              return data === 'A'
+                ? '<span class="badge bg-success">Activo</span>'
+                : '<span class="badge bg-danger">Inactivo</span>';
+            }
+           },
+          { data: 'type',
+            render: function(data){
+              return data === 'V'
+                ? '<span class="badge bg-success">Voluntario</span>'
+                : '<span class="badge bg-danger">Aspirante</span>';
+            }
+           },
+          {
+                  data: null,
+                  orderable: false,
+                  searchable: false,
+                  render: function(data, type, row) {
+                    return `
+                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntario(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </a>
+                      <a onclick="deleteVoluntario(${data.id})" class="btn btn-danger text-white">
+                        <i class="fa-solid fa-trash"></i>
+                      </a>`;
+                  }
+                }
+        ],
+        buttons: [
+                {
+                  extend: 'excelHtml5',
+                  text: '<i class="fa-solid fa-file-excel"></i>',
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'print',
+                  text: '<i class="fa-solid fa-print"></i>',
+                  className: 'btn btn-primary me-2'
+                },
+                {
+                  extend: 'csvHtml5',
+                  text: '<i class="fa-solid fa-file-csv"></i>',
+                  className: 'btn btn-info me-2'
+                }
+              ],
         language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -296,26 +359,39 @@
           details:{
             type: 'inline'
           }
-        },
-        buttons: [
-          {
-            extend: 'excelHtml5',
-            text: '<i class="fa-solid fa-file-excel"></i>',
-            className: 'btn btn-success me-2'
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<i class="fa-solid fa-file-pdf"></i>',
-            className: 'btn btn-danger me-2'
-          },
-          {
-            extend: 'csvHtml5',
-            text: '<i class="fa-solid fa-file-csv"></i>',
-            className: 'btn btn-info me-2'
-          }
-        ]
+        }
       });
     });
+
+    $('#formVoluntario').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: '{{ route("voluntarios.store") }}',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Voluntario registrado correctamente' + JSON.stringify(response),
+          });
+          $('#exampleModal').modal('hide');
+          datatableVoluntaries.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar voluntario' + JSON.stringify(error),
+          });
+          $('#exampleModal').modal('hide');
+        }
+      })
+
+    })
 </script>
 
 @endpush
