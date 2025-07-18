@@ -287,6 +287,7 @@
     </div>
   </div>
 </div>
+@include('module.voluntario.show')
 @endsection
 
 @push('script')
@@ -339,7 +340,7 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-regular fa-user"></i>
                       </a>
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
@@ -400,6 +401,43 @@
         }
       });
     });
+    
+    function showVoluntary(id){
+      try{
+        $.ajax({
+          url: 'voluntarios/show/' + id,
+          type: 'GET',
+          success: function(response){
+            console.log(response);
+            $('#ShowModal').modal('show');
+            $('#fullname_title_show').text(response.name + ' ' + response.lastname);
+            $('#fullname_show').text(response.name + ' ' + response.lastname);
+            $('#document_show').text(response.document);
+            $('#email_show').text(response.email);
+            $('#phone_show').text(response.phone);
+            $('#birthday_show').text(response.birthday);
+            $('#gender_show').text(response.gender);
+            $('#allergic_show').text(response.allergic == 1 ? 'Si' : 'No');
+            $('#disease_show').text(response.disease == 1 ? 'Si' : 'No');
+            $('#medicine_show').text(response.medicine == 1 ? 'Si' : 'No');
+            $('#vehicle_show').text(response.vehicle == 1 ? 'Si' : 'No');
+            $('#license_show').text(response.license == 1 ? 'Si' : 'No');
+            $('#type_show').text(response.type == 'V' ? 'Voluntario' : 'Aspirante');
+            $('#status_show').text(response.status == 'A' ? 'Activo' : 'Inactivo');
+            $('#delegation_show').text(response.delegation.name);
+          },
+          error: function(error){
+            Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al mostrar voluntario' + JSON.stringify(error),
+          });
+          }
+        });
+      }catch(e){
+        console.log(e);  
+      }
+    }
 
     $('#formVoluntario').submit(function(e){
       e.preventDefault();

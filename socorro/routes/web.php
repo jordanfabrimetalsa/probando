@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function(){
     Route::prefix('delegaciones')->group(function(){
         Route::get('/', [DelegacionController::class,'index'])->name('delegaciones');
         Route::get('/data', [DelegacionController::class,'data'])->name('delegaciones.data');
+        Route::get('/show/{id}', [DelegacionController::class,'show'])->name('delegaciones.show');
         Route::get('/create', [DelegacionController::class,'create'])->name('delegaciones.create');
         Route::post('/store', [DelegacionController::class,'store'])->name('delegaciones.store');
         Route::get('/edit/{id}', [DelegacionController::class,'edit'])->name('delegaciones.edit');
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function(){
     Route::prefix('voluntarios')->group(function(){
         Route::get('/', [VoluntarioController::class,'index'])->name('voluntarios');
         Route::get('/data', [VoluntarioController::class,'data'])->name('voluntarios.data');
+        Route::get('/show/{id}', [VoluntarioController::class,'show'])->name('voluntarios.show');
         Route::get('/create', [VoluntarioController::class,'create'])->name('voluntarios.create');
         Route::post('/store', [VoluntarioController::class,'store'])->name('voluntarios.store');
         Route::get('/edit/{id}', [VoluntarioController::class,'edit'])->name('voluntarios.edit');

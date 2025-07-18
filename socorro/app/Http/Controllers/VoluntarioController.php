@@ -72,7 +72,7 @@ class VoluntarioController extends Controller
     public function show(string $id)
     {
         try{
-            $voluntary = Voluntary::find($id);
+            $voluntary = Voluntary::find($id)->with('delegation')->first();
             return response()->json($voluntary);
         }catch(Exception $e){
             return response()->json([
