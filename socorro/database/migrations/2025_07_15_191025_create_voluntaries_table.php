@@ -17,12 +17,16 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone');
             $table->date('birthday');
+            $table->string('address');
+            $table->string('profession');
             $table->enum('gender', ['M', 'F'])->default('M');
             $table->boolean('allergic')->default(false);
             $table->boolean('disease')->default(false);
             $table->boolean('medicine')->default(false);
             $table->boolean('vehicle')->default(false);
             $table->boolean('license')->default(false);
+            $table->boolean('payment')->default(false);
+            $table->char('blood_type', 2)->default('N');
             $table->string('password', 255);
             $table->enum('type', ['V', 'A'])->default('A');
             $table->boolean('status')->default(true);

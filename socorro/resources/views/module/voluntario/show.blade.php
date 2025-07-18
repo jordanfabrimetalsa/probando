@@ -62,16 +62,11 @@
                     <div class="col-md-8 d-flex align-items-center">
                       <h6 class="mb-0">Perfil</h6>
                     </div>
-                    <div class="col-md-4 text-end">
-                      <a href="javascript:;">
-                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
-                      </a>
-                    </div>
                   </div>
                 </div>
                 <div class="card-body p-3">
                   <p class="text-sm">
-                    <span id="description_show"></span>
+                    Observaciones:<span id="description_show"></span>
                   </p>
                   <hr class="horizontal gray-light my-4">
                   <ul class="list-group">
@@ -107,24 +102,11 @@
                 <div class="card-body p-3">
                   <ul class="list-group">
                     <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
-                      </div>
                       <div class="d-flex align-items-start flex-column justify-content-center">
                         <h6 class="mb-0 text-sm">Sophie B.</h6>
                         <p class="mb-0 text-xs">Hi! I need more information..</p>
                       </div>
-                      <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Reply</a>
-                    </li>
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                      <div class="avatar me-3">
-                        <img src="../assets/img/marie.jpg" alt="kal" class="border-radius-lg shadow">
-                      </div>
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Anne Marie</h6>
-                        <p class="mb-0 text-xs">Awesome work, can you..</p>
-                      </div>
-                      <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Reply</a>
+                      <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Llamar</a>
                     </li>
                   </ul>
                 </div>
