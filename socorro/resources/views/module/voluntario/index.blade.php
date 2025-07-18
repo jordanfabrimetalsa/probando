@@ -20,10 +20,11 @@
                   <thead class="bg-gradient-dark text-center">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
                   </thead>
@@ -224,30 +225,58 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="EditModalLabel">Editar Voluntario - <span id="name"></span></h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <h5 class="modal-title" id="EditModalLabel">Editar Voluntario</h5>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="formUsuarioEdit" class="form" method="POST">
+        <form id="formVoluntaryEdit" class="form" method="POST">
           @csrf
           @method('PUT')
+          <p>Nombre: <span id="name_edit"></span></p>
           <input type="hidden" id="id" name="id">
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Rol</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
-              <option value="comun">Común</option>
-            </select>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">¿Tiene Vehiculo?</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="vehicle_edit" name="vehicle">
+                    <option selected>Seleccione Opción</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">¿Tiene Licencia de Conducir Clase B?</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="license_edit" name="license">
+                    <option selected>Seleccione Opción</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Estado</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
-              <option selected>Seleccione el Estado</option>
-              <option value="A">Activo</option>
-              <option value="I">Inactivo</option>
-            </select>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Tipo de Socorrista</label>
+              <select class="form-select border border-gray p-2" aria-label="Default select example" id="type_edit" name="type">
+                <option selected>Seleccione el Tipo</option>
+                <option value="V">Voluntario</option>
+                <option value="A">Aspirante</option>
+              </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Estado</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status_edit" name="status">
+                  <option selected>Seleccione el Estado</option>
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+              </div>
+            </div>
           </div>
           <button type="submit" class="btn btn-success btn-sm">Guardar</button>
         </form>
@@ -275,6 +304,18 @@
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
+          { data: 'delegation.name',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'type',
+            render: function(data){
+              return data === 'V'
+                ? '<span class="badge bg-success">Voluntario</span>'
+                : '<span class="badge bg-danger">Aspirante</span>';
+            }
+           },
           { data: 'email',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
@@ -287,31 +328,24 @@
           },
           { data: 'status',
             render: function(data){
-              return data === 'A'
+              return data == '1'
                 ? '<span class="badge bg-success">Activo</span>'
                 : '<span class="badge bg-danger">Inactivo</span>';
             }
-           },
-          { data: 'type',
-            render: function(data){
-              return data === 'V'
-                ? '<span class="badge bg-success">Voluntario</span>'
-                : '<span class="badge bg-danger">Aspirante</span>';
-            }
-           },
+          },
           {
                   data: null,
                   orderable: false,
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntario(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-regular fa-user"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntario(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
-                      <a onclick="deleteVoluntario(${data.id})" class="btn btn-danger text-white">
+                      <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
                       </a>
                       `;
@@ -380,7 +414,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Voluntario registrado correctamente' + JSON.stringify(response),
+            text: 'Voluntario registrado correctamente',
           });
           $('#exampleModal').modal('hide');
           datatableVoluntaries.ajax.reload();
@@ -389,13 +423,107 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar voluntario' + JSON.stringify(error),
+            text: 'Error al registrar voluntario',
           });
           $('#exampleModal').modal('hide');
         }
       })
-
     })
+
+    $('#formVoluntaryEdit').submit(function(e){
+      e.preventDefault();
+      let id = $('#id').val();
+
+      $.ajax({
+        url: 'voluntarios/update/'+id,
+        type: 'PUT',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: $(this).serialize(),
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Voluntario actualizado correctamente',
+          });
+          $('#EditModal').modal('hide');
+          datatableVoluntaries.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al actualizar voluntario' + JSON.stringify(error),
+          });
+          $('#EditModal').modal('hide');
+        }
+      })
+    })
+
+    function editVoluntary(id){
+      $.ajax({
+        url: 'voluntarios/edit/'+id,
+        type: 'GET',
+        success:function(response){
+          console.log(response);
+          $('#EditModal').modal('show');
+          $('#formVoluntaryEdit').attr('action', 'voluntarios/update/'+id);
+          $('#vehicle_edit').val(response.vehicle);
+          $('#license_edit').val(response.license);
+          $('#type_edit').val(response.type);
+          $('#status_edit').val(response.status);
+          $('#name_edit').text(response.name);
+          $('#id').val(response.id);
+
+        },
+        error:function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al editar voluntario',
+          });
+          $('#EditModal').modal('hide');
+        }
+      });
+    }
+
+    function deleteVoluntary(id){
+      Swal.fire({
+              title: "¿Estas seguro de eliminar al voluntario?",
+              text: "No podrás revertir esto!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Si, eliminarlo!"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  url: 'voluntarios/destroy/'+id,
+                  type: 'DELETE',
+                  headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  },
+                  success: function(response){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Exito.',
+                            text: 'Voluntario eliminado correctamente',
+                        });
+                        datatableVoluntaries.ajax.reload();
+                    },
+                    error: function(error){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error.',
+                            text: 'Error al eliminar voluntario: ' + JSON.stringify(error),
+                        });
+                    }
+                });
+              }
+            });
+    }
 </script>
 
 @endpush

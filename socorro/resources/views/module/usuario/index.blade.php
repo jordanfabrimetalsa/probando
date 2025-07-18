@@ -320,6 +320,7 @@
                     $('#status').val(response.status);
                     $('#name').text(response.name);
                     $('#id').val(response.id);
+                    
                 },
                 error: function(error){
                     Swal.fire({
