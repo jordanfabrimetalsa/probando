@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Voluntary;
 use App\Models\Delegation;
 use App\Models\Image_Voluntary;
+use App\Models\Emergency;
 use Illuminate\Support\Facades\Hash;
 
 class VoluntarioController extends Controller
@@ -34,12 +35,16 @@ class VoluntarioController extends Controller
             $voluntary->email = $request->email;
             $voluntary->phone = $request->phone;
             $voluntary->birthday = $request->birthday;
+            $voluntary->address = $request->address;
+            $voluntary->profession = $request->profession;
             $voluntary->gender = $request->gender;
             $voluntary->allergic = $request->allergic;
             $voluntary->disease = $request->disease;
             $voluntary->medicine = $request->medicine;
             $voluntary->vehicle = $request->vehicle;
             $voluntary->license = $request->license;
+            $voluntary->payment = $request->payment;
+            $voluntary->blood_type = $request->blood_type;
             $voluntary->password = Hash::make($request->password);
             $voluntary->type = $request->type;
             $voluntary->status = $request->status;
@@ -73,6 +78,7 @@ class VoluntarioController extends Controller
     {
         try{
             $voluntary = Voluntary::find($id)->with('delegation')->first();
+            $voluntary->emergency = Emergency::where('voluntary_id', $id)->get();
             return response()->json($voluntary);
         }catch(Exception $e){
             return response()->json([
@@ -132,6 +138,42 @@ class VoluntarioController extends Controller
                 'status' => 'error',
                 'message' => 'Error al eliminar el voluntario'
             ]);
+        }
+    }
+
+    public function emergencyStore(Request $request)
+    {
+        try{
+            $emergency = new Emergency();
+            $emergency->voluntary_id = $request->id_user_emergency;
+            $emergency->emergecy_name = $request->emergecy_name;
+            $emergency->emergecy_phone = $request->emergecy_phone;
+            $emergency->relationship = $request->relationship;
+            $emergency->save();
+
+            return response()->json(['success' => 'Voluntario actualizado correctamente']);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al actualizar el voluntario'
+            ], 500);
+        }
+    }
+
+    public function remarkStore(Request $request)
+    {
+        try{
+            $remark = new Remark();
+            $remark->voluntary_id = $request->id;
+            $remark->remark = $request->remark;
+            $remark->save();
+
+            return response()->json(['success' => 'Voluntario actualizado correctamente']);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al actualizar el voluntario'
+            ], 500);
         }
     }
 }

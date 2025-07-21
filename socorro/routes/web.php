@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/show/{id}', [VoluntarioController::class,'show'])->name('voluntarios.show');
         Route::get('/create', [VoluntarioController::class,'create'])->name('voluntarios.create');
         Route::post('/store', [VoluntarioController::class,'store'])->name('voluntarios.store');
+        Route::post('/emergency', [VoluntarioController::class,'emergencyStore'])->name('voluntarios.emergency');
+        Route::post('/remark', [VoluntarioController::class,'remarkStore'])->name('voluntarios.remark');
         Route::get('/edit/{id}', [VoluntarioController::class,'edit'])->name('voluntarios.edit');
         Route::put('/update/{id}', [VoluntarioController::class,'update'])->name('voluntarios.update');
         Route::delete('/destroy/{id}', [VoluntarioController::class,'destroy'])->name('voluntarios.destroy');

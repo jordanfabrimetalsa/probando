@@ -8,25 +8,37 @@
       <div class="modal-body">
         <form id="formVoluntaryEmergency" class="form" method="POST">
           @csrf
-          @method('PUT')
-          <input type="hidden" id="id" name="id">
+          <input type="hidden" id="id_user_emergency" name="id_user_emergency">
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre de Emergencia</label>
-                <input type="text" class="form-control border border-gray p-2" id="emergency_name_call" name="emergency_name" required>
+                <input type="text" class="form-control border border-gray p-2" id="emergecy_name" name="emergecy_name" required>
               </div>
             </div>
             <div class="col-12">    
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Número de Emergencia</label>
-                <input type="number" class="form-control border border-gray p-2" id="emergency_call" name="emergency" required>
+                <input type="number" class="form-control border border-gray p-2" id="emergecy_phone" name="emergecy_phone" required>
               </div>
             </div>
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Relación</label>
-                <input type="text" class="form-control border border-gray p-2" id="relationship_call" name="relationship" required>
+                <select class="form-control" name="relationship">
+                  <option value="">Seleccione una opción</option>
+                  <option value="padre">Padre</option>
+                  <option value="madre">Madre</option>
+                  <option value="hermano">Hermano</option>
+                  <option value="hermana">Hermana</option>
+                  <option value="tio">Tio</option>
+                  <option value="tia">Tia</option>
+                  <option value="primo">Primo</option>
+                  <option value="prima">Prima</option>
+                  <option value="abuela">Abuela</option>
+                  <option value="abuelo">Abuelo</option>
+                  <option value="otro">Otro</option>
+                </select>
               </div>    
             </div>
           </div>

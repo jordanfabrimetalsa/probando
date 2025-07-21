@@ -74,6 +74,22 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Dirección<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="address" name="address" aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Profesión<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="profession" name="profession" aria-describedby="emailHelp">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Sexo<span class="text-danger">*</span></label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="gender" name="gender">
                     <option selected>Seleccione Opción</option>
@@ -135,6 +151,30 @@
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">¿Pagos al Día?<span class="text-danger">*</span></label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="payment" name="payment">
+                    <option selected>Seleccione Opción</option>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Tipo de Sangre<span class="text-danger">*</span></label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="blood_type" name="blood_type">
+                    <option selected>Seleccione Opción</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
                 </select>
               </div>
             </div>

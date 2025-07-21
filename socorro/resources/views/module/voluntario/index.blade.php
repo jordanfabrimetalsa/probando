@@ -185,15 +185,37 @@
             $('#email_show').text(response.email);
             $('#phone_show').text(response.phone);
             $('#birthday_show').text(response.birthday);
+            $('#address_show').text(response.address);
+            $('#profession_show').text(response.profession);
             $('#gender_show').text(response.gender == 'M' ? 'Masculino' : 'Femenino');
             $('#allergic_show').text(response.allergic == 1 ? 'Si' : 'No');
             $('#disease_show').text(response.disease == 1 ? 'Si' : 'No');
             $('#medicine_show').text(response.medicine == 1 ? 'Si' : 'No');
             $('#vehicle_show').text(response.vehicle == 1 ? 'Si' : 'No');
             $('#license_show').text(response.license == 1 ? 'Si' : 'No');
+
+            $('#payment_show').attr('checked', response.payment == 1 ? $('#text_payment_show').text('Pagado') : $('#text_payment_show').text('No pagado'));
+            $('#status_show').attr('checked', response.status == 1 ? $('#text_status_show').text('Activo') : $('#text_status_show').text('Inactivo'));
+            $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
+
+            $('#blood_type_show').text(response.blood_type);
             $('#type_show').text(response.type == 'V' ? 'Voluntario' : 'Aspirante');
-            $('#status_show').text(response.status == 'A' ? 'Activo' : 'Inactivo');
             $('#delegation_show').text(response.delegation.name);
+
+            var emergency = '';
+
+            response.emergency.forEach(element => {
+              emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.emergecy_name}</h6>
+                                <p class="mb-0 text-xs">${element.relationship}</p>
+                              </div>
+                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}" >Llamar</a>
+                            </li>`;
+            });
+
+            $('#emergency_name_show').html(emergency);
+
           },
           error: function(error){
             Swal.fire({
@@ -230,7 +252,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar voluntario',
+            text: 'Error al registrar voluntario' + JSON.stringify(error),
           });
           $('#exampleModal').modal('hide');
         }
@@ -324,13 +346,46 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error.',
-                            text: 'Error al eliminar voluntario: ' + JSON.stringify(error),
+                            text: 'Error al eliminar voluntario',
                         });
                     }
                 });
               }
             });
     }
+
+    function showEmergency(id){
+      $('#id_user_emergency').val(id);
+      $('#EmergencyModal').modal('show');
+    }
+
+    $('#formVoluntaryEmergency').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/emergency',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Emergencia registrada correctamente',
+          });
+          $('#EmergencyModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar emergencia' + JSON.stringify(error),
+          });
+          $('#EmergencyModal').modal('hide');
+        }
+      })
+    })
 </script>
 
 @endpush

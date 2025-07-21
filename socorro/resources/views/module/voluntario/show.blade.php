@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
       <div class="container-fluid px-2 px-md-4">
-      <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+      <div class="page-header min-height-100 border-radius-xl mt-4 bg-gradient-dark">
         <span class="mask  bg-gradient-dark  opacity-6"></span>
       </div>
       <div class="card card-body mx-2 mx-md-2 mt-n6">
@@ -23,91 +23,78 @@
                 <span id="fullname_title_show"></span>
               </h5>
               <p class="mb-0 font-weight-normal text-sm">
-                <span id="type_show"></span>
+                <span id="type_show"></span> - Delegación <span id="delegation_show"></span>
               </p>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="row">
-            <div class="col-12 col-xl-4">
+            <div class="col-12">
               <div class="card card-plain h-100">
                 <div class="card-header pb-0 p-3">
-                  <h6 class="mb-0">Configuraciónes</h6>
+                  <h6 class="mb-0">Información Personal</h6>
                 </div>
                 <div class="card-body p-3">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 px-0">
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Activo/Inactivo</label>
-                      </div>
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Pagos al Día</label>
-                      </div>
-                      <div class="form-check form-switch ps-0">
-                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked>
-                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Tiene Licencia</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-xl-4">
-              <div class="card card-plain h-100">
-                <div class="card-header pb-0 p-3">
-                  <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
-                      <h6 class="mb-0">Perfil</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body p-3">
-                  <p class="text-sm">
-                    Observaciones:<span id="description_show"></span>
-                  </p>
-                  <hr class="horizontal gray-light my-4">
                   <ul class="list-group">
                     <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Nombre Completo:</strong> &nbsp; <span id="fullname_show"></span></li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Número de Identificación:</strong> &nbsp; <span id="document_show"></span></li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Fecha de Nacimiento:</strong> &nbsp; <span id="birthday_show"></span></li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Genero:</strong> &nbsp; <span id="gender_show"></span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Alergico:</strong> &nbsp; <span id="allergic_show"></span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Telefono:</strong> &nbsp; <span id="phone_show"></span></li>
                     <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="email_show"></span></li>
-                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Delegación:</strong> &nbsp; <span id="delegation_show"></span></li>
-                    <li class="list-group-item border-0 ps-0 pb-0">
-                      <strong class="text-dark text-sm">Social:</strong> &nbsp;
-                      <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-facebook fa-lg"></i>
-                      </a>
-                      <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-twitter fa-lg"></i>
-                      </a>
-                      <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                        <i class="fab fa-instagram fa-lg"></i>
-                      </a>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Dirección:</strong> &nbsp; <span id="address_show"></span></li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Profesión:</strong> &nbsp; <span id="profession_show"></span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card card-plain h-100">
+                <div class="card-header pb-0 p-3">
+                  <h6 class="mb-0">Información Médica</h6>
+                </div>
+                <div class="card-body p-3">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Tipo de Sangre:</strong> &nbsp; <span id="blood_type_show"></span></li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Alergico:</strong> &nbsp; <span id="allergic_show"></span></li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Enfermedad:</strong> &nbsp; <span id="disease_show"></span></li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Medicamento:</strong> &nbsp; <span id="medicine_show"></span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card card-plain h-100">
+                <div class="card-header pb-0 p-3">
+                  <h6 class="mb-0">Configuración</h6>
+                </div>
+                <div class="card-body p-3">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 px-0">
+                      <div class="form-check form-switch ps-0">
+                        <input class="form-check-input ms-auto" type="checkbox" id="status_show" checked>
+                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="status_show" id="text_status_show"></label>
+                      </div>
+                      <div class="form-check form-switch ps-0">
+                        <input class="form-check-input ms-auto" type="checkbox" id="payment_show" checked>
+                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="payment_show" id="text_payment_show"></label>
+                      </div>
+                      <div class="form-check form-switch ps-0">
+                        <input class="form-check-input ms-auto" type="checkbox" id="license_show" checked>
+                        <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="license_show" id="text_license_show"></label>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="col-12 col-xl-4">
+            <div class="col-12">
               <div class="card card-plain h-100">
                 <div class="card-header pb-0 p-3">
                   <h6 class="mb-0">Números de Emergencia</h6>
                 </div>
                 <div class="card-body p-3">
-                  <ul class="list-group">
-                    <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                      <div class="d-flex align-items-start flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">Sophie B.</h6>
-                        <p class="mb-0 text-xs">Hi! I need more information..</p>
-                      </div>
-                      <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">Llamar</a>
-                    </li>
+                  <ul class="list-group" id="emergency_name_show">
                   </ul>
                 </div>
               </div>
