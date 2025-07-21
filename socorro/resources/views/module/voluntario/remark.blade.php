@@ -2,18 +2,17 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="RemarkModalLabel">Observación</h5>
+        <h5 class="modal-title" id="RemarkModalLabel">Anotación</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formVoluntaryRemark" class="form" method="POST">
           @csrf
-          @method('PUT')
-          <input type="hidden" id="id" name="id">
+          <input type="hidden" id="id_user_remark" name="id_user_remark">
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Observación</label>
+                <label for="exampleInputPassword1" class="form-label">Anotación</label>
                 <textarea class="form-control border border-gray p-2" id="remark_call" name="remark" required></textarea>
               </div>
             </div>

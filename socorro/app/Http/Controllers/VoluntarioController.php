@@ -7,6 +7,7 @@ use App\Models\Voluntary;
 use App\Models\Delegation;
 use App\Models\Image_Voluntary;
 use App\Models\Emergency;
+use App\Models\Remark;
 use Illuminate\Support\Facades\Hash;
 
 class VoluntarioController extends Controller
@@ -79,6 +80,7 @@ class VoluntarioController extends Controller
         try{
             $voluntary = Voluntary::find($id)->with('delegation')->first();
             $voluntary->emergency = Emergency::where('voluntary_id', $id)->get();
+            $voluntary->remark = Remark::where('voluntary_id', $id)->get();
             return response()->json($voluntary);
         }catch(Exception $e){
             return response()->json([
@@ -164,7 +166,7 @@ class VoluntarioController extends Controller
     {
         try{
             $remark = new Remark();
-            $remark->voluntary_id = $request->id;
+            $remark->voluntary_id = $request->id_user_remark;
             $remark->remark = $request->remark;
             $remark->save();
 

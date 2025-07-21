@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('voluntary_id')->constrained('voluntaries')->cascadeOnDelete();
             $table->string('remark');
+            $table->enum('gravity', ['1', '2', '3', '4', '5']);
             $table->timestamps();
         });
     }

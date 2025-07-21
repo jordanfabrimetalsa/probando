@@ -203,7 +203,6 @@
             $('#delegation_show').text(response.delegation.name);
 
             var emergency = '';
-
             response.emergency.forEach(element => {
               emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                               <div class="d-flex align-items-start flex-column justify-content-center">
@@ -213,8 +212,18 @@
                               <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}" >Llamar</a>
                             </li>`;
             });
-
             $('#emergency_name_show').html(emergency);
+
+            var remark = '';
+            response.remark.forEach(element => {
+              remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.remark}</h6>
+                                <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-danger">Danger</span></p>
+                              </div>
+                            </li>`;
+            });
+            $('#remark_name_show').html(remark);
 
           },
           error: function(error){
@@ -386,6 +395,40 @@
         }
       })
     })
+
+    function showRemark(id){
+      $('#id_user_remark').val(id);
+      $('#RemarkModal').modal('show');
+    }
+
+    $('#formVoluntaryRemark').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/remark',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Anotación registrada correctamente',
+          });
+          $('#RemarkModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar anotación' + JSON.stringify(error),
+          });
+          $('#RemarkModal').modal('hide');
+        }
+      })
+    })
+
 </script>
 
 @endpush
