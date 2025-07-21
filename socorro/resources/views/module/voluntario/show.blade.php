@@ -127,3 +127,73 @@
     </div>
   </div>
 </div>
+
+<script>
+      function showVoluntary(id){
+      try{
+        $.ajax({
+          url: 'voluntarios/show/' + id,
+          type: 'GET',
+          success: function(response){
+            console.log(response);
+            $('#ShowModal').modal('show');
+            $('#fullname_title_show').text(response.name + ' ' + response.lastname);
+            $('#fullname_show').text(response.name + ' ' + response.lastname);
+            $('#document_show').text(response.document);
+            $('#email_show').text(response.email);
+            $('#phone_show').text(response.phone);
+            $('#birthday_show').text(response.birthday);
+            $('#address_show').text(response.address);
+            $('#profession_show').text(response.profession);
+            $('#gender_show').text(response.gender == 'M' ? 'Masculino' : 'Femenino');
+            $('#allergic_show').text(response.allergic == 1 ? 'Si' : 'No');
+            $('#disease_show').text(response.disease == 1 ? 'Si' : 'No');
+            $('#medicine_show').text(response.medicine == 1 ? 'Si' : 'No');
+            $('#vehicle_show').text(response.vehicle == 1 ? 'Si' : 'No');
+            $('#license_show').text(response.license == 1 ? 'Si' : 'No');
+
+            $('#payment_show').attr('checked', response.payment == 1 ? $('#text_payment_show').text('Pagado') : $('#text_payment_show').text('No pagado'));
+            $('#status_show').attr('checked', response.status == 1 ? $('#text_status_show').text('Activo') : $('#text_status_show').text('Inactivo'));
+            $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
+
+            $('#blood_type_show').text(response.blood_type);
+            $('#type_show').text(response.type == 'V' ? 'Voluntario' : 'Aspirante');
+            $('#delegation_show').text(response.delegation.name);
+
+            var emergency = '';
+            response.emergency.forEach(element => {
+              emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.emergecy_name}</h6>
+                                <p class="mb-0 text-xs">${element.relationship}</p>
+                              </div>
+                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}"><i class="fa-solid fa-phone-volume"></i></a>
+                            </li>`;
+            });
+            $('#emergency_name_show').html(emergency);
+
+            var remark = '';
+            response.remark.forEach(element => {
+              remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.remark}</h6>
+                                <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-danger">Grave</span></p>
+                              </div>
+                            </li>`;
+            });
+            $('#remark_name_show').html(remark);
+
+          },
+          error: function(error){
+            Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al mostrar voluntario' + JSON.stringify(error),
+          });
+          }
+        });
+      }catch(e){
+        console.log(e);  
+      }
+    }
+</script>

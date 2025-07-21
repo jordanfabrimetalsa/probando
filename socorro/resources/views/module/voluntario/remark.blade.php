@@ -39,3 +39,38 @@
     </div>
   </div>
 </div>
+
+<script>
+      function showRemark(id){
+      $('#id_user_remark').val(id);
+      $('#RemarkModal').modal('show');
+    }
+
+    $('#formVoluntaryRemark').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/remark',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Anotación registrada correctamente',
+          });
+          $('#RemarkModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar anotación' + JSON.stringify(error),
+          });
+          $('#RemarkModal').modal('hide');
+        }
+      })
+    })
+</script>

@@ -10,20 +10,21 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Administración de Voluntarios</h6>
+                <h6 class="text-white text-capitalize ps-3">Administración de Inventario</h6>
               </div>
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Agregar Voluntario</button>
-                <table id="datatableVoluntaries" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+              <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button>
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-plus"></i> Crear Categoria</button>
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Bodega</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Categoria</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Modelo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Cantidad</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
@@ -39,53 +40,45 @@
     </div>
 </div>
 
-@include('module.voluntario.create')
-
-@include('module.voluntario.edit')
-
-@include('module.voluntario.show')
-
-@include('module.voluntario.call')
-
-@include('module.voluntario.remark')
+@include('module.inventario.create')
+@include('module.inventario.category')
+@include('module.inventario.warehouse')
 
 @endsection
 
 @push('script')
 <script>
-    var datatableVoluntaries;
+    var datatableInventories;
 
     $(document).ready(function(){
-      datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+      datatableInventories = $('#datatableInventories').DataTable({
         ajax: {
-          url: '{{ route("voluntarios.data") }}',
+          url: '{{ route("inventario.data") }}',
           dataSrc: ''
         },
         columns: [
           { 
             data: null,
             render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data.name+' '+data.lastname+'</p>'
+              return data = '<p class="text-xs text-secondary mb-0">'+data.name+'</p>'
             }
           },
-          { data: 'delegation.name',
+          { data: 'warehouse.name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'type',
+          { data: 'category.name',
             render: function(data){
-              return data === 'V'
-                ? '<span class="badge bg-success">Voluntario</span>'
-                : '<span class="badge bg-danger">Aspirante</span>';
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
            },
-          { data: 'email',
+          { data: 'model',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'phone',
+          { data: 'quantity',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
@@ -103,20 +96,17 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-regular fa-user"></i>
                       </a>
                       <a href="javascript:;" class="btn btn-secondary text-white" onclick="showEmergency(${data.id})" data-bs-toggle="modal" data-bs-target="#EmergencyModal">
                         <i class="fa-solid fa-phone"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
-                      <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
+                      <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
-                      </a>
-                      <a href="javascript:;" class="btn btn-secondary text-white" onclick="showRemark(${data.id})" data-bs-toggle="modal" data-bs-target="#RemarkModal">
-                        <i class="fa-solid fa-circle-exclamation"></i>
                       </a>
                       `;
                   }
@@ -170,11 +160,10 @@
         }
       });
     });
-    
 
-    function deleteVoluntary(id){
+    function deleteInventory(id){
       Swal.fire({
-              title: "¿Estas seguro de eliminar al voluntario?",
+              title: "¿Estas seguro de eliminar el inventario?",
               text: "No podrás revertir esto!",
               icon: "warning",
               showCancelButton: true,
@@ -184,7 +173,7 @@
             }).then((result) => {
               if (result.isConfirmed) {
                 $.ajax({
-                  url: 'voluntarios/destroy/'+id,
+                  url: 'inventario/destroy/'+id,
                   type: 'DELETE',
                   headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -193,15 +182,15 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Exito.',
-                            text: 'Voluntario eliminado correctamente',
+                            text: 'Inventario eliminado correctamente',
                         });
-                        datatableVoluntaries.ajax.reload();
+                        datatableInventories.ajax.reload();
                     },
                     error: function(error){
                         Swal.fire({
                             icon: 'error',
                             title: 'Error.',
-                            text: 'Error al eliminar voluntario',
+                            text: 'Error al eliminar inventario',
                         });
                     }
                 });

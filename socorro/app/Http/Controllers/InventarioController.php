@@ -3,60 +3,61 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Warehouse;
+use App\Models\Category;
+use App\Models\Product;
+use Exception;
 class InventarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('module.inventario.inventario');
+        $warehouses = Warehouse::all();
+        $categories = Category::all();
+        return view('module.inventario.index', compact('warehouses', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function data(){
+        $products = Product::with('category', 'warehouse')->get();
+        return response()->json($products);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function categoryStore(Request $request){
+        try{
+            $category = new Category();
+            $category->name = $request->name;
+            $category->description = $request->description;
+            $category->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Categoria registrado'
+            ], 201);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al crear la categoria'
+            ], 500);
+        }
+    }
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

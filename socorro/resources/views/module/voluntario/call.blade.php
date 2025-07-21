@@ -51,3 +51,38 @@
     </div>
   </div>
 </div>
+
+<script>
+      function showEmergency(id){
+      $('#id_user_emergency').val(id);
+      $('#EmergencyModal').modal('show');
+    }
+
+    $('#formVoluntaryEmergency').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/emergency',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Emergencia registrada correctamente',
+          });
+          $('#EmergencyModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar emergencia' + JSON.stringify(error),
+          });
+          $('#EmergencyModal').modal('hide');
+        }
+      })
+    })
+</script>
