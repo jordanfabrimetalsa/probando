@@ -19,6 +19,8 @@
                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                   @endforeach
                 </select>   
+                <br>
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                
               </div>
             </div>
           </div>
@@ -32,6 +34,8 @@
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                   @endforeach
                 </select>
+                <br>
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-plus"></i> Crear Categoria</button>
               </div>
             </div>
           </div>

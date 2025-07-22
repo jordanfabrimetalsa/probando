@@ -170,7 +170,160 @@
         }
       });
     });
-    
+
+    function showVoluntary(id){
+      try{
+        $.ajax({
+          url: 'voluntarios/show/' + id,
+          type: 'GET',
+          success: function(response){
+            console.log(response);
+            $('#ShowModal').modal('show');
+            $('#fullname_title_show').text(response.name + ' ' + response.lastname);
+            $('#fullname_show').text(response.name + ' ' + response.lastname);
+            $('#document_show').text(response.document);
+            $('#email_show').text(response.email);
+            $('#phone_show').text(response.phone);
+            $('#birthday_show').text(response.birthday);
+            $('#address_show').text(response.address);
+            $('#profession_show').text(response.profession);
+            $('#gender_show').text(response.gender == 'M' ? 'Masculino' : 'Femenino');
+            $('#allergic_show').text(response.allergic == 1 ? 'Si' : 'No');
+            $('#disease_show').text(response.disease == 1 ? 'Si' : 'No');
+            $('#medicine_show').text(response.medicine == 1 ? 'Si' : 'No');
+            $('#vehicle_show').text(response.vehicle == 1 ? 'Si' : 'No');
+            $('#license_show').text(response.license == 1 ? 'Si' : 'No');
+
+            $('#payment_show').attr('checked', response.payment == 1 ? $('#text_payment_show').text('Pagado') : $('#text_payment_show').text('No pagado'));
+            $('#status_show').attr('checked', response.status == 1 ? $('#text_status_show').text('Activo') : $('#text_status_show').text('Inactivo'));
+            $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
+
+            $('#blood_type_show').text(response.blood_type);
+            $('#type_show').text(response.type == 'V' ? 'Voluntario' : 'Aspirante');
+            $('#delegation_show').text(response.delegation.name);
+
+            var emergency = '';
+            response.emergency.forEach(element => {
+              emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.emergency_name}</h6>
+                                <p class="mb-0 text-xs">${element.relationship}</p>
+                              </div>
+                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}"><i class="fa-solid fa-phone-volume"></i></a>
+                            </li>`;
+            });
+            $('#emergency_name_show').html(emergency);
+
+            var remark = '';
+            response.remark.forEach(element => {
+              remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.remark}</h6>
+                                <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-danger">Grave</span></p>
+                              </div>
+                            </li>`;
+            });
+            $('#remark_name_show').html(remark);
+
+          },
+          error: function(error){
+            Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al mostrar voluntario' + JSON.stringify(error),
+          });
+          }
+        });
+      }catch(e){
+        console.log(e);  
+      }
+    }
+
+    $('#formVoluntario').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: '{{ route("voluntarios.store") }}',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Voluntario registrado correctamente',
+          });
+          $('#exampleModal').modal('hide');
+          datatableVoluntaries.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar voluntario' + JSON.stringify(error),
+          });
+          $('#exampleModal').modal('hide');
+        }
+      })
+    })
+    $('#formVoluntaryEdit').submit(function(e){
+      e.preventDefault();
+      let id = $('#id').val();
+
+      $.ajax({
+        url: 'voluntarios/update/'+id,
+        type: 'PUT',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: $(this).serialize(),
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Voluntario actualizado correctamente',
+          });
+          $('#EditModal').modal('hide');
+          datatableVoluntaries.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al actualizar voluntario' + JSON.stringify(error),
+          });
+          $('#EditModal').modal('hide');
+        }
+      })
+    })
+
+    function editVoluntary(id){
+      $.ajax({
+        url: 'voluntarios/edit/'+id,
+        type: 'GET',
+        success:function(response){
+          console.log(response);
+          $('#EditModal').modal('show');
+          $('#formVoluntaryEdit').attr('action', 'voluntarios/update/'+id);
+          $('#vehicle_edit').val(response.vehicle);
+          $('#license_edit').val(response.license);
+          $('#type_edit').val(response.type);
+          $('#status_edit').val(response.status);
+          $('#name_edit').text(response.name);
+          $('#id').val(response.id);
+
+        },
+        error:function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al editar voluntario',
+          });
+          $('#EditModal').modal('hide');
+        }
+      });
+    }
 
     function deleteVoluntary(id){
       Swal.fire({
@@ -208,6 +361,72 @@
               }
             });
     }
+
+    function showRemark(id){
+      $('#id_user_remark').val(id);
+      $('#RemarkModal').modal('show');
+    }
+
+    $('#formVoluntaryRemark').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/remark',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Anotación registrada correctamente',
+          });
+          $('#RemarkModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar anotación' + JSON.stringify(error),
+          });
+          $('#RemarkModal').modal('hide');
+        }
+      })
+    })
+
+    function showEmergency(id){
+      $('#id_user_emergency').val(id);
+      $('#EmergencyModal').modal('show');
+    }
+
+    $('#formVoluntaryEmergency').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: 'voluntarios/emergency',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Emergencia registrada correctamente',
+          });
+          $('#EmergencyModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar emergencia' + JSON.stringify(error),
+          });
+          $('#EmergencyModal').modal('hide');
+        }
+      })
+    })
 </script>
 
 @endpush

@@ -13,13 +13,13 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre de Emergencia</label>
-                <input type="text" class="form-control border border-gray p-2" id="emergecy_name" name="emergecy_name" required>
+                <input type="text" class="form-control border border-gray p-2" id="emergency_name" name="emergency_name" required>
               </div>
             </div>
             <div class="col-12">    
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Número de Emergencia</label>
-                <input type="number" class="form-control border border-gray p-2" id="emergecy_phone" name="emergecy_phone" required>
+                <input type="number" class="form-control border border-gray p-2" id="emergency_phone" name="emergency_phone" required>
               </div>
             </div>
             <div class="col-12">
@@ -51,38 +51,3 @@
     </div>
   </div>
 </div>
-
-<script>
-      function showEmergency(id){
-      $('#id_user_emergency').val(id);
-      $('#EmergencyModal').modal('show');
-    }
-
-    $('#formVoluntaryEmergency').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: 'voluntarios/emergency',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Emergencia registrada correctamente',
-          });
-          $('#EmergencyModal').modal('hide');
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar emergencia' + JSON.stringify(error),
-          });
-          $('#EmergencyModal').modal('hide');
-        }
-      })
-    })
-</script>

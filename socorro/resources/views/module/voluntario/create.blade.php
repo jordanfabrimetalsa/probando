@@ -221,33 +221,3 @@
   </div>
 </div>
 
-<script>
-      $('#formVoluntario').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: '{{ route("voluntarios.store") }}',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Voluntario registrado correctamente',
-          });
-          $('#exampleModal').modal('hide');
-          datatableVoluntaries.ajax.reload();
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar voluntario' + JSON.stringify(error),
-          });
-          $('#exampleModal').modal('hide');
-        }
-      })
-    })
-</script>

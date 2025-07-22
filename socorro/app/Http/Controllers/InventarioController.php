@@ -19,10 +19,9 @@ class InventarioController extends Controller
 
     public function data(){
         try{
-            $products = DB::table('products')
-            ->join('categories', 'products.id_category', '=', 'categories.id')
+            $products = Product::join('categories', 'products.id_category', '=', 'categories.id')
             ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
-            ->select('products.*', 'categories.name as category_name', 'warehouses.name as warehouse_name')
+            ->select('products.*', 'categories.name as category_name', 'warehouses.name as warehouse_name', DB::raw('products.price * products.stock as total'))
             ->get();
             return response()->json($products);
         }catch(Exception $e){
@@ -98,7 +97,19 @@ class InventarioController extends Controller
 
     public function show(string $id)
     {
-        //
+        try{
+            $products = Product::join('categories', 'products.id_category', '=', 'categories.id')
+            ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
+            ->select('products.*', 'categories.name as category_name', 'categories.description as category_description', 'warehouses.name as warehouse_name', 'warehouses.description as warehouse_description', 'warehouses.status as warehouse_status', 'warehouses.path as warehouse_path', DB::raw('products.price * products.stock as total'))
+            ->where('products.id', $id)
+            ->get();
+            return response()->json($products);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al obtener los inventarios'
+            ], 500);
+        }
     }
 
     public function edit(string $id)

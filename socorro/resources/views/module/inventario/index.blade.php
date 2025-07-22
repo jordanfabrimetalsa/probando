@@ -16,19 +16,14 @@
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
                 <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button>
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-plus"></i> Crear Categoria</button>
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Marca</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Stock</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Precio</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Categoria</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Bodega</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
+                    <tr class="text-center">
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder t ext-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoria</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">
@@ -45,6 +40,7 @@
 @include('module.inventario.create')
 @include('module.inventario.category')
 @include('module.inventario.warehouse')
+@include('module.inventario.show')
 
 @endsection
 
@@ -64,27 +60,12 @@
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'brand',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
           { data: 'stock',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'price',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'})+'</p>'
-            }
-          },
           { data: 'category_name',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'warehouse_name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
@@ -102,10 +83,10 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-warning text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="editInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-boxes-packing"></i>
                       </a>
                       <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
@@ -153,9 +134,9 @@
                 }
         },
         dom:
-                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-                "<'row'<'col-12'tr>>" +
-                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+            "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+            "<'row'<'col-12'tr>>" +
+            "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
         responsive:{
           details:{
             type: 'inline'
@@ -163,6 +144,36 @@
         }
       });
     });
+
+    function showInventory(id){
+        $.ajax({
+            url: 'inventario/show/'+id,
+            type: 'GET',
+            success: function(response){
+                $('#ShowModal').modal('show');
+                $('#fullname_title_show').text(response[0].name);
+                $('#brand_show').text(response[0].brand);
+                $('#stock_show').text(response[0].stock);
+                $('#price_show').text(response[0].price.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'}));
+                $('#total_show').text(response[0].total.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'}));
+
+                $('#category_show').text(response[0].category_name);
+                $('#description_category_show').text(response[0].category_description);
+
+                $('#warehouse_show').text(response[0].warehouse_name);
+                $('#description_warehouse_show').text(response[0].warehouse_description);
+                $('#status_warehouse_show').text(response[0].warehouse_status == '1' ? 'Activo' : 'Inactivo');
+                $('#path_warehouse_show').text(response[0].warehouse_path);
+            },
+            error: function(error){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error.',
+                    text: 'Error al mostrar inventario' + JSON.stringify(error),
+                });
+            }
+        })
+    }
 
     $('#formInventario').submit(function(e){
       e.preventDefault();

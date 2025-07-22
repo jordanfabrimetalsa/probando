@@ -148,8 +148,8 @@ class VoluntarioController extends Controller
         try{
             $emergency = new Emergency();
             $emergency->voluntary_id = $request->id_user_emergency;
-            $emergency->emergecy_name = $request->emergecy_name;
-            $emergency->emergecy_phone = $request->emergecy_phone;
+            $emergency->emergency_name = $request->emergency_name;
+            $emergency->emergency_phone = $request->emergency_phone;
             $emergency->relationship = $request->relationship;
             $emergency->save();
 
