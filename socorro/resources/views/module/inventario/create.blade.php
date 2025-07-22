@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="CreateModalLabel">Agregar Inventario</h5>
+        <h5 class="modal-title" id="CreateModalLabel">Agregar Producto</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -13,10 +13,11 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Bodega<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse">
-                    @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                    @endforeach
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
+                  <option selected disabled>Seleccione la Bodega</option>
+                  @foreach ($warehouses as $warehouse)
+                    <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                  @endforeach
                 </select>   
               </div>
             </div>
@@ -25,10 +26,11 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Categoria<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_category" name="id_category">
-                @foreach($categories as $category)  
-                  <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_category" name="id_category" required>
+                  <option selected disabled>Seleccione la Categoria</option>
+                  @foreach($categories as $category)  
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -36,8 +38,16 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name">
+                <label for="exampleInputPassword1" class="form-label">Marca<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="brand" name="brand" minLength="3" maxLength="10" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Nombre<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" minLength="1" maxLength="10" required>
               </div>
             </div>
           </div>
@@ -45,24 +55,44 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Descripción<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="description" name="description">
+                <input type="text" class="form-control border border-gray p-2" id="description" name="description" minLength="15" maxLength="100" required>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Cantidad</label>
-                <input type="number" class="form-control border border-gray p-2" id="quantity" name="quantity">
+                <label for="exampleInputPassword1" class="form-label">Color</label>
+                <input type="text" class="form-control border border-gray p-2" id="color" name="colour">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Talla</label>
+                <input type="text" class="form-control border border-gray p-2" id="size" name="size">
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Estado<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
-                  <option selected>Seleccione el Estado</option>
+                <label for="exampleInputPassword1" class="form-label">Stock</label>
+                <input type="number" class="form-control border border-gray p-2" id="stock" name="stock" min="1" required>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Precio Unitario</label>
+                <input type="number" class="form-control border border-gray p-2" id="price" name="price" min="1" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Estado</label>
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
+                  <option selected disabled>Seleccione el Estado</option>
                   <option value="1">Activo</option>
                   <option value="0">Inactivo</option>
                 </select>
@@ -78,35 +108,4 @@
     </div>
   </div>
 </div>
-@push('scripts')
-<script>
-      $('#formInventario').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: '{{ route("inventario.store") }}',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Inventario registrado correctamente',
-          });
-          $('#exampleModal').modal('hide');
-          datatableInventories.ajax.reload();
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar inventario' + JSON.stringify(error),
-          });
-          $('#exampleModal').modal('hide');
-        }
-      })
-    })
-</script>
-@endpush
+

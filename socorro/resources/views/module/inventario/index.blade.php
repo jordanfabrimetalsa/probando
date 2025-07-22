@@ -15,16 +15,18 @@
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-              <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button>
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button>
                 <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-plus"></i> Crear Categoria</button>
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                  <thead class="bg-gradient-dark text-center">
+                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                
+                <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                    <thead class="bg-gradient-dark text-center">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Bodega</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Marca</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Stock</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Precio</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Categoria</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Modelo</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Cantidad</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Bodega</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
                     </tr>
@@ -57,28 +59,32 @@
           dataSrc: ''
         },
         columns: [
-          { 
-            data: null,
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data.name+'</p>'
-            }
-          },
-          { data: 'warehouse.name',
+          { data: 'name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'category.name',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-           },
-          { data: 'model',
+          { data: 'brand',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'quantity',
+          { data: 'stock',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'price',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'})+'</p>'
+            }
+          },
+          { data: 'category_name',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
+          { data: 'warehouse_name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
@@ -96,17 +102,14 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
-                        <i class="fa-regular fa-user"></i>
-                      </a>
-                      <a href="javascript:;" class="btn btn-secondary text-white" onclick="showEmergency(${data.id})" data-bs-toggle="modal" data-bs-target="#EmergencyModal">
-                        <i class="fa-solid fa-phone"></i>
-                      </a>
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="editInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+                        <i class="fa-solid fa-boxes-packing"></i>
                       </a>
                       <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
-                        <i class="fa-solid fa-trash"></i>
+                        <i class="fa-solid fa-trash"></i><i class="fa-solid fa-lock"></i>
                       </a>
                       `;
                   }
@@ -161,39 +164,123 @@
       });
     });
 
+    $('#formInventario').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: '{{ route("inventario.store") }}',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Inventario registrado correctamente',
+          });
+          $('#CreateModal').modal('hide');
+          datatableInventories.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar inventario' + JSON.stringify(error),
+          });
+          $('#CreateModal').modal('hide');
+        }
+      })
+    })
+
+    $('#formCategory').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/inventario/category', // ✅ RUTA DIRECTA
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito.',
+                        text: 'Categoría registrada correctamente',
+                    });
+                    $('#CreateCategoryModal').modal('hide');
+                },
+                error: function(error){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error.',
+                        text: 'Error al registrar categoría: ' + JSON.stringify(error),
+                    });
+                    $('#CreateCategoryModal').modal('hide');
+                }
+            });
+    });
+
+    $('#formWarehouse').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '/inventario/warehouse',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+            Swal.fire({
+                icon: 'success',
+                title: 'Exito.',
+                text: 'Bodega registrado correctamente',
+            });
+            $('#CreateWarehouseModal').modal('hide');
+            },
+            error: function(error){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error.',
+                text: 'Error al registrar bodega' + JSON.stringify(error),
+            });
+            $('#CreateWarehouseModal').modal('hide');
+            }
+        })
+    })
+
     function deleteInventory(id){
       Swal.fire({
-              title: "¿Estas seguro de eliminar el inventario?",
+              title: "¿Estas seguro de eliminar el producto?",
               text: "No podrás revertir esto!",
               icon: "warning",
               showCancelButton: true,
               confirmButtonColor: "#3085d6",
               cancelButtonColor: "#d33",
-              confirmButtonText: "Si, eliminarlo!"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $.ajax({
-                  url: 'inventario/destroy/'+id,
-                  type: 'DELETE',
-                  headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  },
-                  success: function(response){
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Exito.',
-                            text: 'Inventario eliminado correctamente',
-                        });
-                        datatableInventories.ajax.reload();
+              confirmButtonText: "Si, eliminarlo!",
+              input: 'password',
+              inputPlaceholder: 'Contraseña Oculta',
+              inputValidator: (value) => {
+                if (value === "contraseñaOculta") {
+                  $.ajax({
+                    url: 'inventario/destroy/'+id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error.',
-                            text: 'Error al eliminar inventario',
-                        });
-                    }
-                });
+                    success: function(response){
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Exito.',
+                                text: 'Producto eliminado correctamente',
+                            });
+                            datatableInventories.ajax.reload();
+                        },
+                        error: function(error){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error.',
+                                text: 'Error al eliminar producto',
+                            });
+                        }
+                    });
+                } else {
+                  return "La contraseña no es correcta";
+                }
               }
             });
     }

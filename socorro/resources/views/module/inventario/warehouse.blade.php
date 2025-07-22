@@ -24,6 +24,25 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="description" class="form-label">Ubicación<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="path" name="path">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="description" class="form-label">Estado<span class="text-danger">*</span></label>
+                <select name="status" id="status" class="form-control border border-gray p-2">
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <button type="submit" class="btn btn-success btn-sm">Guardar</button>
         </form>
       </div>
@@ -33,34 +52,3 @@
     </div>
   </div>
 </div>
-@push('scripts')
-    <script>
-        $('#formWarehouse').submit(function(e){
-        e.preventDefault();
-        let formData = new FormData(this);
-        $.ajax({
-            url: '{{ route("inventario.warehouse") }}',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response){
-            Swal.fire({
-                icon: 'success',
-                title: 'Exito.',
-                text: 'Bodega registrado correctamente',
-            });
-            $('#CreateWarehouseModal').modal('hide');
-            },
-            error: function(error){
-            Swal.fire({
-                icon: 'error',
-                title: 'Error.',
-                text: 'Error al registrar bodega' + JSON.stringify(error),
-            });
-            $('#CreateWarehouseModal').modal('hide');
-            }
-        })
-        })
-    </script>
-@endpush

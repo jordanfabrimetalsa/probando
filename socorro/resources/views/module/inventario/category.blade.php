@@ -34,34 +34,4 @@
     </div>
   </div>
 </div>
-@push('scripts')
-    <script>
-        $('#formCategory').submit(function(e){
-            e.preventDefault();
-            let formData = new FormData(this);
-            $.ajax({
-                url: '{{ route("inventario.category") }}',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Exito.',
-                    text: 'Categoria registrado correctamente',
-                });
-                $('#CreateCategoryModal').modal('hide');
-                },
-                error: function(error){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error.',
-                    text: 'Error al registrar categoria' + JSON.stringify(error),
-                });
-                $('#CreateCategoryModal').modal('hide');
-                }
-            })
-        })
-    </script>
-@endpush
+
