@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function(){
     Route::prefix('inventario')->group(function(){
         Route::get('/', [InventarioController::class,'index'])->name('inventario');
         Route::get('/data', [InventarioController::class,'data'])->name('inventario.data');
+        Route::get('/stock_movements', [InventarioController::class,'stock_movements'])->name('inventario.stock_movements');
+        Route::post('/reduce_stock', [InventarioController::class,'reduce_stock'])->name('inventario.reduce_stock');
         Route::get('/create', [InventarioController::class,'create'])->name('inventario.create');
         Route::post('/store', [InventarioController::class,'store'])->name('inventario.store');
         Route::post('/category', [InventarioController::class, 'categoryStore'])->name('inventario.category');
@@ -62,6 +64,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/show/{id}', [InventarioController::class,'show'])->name('inventario.show');
         Route::get('/edit/{id}', [InventarioController::class,'edit'])->name('inventario.edit');
         Route::put('/update/{id}', [InventarioController::class,'update'])->name('inventario.update');
+        Route::post('/add_stock', [InventarioController::class,'addStock'])->name('inventario.add_stock');
         Route::delete('/destroy/{id}', [InventarioController::class,'destroy'])->name('inventario.destroy');
     });
 

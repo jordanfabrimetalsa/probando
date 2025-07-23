@@ -100,9 +100,9 @@ class UserController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return response()->json(['success' => 'Sesion cerrada correctamente']);
+            return redirect()->route('login');
         }catch(Exception $e){
-            return response()->json(['error' => $e]);
+            return redirect()->route('login');
         }
     }
 

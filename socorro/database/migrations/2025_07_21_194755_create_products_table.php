@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('size');
             $table->string('brand')->nullable();
             $table->integer('stock')->default(0);
-            $table->integer('price')->default(0);
+            $table->integer('total')->default(0);
             $table->boolean('status')->default(false);
             $table->foreignId('id_category')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('id_warehouse')->constrained('warehouses')->cascadeOnDelete();
