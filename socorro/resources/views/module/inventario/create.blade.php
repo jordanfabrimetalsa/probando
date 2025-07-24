@@ -12,6 +12,15 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Codigo<span class="text-danger">*</span></label>
+                <input type="text" class="form-control border border-gray p-2" id="barcode" name="barcode" required>
+                <div id="scanner"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Bodega<span class="text-danger">*</span></label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
                   <option selected disabled>Seleccione la Bodega</option>

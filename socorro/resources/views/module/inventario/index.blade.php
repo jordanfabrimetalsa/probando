@@ -19,7 +19,8 @@
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder t ext-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Total Costo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoria</th>
@@ -48,7 +49,7 @@
                 <table id="datatableStockMovements" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder t ext-center">Producto</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Producto</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Cantidad</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Responsable</th>
@@ -77,6 +78,16 @@
 @endsection
 
 @push('script')
+<script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
+<script>
+  Dynamsoft.BarcodeScanner.createInstance().then(scanner => {
+    scanner.onFrameRead = results => {
+      results.forEach(result => alert(`Código detectado: ${result.barcodeText}`));
+    };
+    scanner.onUnduplicatedRead = (txt, result) => console.log(`Código único: ${txt}`);
+    scanner.show();
+  });
+</script>
 <script>
     var datatableInventories;
     var datatableStockMovements;
@@ -88,6 +99,11 @@
           dataSrc: ''
         },
         columns: [
+          { data: 'barcode',
+            render: function(data){
+              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+            }
+          },
           { data: 'name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'

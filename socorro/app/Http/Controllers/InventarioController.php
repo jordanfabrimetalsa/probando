@@ -23,7 +23,7 @@ class InventarioController extends Controller
         try{
             $products = Product::join('categories', 'products.id_category', '=', 'categories.id')
             ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
-            ->select('products.*', 'categories.name as category_name', 'warehouses.name as warehouse_name')
+            ->select('products.*', 'products.barcode as barcode', 'categories.name as category_name', 'warehouses.name as warehouse_name')
             ->get();
             return response()->json($products);
         }catch(Exception $e){
@@ -89,6 +89,7 @@ class InventarioController extends Controller
     {
         try{
             $product = new Product();
+            $product->barcode = $request->barcode;
             $product->name = $request->name;
             $product->description = $request->description;
             $product->colour = $request->colour;
@@ -177,21 +178,23 @@ class InventarioController extends Controller
         try{
             $product = Product::find($request->product_id_reduce);
 
-            if($product->stock < $request->quantity){
+            if ($product->stock < $request->quantity || $product->stock == 0) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Esta reduciendo mas de lo que existe, solo se puede reducir ' . $product->stock . ' ' . ($product->stock == 1 ? 'unidad' : 'unidades')
                 ], 400);
             }
             
-            $unitary = ($product->total / $product->stock);
-            $product->stock = ($product->stock - $request->quantity);
-            $product->total = ($product->total - ($request->quantity * $unitary));
+            $unit_cost = round($product->total / $product->stock, 2);
+            $reduction_value = $request->quantity * $unit_cost;
+            $product->stock -= $request->quantity;
+            $product->total -= $reduction_value;
+            
 
             if($product->save()){
                 $stockMovement = new StockMovement();
                 $stockMovement->quantity = $request->quantity;
-                $stockMovement->unit_cost = $unitary;
+                $stockMovement->unit_cost = $unit_cost;
                 $stockMovement->product_id = $request->product_id_reduce;
                 $stockMovement->user_id = auth()->user()->id;
                 $stockMovement->type = 'reduce';

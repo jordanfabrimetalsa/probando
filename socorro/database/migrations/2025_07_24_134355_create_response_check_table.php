@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('checklist', function (Blueprint $table) {
+        Schema::create('response_check', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('id_category_check')->constrained('categories_check')->cascadeOnDelete();
+            $table->foreignId('id_check')->constrained('checklist')->cascadeOnDelete();
+            $table->char('response', 1)->default('Y');
+            $table->string('brand')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('checklist');
+        Schema::dropIfExists('response_check');
     }
 };
