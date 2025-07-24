@@ -10,12 +10,12 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Administración de Delegaciones</h6>
+                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-people-roof"></i> Administración de Delegaciones</h6>
               </div>
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Agregar Delegación</button>
+                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Delegación</button>
                 <table id="datatableDelegations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr>
@@ -33,64 +33,9 @@
       </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar Delegación</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formDelegation" class="form" method="POST" enctype="multipart/form-data">
-          @csrf
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="EditModalLabel">Editar Delegación</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formDelegationEdit" class="form" method="POST">
-          @csrf
-          @method('PUT')
-          <input type="hidden" id="id" name="id">
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="name" name="name">
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
+@include('module.delegation.create')
+@include('module.delegation.edit')
 @endsection
 
 @push('script')
@@ -185,6 +130,7 @@
             title: 'Exito.',
             text: 'Delegación registrada correctamente',
           });
+          $('#formDelegation')[0].reset();
           $('#exampleModal').modal('hide');
           datatableDelegations.ajax.reload();
         },
@@ -208,7 +154,7 @@
           console.log(response.name);
           $('#EditModal').modal('show');
           $('#id').val(response.id);
-          $('#name').val(response.name);
+          $('#name_edit').val(response.name);
         },
         error: function(error){
           Swal.fire({

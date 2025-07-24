@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar Voluntario</h5>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-user-plus"></i> Registrar Voluntario</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -211,7 +211,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
         </form>
       </div>
       <div class="modal-footer">
