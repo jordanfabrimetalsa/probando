@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="AddStockModalLabel">Agregar Stock</h5>
+        <h5 class="modal-title" id="AddStockModalLabel"><i class="fa-brands fa-product-hunt"></i> Agregar Stock</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -24,7 +24,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success btn-sm">Agregar</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Stock</button>
         </form>
       </div>
       <div class="modal-footer">

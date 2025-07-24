@@ -10,12 +10,12 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Administración de Inventario</h6>
+                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-warehouse"></i> Administración de Inventario</h6>
               </div>
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button>
+                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-circle-plus"></i> Agregar Producto</button>
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
@@ -41,7 +41,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Movimientos del Stock</h6>
+                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-arrow-right-arrow-left"></i> Movimientos del Stock</h6>
               </div>
             </div>
             <div class="card-body p-4">
@@ -78,16 +78,47 @@
 @endsection
 
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
+
 <script>
-  Dynamsoft.BarcodeScanner.createInstance().then(scanner => {
-    scanner.onFrameRead = results => {
-      results.forEach(result => alert(`Código detectado: ${result.barcodeText}`));
-    };
-    scanner.onUnduplicatedRead = (txt, result) => console.log(`Código único: ${txt}`);
-    scanner.show();
-  });
+    let scannerRunning = false;
+
+    document.getElementById("startScanner").addEventListener("click", function () {
+        const readerDiv = document.getElementById("reader");
+
+        if (scannerRunning) return;
+
+        readerDiv.style.display = "block";
+
+        const html5QrCode = new Html5Qrcode("reader");
+
+        html5QrCode.start(
+            { facingMode: "environment" }, // cámara trasera
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            (decodedText, decodedResult) => {
+                document.getElementById("barcode").value = decodedText;
+
+                html5QrCode.stop().then(() => {
+                    readerDiv.style.display = "none";
+                    scannerRunning = false;
+                }).catch(err => {
+                    console.error("Error al detener escáner", err);
+                });
+            },
+            (errorMessage) => {
+                // Lectura fallida: se ignora
+            }
+        ).then(() => {
+            scannerRunning = true;
+        }).catch(err => {
+            alert("Error al iniciar cámara: " + err);
+            console.error(err);
+        });
+    });
 </script>
+
 <script>
     var datatableInventories;
     var datatableStockMovements;
@@ -127,8 +158,8 @@
           { data: 'status',
             render: function(data){
               return data == '1'
-                ? '<span class="badge bg-success">Activo</span>'
-                : '<span class="badge bg-danger">Inactivo</span>';
+                ? '<span class="badge bg-success">Disponible</span>'
+                : '<span class="badge bg-danger">Agotado</span>';
             }
           },
           {
@@ -141,10 +172,10 @@
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                       </a>
                       <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${data.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
-                        <i class="fa-solid fa-boxes-packing"></i>
+                        <i class="fa-solid fa-circle-plus"></i><i class="fa-solid fa-boxes-packing"></i>
                       </a>
                       <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${data.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
-                        <i class="fa-solid fa-boxes-packing"></i>
+                        <i class="fa-solid fa-circle-minus"></i><i class="fa-solid fa-boxes-packing"></i>
                       </a>
                       <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i><i class="fa-solid fa-lock"></i>

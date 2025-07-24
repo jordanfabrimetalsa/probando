@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="CreateModalLabel">Agregar Producto</h5>
+        <h5 class="modal-title" id="CreateModalLabel"><i class="fa-brands fa-product-hunt"></i> Agregar Producto</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -12,24 +12,28 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Codigo<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="barcode" name="barcode" required>
-                <div id="scanner"></div>
+                <label for="barcode" class="form-label">Código <span class="text-danger">*</span></label>
+                <div class="d-flex align-items-stretch gap-2">
+                  <button type="button" class="btn btn-primary" id="startScanner"><i class="fa-solid fa-camera"></i></button>
+                  <input type="text" class="form-control p-2" id="barcode" name="barcode" required>
+                </div>
+                <div id="reader" style="width: 100%; display: none; margin-top: 10px;"></div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Bodega<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
-                  <option selected disabled>Seleccione la Bodega</option>
-                  @foreach ($warehouses as $warehouse)
-                    <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                  @endforeach
-                </select>   
-                <br>
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-plus"></i> Crear Bodega</button>                
+                <label for="id_warehouse" class="form-label">Bodega<span class="text-danger">*</span></label>
+                <div class="d-flex align-items-stretch gap-2">
+                  <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-warehouse"></i></button>                
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
+                    <option selected disabled>Seleccione la Bodega</option>
+                    @foreach ($warehouses as $warehouse)
+                      <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
+                    @endforeach
+                  </select>   
+                </div>
               </div>
             </div>
           </div>
@@ -37,14 +41,15 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Categoria<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_category" name="id_category" required>
-                  <option selected disabled>Seleccione la Categoria</option>
-                  @foreach($categories as $category)  
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                  @endforeach
-                </select>
-                <br>
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-plus"></i> Crear Categoria</button>
+                <div class="d-flex align-items-stretch gap-2">
+                  <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-table-list"></i></button>
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_category" name="id_category" required>
+                    <option selected disabled>Seleccione la Categoria</option>
+                    @foreach($categories as $category)  
+                      <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -60,7 +65,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name" minLength="1" maxLength="10" required>
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" minLength="1" maxLength="30" required>
               </div>
             </div>
           </div>
@@ -89,13 +94,13 @@
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Stock</label>
+                <label for="exampleInputPassword1" class="form-label">Stock<span class="text-danger">*</span></label>
                 <input type="number" class="form-control border border-gray p-2" id="stock" name="stock" min="1" required>
               </div>
             </div>
             <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Precio Unitario</label>
+                <label for="exampleInputPassword1" class="form-label">Precio Unitario<span class="text-danger">*</span></label>
                 <input type="number" class="form-control border border-gray p-2" id="price" name="price" min="1" required>
               </div>
             </div>
@@ -103,7 +108,7 @@
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Estado</label>
+                <label for="exampleInputPassword1" class="form-label">Estado<span class="text-danger">*</span></label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
                   <option selected disabled>Seleccione el Estado</option>
                   <option value="1">Activo</option>
@@ -112,7 +117,11 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+          <div class="row d-flex justify-content-center mt-4">
+            <div class="col-12">
+              <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Producto</button>
+            </div>
+          </div>
         </form>
       </div>
       <div class="modal-footer">

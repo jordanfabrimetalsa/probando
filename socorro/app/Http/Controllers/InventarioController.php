@@ -189,7 +189,10 @@ class InventarioController extends Controller
             $reduction_value = $request->quantity * $unit_cost;
             $product->stock -= $request->quantity;
             $product->total -= $reduction_value;
-            
+
+            if($product->stock == 0){
+                $product->status = false;
+            }
 
             if($product->save()){
                 $stockMovement = new StockMovement();

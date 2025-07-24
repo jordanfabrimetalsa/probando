@@ -73,6 +73,10 @@
   <!-- Material Dashboard -->
   <script src="../assets/js/material-dashboard.min.js?v=3.2.0"></script>
 
+  <!-- html5-qrcode -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+
   <!-- Scrollbar para Windows -->
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
