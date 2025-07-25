@@ -69,13 +69,12 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('checklist')->group(function(){
-        Route::get('/', [ChecklistController::class,'index'])->name('checklist');
-        Route::get('/data', [ChecklistController::class,'data'])->name('checklist.data');
-        Route::get('/create', [ChecklistController::class,'create'])->name('checklist.create');
-        Route::post('/store', [ChecklistController::class,'store'])->name('checklist.store');
-        Route::get('/edit/{id}', [ChecklistController::class,'edit'])->name('checklist.edit');
-        Route::put('/update/{id}', [ChecklistController::class,'update'])->name('checklist.update');
-        Route::delete('/destroy/{id}', [ChecklistController::class,'destroy'])->name('checklist.destroy');
+        Route::get('/categoria', [ChecklistController::class,'categoria'])->name('checklist.categoria');
+        Route::get('/respuesta', [ChecklistController::class,'respuesta'])->name('checklist.respuesta');
+        Route::get('/categoria/data', [ChecklistController::class,'data'])->name('checklist.categoria.data');
+        Route::post('/categoria/store', [ChecklistController::class,'categoriaStore'])->name('checklist.categoria.store');
+        Route::put('/categoria/update/{id}', [ChecklistController::class,'update'])->name('checklist.update');
+        Route::delete('/categoria/destroy/{id}', [ChecklistController::class,'destroy'])->name('checklist.destroy');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

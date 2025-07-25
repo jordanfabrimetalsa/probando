@@ -16,36 +16,62 @@
           </a>
         </li>
         @can('watch-admin')
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="{{ route('usuarios') }}">
-              <i class="material-symbols-rounded opacity-5">person</i>
-              <span class="nav-link-text ms-1">Usuarios</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
-              <i class="material-symbols-rounded opacity-5">home</i>
-              <span class="nav-link-text ms-1">Delegaciones</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
-              <i class="material-symbols-rounded opacity-5">person</i>
-              <span class="nav-link-text ms-1">Voluntarios</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="{{ route('inventario') }}">
-              <i class="material-symbols-rounded opacity-5">inventory</i>
-              <span class="nav-link-text ms-1">Inventario</span>
-            </a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseAdmin" role="button" aria-expanded="false" aria-controls="collapseAdmin">
+            <i class="material-symbols-rounded opacity-5">admin_panel_settings</i>
+            <span class="nav-link-text ms-1">Administración</span>
+          </a>
+          <div class="collapse" id="collapseAdmin">
+            <ul class="nav ms-4">
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('usuarios') }}">
+                  <i class="material-symbols-rounded opacity-5">person</i>
+                  <span class="nav-link-text ms-1">Usuarios</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
+                  <i class="material-symbols-rounded opacity-5">home</i>
+                  <span class="nav-link-text ms-1">Delegaciones</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
+                  <i class="material-symbols-rounded opacity-5">person</i>
+                  <span class="nav-link-text ms-1">Voluntarios</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('inventario') }}">
+                  <i class="material-symbols-rounded opacity-5">inventory</i>
+                  <span class="nav-link-text ms-1">Inventario</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
         @endcan
         <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('checklist') }}">
+          <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseChecklist" role="button" aria-expanded="false" aria-controls="collapseChecklist">
             <i class="material-symbols-rounded opacity-5">checklist</i>
             <span class="nav-link-text ms-1">Check List</span>
           </a>
+          <div class="collapse" id="collapseChecklist">
+            <ul class="nav ms-4">
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('checklist.categoria') }}">
+                  <i class="material-symbols-rounded opacity-5">category</i>
+                  <span class="nav-link-text ms-1">Categorias</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('checklist.respuesta') }}">
+                  <i class="material-symbols-rounded opacity-5">checklist_rtl</i>
+                  <span class="nav-link-text ms-1">Respuestas</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
 
         <li class="nav-item mt-3">

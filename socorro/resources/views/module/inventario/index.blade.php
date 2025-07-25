@@ -15,7 +15,7 @@
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-circle-plus"></i> Agregar Producto</button>
+                <button class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-circle-plus"></i> Agregar Producto</button>
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
@@ -168,17 +168,17 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
+                      <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${data.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
+                        <i class="fa-solid fa-circle-plus"></i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${data.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
+                        <i class="fa-solid fa-circle-minus"></i>
+                      </a>
                       <a href="javascript:;" class="btn btn-warning text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${data.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
-                        <i class="fa-solid fa-circle-plus"></i><i class="fa-solid fa-boxes-packing"></i>
-                      </a>
-                      <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${data.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
-                        <i class="fa-solid fa-circle-minus"></i><i class="fa-solid fa-boxes-packing"></i>
-                      </a>
                       <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
-                        <i class="fa-solid fa-trash"></i><i class="fa-solid fa-lock"></i>
+                        <i class="fa-solid fa-trash"></i>
                       </a>
                       `;
                   }
