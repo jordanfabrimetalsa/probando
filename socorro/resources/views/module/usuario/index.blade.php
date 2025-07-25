@@ -10,12 +10,12 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Administración de Usuarios</h6>
+                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-tie"></i> Administración de Usuarios</h6>
               </div>
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-sm btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Agregar Usuario</button>
+                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</button>
                 <table id="datatableUser" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr>
@@ -38,105 +38,9 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar Usuario</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formUsuario" class="form" method="POST" enctype="multipart/form-data">
-          @csrf
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nombre</label>
-            <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="email" class="form-control border border-gray p-2" id="exampleInputEmail1" name="email" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password" autocomplete="off">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Confirmar Password</label>
-            <input type="password" class="form-control border border-gray p-2" id="exampleInputPassword1" name="password_confirmation" autocomplete="off">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Rol</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
-              <option value="comun">Común</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Estado</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" name="status">
-              <option selected>Seleccione el Estado</option>
-              <option value="A">Activo</option>
-              <option value="I">Inactivo</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label>Imagen</label>
-            <input type="file" class="form-control border border-gray p-2" id="exampleInputPassword1" id="image" name="image">
-          </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
+@include('module.usuario.create')
+@include('module.usuario.edit')
 
-<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="EditModalLabel">Editar Usuario</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="formUsuarioEdit" class="form" method="POST">
-          @csrf
-          @method('PUT')
-          <input type="hidden" id="id" name="id">
-          <div class="mb-3">
-            <p>Nombre Usuario: <span id="name"></span></p>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Rol</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
-              <option value="comun">Común</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Estado</label>
-            <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
-              <option selected>Seleccione el Estado</option>
-              <option value="A">Activo</option>
-              <option value="I">Inactivo</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 @endsection
 
 @push('script')
@@ -277,16 +181,13 @@
           $('#formUsuarioEdit').submit(function(e){
             e.preventDefault();
             let id = $('#id').val();
-            let formData = new FormData(this);
             $.ajax({
                 url: 'usuarios/update/'+id,
                 type: 'PUT',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                processData: false,
-                contentType: false,
-                data: formData,
+                data: $(this).serialize(),
                 success: function(response){
                     Swal.fire({
                         icon: 'success',
