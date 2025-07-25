@@ -6,11 +6,10 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="container-fluid px-2 px-md-4">
-          <div class="page-header min-height-100 border-radius-xl mt-4 bg-gradient-dark">
-            <span class="mask  bg-gradient-dark  opacity-6"></span>
+        <div class="container-fluid">
+          <div class="page-header min-height-100">
           </div>
-          <div class="card card-body mx-2 mx-md-2 mt-n6">
+          <div class="card card-body mt-n6 mb-4">
             <div class="row gx-4 mb-2">
               <div class="col-auto">
                 <div class="avatar avatar-xl position-relative">

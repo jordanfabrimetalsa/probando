@@ -13,7 +13,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Delegación<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="delegation_id" name="delegation_id">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="delegation_id" name="delegation_id" required>
                     @foreach ($delegations as $delegation)
                         <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
                     @endforeach
@@ -31,7 +31,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Número de Documento<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="document" name="document" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="document" name="document" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -39,13 +39,13 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp" required>  
               </div>
             </div>
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Apellido<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="lastname" name="lastname" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="lastname" name="lastname" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -53,13 +53,13 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email<span class="text-danger">*</span></label>
-                <input type="email" class="form-control border border-gray p-2" id="email" name="email" aria-describedby="emailHelp">
+                <input type="email" class="form-control border border-gray p-2" id="email" name="email" aria-describedby="emailHelp" required>
               </div>
             </div>
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Telefono<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="phone" name="phone" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="phone" name="phone" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha Nacimiento<span class="text-danger">*</span></label>
-                <input type="date" class="form-control border border-gray p-2" id="birthday" name="birthday" aria-describedby="emailHelp">
+                <input type="date" class="form-control border border-gray p-2" id="birthday" name="birthday" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Dirección<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="address" name="address" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="address" name="address" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Profesión<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="profession" name="profession" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="profession" name="profession" aria-describedby="emailHelp" required>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Sexo<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="gender" name="gender">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="gender" name="gender" required>
                     <option selected>Seleccione Opción</option>
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
@@ -102,7 +102,7 @@
             <div class="col-4">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Alergico<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="allergic" name="allergic">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="allergic" name="allergic" required>
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
@@ -112,7 +112,7 @@
             <div class="col-4">
                 <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Enfermedad<span class="text-danger">*</span></label>
-                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="disease" name="disease">
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="disease" name="disease" required>
                       <option selected>Seleccione Opción</option>
                       <option value="1">Sí</option>
                       <option value="0">No</option>
@@ -122,7 +122,7 @@
               <div class="col-4">
                 <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Medicamento<span class="text-danger">*</span></label>
-                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="medicine" name="medicine">
+                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="medicine" name="medicine" required>
                       <option selected>Seleccione Opción</option>
                       <option value="1">Sí</option>
                       <option value="0">No</option>
@@ -135,7 +135,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">¿Tiene Vehiculo?<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="vehicle" name="vehicle">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="vehicle" name="vehicle" required>
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
@@ -147,7 +147,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">¿Tiene Licencia de Conducir Clase B?<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="license" name="license">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="license" name="license" required>
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
@@ -159,7 +159,7 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">¿Pagos al Día?<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="payment" name="payment">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="payment" name="payment" required>
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
@@ -169,7 +169,7 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Tipo de Sangre<span class="text-danger">*</span></label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="blood_type" name="blood_type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="blood_type" name="blood_type" required>
                     <option selected>Seleccione Opción</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
@@ -183,7 +183,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control border border-gray p-2" id="password" name="password" autocomplete="off">
+                <input type="password" class="form-control border border-gray p-2" id="password" name="password" autocomplete="off" required>
               </div>
             </div>
           </div>
@@ -191,7 +191,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
                   <option selected>Seleccione el Estado</option>
                   <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
@@ -203,7 +203,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Tipo de Socorrista</label>
-                <select class="form-select border border-gray p-2" aria-label="Default select example" id="type" name="type">
+                <select class="form-select border border-gray p-2" aria-label="Default select example" id="type" name="type" required>
                   <option selected>Seleccione el Tipo</option>
                   <option value="V">Voluntario</option>
                 <option value="A">Aspirante</option>
@@ -211,7 +211,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Voluntario</button>
         </form>
       </div>
       <div class="modal-footer">

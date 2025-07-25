@@ -6,7 +6,7 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="container-fluid px-2 px-md-4">
+        <div class="container-fluid px-1 px-md-4">
           <div class="page-header min-height-100 mt-2">
           </div>
           <div class="card card-body mx-2 mx-md-2 mt-n6 mb-4">

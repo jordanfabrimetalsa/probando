@@ -4,50 +4,46 @@
 
 @section('content')
 
-<div class="container-fluid py-2">
-    <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-gear"></i> Administración de Voluntarios</h6>
+  <div class="container-fluid py-2">
+      <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-gear"></i> Administración de Voluntarios</h6>
+                </div>
               </div>
-            </div>
-            <div class="card-body p-4">
-              <div class="w-100 p-2 mb-4">
-                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Voluntario</button>
-                <table id="datatableVoluntaries" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                  <thead class="bg-gradient-dark text-center">
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-                  </tbody>
-                </table>
+              <div class="card-body p-4">
+                <div class="w-100 p-2 mb-4">
+                  <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Voluntario</button>
+                  <table id="datatableVoluntaries" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                    <thead class="bg-gradient-dark text-center">
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-</div>
+  </div>
 
-@include('module.voluntario.create')
-
-@include('module.voluntario.edit')
-
-@include('module.voluntario.show')
-
-@include('module.voluntario.call')
-
-@include('module.voluntario.remark')
+  @include('module.voluntario.create')
+  @include('module.voluntario.edit')
+  @include('module.voluntario.show')
+  @include('module.voluntario.call')
+  @include('module.voluntario.remark')
 
 @endsection
 
@@ -382,6 +378,7 @@
             title: 'Exito.',
             text: 'Anotación registrada correctamente',
           });
+          $('#formVoluntaryRemark')[0].reset();
           $('#RemarkModal').modal('hide');
         },
         error: function(error){
@@ -415,6 +412,7 @@
             title: 'Exito.',
             text: 'Emergencia registrada correctamente',
           });
+          $('#formVoluntaryEmergency')[0].reset();
           $('#EmergencyModal').modal('hide');
         },
         error: function(error){

@@ -15,30 +15,32 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('usuarios') }}">
-            <i class="material-symbols-rounded opacity-5">person</i>
-            <span class="nav-link-text ms-1">Usuarios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
-            <i class="material-symbols-rounded opacity-5">home</i>
-            <span class="nav-link-text ms-1">Delegaciones</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
-            <i class="material-symbols-rounded opacity-5">person</i>
-            <span class="nav-link-text ms-1">Voluntarios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('inventario') }}">
-            <i class="material-symbols-rounded opacity-5">inventory</i>
-            <span class="nav-link-text ms-1">Inventario</span>
-          </a>
-        </li>
+        @can('watch-admin')
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('usuarios') }}">
+              <i class="material-symbols-rounded opacity-5">person</i>
+              <span class="nav-link-text ms-1">Usuarios</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
+              <i class="material-symbols-rounded opacity-5">home</i>
+              <span class="nav-link-text ms-1">Delegaciones</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
+              <i class="material-symbols-rounded opacity-5">person</i>
+              <span class="nav-link-text ms-1">Voluntarios</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('inventario') }}">
+              <i class="material-symbols-rounded opacity-5">inventory</i>
+              <span class="nav-link-text ms-1">Inventario</span>
+            </a>
+          </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('checklist') }}">
             <i class="material-symbols-rounded opacity-5">checklist</i>

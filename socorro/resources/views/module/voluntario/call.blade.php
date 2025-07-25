@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="EmergencyModalLabel">Agregar Número de Emergencia</h5>
+        <h5 class="modal-title" id="EmergencyModalLabel"><i class="fa-solid fa-phone-volume"></i> Agregar Número de Emergencia</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -42,7 +42,7 @@
               </div>    
             </div>
           </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Número Emergencia</button>
         </form>
       </div>
       <div class="modal-footer">

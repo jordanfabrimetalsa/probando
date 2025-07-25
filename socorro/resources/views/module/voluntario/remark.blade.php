@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="RemarkModalLabel">Anotación</h5>
+        <h5 class="modal-title" id="RemarkModalLabel"><i class="fa-solid fa-comment-dots"></i> Anotación</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -16,21 +16,21 @@
                 <textarea class="form-control border border-gray p-2" id="remark_call" name="remark" required></textarea>
               </div>
             </div>
-            <div class="col-12">    
+            <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Gravedad</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="gravity_edit" name="gravity">
-                    <option selected>Seleccione Opción</option>
-                    <option value="1">Nula</option>
-                    <option value="2">Baja</option>
-                    <option value="3">Media</option>
-                    <option value="4">Alta</option>
-                    <option value="5">Extrema</option>
+                  <option selected>Seleccione Opción</option>
+                  <option value="1">Nula</option>
+                  <option value="2">Baja</option>
+                  <option value="3">Media</option>
+                  <option value="4">Alta</option>
+                  <option value="5">Extrema</option>
                 </select>
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Ingresar Anotación</button>
         </form>
       </div>
       <div class="modal-footer">
