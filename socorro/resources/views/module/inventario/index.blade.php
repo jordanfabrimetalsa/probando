@@ -198,7 +198,12 @@
                 {
                   extend: 'csvHtml5',
                   text: '<i class="fa-solid fa-file-csv"></i>',
-                  className: 'btn btn-info me-2'
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'pdfHtml5',
+                  text: '<i class="fa-solid fa-file-pdf"></i>',
+                  className: 'btn btn-danger me-2'
                 }
               ],
         language: {
@@ -282,7 +287,12 @@
                 {
                   extend: 'csvHtml5',
                   text: '<i class="fa-solid fa-file-csv"></i>',
-                  className: 'btn btn-info me-2'
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'pdfHtml5',
+                  text: '<i class="fa-solid fa-file-pdf"></i>',
+                  className: 'btn btn-danger me-2'
                 }
               ],
         language: {

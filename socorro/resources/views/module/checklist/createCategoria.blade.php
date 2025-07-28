@@ -13,7 +13,18 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name">
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Delegación</label>
+                <select class="form-select" id="id_delegation" name="id_delegation" required>
+                  @foreach($delegations as $delegation)
+                    <option selected disabled>Seleccione una Delegación</option>
+                    <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
           </div>

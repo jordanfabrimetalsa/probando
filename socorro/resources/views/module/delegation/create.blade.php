@@ -13,7 +13,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp">
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" required>
               </div>
             </div>
           </div>

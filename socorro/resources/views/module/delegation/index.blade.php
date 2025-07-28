@@ -15,7 +15,7 @@
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Delegación</button>
+                <button class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Delegación</button>
                 <table id="datatableDelegations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr>
@@ -77,26 +77,26 @@
           }
         },
         buttons: [
-          {
-            extend: 'excelHtml5',
-            text: '<i class="fa-solid fa-file-excel"></i>',
-            className: 'btn btn-success me-2'
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<i class="fa-solid fa-file-pdf"></i>',
-            className: 'btn btn-danger me-2'
-          },
-          {
-            extend: 'print',
-            text: '<i class="fa-solid fa-print"></i>',
-            className: 'btn btn-primary me-2'
-          },
-          {
-            extend: 'csvHtml5',
-            text: '<i class="fa-solid fa-file-csv"></i>',
-            className: 'btn btn-info me-2'
-          }
+                {
+                  extend: 'excelHtml5',
+                  text: '<i class="fa-solid fa-file-excel"></i>',
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'print',
+                  text: '<i class="fa-solid fa-print"></i>',
+                  className: 'btn btn-primary me-2'
+                },
+                {
+                  extend: 'csvHtml5',
+                  text: '<i class="fa-solid fa-file-csv"></i>',
+                  className: 'btn btn-success me-2'
+                },
+                {
+                  extend: 'pdfHtml5',
+                  text: '<i class="fa-solid fa-file-pdf"></i>',
+                  className: 'btn btn-danger me-2'
+                }
         ],
         columns:[
           {data: 'name'},

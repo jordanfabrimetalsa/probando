@@ -10,26 +10,64 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-tie"></i> Administración de Usuarios</h6>
+                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-tie"></i> CheckList Guardia</h6>
               </div>
             </div>
-            <div class="card-body p-4">
-              <div class="w-100 p-2 mb-4">
-                <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Usuario</button>
-                <table id="datatableUser" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                  <thead class="bg-gradient-dark text-center">
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Rol</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Ingresado</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-                  </tbody>
-                </table>
+            <div class="card-body p-3">
+              <div id="accordionExample">
+                @foreach ($question->groupBy('category') as $key => $category)
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false" aria-controls="collapse{{ $loop->index }}">
+                        {{ $key }}
+                      </button>
+                    </h2>
+                    <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <table class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                          <thead style="color: white" class="bg-gradient-dark text-center">
+                            <tr class="text-center">
+                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">N°</th>
+                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Pregunta</th>
+                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Cantidad</th>
+                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Respuesta</th>
+                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Observacion</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @php $count = 1; @endphp
+                            @foreach ($category as $item)
+                              <tr>
+                                <td class="text-center">{{ $count++ }}</td>
+                                <td class="text-center">{{ $item->name }}</td>
+                                <td class="text-center">{{ $item->quantity }}</td>
+                                <td class="text-center">
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" value="Si" id="respuesta_{{ $item->id }}_si" name="respuesta[{{ $item->id }}]">
+                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_si">Si</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" value="No" id="respuesta_{{ $item->id }}_no" name="respuesta[{{ $item->id }}]">
+                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_no">No</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" value="N/A" id="respuesta_{{ $item->id }}_na" name="respuesta[{{ $item->id }}]">
+                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_na">N/A</label>
+                                  </div>
+                                </td>
+                                <td class="text-center"><input type="text" class="form-control" id="observacion_{{ $item->id }}" name="observacion[{{ $item->id }}]" placeholder="Observacion"></td>
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                @endforeach
+              </div>
+              <br>
+              <div class="col-12">
+                <button type="submit" class="btn btn-dark text-white"><i class="fa-solid fa-save"></i> Guardar Checklist</button>
               </div>
             </div>
           </div>

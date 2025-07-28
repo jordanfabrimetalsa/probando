@@ -72,7 +72,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/categoria', [ChecklistController::class,'categoria'])->name('checklist.categoria');
         Route::get('/respuesta', [ChecklistController::class,'respuesta'])->name('checklist.respuesta');
         Route::get('/categoria/data', [ChecklistController::class,'data'])->name('checklist.categoria.data');
+        Route::get('/question/data/{id}', [ChecklistController::class,'questionData'])->name('checklist.question.data');
         Route::post('/categoria/store', [ChecklistController::class,'categoriaStore'])->name('checklist.categoria.store');
+        Route::post('/question/store', [ChecklistController::class,'questionStore'])->name('checklist.question.store');
         Route::put('/categoria/update/{id}', [ChecklistController::class,'update'])->name('checklist.update');
         Route::delete('/categoria/destroy/{id}', [ChecklistController::class,'destroy'])->name('checklist.destroy');
     });
