@@ -17,7 +17,7 @@
               <div class="w-100 p-2 mb-4">
                 
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                    <thead class="bg-gradient-dark text-center">
+                  <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
@@ -127,154 +127,136 @@
     var datatableStockMovements;
 
     $(document).ready(function(){
-
       datatableInventories = $('#datatableInventories').DataTable({
-        ajax: {
-          url: '{{ route("inventario.data") }}',
-          dataSrc: ''
-        },
-        columns: [
-          { data: 'barcode',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'name',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'stock',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: null,
-            render: function(data){
-              var unitary = data.stock > 0 ? data.total / data.stock : 0;
-              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(unitary)+'</p>'
-            }
-          },
-          { data: 'total',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(data)+'</p>'
-            }
-          },
-          { data: null,
-            render: function(data){
-              var tax = data.stock > 0 ? ((data.total*19)/100) : 0;
-              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(tax)+'</p>'
-            }
-          },
-          { data: 'category_name',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'status',
-            render: function(data){
-              return data == '1'
-                ? '<span class="badge bg-success">Disponible</span>'
-                : '<span class="badge bg-danger">Agotado</span>';
-            }
-          },
-          {
-                  data: null,
-                  orderable: false,
-                  searchable: false,
-                  render: function(data, type, row) {
-                    return `
-                      <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${data.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
-                        <i class="fa-solid fa-circle-plus"></i>
-                      </a>
-                      <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${data.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
-                        <i class="fa-solid fa-circle-minus"></i>
-                      </a>
-                      <a href="javascript:;" class="btn btn-warning text-white" onclick="showInventory(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
-                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                      </a>
-                      <a onclick="deleteInventory(${data.id})" class="btn btn-danger text-white">
-                        <i class="fa-solid fa-trash"></i>
-                      </a>
-                      `;
-                  }
-                }
-        ],
-        buttons: [
-                {
-                  text: '<i class="fa-solid fa-circle-plus"></i>',
-                  className: 'btn btn-dark text-white gap-2 me-2',
-                  action: function(e, dt, node, config) {
-                    $("#CreateModal").modal('show');
-                  }
-                },
-
-                {
-                  text: '<i class="fa-solid fa-warehouse"></i>',
-                  className: 'btn btn-dark text-white gap-2 me-2',
-                  action: function(e, dt, node, config) {
-                    $("#CreateWarehouseModal").modal('show');
-                  }
-                },
-
-                {
-                  text: '<i class="fa-solid fa-table-list"></i>',
-                  className: 'btn btn-dark text-white gap-2 me-2',
-                  action: function(e, dt, node, config) {
-                    $("#CreateCategoryModal").modal('show');
-                  }
-                },
-                {
-                  extend: 'excelHtml5',
-                  text: '<i class="fa-solid fa-file-excel"></i>',
-                  className: 'btn btn-success me-2'
-                },
-                {
-                  extend: 'print',
-                  text: '<i class="fa-solid fa-print"></i>',
-                  className: 'btn btn-primary me-2'
-                },
-                {
-                  extend: 'csvHtml5',
-                  text: '<i class="fa-solid fa-file-csv"></i>',
-                  className: 'btn btn-success me-2'
-                },
-                {
-                  extend: 'pdfHtml5',
-                  text: '<i class="fa-solid fa-file-pdf"></i>',
-                  className: 'btn btn-danger me-2'
-                }
-              ],
-        language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "Buscar:",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-        },
-        dom:
-            "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-            "<'row'<'col-12'tr>>" +
-            "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
-        responsive:{
-          details:{
-            type: 'inline'
+      ajax: {
+        url: '{{ route("inventario.data") }}',
+        dataSrc: ''
+      },
+      columns: [
+        { data: 'barcode', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        { data: 'name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        { data: 'stock', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        {
+          data: null,
+          render: d => {
+            const unitary = d.stock > 0 ? d.total / d.stock : 0;
+            return `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(unitary)}</p>`;
           }
+        },
+        {
+          data: 'total',
+          render: d => `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(d)}</p>`
+        },
+        {
+          data: null,
+          render: d => {
+            const tax = d.stock > 0 ? (d.total * 19) / 100 : 0;
+            return `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(tax)}</p>`;
+          }
+        },
+        { data: 'category_name', name: 'category_name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        {
+          data: 'status',
+          render: d => d == '1'
+            ? '<span class="badge bg-success">Disponible</span>'
+            : '<span class="badge bg-danger">Agotado</span>'
+        },
+        {
+          data: null,
+          orderable: false,
+          searchable: false,
+          render: d => `
+            <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${d.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
+              <i class="fa-solid fa-circle-plus"></i>
+            </a>
+            <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${d.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
+              <i class="fa-solid fa-circle-minus"></i>
+            </a>
+            <a href="javascript:;" class="btn btn-warning text-white" onclick="showInventory(${d.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </a>
+            <a onclick="deleteInventory(${d.id})" class="btn btn-danger text-white">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          `
         }
-      });
+      ],
+      buttons: [
+        {
+          text: '<i class="fa-solid fa-circle-plus"></i>',
+          className: 'btn btn-dark text-white gap-2 me-2',
+          action: () => $("#CreateModal").modal('show')
+        },
+        {
+          text: '<i class="fa-solid fa-warehouse"></i>',
+          className: 'btn btn-dark text-white gap-2 me-2',
+          action: () => $("#CreateWarehouseModal").modal('show')
+        },
+        {
+          text: '<i class="fa-solid fa-table-list"></i>',
+          className: 'btn btn-dark text-white gap-2 me-2',
+          action: () => $("#CreateCategoryModal").modal('show')
+        },
+        {
+          extend: 'excelHtml5',
+          text: '<i class="fa-solid fa-file-excel"></i>',
+          className: 'btn btn-success me-2'
+        },
+        {
+          extend: 'print',
+          text: '<i class="fa-solid fa-print"></i>',
+          className: 'btn btn-primary me-2'
+        },
+        {
+          extend: 'csvHtml5',
+          text: '<i class="fa-solid fa-file-csv"></i>',
+          className: 'btn btn-success me-2'
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<i class="fa-solid fa-file-pdf"></i>',
+          className: 'btn btn-danger me-2'
+        }
+      ],
+      language: {
+        decimal: "",
+        emptyTable: "No hay información",
+        info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+        infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+        infoFiltered: "(Filtrado de _MAX_ total entradas)",
+        thousands: ",",
+        lengthMenu: "Mostrar _MENU_ Entradas",
+        loadingRecords: "Cargando...",
+        processing: "Procesando...",
+        search: "Buscar:",
+        zeroRecords: "Sin resultados encontrados",
+        paginate: {
+          first: "Primero",
+          last: "Último",
+          next: "Siguiente",
+          previous: "Anterior"
+        }
+      },
+      dom:
+        "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+        "<'row'<'col-12'tr>>" +
+        "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+      responsive: {
+        details: {
+          type: 'inline'
+        }
+      },
+      order: [[6, 'asc']], 
+      rowGroup: {
+        dataSrc: 'category_name',
+        startRender: function(rows, group) {
+          return $('<tr/>')
+            .addClass('group-header bg-dark')
+            .append(`<td colspan="12" class="ps-2 fs-6 text-white">${group} (Cantidad ${rows.count()})</td>`);
+        }
+      }
+    });
+
 
       datatableStockMovements = $('#datatableStockMovements').DataTable({
         ajax: {

@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.4.1/css/rowGroup.dataTables.min.css">
+
   <style>
       body{
         font-family: 'Inter', sans-serif;
@@ -70,6 +72,7 @@
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/rowgroup/1.4.1/js/dataTables.rowGroup.min.js"></script>
 
   <!-- SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -103,18 +106,13 @@
     </script>
   @endif
 
-  <!-- Estilos personalizados para modales -->
   <style>
-    /* Asegurar que el modal esté por encima del aside */
     .modal-backdrop {
       z-index: 1050 !important;
     }
-    
     .modal {
       z-index: 1060 !important;
     }
-    
-    /* Asegurar que el aside no interfiera con los modales */
     .sidenav {
       z-index: 1038 !important;
     }
@@ -126,18 +124,50 @@
   <!-- Scripts para activar select2 -->
   <script>
     $(document).ready(function() {
-      $('.select2').select2({
-        placeholder: 'Seleccione',
-        allowClear: true,
-        width: '100%',
-        class: 'form-select border border-gray p-2',
-        language: {
-          noResults: function () {
-            return "No hay resultados";
-          }
-        }
+      // Inicializar select2 con configuración para modales
+      $('.select2').each(function() {
+        $(this).select2({
+          placeholder: 'Seleccione',
+          allowClear: true,
+          width: '100%',
+          dropdownParent: $(this).closest('.modal').length ? $(this).closest('.modal') : $(document.body),
+          language: {
+            noResults: function () {
+              return "No hay resultados";
+            }
+          },
+          dropdownAutoWidth: true,
+          dropdownCssClass: 'select2-dropdown-modal'
+        });
       });
+
+      // Agregar estilos de form-select de Bootstrap
+      $('.select2').addClass('form-select p-2');
     });
   </script>
+  <style>
+    /* Asegurar que el dropdown de select2 esté por encima del modal */
+    .select2-container--open {
+      z-index: 1070 !important;
+    }
+    .select2-dropdown {
+      z-index: 1061 !important;
+    }
+    .select2-container {
+      z-index: 1000 !important;
+    }
+
+    .select2-selection{
+      border: none !important;
+    }
+
+    .select2-selection--single{
+      border: none !important;
+    }
+
+    .select2-selection--clearable {
+      border: none !important;
+    }
+  </style>
 </body>
 </html>

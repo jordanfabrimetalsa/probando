@@ -26,7 +26,7 @@
               <div class="mb-3">
                 <label for="id_warehouse" class="form-label">Bodega<span class="text-danger">*</span></label>
                 <div class="d-flex align-items-stretch gap-2">
-                  <select class="form-select select2 border border-gray p-2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
+                  <select class="select2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
                     <option selected disabled>Seleccione la Bodega</option>
                     @foreach ($warehouses as $warehouse)
                       <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
@@ -41,7 +41,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Categoria<span class="text-danger">*</span></label>
                 <div class="d-flex align-items-stretch gap-2">
-                  <select class="form-select border border-gray p-2" aria-label="Default select example" id="id_category" name="id_category" required>
+                  <select class="select2" aria-label="Default select example" id="id_category" name="id_category" required>
                     <option selected disabled>Seleccione la Categoria</option>
                     @foreach($categories as $category)  
                       <option value="{{ $category->id }}">{{ $category->name }}</option>
