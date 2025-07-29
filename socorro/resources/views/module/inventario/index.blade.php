@@ -30,8 +30,19 @@
                     </tr>
                   </thead>
                   <tbody class="text-center">
-
                   </tbody>
+                  <tfoot  class="bg-gradient-dark text-center">
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">IVA</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
+                    </tr>
+                </tfoot>
                 </table>
               </div>
             </div>

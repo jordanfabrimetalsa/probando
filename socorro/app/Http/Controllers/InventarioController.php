@@ -169,6 +169,7 @@ class InventarioController extends Controller
             $product = Product::find($request->product_id_show);
             $product->stock = ($product->stock + $request->quantity);
             $product->total += ($request->quantity * $request->unit_cost);
+            $product->status = true;
             if($product->save()){
                 $stockMovement = new StockMovement();
                 $stockMovement->quantity = $request->quantity;
