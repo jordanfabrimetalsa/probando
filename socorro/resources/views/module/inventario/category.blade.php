@@ -13,7 +13,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="name" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name">
+                <input type="text" class="form-control border border-gray p-2 @error('name') is-invalid @enderror" id="name" name="name">
+                @error('name')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
             </div>
           </div>
@@ -21,7 +24,10 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="description" class="form-label">Descripción<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="description" name="description">
+                <input type="text" class="form-control border border-gray p-2 @error('description') is-invalid @enderror" id="description" name="description">
+                @error('description')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
             </div>
           </div>

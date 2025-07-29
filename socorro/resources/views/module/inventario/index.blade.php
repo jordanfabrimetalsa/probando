@@ -25,7 +25,6 @@
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">IVA</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoria</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                     </tr>
@@ -154,7 +153,6 @@
             return `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(tax)}</p>`;
           }
         },
-        { data: 'category_name', name: 'category_name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         {
           data: 'status',
           render: d => d == '1'
@@ -166,13 +164,13 @@
           orderable: false,
           searchable: false,
           render: d => `
-            <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${d.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
+            <a href="javascript:;" class="btn btn-dark text-white" onclick="addStock(${d.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
               <i class="fa-solid fa-circle-plus"></i>
             </a>
-            <a href="javascript:;" class="btn btn-danger text-white" onclick="reduceStock(${d.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
+            <a href="javascript:;" class="btn btn-dark text-white" onclick="reduceStock(${d.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
               <i class="fa-solid fa-circle-minus"></i>
             </a>
-            <a href="javascript:;" class="btn btn-warning text-white" onclick="showInventory(${d.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+            <a href="javascript:;" class="btn btn-dark text-white" onclick="showInventory(${d.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </a>
             <a onclick="deleteInventory(${d.id})" class="btn btn-danger text-white">
@@ -252,11 +250,10 @@
         startRender: function(rows, group) {
           return $('<tr/>')
             .addClass('group-header bg-dark')
-            .append(`<td colspan="12" class="ps-2 fs-6 text-white">${group} (Cantidad ${rows.count()})</td>`);
+            .append(`<td colspan="12" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`);
         }
       }
     });
-
 
       datatableStockMovements = $('#datatableStockMovements').DataTable({
         ajax: {
@@ -379,7 +376,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error.',
-                    text: 'Error al mostrar inventario' + JSON.stringify(error),
+                    text: 'Error al mostrar inventario',
                 });
             }
         })
@@ -408,7 +405,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar inventario' + JSON.stringify(error),
+            text: 'Error al registrar inventario',
           });
           $('#CreateModal').modal('hide');
         }
@@ -418,7 +415,7 @@
     $('#formCategory').submit(function(e){
             e.preventDefault();
             $.ajax({
-                url: '/inventario/category', // ✅ RUTA DIRECTA
+                url: '/inventario/category',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function(response){
@@ -433,7 +430,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error.',
-                        text: 'Error al registrar categoría: ' + JSON.stringify(error),
+                        text: 'Error al registrar categoría',
                     });
                     $('#CreateCategoryModal').modal('hide');
                 }
@@ -458,7 +455,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Error.',
-                text: 'Error al registrar bodega' + JSON.stringify(error),
+                text: 'Error al registrar bodega',
             });
             $('#CreateWarehouseModal').modal('hide');
             }
@@ -564,7 +561,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al reducir stock - ' + JSON.stringify(error.responseJSON.message),
+            text: 'Error al reducir stock',
           });
           $('#ReduceStockModal').modal('hide');
         }

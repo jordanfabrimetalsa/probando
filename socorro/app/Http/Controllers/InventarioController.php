@@ -51,6 +51,11 @@ class InventarioController extends Controller
 
     public function categoryStore(Request $request){
         try{
+            $request->validate([
+                'name' => 'required|max:100|unique:categories,name',
+                'description' => 'required|max:255'
+            ]);
+
             $category = new Category();
             $category->name = $request->name;
             $category->description = $request->description;
@@ -68,6 +73,13 @@ class InventarioController extends Controller
     }
     public function warehouseStore(Request $request){
         try{
+            $request->validate([
+                'name' => 'required|max:100|unique:warehouses,name',
+                'description' => 'required|max:255',
+                'path' => 'required|max:255',
+                'status' => 'required|boolean'
+            ]);
+
             $warehouse = new Warehouse();
             $warehouse->name = $request->name;
             $warehouse->description = $request->description;
@@ -148,6 +160,12 @@ class InventarioController extends Controller
     public function addStock(Request $request)
     {
         try{
+            $request->validate([
+                'product_id_show' => 'required|exists:products,id',
+                'quantity' => 'required|numeric',
+                'unit_cost' => 'required|numeric'
+            ]);
+
             $product = Product::find($request->product_id_show);
             $product->stock = ($product->stock + $request->quantity);
             $product->total += ($request->quantity * $request->unit_cost);
@@ -176,6 +194,11 @@ class InventarioController extends Controller
     public function reduce_stock(Request $request)
     {
         try{
+            $request->validate([
+                'product_id_reduce' => 'required|exists:products,id',
+                'quantity' => 'required|numeric'
+            ]);
+
             $product = Product::find($request->product_id_reduce);
 
             if ($product->stock < $request->quantity || $product->stock == 0) {
