@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <style>
       body{
         font-family: 'Inter', sans-serif;
@@ -79,6 +79,8 @@
   <!-- html5-qrcode -->
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
+  <!-- filer select -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- Scrollbar para Windows -->
   <script>
@@ -101,7 +103,41 @@
     </script>
   @endif
 
+  <!-- Estilos personalizados para modales -->
+  <style>
+    /* Asegurar que el modal esté por encima del aside */
+    .modal-backdrop {
+      z-index: 1050 !important;
+    }
+    
+    .modal {
+      z-index: 1060 !important;
+    }
+    
+    /* Asegurar que el aside no interfiera con los modales */
+    .sidenav {
+      z-index: 1038 !important;
+    }
+  </style>
+
   <!-- Scripts de cada vista -->
   @stack('script')
+
+  <!-- Scripts para activar select2 -->
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2({
+        placeholder: 'Seleccione',
+        allowClear: true,
+        width: '100%',
+        class: 'form-select border border-gray p-2',
+        language: {
+          noResults: function () {
+            return "No hay resultados";
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

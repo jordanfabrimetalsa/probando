@@ -15,14 +15,16 @@
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-circle-plus"></i> Agregar Producto</button>
+                
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Total Costo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">IVA</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoria</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
@@ -52,6 +54,7 @@
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Producto</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Cantidad</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Responsable</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha</th>
                     </tr>
@@ -124,6 +127,7 @@
     var datatableStockMovements;
 
     $(document).ready(function(){
+
       datatableInventories = $('#datatableInventories').DataTable({
         ajax: {
           url: '{{ route("inventario.data") }}',
@@ -145,9 +149,21 @@
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
+          { data: null,
+            render: function(data){
+              var unitary = data.stock > 0 ? data.total / data.stock : 0;
+              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(unitary)+'</p>'
+            }
+          },
           { data: 'total',
             render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">$'+Intl.NumberFormat('es-CL').format(data)+'</p>'
+              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(data)+'</p>'
+            }
+          },
+          { data: null,
+            render: function(data){
+              var tax = data.stock > 0 ? ((data.total*19)/100) : 0;
+              return data = '<p class="text-xs text-secondary mb-0 text-success">$'+Intl.NumberFormat('es-CL').format(tax)+'</p>'
             }
           },
           { data: 'category_name',
@@ -185,6 +201,29 @@
                 }
         ],
         buttons: [
+                {
+                  text: '<i class="fa-solid fa-circle-plus"></i>',
+                  className: 'btn btn-dark text-white gap-2 me-2',
+                  action: function(e, dt, node, config) {
+                    $("#CreateModal").modal('show');
+                  }
+                },
+
+                {
+                  text: '<i class="fa-solid fa-warehouse"></i>',
+                  className: 'btn btn-dark text-white gap-2 me-2',
+                  action: function(e, dt, node, config) {
+                    $("#CreateWarehouseModal").modal('show');
+                  }
+                },
+
+                {
+                  text: '<i class="fa-solid fa-table-list"></i>',
+                  className: 'btn btn-dark text-white gap-2 me-2',
+                  action: function(e, dt, node, config) {
+                    $("#CreateCategoryModal").modal('show');
+                  }
+                },
                 {
                   extend: 'excelHtml5',
                   text: '<i class="fa-solid fa-file-excel"></i>',
@@ -260,6 +299,14 @@
               let color = row.type === 'add' ? 'text-success' : 'text-danger';
               let negative = row.type === 'add' ? '' : '-';
               return data = '<p class="text-xs '+color+' mb-0">'+negative+'$'+Intl.NumberFormat('es-CL').format(data)+'</p>'
+            }
+          },
+          { data: null,
+            render: function(data, type, row){
+              let color = row.type === 'add' ? 'text-success' : 'text-danger';
+              let negative = row.type === 'add' ? '' : '-';
+              var total = data.unit_cost > 0 ? (data.unit_cost*data.quantity) : 0;
+              return data = '<p class="text-xs '+color+' mb-0">'+negative+'$'+Intl.NumberFormat('es-CL').format(total)+'</p>'
             }
           },
           { data: 'user_name',
