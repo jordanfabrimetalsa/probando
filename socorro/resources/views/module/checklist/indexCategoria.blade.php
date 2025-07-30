@@ -4,7 +4,7 @@
 
 @section('content')
 
-  <div class="container-fluid py-2">
+    <div class="container-fluid py-2">
       <div class="row">
           <div class="col-12">
             <div class="card my-4">
@@ -15,16 +15,16 @@
               </div>
               <div class="card-body p-4">
                 <div class="w-100 p-2 mb-4">
-                  <button class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-circle-plus"></i> Agregar Categoria</button>
                   <table id="datatableCategory" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                       <tr>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Delegación</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
+                      
                     </tbody>
                   </table>
                 </div>
@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
 
   @include('module.checklist.createCategoria')
   @include('module.checklist.questionCategoria')
@@ -43,8 +43,8 @@
 @push('script') 
 
   <script>
-      var datatableCategory;
-      var datatableQuestion;
+    var datatableCategory;
+    var datatableQuestion;
 
     $(document).ready(function(){
       datatableCategory = $('#datatableCategory').DataTable({
@@ -70,7 +70,7 @@
             searchable: false,
             render: function(data, type, row) {
               return `
-                <a href="javascript:;" class="btn btn-warning text-white" onclick="questionCategory(${data.id})" data-bs-toggle="modal" data-bs-target="#QuestionModal">
+                <a href="javascript:;" class="btn btn-dark text-white" onclick="questionCategory(${data.id})" data-bs-toggle="modal" data-bs-target="#QuestionModal">
                   <i class="fa-solid fa-file-invoice-dollar"></i>
                 </a>
                 <a onclick="deleteCategory(${data.id})" class="btn btn-danger text-white">
@@ -81,6 +81,11 @@
           }
         ],
         buttons: [
+                {
+                  text: '<i class="fa-solid fa-circle-plus"></i>',
+                  className: 'btn btn-dark me-2',
+                  action: () => $('#CreateCategoryModal').modal('show')
+                },
                 {
                   extend: 'excelHtml5',
                   text: '<i class="fa-solid fa-file-excel"></i>',

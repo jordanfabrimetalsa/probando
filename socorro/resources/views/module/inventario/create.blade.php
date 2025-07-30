@@ -14,7 +14,7 @@
               <div class="mb-3">
                 <label for="barcode" class="form-label">Código <span class="text-danger">*</span></label>
                 <div class="d-flex align-items-stretch gap-2">
-                  <button type="button" class="btn btn-primary" id="startScanner"><i class="fa-solid fa-camera"></i></button>
+                  <button type="button" class="btn btn-dark" id="startScanner"><i class="fa-solid fa-camera"></i></button>
                   <input type="text" class="form-control p-2" id="barcode" name="barcode" required>
                 </div>
                 <div id="reader" style="width: 100%; display: none; margin-top: 10px;"></div>

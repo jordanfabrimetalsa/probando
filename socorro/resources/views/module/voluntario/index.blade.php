@@ -15,17 +15,14 @@
               </div>
               <div class="card-body p-4">
                 <div class="w-100 p-2 mb-4">
-                  <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Voluntario</button>
                   <table id="datatableVoluntaries" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                       <tr>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Delegación</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Tipo</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Email</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Telefono</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
-                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Delegación</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Tipo</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                       </tr>
                     </thead>
                     <tbody class="text-center">
@@ -76,16 +73,6 @@
                 : '<span class="badge bg-danger">Aspirante</span>';
             }
            },
-          { data: 'email',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'phone',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
           { data: 'status',
             render: function(data){
               return data == '1'
@@ -102,16 +89,16 @@
                       <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-regular fa-user"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-secondary text-white" onclick="showEmergency(${data.id})" data-bs-toggle="modal" data-bs-target="#EmergencyModal">
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="showEmergency(${data.id})" data-bs-toggle="modal" data-bs-target="#EmergencyModal">
                         <i class="fa-solid fa-phone"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-warning text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
                       <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-secondary text-white" onclick="showRemark(${data.id})" data-bs-toggle="modal" data-bs-target="#RemarkModal">
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="showRemark(${data.id})" data-bs-toggle="modal" data-bs-target="#RemarkModal">
                         <i class="fa-solid fa-circle-exclamation"></i>
                       </a>
                       `;
@@ -120,26 +107,31 @@
         ],
         buttons: [
           {
-                  extend: 'excelHtml5',
-                  text: '<i class="fa-solid fa-file-excel"></i>',
-                  className: 'btn btn-success me-2'
+            text: '<i class="fa-solid fa-circle-plus"></i>',
+            className: 'btn btn-dark me-2',
+            action: () => $('#CreateModal').modal('show')
           },
           {
-                  extend: 'print',
-                  text: '<i class="fa-solid fa-print"></i>',
-                  className: 'btn btn-primary me-2'
-                },
-                {
-                  extend: 'csvHtml5',
-                  text: '<i class="fa-solid fa-file-csv"></i>',
-                  className: 'btn btn-success me-2'
-                },
-                {
-                  extend: 'pdfHtml5',
-                  text: '<i class="fa-solid fa-file-pdf"></i>',
-                  className: 'btn btn-danger me-2'
-                }
-              ],
+            extend: 'excelHtml5',
+            text: '<i class="fa-solid fa-file-excel"></i>',
+            className: 'btn btn-success me-2'
+          },
+          {
+            extend: 'print',
+            text: '<i class="fa-solid fa-print"></i>',
+            className: 'btn btn-primary me-2'
+          },
+          {
+            extend: 'csvHtml5',
+            text: '<i class="fa-solid fa-file-csv"></i>',
+            className: 'btn btn-success me-2'
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<i class="fa-solid fa-file-pdf"></i>',
+            className: 'btn btn-danger me-2'
+          }
+        ],
         language: {
                 "decimal": "",
                 "emptyTable": "No hay información",
@@ -161,12 +153,20 @@
                 }
         },
         dom:
-                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-                "<'row'<'col-12'tr>>" +
-                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+          "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+          "<'row'<'col-12'tr>>" +
+          "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
         responsive:{
           details:{
             type: 'inline'
+          }
+        },
+        rowGroup: {
+          dataSrc: 'delegation.name',
+          startRender: function(rows, group){
+            return $('<tr/>')
+              .addClass('group-header bg-dark')
+              .append(`<td colspan="5" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`);
           }
         }
       });
@@ -217,10 +217,35 @@
 
             var remark = '';
             response.remark.forEach(element => {
+              let gravity = '';
+              let colour = '';
+              switch (element.gravity) {
+                case '1':
+                  gravity = 'Bajo';
+                  colour = 'success';
+                  break;
+                case '2':
+                  gravity = 'Medio';
+                  colour = 'warning';
+                  break;
+                case '3':
+                  gravity = 'Alto';
+                  colour = 'danger';
+                  break;
+                case '4':
+                  gravity = 'Muy Alto';
+                  colour = 'danger';
+                  break;
+                case '5':
+                  gravity = 'Extremo';
+                  colour = 'danger';
+                  break;
+              }
+              
               remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                               <div class="d-flex align-items-start flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">${element.remark}</h6>
-                                <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-danger">Grave</span></p>
+                                <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-${colour}">${gravity}</span></p>
                               </div>
                             </li>`;
             });
@@ -255,6 +280,7 @@
             title: 'Exito.',
             text: 'Voluntario registrado correctamente',
           });
+          $('#formVoluntario')[0].reset();
           $('#exampleModal').modal('hide');
           datatableVoluntaries.ajax.reload();
         },
@@ -313,7 +339,6 @@
           $('#status_edit').val(response.status);
           $('#name_edit').text(response.name);
           $('#id').val(response.id);
-
         },
         error:function(error){
           Swal.fire({

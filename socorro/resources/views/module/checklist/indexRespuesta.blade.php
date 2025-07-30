@@ -15,6 +15,7 @@
             </div>
             <div class="card-body p-3">
               <div id="accordionExample">
+                <p>{{ $question }}</p>
                 @foreach ($question->groupBy('category') as $key => $category)
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ $loop->index }}">

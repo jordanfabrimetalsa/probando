@@ -263,6 +263,31 @@
             .addClass('group-header bg-dark')
             .append(`<td colspan="12" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`);
         }
+      },
+      drawCallback: function(settings) {
+        var api = this.api();
+        var sum_unitary = api
+          .column(3)
+          .data()
+          .reduce(function(a, b) {
+            return a + b;
+          }, 0);
+
+        var sum_total = api
+          .column(4)
+          .data()
+          .reduce(function(a, b) {
+            return a + b;
+          }, 0);
+
+        $(api.table().footer()).html(
+          `<tr>
+            <th colspan="1" class="text-center text-white" style="font-size:12px">Total:</th>
+            <th colspan="3"></th>
+            <th class="text-center text-white" style="font-size:12px">$${Intl.NumberFormat('es-CL').format(sum_total)}</th>
+            <th colspan="4"></th>
+          </tr>`
+        );
       }
     });
 
@@ -408,6 +433,7 @@
             title: 'Exito.',
             text: 'Inventario registrado correctamente',
           });
+          $('#formInventario')[0].reset();
           $('#CreateModal').modal('hide');
           datatableInventories.ajax.reload();
           datatableStockMovements.ajax.reload();
@@ -532,6 +558,7 @@
             title: 'Exito.',
             text: 'Stock agregado correctamente',
           });
+          $('#formAddStock')[0].reset();
           $('#AddStockModal').modal('hide');
           datatableInventories.ajax.reload();
           datatableStockMovements.ajax.reload();
@@ -564,6 +591,7 @@
             title: 'Exito.',
             text: 'Stock reducido correctamente',
           });
+          $('#formReduceStock')[0].reset();
           $('#ReduceStockModal').modal('hide');
           datatableInventories.ajax.reload();
           datatableStockMovements.ajax.reload();

@@ -25,7 +25,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
-                <select class="form-select" id="status" name="status" required>
+                <select class="select2" id="status" name="status" required>
                     <option selected disabled>Seleccione un Estado</option>
                     <option value="Y">Activo</option>
                     <option value="N">Inactivo</option>
@@ -44,12 +44,12 @@
         <table id="datatableQuestion" class="table table-striped dt-responsive nowrap" style="width: 100%;">
           <thead class="bg-gradient-dark text-center">
             <tr>
-              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Cantidad</th>
-              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Estado</th>
+              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Cantidad</th>
+              <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="text-center">
           </tbody>
         </table>
       </div>

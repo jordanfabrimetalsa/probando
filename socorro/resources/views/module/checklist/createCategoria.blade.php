@@ -19,9 +19,9 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Delegación</label>
-                <select class="form-select" id="id_delegation" name="id_delegation" required>
+                <select class="select2" id="id_delegation" name="id_delegation" required>
+                  <option selected disabled>Seleccione una Delegación</option>
                   @foreach($delegations as $delegation)
-                    <option selected disabled>Seleccione una Delegación</option>
                     <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
                   @endforeach
                 </select>

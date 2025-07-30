@@ -9,7 +9,6 @@
         <form id="formVoluntaryEdit" class="form" method="POST">
           @csrf
           @method('PUT')
-          <p>Nombre: <span id="name_edit"></span></p>
           <input type="hidden" id="id" name="id">
           <div class="row">
             <div class="col-12">

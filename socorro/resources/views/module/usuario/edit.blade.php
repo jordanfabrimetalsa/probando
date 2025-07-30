@@ -11,9 +11,6 @@
           @method('PUT')
           <input type="hidden" id="id" name="id">
           <div class="mb-3">
-            <p>Nombre Usuario: <span id="name"></span></p>
-          </div>
-          <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Rol</label>
             <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
               <option selected>Seleccione el Rol</option>

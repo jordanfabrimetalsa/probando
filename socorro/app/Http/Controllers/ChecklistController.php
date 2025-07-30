@@ -28,17 +28,17 @@ class ChecklistController extends Controller
         return response()->json($check);
     }
 
-    public function questionData($id){
+    public function questionData(){
         try{
-            $check = QuestionCheck::join('categories_check', 'checklist.id_category_check', '=', 'categories_check.id')
-            ->select('checklist.name as name', 'checklist.quantity as quantity', 'checklist.status as status')
-            ->where('categories_check.id', $id)
+            $check = QuestionCheck::select('id', 'name', 'quantity', 'status', 'category')
+            ->with('categoryCheck')
             ->get();
+                
             return response()->json($check);
-        }catch(Exception $e){
+        } catch(Exception $e){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al obtener las preguntas'.$e
+                'message' => 'Error al obtener las preguntas: '.$e->getMessage()
             ], 500);
         }
     }

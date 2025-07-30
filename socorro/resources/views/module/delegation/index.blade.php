@@ -15,12 +15,11 @@
             </div>
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                <button class="btn btn-dark text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i> Agregar Delegación</button>
                 <table id="datatableDelegations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder">Acciones</th>
+                    <tr class="text-center">
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                     </tr>
                   </thead>
                   <tbody class="text-center">
@@ -78,6 +77,11 @@
         },
         buttons: [
                 {
+                  text: '<i class="fa-solid fa-circle-plus"></i>',
+                  className: 'btn btn-dark text-white gap-2 me-2',
+                  action: () => $('#CreateModal').modal('show')
+                },
+                {
                   extend: 'excelHtml5',
                   text: '<i class="fa-solid fa-file-excel"></i>',
                   className: 'btn btn-success me-2'
@@ -106,7 +110,7 @@
             searchable: false,
             render: function(data, type, row) {
               return `
-                <a href="javascript:;" class="btn btn-warning text-white" onclick="editDelegation(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                <a href="javascript:;" class="btn btn-dark text-white" onclick="editDelegation(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
                       <a onclick="deleteDelegation(${data.id})" class="btn btn-danger text-white">
@@ -131,7 +135,7 @@
             text: 'Delegación registrada correctamente',
           });
           $('#formDelegation')[0].reset();
-          $('#exampleModal').modal('hide');
+          $('#CreateModal').modal('hide');
           datatableDelegations.ajax.reload();
         },
         error: function(error){
@@ -140,7 +144,7 @@
             title: 'Error.',
             text: 'Error al registrar delegación',
           });
-          $('#exampleModal').modal('hide');
+          $('#CreateModal').modal('hide');
         }
       })
     })
