@@ -14,8 +14,21 @@
               </div>
             </div>
             <div class="card-body p-3">
+
+              <div class="card text-center mb-2">
+                <div class="card-header">
+                  Intrucciones
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Favor de leer las instrucciones para evitar futuros problemas.</h5>
+                  <p class="card-text">Todos los campos deben ser respondido por obligación, de no ser, este no sera enviado.</p>
+                </div>
+                <div class="card-footer text-muted">
+                  Administración de CSA Nacional
+                </div>
+              </div>
+
               <div id="accordionExample">
-                <p>{{ $question }}</p>
                 @foreach ($question->groupBy('category') as $key => $category)
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ $loop->index }}">

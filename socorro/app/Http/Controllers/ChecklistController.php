@@ -17,7 +17,13 @@ class ChecklistController extends Controller
     public function respuesta()
     {
         $question = QuestionCheck::join('categories_check', 'checklist.id_category_check', '=', 'categories_check.id')
-        ->select('checklist.name as name', 'checklist.quantity as quantity', 'checklist.status as status', 'categories_check.name as category')
+        ->select(
+            'checklist.id as id',
+            'checklist.name as name',
+            'checklist.quantity as quantity',
+            'checklist.status as status',
+            'categories_check.name as category'
+        )
         ->where('checklist.status', 'Y')
         ->get();
         return view('module.checklist.indexRespuesta', compact('question'));
@@ -28,12 +34,19 @@ class ChecklistController extends Controller
         return response()->json($check);
     }
 
-    public function questionData(){
+    public function questionData($id){
         try{
-            $check = QuestionCheck::select('id', 'name', 'quantity', 'status', 'category')
-            ->with('categoryCheck')
+            $check = QuestionCheck::join('categories_check', 'checklist.id_category_check', '=', 'categories_check.id')
+            ->select(
+                'checklist.id as id',
+                'checklist.name as name',
+                'checklist.quantity as quantity',
+                'checklist.status as status',
+                'categories_check.name as category'
+            )
+            ->where('categories_check.id', $id)
             ->get();
-                
+
             return response()->json($check);
         } catch(Exception $e){
             return response()->json([
