@@ -7,6 +7,7 @@ use App\Http\Controllers\VoluntarioController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\DelegacionController;
+use App\Http\Controllers\VehiculoController;
 
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
 Route::get('/', [UserController::class,'login_new'])->name('login');
@@ -77,6 +78,16 @@ Route::middleware('auth')->group(function(){
         Route::post('/question/store', [ChecklistController::class,'questionStore'])->name('checklist.question.store');
         Route::put('/categoria/update/{id}', [ChecklistController::class,'update'])->name('checklist.update');
         Route::delete('/categoria/destroy/{id}', [ChecklistController::class,'destroy'])->name('checklist.destroy');
+    });
+
+    Route::prefix('vehiculo')->group(function(){
+        Route::get('/', [VehiculoController::class,'index'])->name('vehiculo');
+        Route::get('/data', [VehiculoController::class,'data'])->name('vehiculo.data');
+        Route::get('/brand/data', [VehiculoController::class,'brandData'])->name('vehiculo.brand.data');
+        Route::get('/model/data', [VehiculoController::class,'modelData'])->name('vehiculo.model.data');
+        Route::post('/store', [VehiculoController::class,'Store'])->name('vehiculo.store');
+        Route::post('/brand/store', [VehiculoController::class,'brandStore'])->name('vehiculo.brand.store');
+        Route::post('/model/store', [VehiculoController::class,'modelStore'])->name('vehiculo.model.store');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

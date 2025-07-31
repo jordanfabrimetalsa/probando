@@ -47,6 +47,12 @@
                   <span class="nav-link-text ms-1">Inventario</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('vehiculo') }}">
+                  <i class="material-symbols-rounded opacity-5">directions_car</i>
+                  <span class="nav-link-text ms-1">Vehículos</span>
+                </a>
+              </li>
             </ul>
           </div>
         </li>
