@@ -5,6 +5,7 @@ use App\Models\CategoryCheck;
 use App\Models\QuestionCheck;
 use Illuminate\Http\Request;
 use App\Models\Delegation;
+use App\Models\Car;
 
 class ChecklistController extends Controller
 {
@@ -16,6 +17,7 @@ class ChecklistController extends Controller
 
     public function respuesta()
     {
+        $vehicles = Car::with('model')->with('brand')->get();
         $question = QuestionCheck::join('categories_check', 'checklist.id_category_check', '=', 'categories_check.id')
         ->select(
             'checklist.id as id',
@@ -26,7 +28,7 @@ class ChecklistController extends Controller
         )
         ->where('checklist.status', 'Y')
         ->get();
-        return view('module.checklist.indexRespuesta', compact('question'));
+        return view('module.checklist.indexRespuesta', compact('question', 'vehicles'));
     }
 
     public function data(){

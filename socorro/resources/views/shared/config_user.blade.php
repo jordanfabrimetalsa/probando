@@ -1,6 +1,6 @@
-<div class="fixed-plugin">
+<div class="fixed-plugin" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5)">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="material-symbols-rounded py-2">settings</i>
+      <i class="fa-solid fa-gear opacity-5 fixed-plugin-button-nav"></i>
     </a>
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3">

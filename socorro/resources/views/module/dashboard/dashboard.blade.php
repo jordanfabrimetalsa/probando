@@ -6,9 +6,9 @@
     <div class="container-fluid py-2">
       <div class="row">
         <div class="ms-3">
-          <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
+          <h3 class="mb-0 h4 font-weight-bolder text-white">Analitica del CSA</h3>
           <p class="mb-4">
-            Check the sales, value and bounce rate by country.
+            Datos primordiales a conocer.
           </p>
         </div>
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -16,7 +16,7 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                  <p class="text-sm mb-0 text-capitalize">Today's </p>
                   <h4 class="mb-0">$53k</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -35,8 +35,8 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                  <h4 class="mb-0">2300</h4>
+                  <p class="text-sm mb-0 text-capitalize">Voluntarios Activos</p>
+                  <h4 class="mb-0">{{ $cant_voluntaries }}</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                   <i class="material-symbols-rounded opacity-10">person</i>
@@ -96,7 +96,7 @@
               <p class="text-sm ">Last Campaign Performance</p>
               <div class="pe-2">
                 <div class="chart">
-                  <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                  <canvas id="chart" class="chart-canvas" height="170"></canvas>
                 </div>
               </div>
               <hr class="dark horizontal">
@@ -146,4 +146,26 @@
       </div>
     </div>
   @endsection
+
+  @push('script')
+  <script>
+    const data = {
+        labels: @json($data->map(fn ($data) => $data->date)),
+        datasets: [{
+            label: 'Registered users in the last 30 days',
+            backgroundColor: 'rgba(255, 99, 132, 0.3)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: @json($data->map(fn ($data) => $data->aggregate)),
+        }]
+    };
+    const config = {
+        type: 'bar',
+        data: data
+    };
+    const myChart = new Chart(
+        document.getElementById('chart'),
+        config
+    );
+    </script>
+  @endpush
  

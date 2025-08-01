@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard.html">
+          <a class="nav-link active bg-gradient-dark text-white" href="{{ route('dashboard') }}">
             <i class="fa-solid fa-chart-line opacity-5"></i>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>

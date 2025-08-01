@@ -164,15 +164,7 @@
           details:{
             type: 'inline'
           }
-        },
-        rowGroup: {
-          dataSrc: 'delegation.name',
-          startRender: function(rows, group){
-            return $('<tr/>')
-              .addClass('group-header bg-dark')
-              .append(`<td colspan="5" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`);
-          }
-        }
+        }      
       });
 
       datatableBrand = $('#datatableBrand').DataTable({
@@ -312,7 +304,7 @@
           });
           $('#formVehiculo')[0].reset();
           $('#CreateModal').modal('hide');
-          datatableVehiculos.ajax.reload();
+          datatableVehicles.ajax.reload();
         },
         error: function(error){
           Swal.fire({

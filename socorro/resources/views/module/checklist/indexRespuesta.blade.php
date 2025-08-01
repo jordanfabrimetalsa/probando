@@ -14,8 +14,7 @@
               </div>
             </div>
             <div class="card-body p-3">
-
-              <div class="card text-center mb-2">
+              <div class="card text-center mb-2"  style="box-shadow: none !important">
                 <div class="card-header">
                   Intrucciones
                 </div>
@@ -29,6 +28,92 @@
               </div>
 
               <div id="accordionExample">
+                <div class="card" style="box-shadow: none !important">
+                  <div class="card-header">
+                    <h6>Información General</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="row mb-2">
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                          <div class="form-group">
+                            <label for="">Vehiculo</label>
+                            <select name="" id="" class="form-control" required>
+                              <option value="">Seleccione</option>
+                              @foreach ($vehicles as $vehicle)
+                                <option value="{{ $vehicle->id }}">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                          <div class="form-group">
+                            <label for="">Kilometraje</label>
+                            <input type="number" class="form-control" id="kilometer" name="kilometer" autocomplete="off" required>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                          <div class="form-group">
+                            <label for="">Combustible</label>
+                            <select class="form-control" id="fuel" name="fuel">
+                              <option selected disabled>Seleccione</option>
+                              <option value="1">1/5</option>
+                              <option value="2">2/5</option>
+                              <option value="3">3/5</option>
+                              <option value="4">4/5</option>
+                              <option value="5">5/5</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="">Liquido Refigerante</label>
+                            <select class="form-control" id="fuel" name="fuel">
+                              <option selected disabled>Seleccione</option>
+                              <option value="0">Bajo</option>
+                              <option value="1">Medio</option>
+                              <option value="2">Alto</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="">Liquido Hidraulico</label>
+                            <select class="form-control" id="fuel" name="fuel">
+                              <option selected disabled>Seleccione</option>
+                              <option value="0">Bajo</option>
+                              <option value="1">Medio</option>
+                              <option value="2">Alto</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="">Aceite de Motor</label>
+                            <select class="form-control" id="fuel" name="fuel">
+                              <option selected disabled>Seleccione</option>
+                              <option value="0">Bajo</option>
+                              <option value="1">Medio</option>
+                              <option value="2">Alto</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="form-group">
+                            <label for="">Liquido de Freno</label>
+                            <select class="form-control" id="fuel" name="fuel">
+                              <option selected disabled>Seleccione</option>
+                              <option value="0">Bajo</option>
+                              <option value="1">Medio</option>
+                              <option value="2">Alto</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
                 @foreach ($question->groupBy('category') as $key => $category)
                   <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ $loop->index }}">

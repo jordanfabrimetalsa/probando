@@ -34,7 +34,8 @@
 
       body {
         background: #ededed;
-        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);          min-height: 100vh;
+        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);         
+        min-height: 100vh;
         width: 100%;
         justify-content: center;
         align-items: center;
