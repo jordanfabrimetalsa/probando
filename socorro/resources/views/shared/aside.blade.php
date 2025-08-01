@@ -1,9 +1,9 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main" style="box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5)">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand px-4 py-3 m-0" href="https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
         <img src="../assets/img/logo-socorro.png" class="navbar-brand-img" width="26" height="26" alt="main_logo">
-        <span class="ms-1 text-sm text-dark">CSA Chile</span>
+        <span class="ms-1 text-sm ms-1 text-gray opacity-5">CSA Chile</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0 mb-2">
@@ -11,14 +11,14 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard.html">
-            <i class="material-symbols-rounded opacity-5">analytics</i>
+            <i class="fa-solid fa-chart-line opacity-5"></i>
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
         @can('watch-admin')
         <li class="nav-item">
           <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseAdmin" role="button" aria-expanded="false" aria-controls="collapseAdmin">
-            <i class="material-symbols-rounded opacity-5">admin_panel_settings</i>
+            <i class="fa-solid fa-lock-open opacity-5"></i>
             <span class="nav-link-text ms-1">Administración</span>
           </a>
           <div class="collapse" id="collapseAdmin">
@@ -59,7 +59,7 @@
         @endcan
         <li class="nav-item">
           <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseChecklist" role="button" aria-expanded="false" aria-controls="collapseChecklist">
-            <i class="material-symbols-rounded opacity-5">checklist</i>
+            <i class="fa-solid fa-list-check opacity-5"></i>
             <span class="nav-link-text ms-1">Check List</span>
           </a>
           <div class="collapse" id="collapseChecklist">
@@ -85,13 +85,13 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="../pages/profile.html">
-            <i class="material-symbols-rounded opacity-5">person</i>
+            <i class="fa-regular fa-user opacity-5"></i>
             <span class="nav-link-text ms-1">Perfil</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('logout') }}">
-            <i class="material-symbols-rounded opacity-5">logout</i>
+            <i class="fa-solid fa-right-from-bracket opacity-5"></i>
             <span class="nav-link-text ms-1">Cerrar Sesión</span>
           </a>
         </li>

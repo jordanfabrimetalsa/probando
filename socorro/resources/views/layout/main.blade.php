@@ -31,17 +31,30 @@
       body{
         font-family: 'Inter', sans-serif;
       }
+
+      body {
+        background: #ededed;
+        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);          min-height: 100vh;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .card{
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
   </style>
   @stack('styles')
 </head>
 
-<body class="g-sidenav-show bg-gray-100">
+<body class="g-sidenav-show">
   @include('shared.aside')
 
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg text-white">
     @include('shared.header')
 
-    <div class="container-fluid py-2">
+    <div class="container-fluid py-2 ">
       @yield('content')
     </div>
 
