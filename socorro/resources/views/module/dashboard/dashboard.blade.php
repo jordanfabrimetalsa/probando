@@ -16,17 +16,17 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Today's </p>
-                  <h4 class="mb-0">$53k</h4>
+                  <p class="text-sm mb-0 text-capitalize">Activo Inventario </p>
+                  <h4 class="mb-0">$ {{ number_format($add->total ?? 0, 0, ',', '.') }} </h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                  <i class="material-symbols-rounded opacity-10">weekend</i>
+                  <i class="fa-solid fa-wallet"></i>
                 </div>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+              <p class="mb-0 text-sm">General</p>
             </div>
           </div>
         </div>
@@ -39,13 +39,13 @@
                   <h4 class="mb-0">{{ $cant_voluntaries }}</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                  <i class="material-symbols-rounded opacity-10">person</i>
+                  <i class="fa-solid fa-people-group"></i>
                 </div>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+              <p class="mb-0 text-sm">Activos Totales</p>
             </div>
           </div>
         </div>
@@ -54,17 +54,17 @@
             <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Ads Views</p>
-                  <h4 class="mb-0">3,462</h4>
+                  <p class="text-sm mb-0 text-capitalize">Voluntarios Impagos</p>
+                  <h4 class="mb-0">{{ $cant_voluntaries_no_payment }}</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                  <i class="material-symbols-rounded opacity-10">leaderboard</i>
+                  <i class="fa-solid fa-lock"></i>
                 </div>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
+              <p class="mb-0 text-sm">Sin pago de cuota</p>
             </div>
           </div>
         </div>
@@ -92,8 +92,8 @@
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
           <div class="card">
             <div class="card-body">
-              <h6 class="mb-0 ">Website Views</h6>
-              <p class="text-sm ">Last Campaign Performance</p>
+              <h6 class="mb-0 "><i class="fa-solid fa-people-group"></i> Voluntarios por Delegación</h6>
+              <p class="text-sm ">No aparecen los inactivos aquí</p>
               <div class="pe-2">
                 <div class="chart">
                   <canvas id="chart" class="chart-canvas" height="170"></canvas>
@@ -148,24 +148,26 @@
   @endsection
 
   @push('script')
-  <script>
-    const data = {
-        labels: @json($data->map(fn ($data) => $data->date)),
-        datasets: [{
-            label: 'Registered users in the last 30 days',
-            backgroundColor: 'rgba(255, 99, 132, 0.3)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: @json($data->map(fn ($data) => $data->aggregate)),
-        }]
-    };
-    const config = {
-        type: 'bar',
-        data: data
-    };
-    const myChart = new Chart(
-        document.getElementById('chart'),
-        config
-    );
+    <script>
+      $(document).ready(function(){
+        const data = {
+          labels: @json($data->pluck('delegation_name')),
+          datasets: [{
+              label: 'Voluntarios por delegación',
+              backgroundColor: 'rgba(255, 99, 132, 0.3)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: @json($data->pluck('aggregate')),
+          }]
+        };
+        const config = {
+            type: 'bar',
+            data: data
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
+      })
     </script>
   @endpush
  
