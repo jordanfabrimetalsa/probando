@@ -39,7 +39,35 @@ class ScheduleController extends Controller
     }
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|string|in:Class,Guard,Event',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:start'
+        ]);
 
+        $schedule = Schedule::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'type' => $validated['type'],
+            'start' => $validated['start'],
+            'end' => $validated['end']
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'event' => [
+                'id' => $schedule->id,
+                'title' => $schedule->title,
+                'start' => $schedule->start,
+                'end' => $schedule->end,
+                'extendedProps' => [
+                    'type' => $schedule->type,
+                    'description' => $schedule->description
+                ]
+            ]
+        ]);
     }
 
     /**

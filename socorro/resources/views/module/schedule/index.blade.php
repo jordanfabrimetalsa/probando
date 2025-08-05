@@ -24,7 +24,7 @@
 
     <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="{{ route('calendario.store') }}">
+            <form id="createEventForm" method="POST">
                 @csrf
                 <div class="modal-content">
                 <div class="modal-header">
@@ -33,16 +33,35 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                    <label for="title" class="form-label">Título</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
+                        <label for="title" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
                     </div>
                     <div class="mb-3">
-                    <label for="date" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="date" name="date" required>
+                        <label for="title" class="form-label">Título</label>
+                        <textarea class="form-control" id="description" name="description" required>
+                        </textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Tipo Evento</label>
+                        <select class="form-selected form-control" id="type" name="type">
+                            <option disabled selected>Seleccionar</option>
+                            <option value="Guard">Guardia</option>
+                            <option value="Class">Clase</option>
+                            <option value="Event">Evento</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Inicio</label>
+                        <input type="date" class="form-control" id="start" name="start" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Termino</label>
+                        <input type="date" class="form-control" id="end" name="end" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
                 </div>
             </form>
@@ -101,13 +120,11 @@
                 dayGridDay: 'Diario',
                 listMonth: 'Listado'
             },
-            responsive: true,
             navLinks: true,
             editable: true,
             displayEventTime: false,
             selectable: true,
             locale: 'es',
-            display: 'background',
             events: @json($events),
             eventRender: function(info) {
                 var event = info.event;
@@ -151,10 +168,49 @@
             },
             dateClick: function (info) {
                 $('#eventModal').modal('show');
-                $('#date').val(info.dateStr);
+                $('#start').val(info.dateStr);
             }
         });
         calendar.render();
+
+        $('#createEventForm').on('submit', function(e) {
+            e.preventDefault();
+            const title = $('#title').val();
+            const description = $('#description').val();
+            const type = $('#type').val();
+            const start = $('#start').val();
+            const end = $('#end').val();
+
+            $.ajax({
+                url: "{{ route('calendario.store') }}",
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    title: title,
+                    description: description,
+                    type: type,
+                    start: start,
+                    end: end
+                },
+                success: function(response) {
+                    calendar.addEvent({
+                        title: title,
+                        description: description,
+                        start: start,
+                        end: end,
+                        allDay: true,
+                        extendedProps: {
+                            type: type
+                        }
+                    });
+                    $('#eventModal').modal('hide');
+                    $('#createEventForm')[0].reset();
+                },
+                error: function(xhr) {
+                    alert('Error al guardar el evento: ' + (xhr.responseJSON?.message || 'Error desconocido'));
+                }
+            });
+        });
       });
     </script>
 @endpush
