@@ -79,6 +79,12 @@
             </ul>
           </div>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="{{ route('calendario') }}">
+            <i class="fa-solid fa-calendar opacity-5"></i>
+            <span class="nav-link-text ms-1">Calendario</span>
+          </a>
+        </li>
 
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Otros</h6>

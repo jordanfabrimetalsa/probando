@@ -8,6 +8,7 @@ use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\DelegacionController;
 use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\ScheduleController;
 
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
 Route::get('/', [UserController::class,'login_new'])->name('login');
@@ -88,6 +89,12 @@ Route::middleware('auth')->group(function(){
         Route::post('/store', [VehiculoController::class,'Store'])->name('vehiculo.store');
         Route::post('/brand/store', [VehiculoController::class,'brandStore'])->name('vehiculo.brand.store');
         Route::post('/model/store', [VehiculoController::class,'modelStore'])->name('vehiculo.model.store');
+    });
+
+    Route::prefix('calendario')->group(function(){
+        Route::get('/', [ScheduleController::class, 'index'])->name('calendario');
+        Route::post('/store', [ScheduleController::class, 'store'])->name('calendario.store');
+        Route::get('/events', [ScheduleController::class, 'getEvents'])->name('calendario.events');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
