@@ -98,10 +98,10 @@
                         <input type="text" class="form-control" id="end_read" name="end_read" disabled>
                     </div>
 
-                    <hr>
+                    <br>
                     <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal">Agregar</button>
-                        <button type="button" id="btnDeleteEvent" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal"><i class="fa-solid fa-user-plus"></i></button>
+                        <button type="button" id="btnDeleteEvent" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i></button>
                     </div>
 
                     <table id="datatableGuards" class="table table-striped dt-responsive nowrap" style="width: 100%;">
@@ -253,10 +253,7 @@
                             searchable: false,
                             render: function(data, type, row) {
                                 return `
-                                    <a href="javascript:;" class="btn btn-dark text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
+                                    <a onclick="deleteVoluntary(${data.voluntaries.id})" class="btn btn-danger text-white">
                                         <i class="fa-solid fa-trash"></i>
                                     </a>
                                 `;
@@ -316,24 +313,25 @@
         calendar.render();
 
         $('#btnDeleteEvent').on('click', function() {
-                const id = selectedEvent.id;
+            const id = selectedEvent.id;
 
-                $.ajax({
-                    url: '/calendario/destroy/' + id,
-                    type: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        selectedEvent.remove(); // Remueve de FullCalendar
-                        $('#eventReadModal').modal('hide');
-                        Swal.fire('Eliminado', 'Evento eliminado correctamente', 'success');
-                    },
-                    error: function() {
-                        Swal.fire('Error', 'No se pudo eliminar el evento', 'error');
-                    }
-                });
+            $.ajax({
+                url: '/calendario/destroy/' + id,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    selectedEvent.remove();
+                    $('#eventReadModal').modal('hide');
+                    Swal.fire('Eliminado', 'Evento eliminado correctamente', 'success');
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo eliminar el evento', 'error');
+                }
             });
+        });
+
 
         $('#createEventForm').on('submit', function(e) {
             e.preventDefault();
