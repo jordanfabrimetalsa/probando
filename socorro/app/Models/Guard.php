@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Guard extends Model
+{
+    protected $table = 'guards';
+
+    protected $fillable = [
+        'id_event',
+        'id_user',
+    ];
+
+    public function events()
+    {
+        return $this->belongsTo(Schedule::class, 'id_event');
+    }
+
+    public function voluntaries()
+    {
+        return $this->belongsTo(Voluntary::class, 'id_user');
+    }
+}

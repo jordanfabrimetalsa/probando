@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
+use App\Models\Guard;
+use App\Models\Voluntary;
+use Exception;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
+        $voluntaries = Voluntary::all();
+
         $events = [];
         $appointments = Schedule::all();
     
         foreach($appointments as $appointment) {
             $events[] = [
+                'id' => $appointment->id,
                 'title' => $appointment->title,
                 'description' => $appointment->description,
                 'start' => $appointment->start,
@@ -26,7 +32,17 @@ class ScheduleController extends Controller
             ];
         }
     
-        return view('module.schedule.index', compact('events'));
+        return view('module.schedule.index', compact('events', 'voluntaries'));
+    }
+
+    public function dataGuard($id){
+        try{
+            $guard = Guard::with(['events', 'voluntaries'])->where('id_event', $id)->get();
+
+            return response()->json($guard);   
+        }catch(Exception $e){
+            return response()->json($e);
+        }
     }
     
     private function getEventColor($type)
@@ -70,35 +86,44 @@ class ScheduleController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function storeGuard(Request $request){
+        try{
+            $guard = new Guard;
+            $guard->id_event = $request->id_event;
+            $guard->id_user = $request->id_user;
+            $guard->save();
+
+            return response()->json([
+                'success' => true,
+                'guard' => $guard
+            ]);
+        }catch(Excepcion $e){
+
+        }
+    }
+
     public function show(string $id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        try{
+            $schedule = Schedule::find($id);
+            $schedule->delete();
+
+            return response()->json([
+                'success' => true,
+                'schedule' => $schedule
+            ]);
+        }catch(Excepcion $e){
+            return response()->json($e);
+        }
     }
 }

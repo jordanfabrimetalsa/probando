@@ -95,6 +95,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [ScheduleController::class, 'index'])->name('calendario');
         Route::post('/store', [ScheduleController::class, 'store'])->name('calendario.store');
         Route::get('/events', [ScheduleController::class, 'getEvents'])->name('calendario.events');
+        Route::delete('/destroy/{id}', [ScheduleController::class, 'destroy'])->name('calendario.destroy');
+
+        Route::get('/dataGuard/{id}', [ScheduleController::class, 'dataGuard'])->name('calendario.dataGuard'); 
+        Route::post('/assistant/store', [ScheduleController::class, 'storeGuard'])->name('calendario.assistant.store');      
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
