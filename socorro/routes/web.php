@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function(){
 
         Route::get('/dataGuard/{id}', [ScheduleController::class, 'dataGuard'])->name('calendario.dataGuard'); 
         Route::post('/assistant/store', [ScheduleController::class, 'storeGuard'])->name('calendario.assistant.store');      
+        Route::delete('/assistant/destroy/{id}', [ScheduleController::class, 'destroyGuard'])->name('calendario.assistant.destroy');      
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

@@ -97,19 +97,9 @@ class ScheduleController extends Controller
                 'success' => true,
                 'guard' => $guard
             ]);
-        }catch(Excepcion $e){
+        }catch(Exception $e){
 
         }
-    }
-
-    public function show(string $id)
-    {
-        
-    }
-
-    public function update(Request $request, string $id)
-    {
-        
     }
 
     public function destroy(string $id)
@@ -122,7 +112,21 @@ class ScheduleController extends Controller
                 'success' => true,
                 'schedule' => $schedule
             ]);
-        }catch(Excepcion $e){
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function destroyGuard($id){
+        try{
+            $guard = Guard::find($id);
+            $guard->delete();
+
+            return response()->json([
+                'success' => true,
+                'guard' => $guard
+            ]);
+        }catch(Exception $e){
             return response()->json($e);
         }
     }
