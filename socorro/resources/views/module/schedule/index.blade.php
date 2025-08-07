@@ -76,6 +76,9 @@
                 </div>
                 <div class="modal-body">
                     <p class="text-dark">Información detallada.</p>
+                    <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" id="btnDeleteEvent" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i> Eliminar Evento</button>
+                    </div>
                     <div>
                         <label>Titulo:</label>
                         <input type="text" class="form-control" id="title_read" name="title_read" disabled>
@@ -94,22 +97,23 @@
                     </div>
 
                     <br>
-                    <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal"><i class="fa-solid fa-user-plus"></i></button>
-                        <button type="button" id="btnDeleteEvent" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i></button>
+
+                    <div class="border border-radius-sm p-2">
+                        <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal"><i class="fa-solid fa-user-plus"></i> Participante</button>
+                        </div>
+
+                        <table id="datatableGuards" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                            <thead class="bg-gradient-dark text-center">
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                                    <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Asignación</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                            </tbody>
+                        </table>
                     </div>
-
-                    <table id="datatableGuards" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                        <thead class="bg-gradient-dark text-center">
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Asignación</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                        </tbody>
-                    </table>
-
                 </div>
 
                 <div class="modal-footer">
@@ -118,7 +122,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="assistantModal" tabindex="-1" aria-labelledby="assistantModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -151,6 +154,41 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="UpdateGuardModal" tabindex="-1" aria-labelledby="UpdateGuardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <form id="createAssistantEventForm" method="POST">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="eventModalLabel">Asignación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <input type="hidden" id="id_event" name="id_event">
+                                <label for="date" class="form-label">Tipo Asignación</label>
+                                <select class="form-selected form-control" id="id_user" name="id_user">
+                                    <option value="assitant">Asistente/Guardia</option>
+                                    <option value="support">Apoyo</option>
+                                    <option value="leader">Lider</option>
+                                    <option value="speaker">Presentador</option>
+                                    <option value="guest">Invitación</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Ingresar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
 
 @endsection
 
@@ -250,6 +288,9 @@
                                 searchable: false,
                                 render: function(data, type, row) {
                                     return `
+                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#UpdateGuardModal" onclick="openUpdateGuardModal(${data.id})" class="btn btn-dark text-white">
+                                            <i class="fa-solid fa-up-long"></i>
+                                        </a>
                                         <a onclick="deleteGuard(${data.id})" class="btn btn-danger text-white">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>

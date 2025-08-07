@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use App\Models\Guard;
 use App\Models\Voluntary;
+use App\Models\BossEvent;
 use Exception;
 
 class ScheduleController extends Controller
