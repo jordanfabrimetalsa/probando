@@ -87,31 +87,40 @@ class ScheduleController extends Controller
         ]);
     }
 
-    public function storeGuard(Request $request){
-        try{
+    public function storeGuard(Request $request)
+    {
+        try {
+            $request->validate([
+                'id_event' => 'required|integer|exists:events,id',
+                'id_user' => 'required|integer|exists:users,id',
+                'assign' => 'required|string'
+            ]);
+    
             $guard = new Guard;
             $guard->id_event = $request->id_event;
             $guard->id_user = $request->id_user;
+            $guard->type = $request->assign;
             
-            if($guard->save()){
-                $bossEvent = new BossEvent;
-                $bossEvent->id_event = $request->id_event;
-                $bossEvent->id_user = $request->id_user;
-                $bossEvent->type = $request->assign;
-                $bossEvent->save();
-
+            if ($guard->save()) {
                 return response()->json([
                     'success' => true,
-                    'guard' => $guard
-                ]);
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Error al guardar'
+                    'guard' => $guard,
+                    'message' => 'Guardia asignada correctamente'
                 ]);
             }
-        }catch(Exception $e){
-            return response()->json($e);
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar el guardia'
+            ], 500);
+    
+        } catch (\Exception $e) {
+            \Log::error('Error en storeGuard: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar la solicitud',
+                'error' => env('APP_DEBUG') ? $e->getMessage() : null
+            ], 500);
         }
     }
 

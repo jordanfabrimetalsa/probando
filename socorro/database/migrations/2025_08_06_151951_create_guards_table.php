@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_event')->constrained('events');
             $table->foreignId('id_user')->constrained('users');
+            $table->enum('type', ['assistant','guest','support','leader','speaker'])->default('assistant');
             $table->timestamps();
         });
     }

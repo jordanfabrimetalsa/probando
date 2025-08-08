@@ -36,6 +36,7 @@
     </div>
 
   @include('module.checklist.createCategoria')
+
   @include('module.checklist.questionCategoria')
 
 @endsection
@@ -118,7 +119,7 @@
                 "lengthMenu": "Mostrar _MENU_ Entradas",
                 "loadingRecords": "Cargando...",
                 "processing": "Procesando...",
-                "search": "Buscar:",
+                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
                 "zeroRecords": "Sin resultados encontrados",
                 "paginate": {
                     "first": "Primero",
@@ -258,7 +259,7 @@
                 "lengthMenu": "Mostrar _MENU_ Entradas",
                 "loadingRecords": "Cargando...",
                 "processing": "Procesando...",
-                "search": "Buscar:",
+                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
                 "zeroRecords": "Sin resultados encontrados",
                 "paginate": {
                     "first": "Primero",

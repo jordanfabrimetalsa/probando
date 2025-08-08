@@ -14,6 +14,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Delegación<span class="text-danger">*</span></label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="delegation_id" name="delegation_id" required>
+                    <option selected>Seleccione Delegación</option>
                     @foreach ($delegations as $delegation)
                         <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
                     @endforeach
@@ -170,7 +171,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Tipo de Sangre<span class="text-danger">*</span></label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="blood_type" name="blood_type" required>
-                    <option selected>Seleccione Opción</option>
+                    <option selected disabled>Seleccione Opción</option>
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="AB">AB</option>
@@ -192,7 +193,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
-                  <option selected>Seleccione el Estado</option>
+                  <option selected disabled>Seleccione el Estado</option>
                   <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
@@ -204,7 +205,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Tipo de Socorrista</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="type" name="type" required>
-                  <option selected>Seleccione el Tipo</option>
+                  <option selected disabled>Seleccione el Tipo</option>
                   <option value="V">Voluntario</option>
                 <option value="A">Aspirante</option>
               </select>

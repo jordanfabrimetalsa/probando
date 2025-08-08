@@ -140,7 +140,7 @@
                                 <select class="form-selected form-control" id="id_user" name="id_user">
                                     <option disabled selected>Seleccionar</option>
                                     @foreach($voluntaries as $voluntary)
-                                        <option value="{{ $voluntary->id }}">{{ $voluntary->name }}</option>
+                                        <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -255,7 +255,20 @@
                                 orderable: false,
                                 searchable: false,
                                 render: function(data,type,row){
-                                    return `${data.voluntaries.name} ${data.voluntaries.lastname}`
+                                    switch(data.type){
+                                        case 'assitant':
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">guardia</span>`;
+                                        case 'support':
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">apoyo</span>`;
+                                        case 'leader':
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">lider</span>`;
+                                        case 'speaker':
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">presentador</span>`;
+                                        case 'guest':
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">invitado</span>`;
+                                        default:
+                                            return `${data.voluntaries.name} ${data.voluntaries.lastname} <span class="text-xs text-lowercase badge bg-danger">participante</span>`;
+                                    }
                                 }
                             },
                             {
@@ -387,6 +400,7 @@
                 e.preventDefault();
                 const id_event = $('#id_event').val();
                 const id_user = $('#id_user').val();
+                const assign = $('#assign').val();
                 
                 $.ajax({
                     url: "{{ route('calendario.assistant.store') }}",
@@ -394,7 +408,8 @@
                     data: {
                         _token: '{{ csrf_token() }}',
                         id_event: id_event,
-                        id_user: id_user
+                        id_user: id_user,
+                        assign: assign
                     },
                     success: function(response) {
                         datatableGuard.ajax.reload();

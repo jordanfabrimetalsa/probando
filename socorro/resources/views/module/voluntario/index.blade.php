@@ -143,7 +143,7 @@
                 "lengthMenu": "Mostrar _MENU_ Entradas",
                 "loadingRecords": "Cargando...",
                 "processing": "Procesando...",
-                "search": "Buscar:",
+                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
                 "zeroRecords": "Sin resultados encontrados",
                 "paginate": {
                     "first": "Primero",
@@ -281,7 +281,7 @@
             text: 'Voluntario registrado correctamente',
           });
           $('#formVoluntario')[0].reset();
-          $('#exampleModal').modal('hide');
+          $('#CreateModal').modal('hide');
           datatableVoluntaries.ajax.reload();
         },
         error: function(error){
@@ -290,7 +290,7 @@
             title: 'Error.',
             text: 'Error al registrar voluntario' + JSON.stringify(error),
           });
-          $('#exampleModal').modal('hide');
+          $('#CreateModal').modal('hide');
         }
       })
     })

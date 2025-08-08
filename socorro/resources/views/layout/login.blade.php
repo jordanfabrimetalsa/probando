@@ -21,16 +21,32 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+      body{
+        font-family: 'Inter', sans-serif;
+      }
+
+      body {
+        background: #ededed;
+        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);         
+        min-height: 100vh;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+      
+  </style>
 </head>
 
 <body class="bg-gray-200">
   <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-100" style="background-image: url({{asset('assets/img/torres.jpeg')}});">
-      <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="page-header align-items-start min-vh-100">
+      <span class=""></span>
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
+            <div class="card z-index-0 fadeIn3 fadeInBottom shadow-dark shadow">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1 d-flex justify-content-center align-items-center">
                   <img src="{{asset('assets/img/logo-socorro.png')}}" alt="" class="w-25">

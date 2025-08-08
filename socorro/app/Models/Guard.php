@@ -11,6 +11,7 @@ class Guard extends Model
     protected $fillable = [
         'id_event',
         'id_user',
+        'type',
     ];
 
     public function events()
