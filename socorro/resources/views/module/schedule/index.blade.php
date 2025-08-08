@@ -144,37 +144,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success">Ingresar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="UpdateGuardModal" tabindex="-1" aria-labelledby="UpdateGuardModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-body">
-                <form id="createAssistantEventForm" method="POST">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="eventModalLabel">Asignación</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body">
                             <div class="mb-3">
-                                <input type="hidden" id="id_event" name="id_event">
                                 <label for="date" class="form-label">Tipo Asignación</label>
-                                <select class="form-selected form-control" id="id_user" name="id_user">
+                                <select class="form-selected form-control" id="assign" name="assign">
+                                    <option selected disabled>Seleccionar Opción</option>
                                     <option value="assitant">Asistente/Guardia</option>
                                     <option value="support">Apoyo</option>
                                     <option value="leader">Lider</option>
                                     <option value="speaker">Presentador</option>
-                                    <option value="guest">Invitación</option>
+                                    <option value="guest">Invitado</option>
                                 </select>
                             </div>
                         </div>
@@ -187,8 +165,6 @@
             </div>
         </div>
     </div>
-
-    
 
 @endsection
 
@@ -268,19 +244,19 @@
                         datatableGuard.destroy();
                     }
 
-
                     datatableGuard = $('#datatableGuards').DataTable({
                         ajax: {
                             url: '/calendario/dataGuard/' + info.event.id,
                             dataSrc: ''
                         },
                         columns: [
-                            { data: null,
-                            orderable: false,
-                            searchable: false,
-                            render: function(data,type,row){
-                                return `${data.voluntaries.name} ${data.voluntaries.lastname}`
-                            }
+                            { 
+                                data: null,
+                                orderable: false,
+                                searchable: false,
+                                render: function(data,type,row){
+                                    return `${data.voluntaries.name} ${data.voluntaries.lastname}`
+                                }
                             },
                             {
                                 data: null,
@@ -288,9 +264,6 @@
                                 searchable: false,
                                 render: function(data, type, row) {
                                     return `
-                                        <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#UpdateGuardModal" onclick="openUpdateGuardModal(${data.id})" class="btn btn-dark text-white">
-                                            <i class="fa-solid fa-up-long"></i>
-                                        </a>
                                         <a onclick="deleteGuard(${data.id})" class="btn btn-danger text-white">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
@@ -370,7 +343,6 @@
                 });
             });
 
-
             $('#createEventForm').on('submit', function(e) {
                 e.preventDefault();
                 const title = $('#title').val();
@@ -411,7 +383,6 @@
                 });
             });
 
-            
             $('#createAssistantEventForm').on('submit', function(e) {
                 e.preventDefault();
                 const id_event = $('#id_event').val();

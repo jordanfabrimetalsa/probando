@@ -92,14 +92,26 @@ class ScheduleController extends Controller
             $guard = new Guard;
             $guard->id_event = $request->id_event;
             $guard->id_user = $request->id_user;
-            $guard->save();
+            
+            if($guard->save()){
+                $bossEvent = new BossEvent;
+                $bossEvent->id_event = $request->id_event;
+                $bossEvent->id_user = $request->id_user;
+                $bossEvent->type = $request->assign;
+                $bossEvent->save();
 
-            return response()->json([
-                'success' => true,
-                'guard' => $guard
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'guard' => $guard
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al guardar'
+                ]);
+            }
         }catch(Exception $e){
-
+            return response()->json($e);
         }
     }
 
