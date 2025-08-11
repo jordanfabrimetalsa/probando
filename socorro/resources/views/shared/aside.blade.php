@@ -96,16 +96,47 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('logout') }}">
+          <a class="nav-link text-dark" href="{{ route('logout') }}" type="button">
             <i class="fa-solid fa-right-from-bracket opacity-5"></i>
             <span class="nav-link-text ms-1">Cerrar Sesión</span>
           </a>
         </li>
       </ul>
     </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-      <div class="mx-3">
-        <a class="btn btn-outline-dark mt-4 w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree" type="button">Documentation</a>
+    <div class="sidenav-footer position-absolute w-100 bottom-0 mb-2">
+      <div class="">
+        <a class="nav-link gradient-foot-nav text-dark border rounded-3 m-2" href="#">
+          @if (!empty($weatherData) && empty($weatherData['error']))
+            <div class="d-flex">
+              <img src="{{ $weatherData['weather'][0]['iconUrl'] }}" width="30" height="30" class="me-2" alt="">
+              <div style="font-size: 0.8em">
+                <strong>{{ $weatherData['name'] }}</strong><br>
+                <strong>Temperatura:</strong> {{ number_format($weatherData['main']['temp'],0) }} °C <br>
+                <strong>Presión:</strong> {{ $weatherData['main']['sea_level'] }} hPa <br>
+              </div>
+            </div>
+          @else
+              <div style="font-size: 0.8em">
+                  No se pudo obtener el clima actual. {{ $weatherData['main']['temp'] }}
+              </div>
+          @endif
+        </a>
+        <a class="nav-link gradient-foot-nav text-dark border rounded-3 m-2" href="#">
+          @if (!empty($weatherDataLaParva) && empty($weatherDataLaParva['error']))
+            <div class="d-flex">
+              <img src="{{ $weatherDataLaParva['weather'][0]['iconUrl'] }}" width="30" height="30" class="me-2" alt="">
+              <div style="font-size: 0.8em">
+                <strong>{{ $weatherDataLaParva['name'] }}</strong><br>
+                <strong>Temperatura:</strong> {{ number_format($weatherDataLaParva['main']['temp'],0) }} °C <br>
+                <strong>Presión:</strong> {{ $weatherDataLaParva['main']['sea_level'] }} hPa <br>
+              </div>
+            </div>
+          @else
+              <div style="font-size: 0.8em">
+                  No se pudo obtener el clima actual. {{ $weatherDataLaParva['main']['temp'] }}
+              </div>
+          @endif
+        </a>
       </div>
     </div>
   </aside>

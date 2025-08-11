@@ -41,6 +41,8 @@
         justify-content: center;
         align-items: center;
       }
+
+
       
   </style>
   @stack('styles')
