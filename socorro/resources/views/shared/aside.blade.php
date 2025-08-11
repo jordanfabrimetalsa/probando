@@ -90,12 +90,6 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-5">Otros</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark" href="../pages/profile.html">
-            <i class="fa-regular fa-user opacity-5"></i>
-            <span class="nav-link-text ms-1">Perfil</span>
-          </a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('logout') }}" type="button">
             <i class="fa-solid fa-right-from-bracket opacity-5"></i>
             <span class="nav-link-text ms-1">Cerrar Sesión</span>

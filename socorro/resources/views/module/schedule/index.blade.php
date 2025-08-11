@@ -76,9 +76,6 @@
                 </div>
                 <div class="modal-body">
                     <p class="text-dark">Información detallada.</p>
-                    <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
-                        <button type="button" id="btnDeleteEvent" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i> Eliminar Evento</button>
-                    </div>
                     <div>
                         <label>Titulo:</label>
                         <input type="text" class="form-control" id="title_read" name="title_read" disabled>
@@ -87,16 +84,22 @@
                         <label>Descripcion:</label>
                         <textarea id="description_read" name="description_read" class="form-control" disabled></textarea>
                     </div>
-                    <div>
-                        <label>Inicio:</label>
-                        <input type="text" class="form-control" id="start_read" name="start_read" disabled>
-                    </div>
-                    <div>
-                        <label>Termino:</label>
-                        <input type="text" class="form-control" id="end_read" name="end_read" disabled>
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Inicio:</label>
+                            <input type="text" class="form-control" id="start_read" name="start_read" disabled>
+                        </div>
+                        <div class="col-6">
+                            <label>Termino:</label>
+                            <input type="text" class="form-control" id="end_read" name="end_read" disabled>
+                        </div>
                     </div>
 
                     <br>
+
+                    <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" id="btnDeleteEvent" class="btn btn-danger"><i class="fa-solid fa-calendar-xmark"></i> Eliminar Evento</button>
+                    </div>
 
                     <div class="border border-radius-sm p-2">
                         <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
