@@ -48,6 +48,22 @@ class UserController extends Controller
         }
     }
 
+    public function up_image($request, $id_user){
+        try{
+            $path = $request->file('image')->store('images', 'public');
+            $name = basename($path);
+
+            $image = new Imagen();
+            $image->name = $name;
+            $image->path = $path;
+            $image->user_id = $id_user;
+            $image->save();
+            return response()->json(['success' => 'Imagen actualizada correctamente']);
+        }catch(Exception $e){
+            return response()->json(['error' => $e]);
+        }
+    }
+
     public function edit($id){
         try{
             $user = User::find($id);
@@ -74,22 +90,6 @@ class UserController extends Controller
             $user = User::find($id);
             $user->delete();
             return response()->json(['success' => 'Usuario eliminado correctamente']);
-        }catch(Exception $e){
-            return response()->json(['error' => $e]);
-        }
-    }
-
-    public function up_image($request, $id_user){
-        try{
-            $path = $request->file('image')->store('images', 'public');
-            $name = basename($path);
-
-            $image = new Imagen();
-            $image->name = $name;
-            $image->path = $path;
-            $image->user_id = $id_user;
-            $image->save();
-            return response()->json(['success' => 'Imagen actualizada correctamente']);
         }catch(Exception $e){
             return response()->json(['error' => $e]);
         }

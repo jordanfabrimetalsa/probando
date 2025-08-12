@@ -102,10 +102,6 @@
                     </div>
 
                     <div class="border border-radius-sm p-2">
-                        <div class="btn-group text-center" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal"><i class="fa-solid fa-user-plus"></i> Participante</button>
-                        </div>
-
                         <table id="datatableGuards" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                             <thead class="bg-gradient-dark text-center">
                                 <tr>
@@ -288,6 +284,11 @@
                             }
                         ],
                         buttons: [
+                            {
+                                text: '<i class="fa-solid fa-user-plus"></i>',
+                                className: 'btn btn-dark me-2',
+                                action: () => $("#assistantModal").modal('show')
+                            },
                             {
                                 extend: 'excelHtml5',
                                 text: '<i class="fa-solid fa-file-excel"></i>',
