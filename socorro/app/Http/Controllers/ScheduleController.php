@@ -7,6 +7,7 @@ use App\Models\Schedule;
 use App\Models\Guard;
 use App\Models\Voluntary;
 use App\Models\BossEvent;
+use App\Models\FileSchedule;
 use Exception;
 
 class ScheduleController extends Controller
@@ -45,7 +46,33 @@ class ScheduleController extends Controller
             return response()->json($e);
         }
     }
-    
+
+    public function dataFile($id)
+    {
+        try {
+            $files = FileSchedule::with('event')
+                ->where('event_id', $id)
+                ->get()
+                ->map(function ($file) {
+                    // Genera URL pública para el archivo
+                    $file->path = asset('storage/' . $file->path);
+                    return $file;
+                });
+
+            return response()->json($files);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function downloadFile($id)
+    {
+        $file = FileSchedule::findOrFail($id);
+        return response()->download(storage_path('app/public/' . $file->path), $file->name);
+    }
+
     private function getEventColor($type)
     {
         switch($type) {
@@ -116,6 +143,44 @@ class ScheduleController extends Controller
     
         } catch (\Exception $e) {
             \Log::error('Error en storeGuard: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al procesar la solicitud',
+                'error' => env('APP_DEBUG') ? $e->getMessage() : null
+            ], 500);
+        }
+    }
+
+    public function storeFile(Request $request){
+        try {
+
+            $path = $request->file('file')->store('files', 'public');
+            $name = $request->file('file')->getClientOriginalName();
+            $size = $request->file('file')->getSize();
+            $type = $request->file('file')->getMimeType();
+    
+            $fileSchedule = new FileSchedule;
+            $fileSchedule->event_id = $request->id_event;
+            $fileSchedule->name = $name;
+            $fileSchedule->path = $path;
+            $fileSchedule->type = $type;
+            
+            if ($fileSchedule->save()) {
+                return response()->json([
+                    'success' => true,
+                    'file' => $fileSchedule,
+                    'message' => 'Archivo guardado correctamente'                
+                ]);
+            }
+    
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar el archivo',
+                'error' => $fileSchedule
+            ], 500);
+    
+        } catch (\Exception $e) {
+            \Log::error('Error en storeFile: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Ocurrió un error al procesar la solicitud',

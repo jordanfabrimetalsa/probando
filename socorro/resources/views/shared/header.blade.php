@@ -71,6 +71,11 @@
                 <i class="fa-solid fa-user opacity-5"></i>
               </a>
             </li>
+            <li class="nav-item px-3 d-flex align-items-center">
+              <a href="{{ route('logout') }}" class="nav-link text-body font-weight-bold px-0">
+                <i class="fa-solid fa-right-from-bracket opacity-5"></i>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
