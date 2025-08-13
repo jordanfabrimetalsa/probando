@@ -191,8 +191,10 @@
                         "<'row'<'col-12'tr>>" +
                         "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
                     });
-                    console.log(info.event.id);
 
+                    if(datatableFile){
+                        datatableFile.destroy();
+                    }
 
                     datatableFile = $('#datatableFile').DataTable({
                         ajax: {
