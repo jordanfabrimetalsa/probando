@@ -9,7 +9,9 @@ use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\DelegacionController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\MaindrawController;
 
+Route::get('/maindraw', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
 Route::get('/', [UserController::class,'login_new'])->name('login');
 Route::post('/logear', [UserController::class,'login'])->name('logear');
