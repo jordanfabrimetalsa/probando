@@ -25,7 +25,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
-                <select class="select2" id="status" name="status" required>
+                <select class="form-select" id="status" name="status" required>
                     <option selected disabled>Seleccione un Estado</option>
                     <option value="Y">Activo</option>
                     <option value="N">Inactivo</option>

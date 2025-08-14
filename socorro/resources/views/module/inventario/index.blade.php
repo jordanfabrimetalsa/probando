@@ -4,6 +4,19 @@
 
 @section('content')
 
+<div class="container mt-2 mb-2">
+  <div class="ticker-container bg-gradient-dark border-radius-lg">
+      <div class="ticker" id="currencyTicker">
+          <span class="currency">USD <span class="text-success" id="usd"></span></span>
+          <span class="currency">EUR <span class="text-success" id="eur"></span></span>
+          <span class="currency">UF <span class="text-success" id="uf"></span></span>
+          <span class="currency">UTM <span class="text-success" id="utm"></span></span>
+          <span class="currency">IMACEC <span class="text-success" id="imacec"></span></span>
+          <span class="currency">IPC <span class="text-success" id="ipc"></span></span>
+      </div>
+  </div>
+</div>
+
 <div class="container-fluid py-2">
     <div class="row">
         <div class="col-12">
@@ -91,6 +104,25 @@
 @endsection
 
 @push('script')
+
+<script>
+  // https://mindicador.cl/
+  $(document).ready(function(){
+      $.getJSON('https://mindicador.cl/api', function(data) {
+      var dailyIndicators = data;
+
+      $("#utm").text(dailyIndicators.utm.valor);
+      $("#uf").text(dailyIndicators.uf.valor);
+      $("#usd").text(dailyIndicators.dolar.valor);
+      $("#eur").text(dailyIndicators.euro.valor);
+      $("#imacec").text(dailyIndicators.imacec.valor);
+      $("#ipc").text(dailyIndicators.ipc.valor);
+    }).fail(function() {
+      console.log('Error al consumir la API!');
+    });
+  })
+</script>
+
 
 <script>
     let scannerRunning = false;

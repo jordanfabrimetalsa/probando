@@ -42,6 +42,32 @@
         align-items: center;
       }
 
+    .ticker-container {
+        color: white;
+        overflow: hidden;
+        white-space: nowrap;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    .ticker {
+        display: inline-block;
+        white-space: nowrap;
+        position: absolute;
+        animation: tickerMove 15s linear infinite;
+    }
+    .currency {
+        display: inline-block;
+        margin: 0 40px;
+        font-size: 1rem;
+    }
+    @keyframes tickerMove {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
+
+
 
       
   </style>
