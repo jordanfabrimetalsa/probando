@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#home">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjUiIGZpbGw9IiMzNEE4RDQiLz4KPHN2ZyB4PSI1IiB5PSI1IiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0yMCAxMEwyNSAxNUwyMCAyMEwxNSAxNVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yMCAyNUwyNSAzMEwyMCAzNUwxNSAzMFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMCAxNUwxNSAyMEwxMCAyNUw1IDIwWiIgZmlsbD0id2hpdGUiLz4KPHN2ZyB4PSIxNSIgeT0iMTUiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEwIDEwIiBmaWxsPSJub25lIj4KPHJlY3QgeD0iNCIgeT0iMiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iI0VGNDQ0NCIvPgo8cmVjdCB4PSIyIiB5PSI0IiB3aWR0aD0iNiIgaGVpZ2h0PSIyIiBmaWxsPSIjRUY0NDQ0Ii8+Cjwvc3ZnPgo8L3N2Zz4KPC9zdmc+" alt="Logo" class="logo-img">
-                <span class="ms-2">Socorro Andino</span>
+                <img src="{{asset('assets/img/logo-socorro.png')}}" alt="Logo" class="logo-img" style="width: 50px; height: 50px;">
+                <span class="ms-2"></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -38,6 +38,9 @@
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
                     </li>
+                    <li class="nav-item">
+                        <li class="nav-item"><a class="nav-link btn btn-danger" href="{{ route('login') }}">Iniciar Sesión</a></li>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -54,8 +57,7 @@
                 <h1 class="hero-title">Especialistas en Rescate de Alta Montaña</h1>
                 <p class="hero-subtitle">Operaciones de rescate 24/7 con equipos certificados y tecnología de vanguardia</p>
                 <div class="hero-buttons">
-                    <a href="tel:+56911234567" class="btn btn-emergency">🚨 Llamar Emergencia</a>
-                    <a href="#servicios" class="btn btn-secondary">Nuestros Servicios</a>
+                    <a href="tel:+56911234567" class="btn btn-danger"> <i class="fa-solid fa-phone"></i> Llamar Emergencia</a>
                 </div>
             </div>
             <div class="hero-stats">
@@ -68,7 +70,7 @@
                     <span class="stat-label">Disponibilidad</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number">15</span>
+                    <span class="stat-number">60</span>
                     <span class="stat-label">Años de Experiencia</span>
                 </div>
             </div>
@@ -79,13 +81,13 @@
     <section id="noticias" class="news">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Últimas Noticias</h2>
+                <h2 class="section-title text-dark">Últimas Noticias</h2>
                 <p class="section-subtitle">Mantente informado sobre nuestras operaciones y novedades del rescate de montaña</p>
             </div>
             <div class="news-grid">
                 <article class="news-card featured">
                     <div class="news-image">
-                        <img src="https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Rescate exitoso en Los Andes">
+                        <img src="{{ asset('assets/img/foto2.jpg') }}" alt="Rescate exitoso en Los Andes">
                         <div class="news-badge">Destacada</div>
                     </div>
                     <div class="news-content">
@@ -114,7 +116,7 @@
                     </div>
                 </article>
                 
-                <article class="news-card">
+                <!--<article class="news-card">
                     <div class="news-image">
                         <img src="https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Capacitación de rescatistas">
                     </div>
@@ -128,6 +130,7 @@
                         <a href="#" class="news-link">Leer más →</a>
                     </div>
                 </article>
+
                 <article class="news-card">
                     <div class="news-image">
                         <img src="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Temporada de invierno">
@@ -156,7 +159,7 @@
                         <p>Presentamos las estadísticas del año 2024, destacando nuestro 98% de éxito en operaciones de rescate y evacuación médica.</p>
                         <a href="#" class="news-link">Leer más →</a>
                     </div>
-                </article>
+                </article>-->
             </div>
             <div class="news-pagination">
                 <button class="pagination-btn active">1</button>
@@ -171,7 +174,7 @@
     <section id="servicios" class="services">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Nuestros Servicios</h2>
+                <h2 class="section-title text-dark">Nuestros Servicios</h2>
                 <p class="section-subtitle">Operaciones especializadas de rescate en alta montaña</p>
             </div>
             <div class="services-grid">
@@ -185,26 +188,6 @@
                     <h3>Rescate Técnico Vertical</h3>
                     <p>Operaciones en pared rocosa y hielo utilizando técnicas de escalada avanzada</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">❄️</div>
-                    <h3>Rescate en Avalanchas</h3>
-                    <p>Búsqueda y rescate especializada en avalanchas con equipos RECCO y ARVA</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🏥</div>
-                    <h3>Atención Médica Pre-hospitalaria</h3>
-                    <p>Primeros auxilios y estabilización en entorno de montaña</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🎯</div>
-                    <h3>Búsqueda y Rastreo</h3>
-                    <p>Localización de personas extraviadas usando tecnología GPS y drones</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🎓</div>
-                    <h3>Capacitación y Prevención</h3>
-                    <p>Cursos de seguridad en montaña y técnicas de autorescate</p>
-                </div>
             </div>
         </div>
     </section>
@@ -213,7 +196,7 @@
     <section id="equipo" class="team">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Nuestro Equipo</h2>
+                <h2 class="section-title text-dark">Nuestro Equipo</h2>
                 <p class="section-subtitle">Profesionales certificados con experiencia internacional</p>
             </div>
             <div class="team-grid">
@@ -249,48 +232,54 @@
     <section id="galeria" class="gallery">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Operaciones de Rescate</h2>
-                <p class="section-subtitle">Imágenes de nuestras operaciones en terreno</p>
+                <h2 class="section-title text-dark">Operaciones de Rescate</h2>
+                <p class="section-subtitle text-dark">Imágenes de nuestras operaciones en terreno</p>
             </div>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rescate en helicóptero">
+                    <img src="{{asset('assets/img/foto1.jpg')}}" alt="Rescate en helicóptero">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-helicopter"></i>
                         <h4>Rescate Aerotransportado</h4>
                         <p>Evacuación en Cordillera de los Andes</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rescate técnico">
+                    <img src="{{asset('assets/img/foto2.jpg')}}" alt="Rescate técnico">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-mountain"></i>
                         <h4>Rescate Técnico</h4>
                         <p>Operación en pared vertical</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/2228531/pexels-photo-2228531.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Equipo de rescate">
+                    <img src="{{asset('assets/img/foto3.jpg')}}" alt="Equipo de rescate">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-shield-halved"></i>
                         <h4>Equipo Especializado</h4>
                         <p>Tecnología de última generación</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/1183986/pexels-photo-1183986.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rescate nocturno">
+                    <img src="{{asset('assets/img/foto4.jpg')}}" alt="Rescate nocturno">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-moon"></i>
                         <h4>Operación Nocturna</h4>
                         <p>Rescate en condiciones extremas</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Entrenamiento">
+                    <img src="{{asset('assets/img/foto5.jpg')}}" alt="Entrenamiento">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-graduation-cap"></i>
                         <h4>Entrenamiento Continuo</h4>
                         <p>Preparación del equipo</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Base de operaciones">
+                    <img src="{{asset('assets/img/foto6.jpg')}}" alt="Base de operaciones">
                     <div class="gallery-overlay">
+                        <i class="fa-solid fa-home"></i>
                         <h4>Base de Operaciones</h4>
                         <p>Centro de comando y control</p>
                     </div>
@@ -303,42 +292,27 @@
     <section id="contacto" class="contact">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Contacto</h2>
-                <p class="section-subtitle">Estamos disponibles 24/7 para emergencias</p>
+                <h2 class="section-title text-dark">Contacto</h2>
+                <p class="section-subtitle text-dark">Estamos disponibles 24/7 para emergencias</p>
             </div>
             <div class="contact-content">
                 <div class="emergency-info">
                     <div class="emergency-card">
-                        <h3>🚨 Emergencias</h3>
-                        <p class="emergency-number">+56 9 1234 5678</p>
-                        <p>Disponible 24 horas, 7 días a la semana</p>
+                        <h3><i class="fas fa-exclamation-triangle"></i> Emergencias</h3>
+                        <p class="emergency-number">136</p>
                     </div>
                     <div class="contact-details">
                         <div class="contact-item">
-                            <span class="contact-icon">📍</span>
+                            <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
                             <div>
                                 <h4>Ubicación</h4>
                                 <p>Base El Colorado, Región Metropolitana, Chile</p>
                             </div>
                         </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">📧</span>
-                            <div>
-                                <h4>Email</h4>
-                                <p>info@rescatepro.cl</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <span class="contact-icon">📞</span>
-                            <div>
-                                <h4>Oficina</h4>
-                                <p>+56 2 2234 5678</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <form class="contact-form">
-                    <h3>Información General</h3>
+                    <h3 class="text-dark">Información General</h3>
                     <div class="form-group">
                         <input type="text" placeholder="Nombre completo" required>
                     </div>
@@ -357,7 +331,7 @@
                     <div class="form-group">
                         <textarea placeholder="Mensaje" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                    <button type="submit" class="btn btn-dark">Enviar Mensaje</button>
                 </form>
             </div>
         </div>
@@ -381,7 +355,7 @@
         </div>
     </footer>
 
-    <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="{{asset('assets/js/script.js')}}"></script>
     <!-- Snow Effect Container -->
     <div id="snow-container"></div>
 </body>

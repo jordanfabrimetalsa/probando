@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Voluntary;
 use App\Models\Delegation;
@@ -49,7 +50,7 @@ class VoluntarioController extends Controller
             $voluntary->password = Hash::make($request->password);
             $voluntary->type = $request->type;
             $voluntary->status = $request->status;
-            
+
             if($voluntary->save()){
                 $image_voluntary = new Image_Voluntary();
                 $image_voluntary->voluntary_id = $voluntary->id;
@@ -93,7 +94,7 @@ class VoluntarioController extends Controller
     public function edit(string $id)
     {
         try{
-            $voluntary = Voluntary::find($id); 
+            $voluntary = Voluntary::find($id);
             return response()->json($voluntary);
         }catch(Exception $e){
             return response()->json([
