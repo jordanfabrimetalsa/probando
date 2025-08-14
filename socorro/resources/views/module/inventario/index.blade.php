@@ -7,6 +7,7 @@
 <div class="container mt-2 mb-2">
   <div class="ticker-container bg-gradient-dark border-radius-lg">
       <div class="ticker" id="currencyTicker">
+          <span class="currency">Con fecha del {{ now()->toDateTimeString() }}</span>
           <span class="currency">USD <span class="text-success" id="usd"></span></span>
           <span class="currency">EUR <span class="text-success" id="eur"></span></span>
           <span class="currency">UF <span class="text-success" id="uf"></span></span>
@@ -26,6 +27,69 @@
                 <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-warehouse"></i> Administración de Inventario</h6>
               </div>
             </div>
+
+            <div class="card-body p-4">
+              <div class="row">
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                  <div class="card">
+                    <div class="card-header p-2 ps-3">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <p class="text-sm mb-0 text-capitalize">Valor</p>
+                          <h4 class="mb-0">$ <span id="totalCLPUF">0</span> CLP</h4>
+                        </div>
+                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
+                          <p class="m-0" style="color: white">UF</p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                      <input type="number" id="uf_input" class="form-control" placeholder="0 UF" oninput="calculateTotalCLPUF(this)"> 
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                  <div class="card">
+                    <div class="card-header p-2 ps-3">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <p class="text-sm mb-0 text-capitalize">Valor</p>
+                          <h4 class="mb-0">$ <span id="totalIVA">0</span> CLP</h4>
+                        </div>
+                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
+                          <p class="m-0" style="color: white">IVA</p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                      <input type="number" id="uf_input" class="form-control" placeholder="0 CLP" oninput="calculateIVA(this)">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                  <div class="card">
+                    <div class="card-header p-2 ps-3">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <p class="text-sm mb-0 text-capitalize">Valor</p>
+                          <h4 class="mb-0">$ <span id="totalCLPUSD">0</span> CLP</h4>
+                        </div>
+                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
+                          <p class="m-0" style="color: white">USD</p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                      <input type="number" id="uf_input" class="form-control" placeholder="0 USD" oninput="calculateTotalCLPUSD(this)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
                 
@@ -118,11 +182,63 @@
       $("#imacec").text(dailyIndicators.imacec.valor);
       $("#ipc").text(dailyIndicators.ipc.valor);
     }).fail(function() {
-      console.log('Error al consumir la API!');
+        console.log('Error al consumir la API!');
     });
-  })
+  });
 </script>
 
+<script>
+  function calculateTotalCLPUF(el){
+    var uf = el.value;
+
+    if(uf === ""){
+      document.getElementById("totalCLPUF").textContent = "0";
+      return;
+    }
+
+    fetch('https://mindicador.cl/api')
+      .then(response => response.json())
+      .then(data => {
+        var totalCLPUF = data.uf.valor * uf;
+        document.getElementById("totalCLPUF").textContent = 
+          totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
+      })
+      .catch(() => console.log('Error al consumir la API!'));
+  }
+
+  function calculateIVA(el){
+    var valueTotal = el.value;
+    var iva = 19;
+
+    if(valueTotal === ""){
+      document.getElementById("totalIVA").textContent = "0";
+      return;
+    }
+
+    var totalIVA = (valueTotal * iva)/100;
+    document.getElementById("totalIVA").textContent = 
+    totalIVA.toLocaleString("es-CL", { minimumFractionDigits: 0 });
+  }
+
+  function calculateTotalCLPUSD(el){
+    var uf = el.value;
+
+    if(uf === ""){
+      document.getElementById("totalCLPUSD").textContent = "0";
+      return;
+    }
+
+    fetch('https://mindicador.cl/api')
+      .then(response => response.json())
+      .then(data => {
+        var totalCLPUF = data.dolar.valor * uf;
+        document.getElementById("totalCLPUSD").textContent = 
+          totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
+      })
+      .catch(() => console.log('Error al consumir la API!'));
+  }
+
+</script>
 
 <script>
     let scannerRunning = false;
