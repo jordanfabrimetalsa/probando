@@ -57,7 +57,7 @@
                 <h1 class="hero-title">Especialistas en Rescate de Alta Montaña</h1>
                 <p class="hero-subtitle">Operaciones de rescate 24/7 con equipos certificados y tecnología de vanguardia</p>
                 <div class="hero-buttons">
-                    <a href="tel:+56911234567" class="btn btn-danger"> <i class="fa-solid fa-phone"></i> Llamar Emergencia</a>
+                    <a href="tel:136" class="btn btn-danger"> <i class="fa-solid fa-phone"></i> Llamar Emergencia</a>
                 </div>
             </div>
             <div class="hero-stats">
