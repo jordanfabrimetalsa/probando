@@ -132,7 +132,7 @@ body {
     background: linear-gradient(45deg, #222a4237, #253f6a35),
                 url('../img/fondowebheader.jpg') center/cover no-repeat;
     background-blend-mode: multiply;
-    animation: heroZoom 20s ease-in-out infinite alternate;
+    animation: heroZoom 25s ease-in-out infinite alternate;
 }
 
 .hero-overlay {

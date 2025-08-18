@@ -10,8 +10,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <style>
+        .floating-buttons {
+            position: fixed;
+            top: 50%;                 /* Centrado vertical */
+            right: 20px;              /* Separado del borde derecho */
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 1050;
+        }
+
+        .floating-buttons .btn {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="floating-buttons">
+        <button class="btn btn-dark rounded-circle mb-2 pulse">
+          <i class="fas fa-phone"></i>
+        </button>
+        <button class="btn btn-dark rounded-circle mb-2 pulse">
+            <i class="fa-brands fa-wpforms"></i>
+        </button>
+        <button class="btn btn-dark rounded-circle pulse">
+            <i class="fa-brands fa-whatsapp"></i>
+        </button>
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
         <div class="container">
@@ -37,10 +84,13 @@
                         <li class="nav-item"><a class="nav-link" href="#historia">Historia</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#equipo">Equipo</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#delegaciones">Delegaciones</a></li>
+                    </li>
+                    <li class="nav-item">
+                        <li class="nav-item"><a class="nav-link" href="#equipo">Directiva</a></li>
                     </li>
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
@@ -75,7 +125,7 @@
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-number">500+</span>
+                    <span class="stat-number">3600+</span>
                     <span class="stat-label">Rescates Exitosos</span>
                 </div>
                 <div class="stat">
@@ -83,7 +133,7 @@
                     <span class="stat-label">Disponibilidad</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number">60</span>
+                    <span class="stat-number">72</span>
                     <span class="stat-label">Años de Experiencia</span>
                 </div>
                 <div class="stat">
@@ -92,7 +142,7 @@
                 </div>
                 <div class="stat">
                     <span class="stat-number">8</span>
-                    <span class="stat-label">Delegaciones</span>
+                    <span class="stat-label">Delegaciones Activas</span>
                 </div>
             </div>
         </div>
@@ -107,89 +157,7 @@
 
     @include('maindraw.gallery')
 
-
-    <section class="delegaciones-carousel py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title text-dark">Delegaciones</h2>
-                <p class="section-subtitle">Mantente informado sobre nuestras operaciones y novedades del rescate de montaña</p>
-            </div>
-          <div id="delegacionesCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <!-- Cada slide contendrá 3 items -->
-              <div class="carousel-item active">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                      <img src="{{asset('assets/img/metropolitana.png')}}" class="card-img-top" alt="Delegación 1">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación Metropolitana</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <img src="{{asset('assets/img/antofagasta.png')}}" class="card-img-top" alt="Delegación 2">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación Antofagasta</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                      <img src="{{asset('assets/img/magallanes.png')}}" class="card-img-top" alt="Delegación 3">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación Magallanes</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="carousel-item">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                      <img src="{{asset('assets/img/coquimbo.png')}}" class="card-img-top" alt="Delegación 2">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación Coquimbo</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                      <img src="{{asset('assets/img/ohiggins.png')}}" class="card-img-top" alt="Delegación 3">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación O Higgins</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card card-delegacion" style=" border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                      <img src="{{asset('assets/img/losrios.png')}}" class="card-img-top" alt="Delegación 4">
-                      <div class="card-body">
-                        <h5 class="card-title">Delegación Los Ríos</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="carousel-buttons">
-            <button class="carousel-control-prev" type="button" data-bs-target="#delegacionesCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#delegacionesCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          </div>
-        </div>
-      </section>
-
+    @include('maindraw.delegation')
 
     @include('maindraw.team')
 
