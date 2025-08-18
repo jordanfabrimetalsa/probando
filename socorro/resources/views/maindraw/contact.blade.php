@@ -1,6 +1,6 @@
     <!-- Contact Section -->
     <section id="contacto" class="contact">
-        <div class="container">
+        <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Contacto</h2>
                 <p class="section-subtitle text-dark">Estamos disponibles 24/7 para emergencias</p>

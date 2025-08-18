@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Socorro de Lo Espejo",
+  "version": "0.0.1",
+  "short_name": "Socorro",
+  "description": "Aplicación web del Cuerpo de Bomberos del Socorro de Lo Espejo",
+  "icons": [
+    {
+      "src": "/assets/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshot1.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Abrir Aplicación",
+      "description": "Acceso rápido para abrir la aplicación",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/assets/images/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "any"
+        }
+      ]
+    }
+  ],
+  "start_url": "/",
+  "display_override": ["fullscreen", "minimal-ui"],
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "prefer_related_applications": false,
+  "id": "/",
+  "theme_color": "#000000"
+}

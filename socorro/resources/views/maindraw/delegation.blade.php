@@ -1,5 +1,5 @@
 <section id="delegaciones" class="delegaciones-carousel py-5">
-    <div class="container">
+    <div class="reveal container">
         <div class="section-header">
             <h2 class="section-title text-dark">Delegaciones</h2>
             <p class="section-subtitle">Mantente informado sobre nuestras operaciones y novedades del rescate de montaña</p>

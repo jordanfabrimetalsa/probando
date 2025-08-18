@@ -1,6 +1,6 @@
     <!-- Team Section -->
     <section id="equipo" class="team">
-        <div class="container">
+        <div class="revealcontainer">
             <div class="section-header">
                 <h2 class="section-title text-dark">Directiva Nacional</h2>
                 <p class="section-subtitle">Equipo conformado por.</p>

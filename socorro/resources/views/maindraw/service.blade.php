@@ -1,6 +1,6 @@
     <!-- Services Section -->
     <section id="servicios" class="services">
-        <div class="container">
+        <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Sobre nosotros</h2>
                 <p class="section-subtitle">El Cuerpo de Socorro Andino (CSA) es una organización de voluntarios que se especializa en la búsqueda y rescate en montañas y

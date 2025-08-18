@@ -1,6 +1,6 @@
 <!-- Gallery Section -->
 <section id="galeria" class="gallery">
-    <div class="container">
+    <div class="reveal container">
         <div class="section-header">
             <h2 class="section-title text-dark">Operaciones de Rescate</h2>
             <p class="section-subtitle text-dark">Imágenes de nuestras operaciones en terreno</p>

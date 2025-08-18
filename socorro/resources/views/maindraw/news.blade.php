@@ -1,6 +1,6 @@
     <!-- News Section -->
     <section id="noticias" class="news">
-        <div class="container">
+        <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Últimas Noticias</h2>
                 <p class="section-subtitle">Mantente informado sobre nuestras operaciones y novedades del rescate de montaña</p>
