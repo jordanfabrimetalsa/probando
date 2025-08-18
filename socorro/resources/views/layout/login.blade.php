@@ -28,14 +28,21 @@
       }
 
       body {
-        background: #ededed;
-        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);         
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        overflow-x: hidden;
+        margin: 0;
         min-height: 100vh;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
+        background: url('{{asset('assets/img/fondodesnivel.png')}}') no-repeat center center fixed;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-attachment: fixed;
+        background-color: rgba(0, 0, 0, 0.3);
       }
-      
+
   </style>
 </head>
 
@@ -59,14 +66,15 @@
                     <input type="email" class="form-control" name="email" placeholder="Email">
                   </div>
                   <div class="input-group input-group-outline mb-3">
-                    <input type="password" class="form-control" name="password" placeholder="Password">
+                    <input type="password" class="form-control" name="password" placeholder="Contraseña">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
                     <label class="form-check-label mb-0 ms-3" for="rememberMe">Recordarme</label>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Iniciar Sesión</button>
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4">Iniciar Sesión</button>
+                    <a href="{{route('maindraw')}}" class="btn btn-danger w-100">Sitio Principal</a>
                   </div>
                 </form>
               </div>

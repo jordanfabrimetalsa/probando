@@ -34,12 +34,19 @@
       }
 
       body {
-        background: #ededed;
-        background: linear-gradient(90deg, rgba(237, 237, 237, 1) 0%, rgba(247, 134, 134, 1) 0%, rgba(252, 176, 69, 1) 100%);         
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        overflow-x: hidden;
+        margin: 0;
         min-height: 100vh;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
+        background: url('{{asset('assets/img/fondodesnivel.png')}}') no-repeat center center fixed;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-attachment: fixed;
+        background-color: rgba(0, 0, 0, 0.3);
       }
 
     .ticker-container {
@@ -69,7 +76,7 @@
 
 
 
-      
+
   </style>
   @stack('styles')
 </head>

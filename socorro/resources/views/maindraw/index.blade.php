@@ -5,10 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuerpo de Socorro Andino</title>
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="icon" type="image/png" href="{{asset('assets/img/logo-socorro.png')}}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
+
+    <style>
+        /* Contenedor del botón flotante */
+        .fab-container {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          z-index: 999;
+        }
+
+        /* Botones secundarios (ocultos al inicio) */
+        .fab-container .fab-option {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          border: none;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 20px;
+          cursor: pointer;
+          display: none;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Botón principal */
+        .fab-main {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          border: none;
+          background-color: #dc3545;
+          color: #fff;
+          font-size: 28px;
+          cursor: pointer;
+        }
+
+        /* Mostrar opciones cuando se active */
+        .fab-container.active .fab-option {
+          display: block;
+          opacity: 1;
+        }
+      </style>
 </head>
 <body>
+    <div class="fab-container" id="fab">
+        <button class="fab-option">A</button>
+        <button class="fab-option">B</button>
+        <button class="fab-option">C</button>
+        <button class="fab-main">+</button>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#home">
@@ -24,10 +78,10 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio">Inicio</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#noticias">Noticias</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#noticias">Noticias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#servicios">Nosotros</a></li>
                     </li>
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#equipo">Equipo</a></li>
@@ -39,7 +93,7 @@
                         <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link btn btn-danger" href="{{ route('login') }}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-danger" href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i></a></li>
                     </li>
                 </ul>
             </div>
@@ -53,11 +107,17 @@
             <div class="hero-overlay"></div>
         </div>
         <div class="hero-content">
+            <div class="social-links mb-2">
+                <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+            </div>
             <div class="hero-text">
-                <h1 class="hero-title">Especialistas en Rescate de Alta Montaña</h1>
-                <p class="hero-subtitle">Operaciones de rescate 24/7 con equipos certificados y tecnología de vanguardia</p>
+                <h1 class="hero-title">Especialistas en Rescate de Montaña</h1>
+                <p class="hero-subtitle">Institucion sin fines de lucro</p>
                 <div class="hero-buttons">
                     <a href="tel:136" class="btn btn-danger"> <i class="fa-solid fa-phone"></i> Llamar Emergencia</a>
+                    <a href="tel:136" class="btn btn-primary"> <i class="fa-solid fa-exclamation"></i> Aviso de Salida</a>
                 </div>
             </div>
             <div class="hero-stats">
@@ -73,8 +133,17 @@
                     <span class="stat-number">60</span>
                     <span class="stat-label">Años de Experiencia</span>
                 </div>
+                <div class="stat">
+                    <span class="stat-number">0$</span>
+                    <span class="stat-label">Cobro por rescate</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">Delegaciones</span>
+                </div>
             </div>
         </div>
+
     </section>
 
     <!-- News Section -->
@@ -100,7 +169,7 @@
                         <a href="#" class="news-link">Leer más →</a>
                     </div>
                 </article>
-                
+
                 <article class="news-card">
                     <div class="news-image">
                         <img src="https://images.pexels.com/photos/2398220/pexels-photo-2398220.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Nuevo equipo de rescate">
@@ -115,7 +184,7 @@
                         <a href="#" class="news-link">Leer más →</a>
                     </div>
                 </article>
-                
+
                 <!--<article class="news-card">
                     <div class="news-image">
                         <img src="https://images.pexels.com/photos/1261728/pexels-photo-1261728.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Capacitación de rescatistas">
@@ -145,7 +214,7 @@
                         <a href="#" class="news-link">Leer más →</a>
                     </div>
                 </article>
-                
+
                 <article class="news-card">
                     <div class="news-image">
                         <img src="https://images.pexels.com/photos/1183986/pexels-photo-1183986.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Estadísticas anuales">
@@ -174,19 +243,19 @@
     <section id="servicios" class="services">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-dark">Nuestros Servicios</h2>
-                <p class="section-subtitle">Operaciones especializadas de rescate en alta montaña</p>
+                <h2 class="section-title text-dark">Sobre nosotros</h2>
+                <p class="section-subtitle">El Cuerpo de Socorro Andino (CSA) es una organización de voluntarios que se especializa en la búsqueda y rescate en montañas y
+                    zonas de difícil acceso en Chile. Es el organismo especializado en rescate en montaña más antiguo de Latinoamérica 1​ y su trabajo lo realiza de manera gratuita.</p>
             </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">🚁</div>
-                    <h3>Rescate Aerotransportado</h3>
-                    <p>Evacuación mediante helicóptero para casos críticos en terrenos inaccesibles</p>
+                    <h3>Misión</h3>
+                    <p>Atender voluntariamente y de forma gratuita la búsqueda, salvamento y/o rescate de personas, cualquiera sea su nacionalidad, condición, edad, estado o profesión, que se encuentren extraviadas o hayan sufrido algún
+                        accidente en cualquier punto del territorio nacional, particularmente en las regiones montañosas y/o en zonas de difícil acceso.</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🧗</div>
-                    <h3>Rescate Técnico Vertical</h3>
-                    <p>Operaciones en pared rocosa y hielo utilizando técnicas de escalada avanzada</p>
+                    <h3>Visión</h3>
+                    <p>Ser el referente nacional de búsqueda, rescate, prevención y educación de actividades de montaña en Chile.</p>
                 </div>
             </div>
         </div>
@@ -196,33 +265,49 @@
     <section id="equipo" class="team">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-dark">Nuestro Equipo</h2>
-                <p class="section-subtitle">Profesionales certificados con experiencia internacional</p>
+                <h2 class="section-title text-dark">Directiva Nacional</h2>
+                <p class="section-subtitle">Equipo conformado por.</p>
             </div>
             <div class="team-grid">
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Carlos Mendoza">
+                        <img src="{{asset('assets/img/sin-imagen.png')}}" alt="Hernan Asencio">
                     </div>
-                    <h4>Carlos Mendoza</h4>
-                    <p class="member-role">Director de Operaciones</p>
-                    <p class="member-bio">Guía IFMGA, especialista en rescate técnico con 15 años de experiencia</p>
+                    <h4>Hernan Asencio</h4>
+                    <p class="member-role">Secretario Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Ana Rodriguez">
+                        <img src="{{asset('assets/img/felipe.jpeg')}}" alt="Felipe Silva">
                     </div>
-                    <h4>Ana Rodríguez</h4>
-                    <p class="member-role">Médico de Montaña</p>
-                    <p class="member-bio">Especialista en medicina de urgencia y alta montaña, certificada IKAR</p>
+                    <h4>Felipe Silva</h4>
+                    <p class="member-role">Director Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
-                        <img src="https://images.pexels.com/photos/2379006/pexels-photo-2379006.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Miguel Torres">
+                        <img src="{{asset('assets/img/daniela.jpeg')}}" alt="Daniela Silva">
                     </div>
-                    <h4>Miguel Torres</h4>
-                    <p class="member-role">Piloto de Rescate</p>
-                    <p class="member-bio">Más de 2000 horas de vuelo en rescates de montaña y terreno complejo</p>
+                    <h4>Daniela Silva</h4>
+                    <p class="member-role">Directora Administrativa</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/sergio.jpeg')}}" alt="Sergio Merino">
+                    </div>
+                    <h4>Sergio Merino</h4>
+                    <p class="member-role">Tesorero Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/mauricio.jpeg')}}" alt="Mauricio Binfa">
+                    </div>
+                    <h4>Mauricio Binfa</h4>
+                    <p class="member-role">Director Técnico</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
             </div>
         </div>
@@ -306,7 +391,7 @@
                             <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
                             <div>
                                 <h4>Ubicación</h4>
-                                <p>Base El Colorado, Región Metropolitana, Chile</p>
+                                <p>Av. Ricardo Cumming 329, Santiago, Chile</p>
                             </div>
                         </div>
                     </div>
@@ -341,14 +426,40 @@
     <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; 2024 Cuerpo de Socorro Andino - Chile. Todos los derechos reservados.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <div class="social-links">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                <div class="col-md-12">
+                    <div class="row justify-content-start">
+                        <div class="col-md-12">
+                            <h4 class="text-danger">Sponsor</h4>
+                            <div class="sponsors-grid d-flex align-items-center">
+                                <div class="sponsor-item me-2">
+                                    <img src="{{asset('assets/img/gremm.png')}}" alt="Sponsor 1" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="sponsor-item ms-2 me-2">
+                                    <img src="{{asset('assets/img/estilo.png')}}" alt="Sponsor 2" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="sponsor-item ms-2">
+                                    <img src="{{asset('assets/img/andinismo.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="sponsor-item ms-2">
+                                    <img src="{{asset('assets/img/museo.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="sponsor-item ms-2">
+                                    <img src="{{asset('assets/img/fundacion.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <p>&copy; 2024 Cuerpo de Socorro Andino - Chile. Todos los derechos reservados.</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <div class="social-links">
+                                <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,6 +467,16 @@
     </footer>
 
     <script src="{{asset('assets/js/script.js')}}"></script>
+
+    <script>
+        const fab = document.getElementById("fab");
+        const mainBtn = fab.querySelector(".fab-main");
+
+        mainBtn.addEventListener("click", () => {
+          fab.classList.toggle("active");
+        });
+    </script>
+
     <!-- Snow Effect Container -->
     <div id="snow-container"></div>
 </body>

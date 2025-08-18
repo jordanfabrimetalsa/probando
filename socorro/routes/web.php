@@ -11,13 +11,13 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MaindrawController;
 
-Route::get('/maindraw', [MaindrawController::class,'index'])->name('maindraw');
+Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
-Route::get('/', [UserController::class,'login_new'])->name('login');
+Route::get('/login', [UserController::class,'login_new'])->name('login');
 Route::post('/logear', [UserController::class,'login'])->name('logear');
 
 Route::middleware('auth')->group(function(){
-    
+
     Route::prefix('dashboard')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     });
@@ -99,10 +99,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/events', [ScheduleController::class, 'getEvents'])->name('calendario.events');
         Route::delete('/destroy/{id}', [ScheduleController::class, 'destroy'])->name('calendario.destroy');
 
-        Route::get('/dataGuard/{id}', [ScheduleController::class, 'dataGuard'])->name('calendario.dataGuard'); 
-        Route::post('/assistant/store', [ScheduleController::class, 'storeGuard'])->name('calendario.assistant.store');      
-        Route::delete('/assistant/destroy/{id}', [ScheduleController::class, 'destroyGuard'])->name('calendario.assistant.destroy');   
-        
+        Route::get('/dataGuard/{id}', [ScheduleController::class, 'dataGuard'])->name('calendario.dataGuard');
+        Route::post('/assistant/store', [ScheduleController::class, 'storeGuard'])->name('calendario.assistant.store');
+        Route::delete('/assistant/destroy/{id}', [ScheduleController::class, 'destroyGuard'])->name('calendario.assistant.destroy');
+
         Route::post('/file/store', [ScheduleController::class, 'storeFile'])->name('calendario.file.store');
         Route::get('/dataFile/{id}', [ScheduleController::class, 'dataFile'])->name('calendario.dataFile');
     });
