@@ -9,59 +9,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
 
-    <style>
-        /* Contenedor del botón flotante */
-        .fab-container {
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-          z-index: 999;
-        }
-
-        /* Botones secundarios (ocultos al inicio) */
-        .fab-container .fab-option {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          border: none;
-          background-color: #007bff;
-          color: #fff;
-          font-size: 20px;
-          cursor: pointer;
-          display: none;
-          transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        /* Botón principal */
-        .fab-main {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          border: none;
-          background-color: #dc3545;
-          color: #fff;
-          font-size: 28px;
-          cursor: pointer;
-        }
-
-        /* Mostrar opciones cuando se active */
-        .fab-container.active .fab-option {
-          display: block;
-          opacity: 1;
-        }
-      </style>
 </head>
 <body>
-    <div class="fab-container" id="fab">
-        <button class="fab-option">A</button>
-        <button class="fab-option">B</button>
-        <button class="fab-option">C</button>
-        <button class="fab-main">+</button>
-    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
         <div class="container">
@@ -82,6 +31,9 @@
                     </li>
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#servicios">Nosotros</a></li>
+                    </li>
+                    <li class="nav-item">
+                        <li class="nav-item"><a class="nav-link" href="#historia">Historia</a></li>
                     </li>
                     <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#equipo">Equipo</a></li>
@@ -138,7 +90,7 @@
                     <span class="stat-label">Cobro por rescate</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number">10</span>
+                    <span class="stat-number">8</span>
                     <span class="stat-label">Delegaciones</span>
                 </div>
             </div>
@@ -261,57 +213,89 @@
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="equipo" class="team">
+    <section id="historia" class="history">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title text-dark">Directiva Nacional</h2>
-                <p class="section-subtitle">Equipo conformado por.</p>
+          <div class="section-header">
+            <h2 class="section-title text-dark">Historia</h2>
+            <p class="section-subtitle">Nuestra historia como institución.</p>
+          </div>
+
+          <div class="history-grid">
+            <!-- Primeros 2 siempre visibles -->
+            <div class="history-year">
+              <h3>1949</h3>
+              <p><strong>Nace la idea | </strong>Oscar Álvarez Pereira, Fue director de andinismo y vicepresidente de la Asociación de Ski y Andinismo de Santiago, perteneció al Club Andino Huelen, en su calidad de director y cumpliendo los reglamentos de esta organización, el 31 de mayo de 1949, en reunión del consejo, propone la creación del Cuerpo de Socorro Andino, la que es aprobada por unanimidad de sus participantes.</p>
             </div>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-image">
-                        <img src="{{asset('assets/img/sin-imagen.png')}}" alt="Hernan Asencio">
-                    </div>
-                    <h4>Hernan Asencio</h4>
-                    <p class="member-role">Secretario Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <img src="{{asset('assets/img/felipe.jpeg')}}" alt="Felipe Silva">
-                    </div>
-                    <h4>Felipe Silva</h4>
-                    <p class="member-role">Director Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <img src="{{asset('assets/img/daniela.jpeg')}}" alt="Daniela Silva">
-                    </div>
-                    <h4>Daniela Silva</h4>
-                    <p class="member-role">Directora Administrativa</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <img src="{{asset('assets/img/sergio.jpeg')}}" alt="Sergio Merino">
-                    </div>
-                    <h4>Sergio Merino</h4>
-                    <p class="member-role">Tesorero Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
-                </div>
-                <div class="team-member">
-                    <div class="member-image">
-                        <img src="{{asset('assets/img/mauricio.jpeg')}}" alt="Mauricio Binfa">
-                    </div>
-                    <h4>Mauricio Binfa</h4>
-                    <p class="member-role">Director Técnico</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
-                </div>
+            <div class="history-year">
+              <h3>1951</h3>
+              <p><strong>Primer rescate | </strong>El voluntario Carlos Álvarez Reyes realiza el primer rescate a nombre del CSA.</p>
             </div>
+
+            <!-- Ocultos inicialmente -->
+            <div class="history-year history-hidden">
+              <h3>1956</h3>
+              <p><strong>Carácter nacional | </strong>El CSA pasa a la Federación de Andinismo de Chile y adquiere el carácter nacional, así mismo comienzan a recibir formación especializada por parte de los médicos montañistas Álvaro Yáñez, Eneas Valenzuela y Jorge Beka, que a su vez eran voluntarios del CSA.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+              <h3>1960</h3>
+              <p><strong>Terremoto del sur | </strong>Ante la magnitud del terremoto que afecto al sur de Chile, el CSA sintió la vocación de servicio de socorro y acudió en ayuda de la ciudad de Puerto Montt, trabajando durante 25 días al mando del Voluntario Guillermo Silva (Willy) que realizo una abnegada labor por los damnificados.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+              <h3>1962</h3>
+              <p><strong>Primer refugio posta | </strong>Se entrega terreno para construir la Posta-Refugio.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+              <h3>1964</h3>
+              <p><strong>Delegación Rancagua | </strong>El 15 de septiembre de este año se crea la Delegación Rancagua a cargo del voluntario Dr. Augusto Figueroa</p>
+            </div>
+
+            <div class="history-year history-hidden">
+              <h3>1965</h3>
+              <p><strong>Primer vehículo | </strong>Se compra la ambulancia naranja Land Rover “Zanahoria”.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+              <h3>1969</h3>
+              <p><strong>Corporación de voluntarios | </strong>El Cuerpo de Socorro Andino de Chile fue establecido oficialmente como una corporación de derecho privado sin fines de lucro en 1969.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+                <h3>1972</h3>
+                <p><strong>Avion de rugbistas uruguayos | </strong>Ocurre uno de los hechos mas singulares de la aviación mundial, luego que 16 jóvenes uruguayos sobreviven 72 días en la alta montaña, 2 sobrevivientes logran hacer contacto con un arriero, posteriormente entre el SAR y CSA proceden a la evacuación del resto de los sobrevivientes y dan sepultura en el lugar al resto de los cuerpos.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+                <h3>1973</h3>
+                <p><strong>Adquisición del cuartel | </strong>En abril de ese año se compra el cuartel de la 12ª compañía de bomberos de Santiago, se cumple el anhelo del CSA de tener su propia sede. Años después se vende para la construcción de un edificio manteniéndose el cuartel en el primer piso de la nueva construcción hasta el día de hoy.</p>
+            </div>
+
+            <div class="history-year history-hidden">
+                <h3>1981</h3>
+                <p><strong>Refugio Baños Morales | </strong>CSA adquiere su nuevo refugio en Baños Morales con la finalidad de atender esta importante zona de practica de andinismo deportivo y para el entrenamiento de sus voluntarios.</p>
+            </div>
+            <div class="history-year history-hidden">
+                <h3>1989</h3>
+                <p><strong>Diplomático alemán | </strong>En búsqueda del diplomático alemán Sr Hans Buss en el Volcán Casablanca, participó el militar de la embajada alemana, el Teniente Coronel Wolhart Saul. Como resultado, se estableció una amistad importante, por lo cual el Sr Saul gestionó una importante donación de equipos para nuestra institución.</p>
+            </div>
+            <div class="history-year history-hidden">
+                <h3>2002</h3>
+                <p><strong>Trabajo en Conjunto | </strong>El 17 de Mayo de este año se suscribe el "Protocolo de gestión conjunta entre ONEMI y CSA".</p>
+            </div>
+            <div class="history-year history-hidden">
+                <h3>2005</h3>
+                <p><strong>Tragedia de Antuco | </strong>Recuperación de muertos después de una marcha forzada en -35°C.</p>
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top:30px;">
+            <button id="toggleHistory" class="btn-history">Saber más</button>
+          </div>
         </div>
-    </section>
+      </section>
+
 
     <!-- Gallery Section -->
     <section id="galeria" class="gallery">
@@ -368,6 +352,58 @@
                         <h4>Base de Operaciones</h4>
                         <p>Centro de comando y control</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="equipo" class="team">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-dark">Directiva Nacional</h2>
+                <p class="section-subtitle">Equipo conformado por.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/sin-imagen.png')}}" alt="Hernan Asencio">
+                    </div>
+                    <h4>Hernan Asencio</h4>
+                    <p class="member-role">Secretario Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/felipe.jpeg')}}" alt="Felipe Silva">
+                    </div>
+                    <h4>Felipe Silva</h4>
+                    <p class="member-role">Director Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/daniela.jpeg')}}" alt="Daniela Silva">
+                    </div>
+                    <h4>Daniela Silva</h4>
+                    <p class="member-role">Directora Administrativa</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/sergio.jpeg')}}" alt="Sergio Merino">
+                    </div>
+                    <h4>Sergio Merino</h4>
+                    <p class="member-role">Tesorero Nacional</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="{{asset('assets/img/mauricio.jpeg')}}" alt="Mauricio Binfa">
+                    </div>
+                    <h4>Mauricio Binfa</h4>
+                    <p class="member-role">Director Técnico</p>
+                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
             </div>
         </div>
@@ -466,18 +502,38 @@
         </div>
     </footer>
 
-    <script src="{{asset('assets/js/script.js')}}"></script>
-
     <script>
-        const fab = document.getElementById("fab");
-        const mainBtn = fab.querySelector(".fab-main");
+        // Animación al hacer scroll
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add("show");
+          });
+        }, { threshold: 0.2 });
 
-        mainBtn.addEventListener("click", () => {
-          fab.classList.toggle("active");
+        document.querySelectorAll(".history-year").forEach(y => observer.observe(y));
+
+        // Función para alternar left/right
+        function reorderYears() {
+          const allYears = document.querySelectorAll(".history-year");
+          let lastSide = "right";
+          allYears.forEach(item => {
+            item.classList.remove("left","right");
+            if(lastSide === "right") { item.classList.add("left"); lastSide="left"; }
+            else { item.classList.add("right"); lastSide="right"; }
+          });
+        }
+
+        // Inicializar alternancia
+        reorderYears();
+
+        // Toggle Saber más
+        const toggleBtn = document.getElementById("toggleHistory");
+        toggleBtn.addEventListener("click", () => {
+          document.querySelectorAll(".history-hidden").forEach(item => item.style.display = item.style.display === "block" ? "none" : "block");
+          toggleBtn.textContent = document.querySelector(".history-hidden").style.display === "block" ? "Ver menos" : "Saber más";
+          reorderYears(); // recalcula alternancia
         });
-    </script>
-
-    <!-- Snow Effect Container -->
-    <div id="snow-container"></div>
+        </script>
+    <script src="{{asset('assets/js/script.js')}}"></script>
 </body>
 </html>

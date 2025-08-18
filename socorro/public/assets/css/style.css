@@ -560,6 +560,10 @@ section {
     border-color: #3b82f6;
 }
 
+.team{
+    background: #f8fafc;
+}
+
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1006,3 +1010,24 @@ section {
         opacity: 0;
     }
 }
+
+.history { padding: 50px 20px; position: relative; }
+.history-grid { display: flex; flex-direction: column; gap: 60px; position: relative; z-index: 1; }
+.history-grid::before { content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: #212529; }
+
+.history-year { position: relative; width: 50%; opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+.history-year.show { opacity: 1; transform: translateY(0); }
+
+.history-year.left { align-self: flex-start; text-align: right; padding-right: 30px; }
+.history-year.right { align-self: flex-end; text-align: left; padding-left: 30px; }
+
+.history-year h3 { position: absolute; top: 0; background: #212529; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 18px; white-space: nowrap; }
+.history-year.left h3 { right: -60px; transform: translateX(50%); }
+.history-year.right h3 { left: -60px; transform: translateX(-50%); }
+
+.history-year p { background: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: inline-block; max-width: 500px; }
+
+.history-hidden { display: none; }
+
+.btn-history { background: #212529; color: #fff; border: none; padding: 12px 24px; border-radius: 25px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+.btn-history:hover { background: #343a40; }
