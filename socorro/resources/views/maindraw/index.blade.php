@@ -70,7 +70,7 @@
                 <p class="hero-subtitle">Institucion sin fines de lucro</p>
                 <div class="hero-buttons">
                     <a href="tel:136" class="btn btn-danger"> <i class="fa-solid fa-phone"></i> Llamar Emergencia</a>
-                    <a href="tel:136" class="btn btn-primary"> <i class="fa-solid fa-exclamation"></i> Aviso de Salida</a>
+                    <a href="tel:136" class="btn btn-warning"> <i class="fa-solid fa-exclamation"></i> Aviso de Salida</a>
                 </div>
             </div>
             <div class="hero-stats">
