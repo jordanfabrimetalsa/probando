@@ -49,7 +49,7 @@
         }
     </style>
 
-    
+
 <script>
     // Check if browser supports PWA installation
     function isPWAInstallSupported() {
@@ -98,10 +98,10 @@
             e.preventDefault();
             // Stash the event so it can be triggered later
             deferredPrompt = e;
-            
+
             // Show the install button
             showInstallButton();
-            
+
             // Optionally, send analytics event that PWA install promo was shown
             console.log('PWA install prompt available');
         });
@@ -113,18 +113,18 @@
                     console.log('No hay solicitud de instalación pendiente');
                     return;
                 }
-                
+
                 console.log('Mostrando prompt de instalación');
                 // Show the install prompt
                 deferredPrompt.prompt();
-                
+
                 // Wait for the user to respond to the prompt
                 const { outcome } = await deferredPrompt.userChoice;
                 console.log(`User response to the install prompt: ${outcome}`);
-                
+
                 // We've used the prompt, and can't use it again, throw it away
                 deferredPrompt = null;
-                
+
                 // Hide the install button
                 hideInstallButton();
             });
@@ -147,16 +147,16 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 const swUrl = '{{ asset('assets/service-worker.js') }}';
-                
+
                 navigator.serviceWorker.register(swUrl)
                     .then(registration => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        
+
                         // Check for updates
-                        registration.update().catch(err => 
+                        registration.update().catch(err =>
                             console.log('ServiceWorker update check failed: ', err)
                         );
-                        
+
                         // Track installation state
                         if (registration.active) {
                             console.log('ServiceWorker is active');
@@ -165,7 +165,7 @@
                     .catch(error => {
                         console.error('ServiceWorker registration failed: ', error);
                     });
-                
+
                 // Check for controllerchange event
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     console.log('Controller changed');
@@ -279,7 +279,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
     @include('maindraw.news')
@@ -344,7 +343,7 @@
     @include('maindraw.form')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let deferredPrompt;
@@ -435,13 +434,13 @@
             });
         });
     </script>
-    
+
     <script>
         function animateCounter(el) {
         const target = +el.getAttribute("data-target");
         let count = 0;
         const increment = target / 200; // velocidad (más grande = más rápido)
-    
+
         function updateCounter() {
             count += increment;
             if (count < target) {
@@ -451,10 +450,10 @@
             el.innerText = target; // añade el "+" al final
             }
         }
-    
+
         updateCounter();
         }
-    
+
         // Animar solo cuando aparece en pantalla
         document.addEventListener("scroll", () => {
         const counters = document.querySelectorAll(".stat-count");
@@ -468,6 +467,6 @@
         });
   </script>
 
-    
+
 </body>
 </html>
