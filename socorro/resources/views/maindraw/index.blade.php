@@ -9,8 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="manifest" href="{{ asset('assets/manifest.json') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         .floating-buttons {
@@ -48,141 +47,9 @@
             }
         }
     </style>
-
-
-<script>
-    // Check if browser supports PWA installation
-    function isPWAInstallSupported() {
-        return 'BeforeInstallPromptEvent' in window;
-    }
-
-    // Show install button with animation
-    function showInstallButton() {
-        const installButton = document.getElementById('install-button');
-        if (installButton) {
-            installButton.style.display = 'block';
-            installButton.classList.add('pulse');
-            console.log('Mostrando botón de instalación');
-        }
-    }
-
-    // Hide install button
-    function hideInstallButton() {
-        const installButton = document.getElementById('install-button');
-        if (installButton) {
-            installButton.style.display = 'none';
-            installButton.classList.remove('pulse');
-        }
-    }
-
-    // Initialize PWA installation
-    document.addEventListener('DOMContentLoaded', () => {
-        if (!isPWAInstallSupported()) {
-            console.log('La instalación de PWA no es compatible con este navegador');
-            return;
-        }
-
-        let deferredPrompt;
-        const installButton = document.getElementById('install-button');
-
-        // Check if the app is already installed
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('La aplicación ya está instalada');
-            return;
-        }
-
-        // Listen for beforeinstallprompt event
-        window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('beforeinstallprompt event fired');
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
-            e.preventDefault();
-            // Stash the event so it can be triggered later
-            deferredPrompt = e;
-
-            // Show the install button
-            showInstallButton();
-
-            // Optionally, send analytics event that PWA install promo was shown
-            console.log('PWA install prompt available');
-        });
-
-        // Handle install button click
-        if (installButton) {
-            installButton.addEventListener('click', async () => {
-                if (!deferredPrompt) {
-                    console.log('No hay solicitud de instalación pendiente');
-                    return;
-                }
-
-                console.log('Mostrando prompt de instalación');
-                // Show the install prompt
-                deferredPrompt.prompt();
-
-                // Wait for the user to respond to the prompt
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to the install prompt: ${outcome}`);
-
-                // We've used the prompt, and can't use it again, throw it away
-                deferredPrompt = null;
-
-                // Hide the install button
-                hideInstallButton();
-            });
-        }
-
-        // Listen for app installed event
-        window.addEventListener('appinstalled', (evt) => {
-            console.log('Aplicación instalada exitosamente');
-            // Hide the install button
-            hideInstallButton();
-            // Clear the deferredPrompt so it can be garbage collected
-            deferredPrompt = null;
-            // Optionally, send analytics that the app was installed
-        });
-    });
-    </script>
-
-    <script>
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                const swUrl = '{{ asset('assets/service-worker.js') }}';
-
-                navigator.serviceWorker.register(swUrl)
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-
-                        // Check for updates
-                        registration.update().catch(err =>
-                            console.log('ServiceWorker update check failed: ', err)
-                        );
-
-                        // Track installation state
-                        if (registration.active) {
-                            console.log('ServiceWorker is active');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('ServiceWorker registration failed: ', error);
-                    });
-
-                // Check for controllerchange event
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    console.log('Controller changed');
-                    // Optional: Show a message to the user that a new version is available
-                    // and they should refresh the page
-                });
-            });
-        } else {
-            console.warn('Service workers are not supported in this browser');
-        }
-    </script>
 </head>
 <body>
     <div class="floating-buttons reveal">
-        <button id="install-button" class="btn btn-primary rounded-circle mb-2 pulse"  title="Instalar aplicación">
-            <i class="fas fa-download"></i>
-        </button>
         <button class="btn btn-dark rounded-circle mb-2 pulse">
           <i class="fas fa-phone"></i>
         </button>
@@ -253,7 +120,6 @@
                 <h1 class="hero-title">Especialistas en Rescate de Montaña</h1>
                 <p class="hero-subtitle">Institucion sin fines de lucro</p>
                 <div class="hero-buttons">
-                    <a href="tel:136" class="btn btn-lg btn-danger rounded-circle pulse"> <i class="fa-solid fa-phone"></i></a>
                 </div>
             </div>
             <div class="hero-stats">
@@ -289,9 +155,10 @@
 
     @include('maindraw.gallery')
 
-    @include('maindraw.delegation')
 
-    @include('maindraw.team')
+    {{-- @include('maindraw.delegation') 
+
+    @include('maindraw.team')--}}
 
     @include('maindraw.contact')
 
@@ -343,47 +210,6 @@
     @include('maindraw.form')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let deferredPrompt;
-
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                showInstallButton();
-            });
-
-            function showInstallButton() {
-                const installButton = document.getElementById('install-button');
-                installButton.style.display = 'block';
-            }
-
-            document.getElementById('install-button').addEventListener('click', () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('El usuario ha aceptado la instalación');
-                        } else {
-                            console.log('El usuario ha rechazado la instalación');
-                        }
-                        deferredPrompt = null;
-                        hideInstallButton();
-                    });
-                }
-            });
-
-            function hideInstallButton() {
-                const installButton = document.getElementById('install-button');
-                installButton.style.display = 'none';
-            }
-
-            window.addEventListener('appinstalled', () => {
-                console.log('¡La PWA ha sido instalada!');
-            });
-        });
-    </script>
 
     <script>
         // Animación al hacer scroll
@@ -466,6 +292,7 @@
         });
         });
   </script>
+
 
 
 </body>

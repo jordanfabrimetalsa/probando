@@ -3,7 +3,7 @@
         <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Directiva Nacional</h2>
-                <p class="section-subtitle">Equipo conformado por.</p>
+                <p class="section-subtitle">Periodo 2024-2025.</p>
             </div>
             <div class="team-grid">
                 <div class="team-member">
@@ -12,7 +12,6 @@
                     </div>
                     <h4>Hernan Asencio</h4>
                     <p class="member-role">Secretario Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
@@ -20,7 +19,6 @@
                     </div>
                     <h4>Felipe Silva</h4>
                     <p class="member-role">Director Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
@@ -28,7 +26,6 @@
                     </div>
                     <h4>Daniela Silva</h4>
                     <p class="member-role">Directora Administrativa</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
@@ -36,7 +33,6 @@
                     </div>
                     <h4>Sergio Merino</h4>
                     <p class="member-role">Tesorero Nacional</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image">
@@ -44,7 +40,6 @@
                     </div>
                     <h4>Mauricio Binfa</h4>
                     <p class="member-role">Director Técnico</p>
-                    <p class="member-bio">Delegación de Socorro Andino</p>
                 </div>
             </div>
         </div>

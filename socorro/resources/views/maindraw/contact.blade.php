@@ -7,10 +7,6 @@
             </div>
             <div class="contact-content">
                 <div class="emergency-info">
-                    <div class="emergency-card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Emergencias</h3>
-                        <p class="emergency-number">136</p>
-                    </div>
                     <div class="contact-details">
                         <div class="contact-item">
                             <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>

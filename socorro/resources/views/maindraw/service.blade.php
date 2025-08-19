@@ -3,14 +3,12 @@
         <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Sobre nosotros</h2>
-                <p class="section-subtitle">El Cuerpo de Socorro Andino (CSA) es una organización de voluntarios que se especializa en la búsqueda y rescate en montañas y
-                    zonas de difícil acceso en Chile. Es el organismo especializado en rescate en montaña más antiguo de Latinoamérica 1​ y su trabajo lo realiza de manera gratuita.</p>
+                <p class="section-subtitle">El Cuerpo de Socorro Andino (CSA) es una organización voluntaria chilena, pionera en Latinoamérica, dedicada de forma gratuita a la búsqueda y rescate en montañas y zonas de difícil acceso.</p>
             </div>
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Misión</h3>
-                    <p>Atender voluntariamente y de forma gratuita la búsqueda, salvamento y/o rescate de personas, cualquiera sea su nacionalidad, condición, edad, estado o profesión, que se encuentren extraviadas o hayan sufrido algún
-                        accidente en cualquier punto del territorio nacional, particularmente en las regiones montañosas y/o en zonas de difícil acceso.</p>
+                    <p>Brindar de forma voluntaria y gratuita apoyo en la búsqueda, salvamento y rescate de personas extraviadas o accidentadas en todo el país, especialmente en zonas montañosas o de difícil acceso.</p>
                 </div>
                 <div class="service-card">
                     <h3>Visión</h3>
