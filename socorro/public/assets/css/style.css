@@ -324,7 +324,11 @@ section {
 }
 
 .service-card {
-    background: white;
+    background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;    
     padding: 2rem;
     border-radius: 15px;
     text-align: center;
@@ -406,7 +410,11 @@ section {
 }
 
 .news-card {
-    background: white;
+    background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -617,7 +625,11 @@ section {
 
 /* Gallery Section */
 .gallery {
-    background: #ffffff;
+    background: url('../img/fondito.png') no-repeat center center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
 }
 
 .gallery-grid {
@@ -1078,7 +1090,11 @@ section {
 .history-year p {
     color: #64748b;
     transition: all 0.3s ease;
-    background: #fff;
+    background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;    
     padding: 15px 20px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
