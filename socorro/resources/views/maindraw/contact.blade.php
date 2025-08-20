@@ -3,6 +3,7 @@
         <div class="reveal container">
             <div class="section-header">
                 <h2 class="section-title text-dark">Contacto</h2>
+                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
                 <p class="section-subtitle text-dark">Estamos disponibles 24/7 para emergencias</p>
             </div>
             <div class="contact-content">
@@ -17,7 +18,8 @@
                         </div>
                     </div>
                 </div>
-                <form class="contact-form">
+                <form action="{{ route('contact') }}" method="POST" class="contact-form">
+                    @csrf
                     <h3 class="text-dark">Información General</h3>
                     <div class="form-group">
                         <input type="text" placeholder="Nombre completo" required>

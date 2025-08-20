@@ -10,11 +10,15 @@ use App\Http\Controllers\DelegacionController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MaindrawController;
+use App\Mail\ContactMailable;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
 Route::get('/login', [UserController::class,'login_new'])->name('login');
 Route::post('/logear', [UserController::class,'login'])->name('logear');
+
+Route::post('contact', [MainDrawController::class, 'store'])->name('contact');
 
 Route::middleware('auth')->group(function(){
 

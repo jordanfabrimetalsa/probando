@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nuevo mensaje de contacto</title>
+</head>
+<body>
+    <h2>Nuevo mensaje de contacto</h2>
+    <p><strong>Nombre:</strong> {{ $contact['name'] }}</p>
+    <p><strong>Email:</strong> {{ $contact['email'] }}</p>
+    <p><strong>Tipo de consulta:</strong> {{ $contact['type'] }}</p>
+    <p><strong>Mensaje:</strong></p>
+    <p>{{ $contact['message'] }}</p>
+</body>
+</html>

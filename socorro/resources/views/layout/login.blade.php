@@ -43,6 +43,14 @@
         background-color: rgba(0, 0, 0, 0.3);
       }
 
+      .card-design{
+        background: url('{{asset('assets/img/fondito.png')}}') no-repeat center center;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+      }
+
   </style>
 </head>
 
@@ -59,7 +67,7 @@
                   <img src="{{asset('assets/img/logo-socorro.png')}}" alt="" class="w-25">
                 </div>
               </div>
-              <div class="card-body">
+              <div class="card-body card-design">
                 <form role="form" class="text-start" method="POST" action="{{route('logear')}}">
                   @csrf
                   <div class="input-group input-group-outline my-3">
@@ -74,7 +82,7 @@
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-dark w-100 my-4">Iniciar Sesión</button>
-                    <a href="{{route('maindraw')}}" class="btn btn-danger w-100">Sitio Principal</a>
+                    <a href="{{route('maindraw')}}" class="btn w-100" style="background-color: #EA4E1A; color:white;">Sitio Principal</a>
                   </div>
                 </form>
               </div>

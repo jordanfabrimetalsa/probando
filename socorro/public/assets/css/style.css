@@ -89,7 +89,7 @@ body {
 }
 
 .nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: #EA4E1A;
     transform: translateY(-2px);
 }
 
@@ -202,14 +202,14 @@ body {
 }
 
 .btn-emergency {
-    background: #ea4e1a;
+    background: #EA4E1A;
     color: white;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
     animation: pulse 2s infinite;
 }
 
 .btn-emergency:hover {
-    background: #dc2626;
+    background: #EA4E1A;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
 }
@@ -221,17 +221,17 @@ body {
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #EA4E1A;
     transform: translateY(-2px);
 }
 
 .btn-primary {
-    background: #1e40af;
+    background: #EA4E1A;
     color: white;
 }
 
 .btn-primary:hover {
-    background: #1d4ed8;
+    background: #EA4E1A;
     transform: translateY(-2px);
 }
 
@@ -753,7 +753,11 @@ section {
 }
 
 .contact-form {
-    background: #f8fafc;
+    background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(59, 130, 246, 0.1);
@@ -1156,5 +1160,9 @@ section {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+.dark-img {
+    filter: brightness(50%);
 }
 

@@ -2,6 +2,7 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title text-dark">Historia</h2>
+        <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
         <p class="section-subtitle">Nuestra historia como institución.</p>
       </div>
 

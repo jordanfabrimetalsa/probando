@@ -88,9 +88,6 @@
                         <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#delegaciones">Delegaciones</a></li>
-                    </li>
-                    <li class="nav-item">
                         <li class="nav-item"><a class="nav-link" href="#equipo">Directiva</a></li>
                     </li>
                     <li class="nav-item">
@@ -170,7 +167,7 @@
                 <div class="col-md-12">
                     <div class="row justify-content-start">
                         <div class="col-md-12">
-                            <h4 class="text-danger">Sponsor</h4>
+                            <h4 style="color: #EA4E1A;">Sponsor</h4>
                             <div class="sponsors-grid d-flex align-items-center">
                                 <div class="sponsor-item me-2">
                                     <img src="{{asset('assets/img/gremm.png')}}" alt="Sponsor 1" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
@@ -210,8 +207,22 @@
     @include('maindraw.form')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+
+        @if(session('success'))
+            <script>
+            Swal.fire({ icon: 'success', title: 'Éxito', text: '{{ session('success') }}' });
+            </script>
+        @endif
+
+        @if(session('error'))
+            <script>
+            Swal.fire({ icon: 'error', title: 'Error', text: '{{ session('error') }}' });
+            </script>
+        @endif
+
         // Animación al hacer scroll
         const observer = new IntersectionObserver(entries => {
           entries.forEach(entry => {
