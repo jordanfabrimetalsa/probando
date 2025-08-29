@@ -5,23 +5,35 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 
 class ContactMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $datos;
 
-    public $contact;
-
-    public function __construct($contact)
+    public function __construct($datos)
     {
-        $this->contact = $contact;
+        $this->datos = $datos;
     }
 
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->view('emails.contact')
-                    ->subject('Nuevo mensaje de contacto');
+        return new Envelope(
+            subject: 'Nuevo Mensaje del Formulario de Contacto',
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'module.emails.contact',
+            with: [
+                'contact' => $this->datos,
+            ],
+        );
     }
 }

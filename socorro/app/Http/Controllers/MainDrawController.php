@@ -14,7 +14,7 @@ class MainDrawController extends Controller
         return view('maindraw.index');
     }
 
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -23,14 +23,19 @@ class MainDrawController extends Controller
             'message' => 'required|string',
         ]);
 
-        $contact = $request->only(['name', 'email', 'type', 'message']);
-
         try{
-            Mail::to('aguilerajordan2@gmail.com')->send(new ContactMailable($contact));
-            return redirect()->back()->with('success', '¡Mensaje enviado correctamente!');
-        }catch(Exception $e){
-            return redirect()->back()->with('error', '¡Error al enviar el mensaje!');
-        }
+            $datos = $request->all();
 
+            Mail::to($request->email)->send(new ContactMailable($datos));
+            return response()->json([
+                'success' => true,
+                'message' => 'Correo Enviado Exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

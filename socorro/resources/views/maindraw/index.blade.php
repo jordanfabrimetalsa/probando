@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Cuerpo de Socorro Andino</title>
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="icon" type="image/png" href="{{asset('assets/img/logo-socorro.png')}}">
@@ -23,12 +24,12 @@
         }
 
         .floating-buttons .btn {
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
         .pulse {
@@ -49,6 +50,19 @@
     </style>
 </head>
 <body>
+
+    <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+
     <div class="floating-buttons reveal">
         <button class="btn btn-dark rounded-circle mb-2 pulse">
           <i class="fas fa-phone"></i>
@@ -159,7 +173,6 @@
 
     @include('maindraw.contact')
 
-
     <!-- Footer -->
     <footer class="bg-dark text-white py-4">
         <div class="container">
@@ -210,6 +223,41 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        $('#contact-form').submit(function(e){
+            e.preventDefault();
+
+            $('.btn-contact-load')
+                .html('  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Espere...')
+                .prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route("contact") }}',
+                type: 'POST',
+                data: $(this).serialize(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    Swal.fire({ 
+                        icon: 'success', 
+                        title: 'Éxito', 
+                        text: response.message 
+                    });
+                    $('#contact-form')[0].reset();
+                    $('.btn-contact-load').html('Enviar Mensaje').prop('disabled', false);
+                },
+                error: function(xhr){
+                    let msg = xhr.responseJSON?.message || 'Error inesperado al enviar el correo';
+                    Swal.fire({ 
+                        icon: 'error', 
+                        title: 'Error', 
+                        text: msg 
+                    });
+                    $('.btn-contact-load').html('Enviar Mensaje').prop('disabled', false);
+                }
+            });
+        });
+
 
         @if(session('success'))
             <script>
