@@ -10,13 +10,12 @@
                 <div class="service-card">
                     <h3>Misión</h3>
                     <p>Brindar de forma voluntaria y gratuita apoyo en la búsqueda, salvamento y rescate de personas extraviadas o accidentadas en todo el país, especialmente en zonas montañosas o de difícil acceso.</p>
-                    
+
                     <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
 
                     <h3>Visión</h3>
                     <p>Ser el referente nacional de búsqueda, rescate, prevención y educación de actividades de montaña en Chile.</p>
-                
-                
+
                 </div>
                 <div class="service-card">
                     <h3>Delegaciones</h3>
@@ -38,16 +37,16 @@
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="{{asset('assets/img/metropolitana.png')}}" class="d-block w-100 rounded  dark-img"  alt="..."  style="background-color: rgba(0,0,0,0.5);"> 
+                                <img src="{{asset('assets/img/metropolitana.png')}}" class="d-block w-100 rounded  dark-img"  alt="..."  style="background-color: rgba(0,0,0,0.5);">
                                 <div class="carousel-caption d-none d-md-block" >
                                 <h5>Delegación Metropolitana</h5>
                                 <button type="button" class="btn btn-outline-danger">Postulación Cerrada</button>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <img src="{{asset('assets/img/losrios.png')}}" class="d-block w-100 rounded dark-img" alt="..."  style="background-color: rgba(0,0,0,0.5);">  
+                                <img src="{{asset('assets/img/losrios.png')}}" class="d-block w-100 rounded dark-img" alt="..."  style="background-color: rgba(0,0,0,0.5);">
                                 <div class="carousel-caption d-none d-md-block">
-                                <h5>Delegación Los Ríos</h5>    
+                                <h5>Delegación Los Ríos</h5>
                                 <button type="button" class="btn btn-outline-danger">Postulación Cerrada</button>
                                 </div>
                             </div>

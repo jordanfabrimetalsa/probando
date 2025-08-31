@@ -13,6 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+
         .floating-buttons {
             position: fixed;
             top: 50%;
@@ -63,7 +64,7 @@
         </div>
     </div>
 
-    <div class="floating-buttons reveal">
+    <!-- <div class="floating-buttons reveal">
         <button class="btn btn-dark rounded-circle mb-2 pulse">
           <i class="fas fa-phone"></i>
         </button>
@@ -73,7 +74,7 @@
         <button class="btn btn-dark rounded-circle pulse">
             <i class="fa-brands fa-whatsapp"></i>
         </button>
-    </div>
+    </div> -->
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
         <div class="container">
@@ -87,74 +88,123 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#noticias">Noticias</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#noticias"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#servicios">Nosotros</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#servicios"><i class="fa-solid fa-users"></i> Servicios</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#historia">Historia</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#historia"><i class="fa-solid fa-clock"></i> Historia</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#galeria"><i class="fa-solid fa-images"></i> Galeria</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#equipo">Directiva</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
                     </li>
                     <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link btn btn-danger" href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"> | <i class="fa-solid fa-right-to-bracket"></i> Logín</a></li>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
-    <!-- Hero Section -->
     <section id="inicio" class="hero">
-        <div class="hero-background">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <div class="social-links mb-2">
-                <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div class="hero-text">
-                <h1 class="hero-title">Especialistas en Rescate de Montaña</h1>
-                <p class="hero-subtitle">Institucion sin fines de lucro</p>
-                <div class="hero-buttons">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="hero-background" style="background-image: url('{{asset('assets/img/recuehelo.jpg')}}');">
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <div class="social-links mb-2">
+                            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="hero-text">
+                            <h1 class="hero-title">Especialistas en Rescate de Montaña</h1>
+                            <p class="hero-subtitle">Institucion sin fines de lucro</p>
+                            <div class="hero-buttons" style="display: flex; gap: 1rem; background: gray;">
+                            </div>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="3600">0</span>
+                                <span class="stat-label">Rescates Exitosos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">24/7</span>
+                                <span class="stat-label">Disponibilidad</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="72">0</span>
+                                <span class="stat-label">Años de Experiencia</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">0$</span>
+                                <span class="stat-label">Cobro por rescate</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="8">0</span>
+                                <span class="stat-label">Delegaciones Activas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div class="hero-background" style="background-image: url('{{asset('assets/img/header2.png')}}');">
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <h1 class="hero-title">Has tu aviso de salida</h1>
+                        <p class="hero-subtitle">Es información relevante para tu seguridad, en caso de una emergencia tener datos previos de tú salida a la montaña.</p>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="3600">0</span>
+                                <span class="stat-label">Rescates Exitosos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">24/7</span>
+                                <span class="stat-label">Disponibilidad</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="72">0</span>
+                                <span class="stat-label">Años de Experiencia</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">0$</span>
+                                <span class="stat-label">Cobro por rescate</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-count stat-number" data-target="8">0</span>
+                                <span class="stat-label">Delegaciones Activas</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-count stat-number" data-target="3600">0</span>
-                    <span class="stat-label">Rescates Exitosos</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Disponibilidad</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-count stat-number" data-target="72">0</span>
-                    <span class="stat-label">Años de Experiencia</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">0$</span>
-                    <span class="stat-label">Cobro por rescate</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-count stat-number" data-target="8">0</span>
-                    <span class="stat-label">Delegaciones Activas</span>
-                </div>
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
         </div>
     </section>
 
@@ -167,7 +217,7 @@
     @include('maindraw.gallery')
 
 
-    {{-- @include('maindraw.delegation') 
+    {{-- @include('maindraw.delegation')
 
     @include('maindraw.team')--}}
 
@@ -220,6 +270,45 @@
     @include('maindraw.form')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const myCarousel = document.getElementById('heroCarousel');
+
+            // Configuración básica del carrusel
+            const carousel = new bootstrap.Carousel(myCarousel, {
+                interval: 8000, // 5 segundos
+                wrap: true,
+                touch: true,
+                keyboard: true,
+                pause: false
+            });
+
+            // Configurar la transición suave
+            const carouselInner = myCarousel.querySelector('.carousel-inner');
+            carouselInner.style.transition = 'transform 0.8s ease-in-out';
+
+            // Manejar el evento de transición completa
+            myCarousel.addEventListener('slid.bs.carousel', function () {
+                // No es necesario hacer nada aquí, solo para asegurar que el evento se maneje
+            });
+
+            // Iniciar manualmente el ciclo si es necesario
+            let carouselInterval = setInterval(function() {
+                carousel.next();
+            }, 5000);
+
+            // Limpiar el intervalo si el carrusel se detiene
+            myCarousel.addEventListener('mouseenter', function() {
+                clearInterval(carouselInterval);
+            });
+
+            myCarousel.addEventListener('mouseleave', function() {
+                carouselInterval = setInterval(function() {
+                    carousel.next();
+                }, 5000);
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -238,20 +327,20 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
-                    Swal.fire({ 
-                        icon: 'success', 
-                        title: 'Éxito', 
-                        text: response.message 
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.message
                     });
                     $('#contact-form')[0].reset();
                     $('.btn-contact-load').html('Enviar Mensaje').prop('disabled', false);
                 },
                 error: function(xhr){
                     let msg = xhr.responseJSON?.message || 'Error inesperado al enviar el correo';
-                    Swal.fire({ 
-                        icon: 'error', 
-                        title: 'Error', 
-                        text: msg 
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: msg
                     });
                     $('.btn-contact-load').html('Enviar Mensaje').prop('disabled', false);
                 }

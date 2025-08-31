@@ -10,15 +10,16 @@
                 <div class="emergency-info">
                     <div class="contact-details">
                         <div class="contact-item">
-                            <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
                             <div>
-                                <h4>Ubicación</h4>
+                                <h4><i class="fas fa-map-marker-alt"></i> Ubicación</h4>
                                 <p>Av. Ricardo Cumming 329, Santiago, Chile</p>
                             </div>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4152.965526420888!2d-70.67070728798907!3d-33.44126877328218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5acdb6f62f5%3A0xca71efc12da5314e!2sCuerpo%20de%20Socorro%20Andino%20de%20Chile!5e1!3m2!1ses-419!2scl!4v1756588693777!5m2!1ses-419!2scl" style="width: 100%, height: 150px; border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div class="contact-item">
                             <div>
-                                <h4>Transparencia</h4>
+                                <h4><i class="fa-solid fa-building-columns"></i> Transparencia</h4>
+                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin-bottom: 1rem;">
                                 <p>
                                     Documentación del Cuerpo de Socorro Andino
                                     Convenio de transferencia de recursos entre el Gobierno Regional y el Cuerpo de Socorro Andino de Chile, para ejecutar el programa denominada «TRANSFERENCIA PROGRAMADA FORTALECIMIENTO, PREVENCIÓN Y EDUCACIÓN DE SEGURIDAD DE MONTAÑA RM» CÓDIGO INI N°40058998
@@ -28,24 +29,18 @@
                                     <div class="accordion-item">
                                       <h2 class="accordion-header" id="flush-headingOne">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                          Convenio de transferencia de recursos con el Gobierno Regional
+                                         Documentación
                                         </button>
                                       </h2>
                                       <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                                        <div class="accordion-body">
+                                            <a href="{{asset('assets/pdf/CONVENIO-ENTRE-SENAPRED-Y-CSA-2024-para-transparencia.pdf')}}" class="btn btn-sm btn-danger" target="_blank"><i class="fas fa-file-pdf"></i> Convenio de transferencia con el Gobierno Regional</a>
+                                            <hr style="border-top: 3px solid rgb(102, 204, 251); width: 100%; margin: 0 auto; margin-bottom: 1rem; margin-top: 1rem;">
+                                            <a href="{{asset('assets/pdf/RESOLUCION_EXENTA_N_4298_Para-subir-a-transparencia.pdf')}}" class="btn btn-sm btn-danger" target="_blank"><i class="fas fa-file-pdf"></i> Documentación del Cuerpo de Socorro Andino</a>
+                                        </div>
                                       </div>
                                     </div>
-                                    <div class="accordion-item">
-                                      <h2 class="accordion-header" id="flush-headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                          Documentación del Cuerpo de Socorro Andino
-                                        </button>
-                                      </h2>
-                                      <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-                                      </div>
-                                    </div>
-                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
