@@ -8,6 +8,8 @@
         <div class="modal-body">
           <div class="pt-2 pb-2"><strong class="text-danger">¡Atención! </strong>, Este es un formulario para registrar tu salida a la montaña y 
             nosotros tener una información completa en caso de que llegaras a requerir nuestra ayuda.
+            <br><br>
+            Debes recordar dar aviso de finalizado la salida de aviso que has dado.
           </div>
           <br><br>
           <div class="row">

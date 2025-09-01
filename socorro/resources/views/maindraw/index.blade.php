@@ -149,6 +149,7 @@
                             <p class="hero-subtitle">Institucion sin fines de lucro</p>
                             <div class="hero-buttons">
                                 <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
+                                <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Detalle Salida</a>
                             </div>
                         </div>
                         <div class="hero-stats">
@@ -185,6 +186,7 @@
                         <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
                         <div class="hero-buttons">
                             <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
+                            <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Detalle Salida</a>
                         </div>
                         <div class="hero-stats">
                             <div class="stat">
@@ -288,13 +290,17 @@
             const collapseEl = document.getElementById('navbarNav');
             const onScroll = () => {
                 const isMobile = window.innerWidth < 992;
-                // Always dark on mobile
+                // Mobile: always dark
                 if (isMobile) {
                     nav.classList.add('scrolled');
                     return;
                 }
-                // Desktop: always transparent, never add 'scrolled'
-                nav.classList.remove('scrolled');
+                // Desktop: dark only after scrolling down
+                if (window.scrollY > 10) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
             };
             onScroll();
             window.addEventListener('scroll', onScroll, { passive: true });
