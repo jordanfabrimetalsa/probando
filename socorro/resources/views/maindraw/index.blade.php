@@ -224,6 +224,19 @@
         </div>
     </section>
 
+    <!-- Bottom-centered emergency toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+        <div id="emergencyToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="d-flex align-items-center">
+                <div class="toast-body">
+                    Si tienes una emergencia  
+                    <a href="tel:" class="btn btn-danger btn-sm my-auto ms-2">Llamar ahora  </a>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     @include('maindraw.news')
 
     @include('maindraw.service')
@@ -319,9 +332,20 @@
             updateOffsets();
             window.addEventListener('resize', updateOffsets);
 
+            // Show emergency toast on load
+            const toastEl = document.getElementById('emergencyToast');
+            if (toastEl && window.bootstrap && window.bootstrap.Toast) {
+                const toast = new bootstrap.Toast(toastEl, { autohide: false });
+                toast.show();
+            } else if (toastEl) {
+                // Fallback: show via class if Bootstrap JS not available
+                toastEl.classList.add('show');
+            }
+
+            // Prevent body scroll when navbar is shown on mobile
             if (collapseEl) {
-                collapseEl.addEventListener('shown.bs.collapse', () => {
-                    updateOffsets();
+                collapseEl.addEventListener('show.bs.collapse', function () {
+                    document.body.style.overflow = 'hidden';
                 });
                 collapseEl.addEventListener('hidden.bs.collapse', () => {
                     updateOffsets();
