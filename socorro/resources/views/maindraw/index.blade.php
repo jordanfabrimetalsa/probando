@@ -13,6 +13,50 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        /* Navbar layout helpers */
+        @media (min-width: 992px) {
+            #mainNav .container { 
+                display: flex; 
+                align-items: center; 
+            }
+            /* 30% brand, 70% collapsible area */
+            #mainNav .navbar-brand { 
+                flex: 0 0 30%; 
+                max-width: 30%; 
+            }
+            /* Collapsible area takes 60% so that inside 50/50 = 30/30 overall */
+            #mainNav #navbarNav { 
+                flex: 0 0 70%; 
+                max-width: 70%; 
+                display: flex !important; 
+                align-items: center; 
+                gap: 1rem;
+            }
+            /* Inside collapse: 30% menu centered, 30% tools right */
+            #mainNav .center-nav { 
+                flex: 0 0 100%; 
+                max-width: 100%; 
+                display: flex; 
+                justify-content: flex-end; 
+                white-space: nowrap;
+            }
+            #mainNav .right-nav { 
+                flex: 0 0 50%; 
+                max-width: 50%; 
+                display: flex; 
+                justify-content: flex-end; 
+            }
+            /* Limit search width on desktop */
+            #mainNav .right-nav input.form-control { 
+                max-width: 200px; 
+            }
+        }
+        @media (max-width: 991.98px) {
+            /* On mobile/tablet allow the search to grow full width within its column */
+            #mainNav .right-nav input.form-control {
+                width: 100%;
+            }
+        }
 
         .floating-buttons {
             position: fixed;
@@ -52,63 +96,32 @@
 </head>
 <body>
 
-    <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-bs-autohide="false">
-        <div class="toast-header">
-            <img src="..." class="rounded me-2" alt="...">
-            <strong class="me-auto">Bootstrap</strong>
-            <small>11 mins ago</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
-    </div>
-
-    <!-- <div class="floating-buttons reveal">
-        <button class="btn btn-dark rounded-circle mb-2 pulse">
-          <i class="fas fa-phone"></i>
-        </button>
-        <button class="btn btn-dark rounded-circle mb-2 pulse"  data-bs-toggle="modal" data-bs-target="#avisoModal">
-            <i class="fa-brands fa-wpforms"></i>
-        </button>
-        <button class="btn btn-dark rounded-circle pulse">
-            <i class="fa-brands fa-whatsapp"></i>
-        </button>
-    </div> -->
-
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-white" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top text-white" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="#home">
-                <img src="{{asset('assets/img/logo-socorro.png')}}" alt="Logo" class="logo-img" style="width: 50px; height: 50px;">
-                <span class="ms-2"></span>
+            <!-- Left: Brand -->
+            <a class="navbar-brand d-flex align-items-center" href="#home">
+                <img src="{{asset('assets/img/logo-socorro.png')}}" alt="Logo" class="logo-img me-2" style="width: 42px; height: 42px;">
+                <span class="fw-semibold d-none d-md-inline">Cuerpo de Socorro Andino</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <!-- Toggler (mobile) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Collapse: contains center (menu) and right (tools) -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio"><i class="fa-solid fa-house"></i> Inicio</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#noticias"><i class="fa-solid fa-newspaper"></i> Noticias</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#servicios"><i class="fa-solid fa-users"></i> Servicios</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#historia"><i class="fa-solid fa-clock"></i> Historia</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#galeria"><i class="fa-solid fa-images"></i> Galeria</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="#contacto"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
-                    </li>
-                    <li class="nav-item">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"> | <i class="fa-solid fa-right-to-bracket"></i> Logín</a></li>
-                    </li>
+                <!-- Center: Menu truly centered on lg+ -->
+                <ul class="navbar-nav center-nav gap-lg-2 text-center">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#noticias"><i class="fa-solid fa-newspaper"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#servicios"><i class="fa-solid fa-users"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#historia"><i class="fa-solid fa-clock"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeria"><i class="fa-solid fa-images"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto"><i class="fa-solid fa-envelope"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i></a></li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -132,9 +145,10 @@
                             <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
                         <div class="hero-text">
-                            <h1 class="hero-title">Especialistas en Rescate de Montaña</h1>
+                            <h1 class="hero-title ">Especialistas en Rescate de Montaña</h1>
                             <p class="hero-subtitle">Institucion sin fines de lucro</p>
-                            <div class="hero-buttons" style="display: flex; gap: 1rem; background: gray;">
+                            <div class="hero-buttons">
+                                <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
                             </div>
                         </div>
                         <div class="hero-stats">
@@ -168,7 +182,7 @@
                     </div>
                     <div class="hero-content">
                         <h1 class="hero-title">Has tu aviso de salida</h1>
-                        <p class="hero-subtitle">Es información relevante para tu seguridad, en caso de una emergencia tener datos previos de tú salida a la montaña.</p>
+                        <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
                         <div class="hero-buttons">
                             <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
                         </div>
@@ -223,49 +237,7 @@
 
     @include('maindraw.contact')
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row justify-content-start">
-                        <div class="col-md-12">
-                            <h4 style="color: #EA4E1A;">Sponsor</h4>
-                            <div class="sponsors-grid d-flex align-items-center">
-                                <div class="sponsor-item me-2">
-                                    <img src="{{asset('assets/img/gremm.png')}}" alt="Sponsor 1" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
-                                </div>
-                                <div class="sponsor-item ms-2 me-2">
-                                    <img src="{{asset('assets/img/estilo.png')}}" alt="Sponsor 2" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
-                                </div>
-                                <div class="sponsor-item ms-2">
-                                    <img src="{{asset('assets/img/andinismo.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
-                                </div>
-                                <div class="sponsor-item ms-2">
-                                    <img src="{{asset('assets/img/museo.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
-                                </div>
-                                <div class="sponsor-item ms-2">
-                                    <img src="{{asset('assets/img/fundacion.png')}}" alt="Sponsor 3" class="sponsor-logo rounded-circle border border-danger" style="width: 50px; height: 50px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <p>&copy; 2024 Cuerpo de Socorro Andino - Chile. Todos los derechos reservados.</p>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <div class="social-links">
-                                <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                                <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    @include('partials.footer')
 
     @include('maindraw.form')
 
@@ -276,7 +248,7 @@
 
             // Configuración básica del carrusel
             const carousel = new bootstrap.Carousel(myCarousel, {
-                interval: 8000, // 5 segundos
+                interval: 10000, // 5 segundos
                 wrap: true,
                 touch: true,
                 keyboard: true,
@@ -285,7 +257,7 @@
 
             // Configurar la transición suave
             const carouselInner = myCarousel.querySelector('.carousel-inner');
-            carouselInner.style.transition = 'transform 0.8s ease-in-out';
+            carouselInner.style.transition = 'transform 1.5s ease-in-out';
 
             // Manejar el evento de transición completa
             myCarousel.addEventListener('slid.bs.carousel', function () {
@@ -295,7 +267,7 @@
             // Iniciar manualmente el ciclo si es necesario
             let carouselInterval = setInterval(function() {
                 carousel.next();
-            }, 5000);
+            }, 10000);
 
             // Limpiar el intervalo si el carrusel se detiene
             myCarousel.addEventListener('mouseenter', function() {
@@ -305,8 +277,50 @@
             myCarousel.addEventListener('mouseleave', function() {
                 carouselInterval = setInterval(function() {
                     carousel.next();
-                }, 5000);
+                }, 10000);
             });
+        });
+    </script>
+    <script>
+        // Navbar transparent at top, solid on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const nav = document.getElementById('mainNav');
+            const collapseEl = document.getElementById('navbarNav');
+            const onScroll = () => {
+                const isMobile = window.innerWidth < 992;
+                // Always dark on mobile
+                if (isMobile) {
+                    nav.classList.add('scrolled');
+                    return;
+                }
+                // Desktop: always transparent, never add 'scrolled'
+                nav.classList.remove('scrolled');
+            };
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            // Mobile: do NOT push content when menu opens (overlay behavior)
+            const updateOffsets = () => {
+                const isMobile = window.innerWidth < 992;
+                if (!isMobile) {
+                    document.body.style.paddingTop = '';
+                    return;
+                }
+                // Always keep content flush; navbar stays dark and overlays
+                document.body.style.paddingTop = '0px';
+                nav.classList.add('scrolled');
+            };
+            updateOffsets();
+            window.addEventListener('resize', updateOffsets);
+
+            if (collapseEl) {
+                collapseEl.addEventListener('shown.bs.collapse', () => {
+                    updateOffsets();
+                });
+                collapseEl.addEventListener('hidden.bs.collapse', () => {
+                    updateOffsets();
+                });
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -11,14 +11,14 @@
                     <div class="contact-details">
                         <div class="contact-item">
                             <div>
-                                <h4><i class="fas fa-map-marker-alt"></i> Ubicación</h4>
+                                <h4>Ubicación</h4>
                                 <p>Av. Ricardo Cumming 329, Santiago, Chile</p>
                             </div>
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4152.965526420888!2d-70.67070728798907!3d-33.44126877328218!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5acdb6f62f5%3A0xca71efc12da5314e!2sCuerpo%20de%20Socorro%20Andino%20de%20Chile!5e1!3m2!1ses-419!2scl!4v1756588693777!5m2!1ses-419!2scl" style="width: 100%, height: 150px; border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div class="contact-item">
                             <div>
-                                <h4><i class="fa-solid fa-building-columns"></i> Transparencia</h4>
+                                <h4>Transparencia</h4>
                                 <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin-bottom: 1rem;">
                                 <p>
                                     Documentación del Cuerpo de Socorro Andino

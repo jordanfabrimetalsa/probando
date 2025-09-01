@@ -7,27 +7,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
 
     // Mobile menu toggle
-    navToggle.addEventListener('click', function() {
-        navToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
 
     // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
+    if (navLinks && navLinks.length && navToggle && navMenu) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
         });
-    });
+    }
 
     // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -48,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Active navigation highlighting
-    const sections = document.querySelectorAll('section[id]');
+    const sections = document.querySelectorAll('section[id']);
     
     function highlightNavigation() {
         const scrollPosition = window.scrollY + 100;
@@ -147,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Contact form functionality
     const contactForm = document.querySelector('.contact-form');
     
-    contactForm.addEventListener('submit', function(e) {
+    if (contactForm) contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         // Get form data
@@ -426,6 +432,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Snow Effect
 function initSnowEffect() {
     const snowContainer = document.getElementById('snow-container');
+    if (!snowContainer) return; // Guard if not present on page
+
     const snowflakeSymbols = ['❄', '❅', '❆', '✻', '✼', '❋'];
     
     function createSnowflake() {

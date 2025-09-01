@@ -6,6 +6,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="pt-2 pb-2"><strong class="text-danger">¡Atención! </strong>, Este es un formulario para registrar tu salida a la montaña y 
+            nosotros tener una información completa en caso de que llegaras a requerir nuestra ayuda.
+          </div>
+          <br><br>
           <div class="row">
             <div class="col-6">
                 <div class="mb-3">
@@ -98,13 +102,40 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
-                <div class="mb-3">
-                  <label for="" class="form-label">Archivo Track KMZ/GPX</label>
-                  <input type="file" class="form-control" id="" name="">
-                </div>
-            </div>
-        </div>
+          <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label">Actividad</label>
+                <select name="actividad" id="" class="form-control">
+                  <option value="">Seleccione</option>
+                  <option value="0">Trekking</option>
+                  <option value="1">Hikking</option>
+                  <option value="1">Mountain Bike</option>
+                  <option value="1">Escalada</option>
+                  <option value="1">Escalada en Hielo</option>
+                  <option value="1">Randonee</option>
+                  <option value="1">Trail Running</option>
+                </select>
+              </div>
+          </div>
+          <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label">N° Participantes</label>
+                <input type="number" class="form-control" id="" name="n_participantes">
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-3">
+                <label for="" class="form-label">Fecha de Salida</label>
+                <input type="date" class="form-control" id="" name="fecha_salida">
+              </div>
+          </div>
+          <div class="col-12">
+              <div class="mb-3">
+                <label for="" class="form-label">Fecha de Regreso</label>
+                <input type="datetime-local" class="form-control" id="" name="fecha_regreso">
+              </div>
+          </div>
+      </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary">Guardar</button>
