@@ -22,7 +22,14 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-attachment: fixed;
-    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-extra-background {
+    background: url('../img/fondodesnivel.png') no-repeat center center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
 }
 
 .container {
