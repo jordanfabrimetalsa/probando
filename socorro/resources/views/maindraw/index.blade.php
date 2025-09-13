@@ -15,40 +15,40 @@
     <style>
         /* Navbar layout helpers */
         @media (min-width: 992px) {
-            #mainNav .container { 
-                display: flex; 
-                align-items: center; 
+            #mainNav .container {
+                display: flex;
+                align-items: center;
             }
             /* 30% brand, 70% collapsible area */
-            #mainNav .navbar-brand { 
-                flex: 0 0 30%; 
-                max-width: 30%; 
+            #mainNav .navbar-brand {
+                flex: 0 0 30%;
+                max-width: 30%;
             }
             /* Collapsible area takes 60% so that inside 50/50 = 30/30 overall */
-            #mainNav #navbarNav { 
-                flex: 0 0 70%; 
-                max-width: 70%; 
-                display: flex !important; 
-                align-items: center; 
+            #mainNav #navbarNav {
+                flex: 0 0 70%;
+                max-width: 70%;
+                display: flex !important;
+                align-items: center;
                 gap: 1rem;
             }
             /* Inside collapse: 30% menu centered, 30% tools right */
-            #mainNav .center-nav { 
-                flex: 0 0 100%; 
-                max-width: 100%; 
-                display: flex; 
-                justify-content: flex-end; 
+            #mainNav .center-nav {
+                flex: 0 0 100%;
+                max-width: 100%;
+                display: flex;
+                justify-content: flex-end;
                 white-space: nowrap;
             }
-            #mainNav .right-nav { 
-                flex: 0 0 50%; 
-                max-width: 50%; 
-                display: flex; 
-                justify-content: flex-end; 
+            #mainNav .right-nav {
+                flex: 0 0 50%;
+                max-width: 50%;
+                display: flex;
+                justify-content: flex-end;
             }
             /* Limit search width on desktop */
-            #mainNav .right-nav input.form-control { 
-                max-width: 200px; 
+            #mainNav .right-nav input.form-control {
+                max-width: 200px;
             }
         }
         @media (max-width: 991.98px) {
@@ -96,36 +96,88 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top text-white" id="mainNav">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
         <div class="container">
-            <!-- Left: Brand -->
-            <a class="navbar-brand d-flex align-items-center" href="#home">
-                <img src="{{asset('assets/img/logo-socorro.png')}}" alt="Logo" class="logo-img me-2" style="width: 42px; height: 42px;">
-                <span class="fw-semibold d-none d-md-inline">Cuerpo de Socorro Andino</span>
+            <div class="top-bar-content">
+                <div class="contact-info">
+                    <a href="tel:999" class="emergency-link">
+                        <i class="fas fa-phone-alt"></i> EMERGENCIAS: 136
+                    </a>
+                    <span class="divider">|</span>
+                    <a href="tel:112" class="emergency-link">
+                        Recuerda registrar tú salida.
+                    </a>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('assets/img/logo-socorro.png') }}" alt="Logo" class="logo-img" style="height: 60px;">
             </a>
 
-            <!-- Toggler (mobile) -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Collapse: contains center (menu) and right (tools) -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Center: Menu truly centered on lg+ -->
-                <ul class="navbar-nav center-nav gap-lg-2 text-center">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#inicio"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#noticias"><i class="fa-solid fa-newspaper"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#servicios"><i class="fa-solid fa-users"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#historia"><i class="fa-solid fa-clock"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#galeria"><i class="fa-solid fa-images"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contacto"><i class="fa-solid fa-envelope"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><i class="fa-solid fa-right-to-bracket"></i></a></li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">INICIO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#noticias">NOTICIAS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#servicios">SERVICIOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#historia">HISTORIA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#galeria">GALERÍA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">CONTACTO</a>
+                    </li>
+                    @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i> {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="#">Configuración</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="nav-item border border-dark rounded">
+                            <a class="nav-link" href="{{ route('login') }}">INICIAR SESIÓN</a>
+                        </li>
+                    @endauth
                 </ul>
-
             </div>
         </div>
     </nav>
-
     <section id="inicio" class="hero">
         <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -229,7 +281,7 @@
         <div id="emergencyToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
             <div class="d-flex align-items-center">
                 <div class="toast-body">
-                    Si tienes una emergencia  
+                    Si tienes una emergencia
                     <a href="tel:" class="btn btn-danger btn-sm my-auto ms-2">Llamar ahora  </a>
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>

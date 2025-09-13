@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMailable;
 use Exception;
+use App\Models\ContactForm;
 
 class MainDrawController extends Controller
 {
@@ -14,7 +15,7 @@ class MainDrawController extends Controller
         return view('maindraw.index');
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -25,7 +26,7 @@ class MainDrawController extends Controller
 
         try{
             $datos = $request->all();
-
+            ContactForm::create($datos);
             Mail::to($request->email)->send(new ContactMailable($datos));
             return response()->json([
                 'success' => true,

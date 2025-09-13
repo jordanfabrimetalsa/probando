@@ -16,7 +16,7 @@
                 Bievenido {{ Auth::user()->name }}
               </a>
             </li>
-            
+
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
