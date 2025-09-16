@@ -11,6 +11,7 @@ use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MaindrawController;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\SendOutController;
 use App\Mail\ContactMailable;
 use Illuminate\Support\Facades\Mail;
 
@@ -115,6 +116,10 @@ Route::middleware('auth')->group(function(){
     Route::prefix('contacto')->group(function(){
         Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
         Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
+    });
+
+    Route::prefix('departure')->group(function(){
+        Route::post('/create', [SendOutController::class, 'store'])->name('departure.create');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

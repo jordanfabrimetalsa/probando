@@ -1,4 +1,7 @@
 <div class="modal fade" id="avisoModal" tabindex="-1" aria-labelledby="avisoModalLabel" aria-hidden="true">
+    <form id="form_departure" type="POST" enctype="multipart/form-data">
+    @method('POST')  
+    @csrf
     <div class="modal-dialog modal-xl">
       <div class="modal-content modal-extra-background">
         <div class="modal-header">
@@ -16,13 +19,13 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label for="" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="" name="">
+                    <input type="text" class="form-control" id="name" name="name">
                 </div>
             </div>
             <div class="col-6"> 
                 <div class="mb-3">
                     <label for="" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="" name="">
+                    <input type="text" class="form-control" id="lastname" name="lastname">
                 </div>
             </div>
         </div>
@@ -30,7 +33,7 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">Tipo</label>
-                <select name="" id="" class="form-control">
+                <select name="document_type" id="document_type" class="form-control">
                   <option value="">Seleccione</option>
                   <option value="0">Pasaporte</option>
                   <option value="1">Rut</option>
@@ -40,7 +43,7 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">Rut/Pasaporte</label>
-                <input type="text" class="form-control" id="" name="">
+                <input type="text" class="form-control" id="document_number" name="document_number">
               </div>
             </div>
         </div>
@@ -48,13 +51,13 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">E-mail</label>
-                <input type="email" class="form-control" id="" name="">
+                <input type="email" class="form-control" id="email" name="email">
               </div>
             </div>
             <div class="col-6">
                 <div class="mb-3">
                   <label for="" class="form-label">Telefono</label>
-                  <input type="number" class="form-control" id="" name="">
+                  <input type="number" class="form-control" id="phone" name="phone">
                 </div>
             </div>
         </div>
@@ -62,7 +65,7 @@
             <div class="col-6">
                 <div class="mb-3">
                   <label for="" class="form-label">Región de Destino</label>
-                  <select name="" id="" class="form-control">
+                  <select name="region" id="region" class="form-control">
                     <option value="">Seleccione</option>
                     <option value="0">Región Arica y Parinacota</option>
                     <option value="1">Región Tarapaca</option>
@@ -85,13 +88,13 @@
             <div class="col-6">
                 <div class="mb-3">
                   <label for="" class="form-label">Lugar Destino</label>
-                  <input type="text" class="form-control" id="" name="">
+                  <input type="text" class="form-control" id="destination" name="destination">
                 </div>
             </div>
             <div class="col-12">
                 <div class="mb-3">
                   <label for="" class="form-label">Ruta</label>
-                  <input type="text" class="form-control" id="" name="">
+                  <input type="text" class="form-control" id="route" name="route">
                 </div>
             </div>
         </div>
@@ -99,7 +102,7 @@
             <div class="col-12">
                 <div class="mb-3">
                   <label for="" class="form-label">Archivo Track KMZ/GPX</label>
-                  <input type="file" class="form-control" id="" name="">
+                  <input type="file" class="form-control" id="archivo_track" name="archivo_track">
                 </div>
             </div>
         </div>
@@ -107,7 +110,7 @@
           <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">Actividad</label>
-                <select name="actividad" id="" class="form-control">
+                <select name="actividad" id="actividad" class="form-control">
                   <option value="">Seleccione</option>
                   <option value="0">Trekking</option>
                   <option value="1">Hikking</option>
@@ -122,19 +125,19 @@
           <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">N° Participantes</label>
-                <input type="number" class="form-control" id="" name="n_participantes">
+                <input type="number" class="form-control" id="n_participantes" name="n_participantes">
               </div>
           </div>
           <div class="col-12">
               <div class="mb-3">
                 <label for="" class="form-label">Fecha de Salida</label>
-                <input type="date" class="form-control" id="" name="fecha_salida">
+                <input type="datetime-local" class="form-control" id="fecha_salida" name="fecha_salida">
               </div>
           </div>
           <div class="col-12">
               <div class="mb-3">
                 <label for="" class="form-label">Fecha de Regreso</label>
-                <input type="datetime-local" class="form-control" id="" name="fecha_regreso">
+                <input type="datetime-local" class="form-control" id="fecha_regreso" name="fecha_regreso">
               </div>
           </div>
       </div>
@@ -144,4 +147,5 @@
         </div>
       </div>
     </div>
+    </form>
 </div>

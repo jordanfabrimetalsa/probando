@@ -133,7 +133,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">INICIO</a>
+                        <a class="nav-link active" href="#inicio">INICIO</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#noticias">NOTICIAS</a>
@@ -197,7 +197,7 @@
                             <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
                         <div class="hero-text">
-                            <h1 class="hero-title ">Especialistas en Rescate de Montaña</h1>
+                            <h1 class="hero-title">Especialistas en Rescate <span style="color:#65bce4;">de Montaña</span></h1>
                             <p class="hero-subtitle">Institucion sin fines de lucro</p>
                             <div class="hero-buttons">
                                 <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
@@ -234,7 +234,7 @@
                         <div class="hero-overlay"></div>
                     </div>
                     <div class="hero-content">
-                        <h1 class="hero-title">Has tu aviso de salida</h1>
+                        <h1 class="hero-title">Has tu aviso <span style="color:#65bce4;"> de salida</span></h1>
                         <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
                         <div class="hero-buttons">
                             <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
@@ -406,6 +406,40 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $('#form_departure').submit(function(e){
+            e.preventDefault();
+            var formdata = new FormData(this);
+
+            $.ajax({
+                url: '{{ route("departure.create") }}',
+                type: 'POST',
+                data: formdata,
+                processData: false,
+                contentType: false,
+                header: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.message
+                    });
+                    $('#form_departure')[0].reset();
+                    $('#avisoModal').modal('hide');
+                },
+                error: function(error){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.responseJSON?.message || 'Error al registrar salida'
+                    });
+                }
+            })
+        });
+    </script>
 
     <script>
         $('#contact-form').submit(function(e){
