@@ -410,6 +410,11 @@
     <script>
         $('#form_departure').submit(function(e){
             e.preventDefault();
+
+            $('.btn-save-load')
+                .html('  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Espere...')
+                .prop('disabled', true);
+
             var formdata = new FormData(this);
 
             $.ajax({
@@ -429,6 +434,7 @@
                     });
                     $('#form_departure')[0].reset();
                     $('#avisoModal').modal('hide');
+                    $('.btn-save-load').html('Guardar').prop('disabled', false);
                 },
                 error: function(error){
                     Swal.fire({
@@ -436,6 +442,7 @@
                         title: 'Error',
                         text: error.responseJSON?.message || 'Error al registrar salida'
                     });
+                    $('.btn-save-load').html('Guardar').prop('disabled', false);
                 }
             })
         });
