@@ -143,7 +143,7 @@
       </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <input type="submit" class="btn btn-dark" value="Guardar">
         </div>
       </div>
     </div>
