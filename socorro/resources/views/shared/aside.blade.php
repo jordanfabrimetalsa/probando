@@ -53,6 +53,12 @@
                   <span class="nav-link-text ms-1">Vehículos</span>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link text-dark" href="{{ route('contacto') }}">
+                  <i class="material-symbols-rounded opacity-5">contact_support</i>
+                  <span class="nav-link-text ms-1">Contactos</span>
+                </a>
+              </li>
             </ul>
           </div>
         </li>

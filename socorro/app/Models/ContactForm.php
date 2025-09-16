@@ -12,5 +12,7 @@ class ContactForm extends Model
         'email',
         'type',
         'message',
+        'created_at',
+        'updated_at',
     ];
 }

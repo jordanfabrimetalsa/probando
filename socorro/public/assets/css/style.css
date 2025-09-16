@@ -88,7 +88,6 @@
 #mainNav .nav-link:hover,
 #mainNav .nav-link.active {
     color: #e74c3c;
-    border-bottom: 2px solid #e74c3c;
 }
 
 /* Eliminamos el pseudo-elemento after que creaba el segundo borde */
@@ -1476,7 +1475,6 @@ h1 {
 h2 {
     font-size: 2rem;
     color: #2c5282;
-    border-bottom: 3px solid #e53e3e;
     padding-bottom: 0.5rem;
     display: inline-block;
     margin-bottom: 1.5rem;
@@ -1673,7 +1671,6 @@ p {
 .dark-img {
     filter: brightness(50%);
 }
-
 
 
 

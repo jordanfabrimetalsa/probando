@@ -10,6 +10,7 @@ use App\Http\Controllers\DelegacionController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MaindrawController;
+use App\Http\Controllers\ContactFormController;
 use App\Mail\ContactMailable;
 use Illuminate\Support\Facades\Mail;
 
@@ -109,6 +110,11 @@ Route::middleware('auth')->group(function(){
 
         Route::post('/file/store', [ScheduleController::class, 'storeFile'])->name('calendario.file.store');
         Route::get('/dataFile/{id}', [ScheduleController::class, 'dataFile'])->name('calendario.dataFile');
+    });
+
+    Route::prefix('contacto')->group(function(){
+        Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
+        Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
