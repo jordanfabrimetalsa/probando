@@ -409,6 +409,7 @@
 
     <script>
         $('#form_departure').submit(function(e){
+            console.log('entra 1');
             e.preventDefault();
 
             $('.btn-save-load')
@@ -427,6 +428,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response){
+                    console.log('entra 2')
                     Swal.fire({
                         icon: 'success',
                         title: 'Éxito',
@@ -437,10 +439,11 @@
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
                 },
                 error: function(error){
+                    console.log(error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.responseJSON?.message || 'Error al registrar salida'
+                        text: 'Error al registrar salida ' + error.responseJSON?.error
                     });
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
                 }

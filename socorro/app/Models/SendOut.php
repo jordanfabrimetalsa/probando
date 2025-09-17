@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SendOut extends Model
 {
-    protected $table = 'send_out';
+    protected $table = 'notice_departure';
 
     protected $fillable = [
         'name',

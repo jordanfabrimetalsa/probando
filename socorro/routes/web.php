@@ -22,6 +22,10 @@ Route::post('/logear', [UserController::class,'login'])->name('logear');
 
 Route::post('contact', [MainDrawController::class, 'store'])->name('contact');
 
+Route::prefix('departure')->group(function(){
+    Route::post('/create', [SendOutController::class, 'store'])->name('departure.create');
+});
+
 Route::middleware('auth')->group(function(){
 
     Route::prefix('dashboard')->group(function(){
@@ -116,10 +120,6 @@ Route::middleware('auth')->group(function(){
     Route::prefix('contacto')->group(function(){
         Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
         Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
-    });
-
-    Route::prefix('departure')->group(function(){
-        Route::post('/create', [SendOutController::class, 'store'])->name('departure.create');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

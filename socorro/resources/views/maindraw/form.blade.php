@@ -102,7 +102,7 @@
             <div class="col-12">
                 <div class="mb-3">
                   <label for="" class="form-label">Archivo Track KMZ/GPX</label>
-                  <input type="file" class="form-control" id="archivo_track" name="archivo_track">
+                  <input type="file" class="form-control" id="file_path" name="file_path">
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
           <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">Actividad</label>
-                <select name="actividad" id="actividad" class="form-control">
+                <select name="activity" id="activity" class="form-control">
                   <option value="">Seleccione</option>
                   <option value="0">Trekking</option>
                   <option value="1">Hikking</option>
@@ -125,19 +125,19 @@
           <div class="col-6">
               <div class="mb-3">
                 <label for="" class="form-label">N° Participantes</label>
-                <input type="number" class="form-control" id="n_participantes" name="n_participantes">
+                <input type="number" class="form-control" id="number_participants" name="number_participants">
               </div>
           </div>
           <div class="col-12">
               <div class="mb-3">
                 <label for="" class="form-label">Fecha de Salida</label>
-                <input type="datetime-local" class="form-control" id="fecha_salida" name="fecha_salida">
+                <input type="datetime-local" class="form-control" id="departure_date" name="departure_date">
               </div>
           </div>
           <div class="col-12">
               <div class="mb-3">
                 <label for="" class="form-label">Fecha de Regreso</label>
-                <input type="datetime-local" class="form-control" id="fecha_regreso" name="fecha_regreso">
+                <input type="datetime-local" class="form-control" id="return_date" name="return_date">
               </div>
           </div>
       </div>

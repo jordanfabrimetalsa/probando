@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\SendOut;
 use Exception;
@@ -43,12 +44,14 @@ class SendOutController extends Controller
                     'message' => 'Salida guardada correctamente'
                 ]);
             }else{
+                Log::error('Error al guardar la salida: ' . $e->getMessage());
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al guardar la salida'
                 ], 500);
             }
         }catch(Exception $e){
+            Log::error('Error al guardar la salida: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error al guardar la salida',
