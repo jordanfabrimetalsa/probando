@@ -24,6 +24,8 @@ Route::post('contact', [MainDrawController::class, 'store'])->name('contact');
 
 Route::prefix('departure')->group(function(){
     Route::post('/create', [SendOutController::class, 'store'])->name('departure.create');
+    Route::post('/search', [SendOutController::class, 'search'])->name('departure.search');
+    Route::post('/finish', [SendOutController::class, 'finish'])->name('departure.finish');
 });
 
 Route::middleware('auth')->group(function(){

@@ -294,10 +294,7 @@
 
     @include('maindraw.gallery')
 
-
-    {{-- @include('maindraw.delegation')
-
-    @include('maindraw.team')--}}
+    @include('maindraw.departure')
 
     @include('maindraw.contact')
 
@@ -305,7 +302,6 @@
 
     @include('maindraw.form')
 
-    @include('maindraw.departure')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -486,6 +482,104 @@
             });
         });
 
+        $('#form_departure_search').submit(function(e){
+            e.preventDefault();
+
+            $('.btn-search-load')
+                .html('  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Espere...')
+                .prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route("departure.search") }}',
+                type: 'POST',
+                data: $(this).serialize(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    var data = response.data;
+
+                    if(data.length === 0){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ups',
+                            text: 'No se ha encontrado a nadie con este rut.'
+                        });
+                        $('#datatableUser tbody').html('');
+                        $('.btn-search-load').html('Buscar').prop('disabled', false);
+                        return;
+                    }
+
+                    for (const item of data) {
+
+                        if(item.active == true){
+                            var active = `<button class="btn btn-dark" onclick="finishDeparture(${item.id})">Terminar</button>`;
+                        }else{
+                            var active = `<span class="badge bg-success">Finalizado</span>`;
+                        }
+
+                        $('#datatableUser tbody').append(
+                            `<tr>
+                                <td>${item.name}</td>
+                                <td>${item.route}</td>
+                                <td>${item.departure_date}</td>
+                                <td>${item.return_date}</td>
+                                <td>${active}</td>
+                            </tr>`
+                        );
+                    }
+                    $('.btn-search-load').html('Buscar').prop('disabled', false);
+                },
+                error: function(xhr){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ups',
+                        text: 'Error al buscar salida'
+                    });
+                    $('#datatableUser tbody').html('');
+                    $('.btn-search-load').html('Buscar').prop('disabled', false);
+                }
+            })
+        })
+
+        function finishDeparture(id){
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro?',
+                text: '¿Deseas terminar esta salida?',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, terminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route("departure.finish") }}',
+                        type: 'POST',
+                        data: {
+                            id: id,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response){
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: response.message
+                            });
+                            $('#datatableUser tbody').html('');
+                            $('#form_departure_search')[0].reset();
+                            $('.btn-search-load').html('Buscar').prop('disabled', false);
+                        },
+                        error: function(xhr){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al terminar la salida'
+                            });
+                        }
+                    })
+                }
+            })
+        }
 
         @if(session('success'))
             <script>
@@ -579,8 +673,6 @@
             });
         });
   </script>
-
-
 
     <!-- Incluir el modal de salidas -->
     @include('maindraw.departure')

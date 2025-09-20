@@ -58,4 +58,70 @@ class SendOutController extends Controller
             ], 500);
         }
     }
+
+    public function search(Request $request)
+    {
+        try{
+            $sendout = SendOut::where('document_number', $request->rut)->get();
+
+            if ($sendout) {
+                return response()->json([
+                    'success' => true,
+                    'data' => $sendout,
+                    'message' => 'Salida encontrada correctamente'
+                ]);
+            }else{
+                Log::error('Error al buscar la salida: ' . $sendout->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al buscar la salida'
+                ], 500);
+            }
+        }catch(Exception $e){
+            Log::error('Error al buscar la salida: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al buscar la salida',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function finish(Request $request){
+        try{
+            $sendout = SendOut::find($request->id);
+
+            if ($sendout) {
+                $sendout->active = false;
+                $sendout->return_date = now();
+                if ($sendout->save()) {
+                    return response()->json([
+                        'success' => true,
+                        'data' => $sendout,
+                        'message' => 'Salida terminada correctamente'
+                    ]);
+                }else{
+                    Log::error('Error al terminar la salida: ' . $sendout->getMessage());
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Error al terminar la salida'
+                    ], 500);
+                }
+            }else{
+                Log::error('Error al terminar la salida: ' . $sendout->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al terminar la salida'
+                ], 500);
+            }
+
+        }catch(Exception $e){
+            Log::error('Error al terminar la salida: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al terminar la salida',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

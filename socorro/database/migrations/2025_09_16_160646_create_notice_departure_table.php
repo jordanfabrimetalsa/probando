@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('number_participants')->nullable();
             $table->dateTime('departure_date')->nullable();
             $table->dateTime('return_date')->nullable();
+            $table->boolean('active')->default(true);
         });
     }
 
