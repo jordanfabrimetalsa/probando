@@ -64,7 +64,7 @@
                 <form class="footer-newsletter" onsubmit="event.preventDefault(); this.reset();">
                     <div class="input-group input-group-lg">
                         <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="Tu correo" required>
-                        <button class="btn btn-primary" type="submit">Suscribirme</button>
+                        <button class="btn btn-danger" type="submit">Suscribirme</button>
                     </div>
                     <small class="d-block mt-2 text-white-50">Puedes darte de baja cuando quieras.</small>
                 </form>

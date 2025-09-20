@@ -23,17 +23,16 @@ class SendOutController extends Controller
             $sendout->region = $request->region;
             $sendout->destination = $request->destination;
             $sendout->route = $request->route;
-            $sendout->file_path = $request->file_path;
             $sendout->activity = $request->activity;
             $sendout->number_participants = $request->number_participants;
             $sendout->departure_date = $request->departure_date;
             $sendout->return_date = $request->return_date;
 
-            if($request->hasFile('image')){
+            if($request->hasFile('file_path')){
                 $file = $request->file('file_path');
 
                 $path = $file->store('sendouts', 'public');
-                
+
                 $sendout->file_path = $path;
             }
 
@@ -44,7 +43,7 @@ class SendOutController extends Controller
                     'message' => 'Salida guardada correctamente'
                 ]);
             }else{
-                Log::error('Error al guardar la salida: ' . $e->getMessage());
+                Log::error('Error al guardar la salida: ' . $sendout->getMessage());
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al guardar la salida'

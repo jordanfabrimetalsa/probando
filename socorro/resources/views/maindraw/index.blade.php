@@ -95,14 +95,11 @@
     </style>
 </head>
 <body>
-
-
-    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-content">
                 <div class="contact-info">
-                    <a href="tel:999" class="emergency-link">
+                    <a href="tel:136" class="emergency-link">
                         <i class="fas fa-phone-alt"></i> EMERGENCIAS: 136
                     </a>
                     <span class="divider">|</span>
@@ -200,8 +197,8 @@
                             <h1 class="hero-title">Especialistas en Rescate <span style="color:#65bce4;">de Montaña</span></h1>
                             <p class="hero-subtitle">Institucion sin fines de lucro</p>
                             <div class="hero-buttons">
-                                <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
-                                <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Detalle Salida</a>
+                                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</button>
+                                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#departureModal">Detalle Salida</button>
                             </div>
                         </div>
                         <div class="hero-stats">
@@ -237,8 +234,8 @@
                         <h1 class="hero-title">Has tu aviso <span style="color:#65bce4;"> de salida</span></h1>
                         <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
                         <div class="hero-buttons">
-                            <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</a>
-                            <a href="#" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Detalle Salida</a>
+                            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</button>
+                            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#departureModal">Detalle Salida</button>
                         </div>
                         <div class="hero-stats">
                             <div class="stat">
@@ -307,6 +304,8 @@
     @include('partials.footer')
 
     @include('maindraw.form')
+
+    @include('maindraw.departure')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -570,18 +569,32 @@
 
         // Animar solo cuando aparece en pantalla
         document.addEventListener("scroll", () => {
-        const counters = document.querySelectorAll(".stat-count");
-        counters.forEach(counter => {
-            const rect = counter.getBoundingClientRect();
-            if (rect.top < window.innerHeight && !counter.started) {
-            counter.started = true;
-            animateCounter(counter);
-            }
-        });
+            const counters = document.querySelectorAll(".stat-count");
+            counters.forEach(counter => {
+                const rect = counter.getBoundingClientRect();
+                if (rect.top < window.innerHeight && !counter.started) {
+                counter.started = true;
+                animateCounter(counter);
+                }
+            });
         });
   </script>
 
 
 
+    <!-- Incluir el modal de salidas -->
+    @include('maindraw.departure')
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Inicializar tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+
+    @stack('scripts')
 </body>
 </html>

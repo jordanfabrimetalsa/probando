@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Active navigation highlighting
-    const sections = document.querySelectorAll('section[id']);
-    
+    const sections = document.querySelectorAll('section[id]');
+
     function highlightNavigation() {
         const scrollPosition = window.scrollY + 100;
 
@@ -99,14 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gallery lightbox functionality
     const galleryItems = document.querySelectorAll('.gallery-item');
-    
+
     galleryItems.forEach(item => {
         item.addEventListener('click', function() {
             const img = this.querySelector('img');
             const overlay = this.querySelector('.gallery-overlay');
             const title = overlay.querySelector('h4').textContent;
             const description = overlay.querySelector('p').textContent;
-            
+
             createLightbox(img.src, title, description);
         });
     });
@@ -152,10 +152,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Contact form functionality
     const contactForm = document.querySelector('.contact-form');
-    
+
     if (contactForm) contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Get form data
         const formData = new FormData(this);
         const name = this.querySelector('input[type="text"]').value;
@@ -179,9 +179,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.textContent = message;
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.classList.add('show');
         }, 100);
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('mouseenter', function() {
             this.style.animationDuration = '0.5s';
         });
-        
+
         btn.addEventListener('mouseleave', function() {
             this.style.animationDuration = '2s';
         });
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
         const heroBackground = document.querySelector('.hero-background');
-        
+
         if (heroBackground) {
             const speed = scrolled * 0.5;
             heroBackground.style.transform = `translateY(${speed}px)`;
@@ -220,16 +220,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Counter animation for stats
     function animateCounters() {
         const counters = document.querySelectorAll('.stat-number');
-        
+
         counters.forEach(counter => {
             const target = counter.textContent;
             const isNumber = !isNaN(target.replace('+', ''));
-            
+
             if (isNumber) {
                 const targetNum = parseInt(target.replace('+', ''));
                 let current = 0;
                 const increment = targetNum / 100;
-                
+
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= targetNum) {
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-10px) scale(1.02)';
         });
-        
+
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(-5px) scale(1)';
         });
@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const img = this.querySelector('.member-image');
             img.style.transform = 'scale(1.1) rotate(5deg)';
         });
-        
+
         member.addEventListener('mouseleave', function() {
             const img = this.querySelector('.member-image');
             img.style.transform = 'scale(1) rotate(0deg)';
@@ -298,23 +298,23 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 2000;
             max-width: 350px;
         }
-        
+
         .notification.show {
             transform: translateX(0);
         }
-        
+
         .notification-success {
             background: #10b981;
         }
-        
+
         .notification-error {
             background: #ef4444;
         }
-        
+
         .notification-info {
             background: #3b82f6;
         }
-        
+
         .lightbox {
             position: fixed;
             top: 0;
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 2000;
             animation: fadeIn 0.3s ease;
         }
-        
+
         .lightbox-content {
             position: relative;
             max-width: 90%;
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
             overflow: hidden;
             animation: scaleIn 0.3s ease;
         }
-        
+
         .lightbox-close {
             position: absolute;
             top: 15px;
@@ -356,75 +356,75 @@ document.addEventListener('DOMContentLoaded', function() {
             justify-content: center;
             transition: all 0.3s ease;
         }
-        
+
         .lightbox-close:hover {
             background: rgba(239, 68, 68, 0.8);
             transform: scale(1.1);
         }
-        
+
         .lightbox img {
             width: 100%;
             height: auto;
             display: block;
         }
-        
+
         .lightbox-info {
             padding: 2rem;
         }
-        
+
         .lightbox-info h3 {
             color: #1e40af;
             margin-bottom: 1rem;
             font-size: 1.5rem;
         }
-        
+
         .lightbox-info p {
             color: #64748b;
             line-height: 1.6;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         @keyframes scaleIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        
+
         .nav-link.active {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
-        
+
         @media (max-width: 768px) {
             .notification {
                 right: 10px;
                 left: 10px;
                 max-width: none;
             }
-            
+
             .lightbox-content {
                 max-width: 95%;
                 max-height: 95%;
             }
-            
+
             .lightbox-info {
                 padding: 1.5rem;
             }
         }
     `;
-    
+
     const styleSheet = document.createElement('style');
     styleSheet.textContent = styles;
     document.head.appendChild(styleSheet);
-    
+
     console.log('🏔️ Rescate Montaña Pro - Sitio web cargado exitosamente');
-    
+
     // Initialize snow effect
     initSnowEffect();
-    
+
     // News pagination functionality
     initNewsPagination();
 });
@@ -435,30 +435,30 @@ function initSnowEffect() {
     if (!snowContainer) return; // Guard if not present on page
 
     const snowflakeSymbols = ['❄', '❅', '❆', '✻', '✼', '❋'];
-    
+
     function createSnowflake() {
         const snowflake = document.createElement('div');
         snowflake.className = 'snowflake';
         snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-        
+
         // Random properties
         const size = Math.random() * 0.8 + 0.8; // 0.8 to 1.6
         const opacity = Math.random() * 0.6 + 0.4; // 0.4 to 1
         const duration = Math.random() * 8 + 8; // 8 to 16 seconds
         const delay = Math.random() * 2; // 0 to 2 seconds delay
-        
+
         snowflake.style.left = Math.random() * 100 + '%';
         snowflake.style.fontSize = size + 'rem';
         snowflake.style.opacity = opacity;
         snowflake.style.animationDuration = duration + 's';
         snowflake.style.animationDelay = delay + 's';
-        
+
         // Add slight horizontal drift
         const drift = (Math.random() - 0.5) * 100; // -50 to 50px
         snowflake.style.setProperty('--drift', drift + 'px');
-        
+
         snowContainer.appendChild(snowflake);
-        
+
         // Remove snowflake after animation
         setTimeout(() => {
             if (snowflake.parentNode) {
@@ -466,12 +466,12 @@ function initSnowEffect() {
             }
         }, (duration + delay) * 1000);
     }
-    
+
     // Create initial snowflakes
     for (let i = 0; i < 50; i++) {
         setTimeout(() => createSnowflake(), Math.random() * 5000);
     }
-    
+
     // Continue creating snowflakes
     setInterval(() => {
         if (Math.random() < 0.7) { // 70% chance to create a snowflake
@@ -483,7 +483,7 @@ function initSnowEffect() {
 // News pagination functionality
 function initNewsPagination() {
     const paginationBtns = document.querySelectorAll('.pagination-btn');
-    
+
     paginationBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             if (this.textContent === '→') {
@@ -491,27 +491,27 @@ function initNewsPagination() {
                 const currentActive = document.querySelector('.pagination-btn.active');
                 const currentPage = parseInt(currentActive.textContent);
                 const nextBtn = document.querySelector(`.pagination-btn[textContent="${currentPage + 1}"]`);
-                
+
                 if (nextBtn) {
                     currentActive.classList.remove('active');
                     nextBtn.classList.add('active');
                 }
                 return;
             }
-            
+
             // Remove active from all buttons
             paginationBtns.forEach(b => b.classList.remove('active'));
-            
+
             // Add active to clicked button (if it's a number)
             if (!isNaN(this.textContent)) {
                 this.classList.add('active');
             }
-            
+
             // Simulate page change with animation
             const newsGrid = document.querySelector('.news-grid');
             newsGrid.style.opacity = '0.5';
             newsGrid.style.transform = 'translateY(20px)';
-            
+
             setTimeout(() => {
                 newsGrid.style.opacity = '1';
                 newsGrid.style.transform = 'translateY(0)';
