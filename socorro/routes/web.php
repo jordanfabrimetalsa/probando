@@ -124,5 +124,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
     });
 
+    Route::prefix('aviso')->group(function(){
+        Route::get('/', [SendOutController::class, 'list'])->name('aviso.list');
+        Route::get('/data', [SendOutController::class, 'data'])->name('aviso.data');
+        Route::get('/download/{id}', [SendOutController::class, 'download'])->name('aviso.download');
+    });
+
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
 });

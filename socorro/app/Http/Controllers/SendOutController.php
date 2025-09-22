@@ -124,4 +124,54 @@ class SendOutController extends Controller
             ], 500);
         }
     }
+
+    public function list(){
+        return view('module.aviso.index');
+    }
+
+    public function data(){
+        try{
+            $sendouts = SendOut::all()->map(function($sendout) {
+                if ($sendout->file_path) {
+                    $sendout->download_url = route('aviso.download', $sendout->id);
+                }
+                return $sendout;
+            });
+
+            if ($sendouts) {
+                return response()->json($sendouts);
+            }else{
+                Log::error('Error al listar las salidas');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al listar las salidas'
+                ], 500);
+            }
+
+        }catch(Exception $e){
+            Log::error('Error al listar las salidas: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al listar las salidas',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function download($id)
+    {
+        $sendout = SendOut::findOrFail($id);
+
+        if (!$sendout->file_path) {
+            abort(404, 'Archivo no encontrado');
+        }
+
+        $filePath = storage_path('app/public/' . $sendout->file_path);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'El archivo no existe en el servidor');
+        }
+
+        return response()->download($filePath);
+    }
 }

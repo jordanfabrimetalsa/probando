@@ -7,7 +7,6 @@
                     <img src="{{ asset('assets/img/logo-socorro.png') }}" alt="CSA" width="48" height="48" class="me-2">
                     <div>
                         <strong class="d-block">Cuerpo de Socorro Andino</strong>
-                        <small>Santiago de Chile</small>
                     </div>
                 </div>
                 <p class="footer-text small mb-3">
@@ -63,7 +62,7 @@
                 <p class="small text-white-50 mb-3">Recibe noticias y recomendaciones de seguridad de montaña.</p>
                 <form class="footer-newsletter" onsubmit="event.preventDefault(); this.reset();">
                     <div class="input-group input-group-lg">
-                        <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="Tu correo" required>
+                        <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="Tu correo" required disabled>
                         <button class="btn btn-danger" type="submit">Suscribirme</button>
                     </div>
                     <small class="d-block mt-2 text-white-50">Puedes darte de baja cuando quieras.</small>
@@ -76,11 +75,11 @@
             <div class="col-12">
                 <div class="footer-sponsors d-flex flex-wrap align-items-center gap-3 opacity-75">
                     <span class="small text-white-50 me-2">Auspician:</span>
-                    <img src="{{ asset('assets/img/gremm.png') }}" alt="Sponsor" width="40" height="40" class="rounded-circle border border-secondary">
-                    <img src="{{ asset('assets/img/estilo.png') }}" alt="Sponsor" width="40" height="40" class="rounded-circle border border-secondary">
-                    <img src="{{ asset('assets/img/andinismo.png') }}" alt="Sponsor" width="40" height="40" class="rounded-circle border border-secondary">
-                    <img src="{{ asset('assets/img/museo.png') }}" alt="Sponsor" width="40" height="40" class="rounded-circle border border-secondary">
-                    <img src="{{ asset('assets/img/fundacion.png') }}" alt="Sponsor" width="40" height="40" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/gremm.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/estilo.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/andinismo.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/museo.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/fundacion.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
                 </div>
             </div>
         </div>

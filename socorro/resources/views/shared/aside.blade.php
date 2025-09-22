@@ -91,6 +91,12 @@
             <span class="nav-link-text ms-1">Calendario</span>
           </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('aviso.list') }}">
+                <i class="material-symbols-rounded opacity-5">hiking</i>
+                <span class="nav-link-text ms-1">Aviso Salida</span>
+            </a>
+        </li>
 
       </ul>
     </div>
