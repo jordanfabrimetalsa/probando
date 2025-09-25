@@ -175,6 +175,7 @@
             </div>
         </div>
     </nav>
+
     <section id="inicio" class="hero">
         <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -285,6 +286,14 @@
             </div>
         </div>
     </div>
+
+    <form action="{{ route('donations.create') }}" method="POST">
+        @csrf
+        <label>Monto de la donación:</label>
+        <input type="number" name="amount" value="1000" min="100" required>
+        <button type="submit">Donar con Webpay</button>
+    </form>
+
 
     @include('maindraw.news')
 

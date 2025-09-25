@@ -12,6 +12,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MaindrawController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SendOutController;
+use App\Http\Controllers\DonationController;
 use App\Mail\ContactMailable;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,6 +28,9 @@ Route::prefix('departure')->group(function(){
     Route::post('/search', [SendOutController::class, 'search'])->name('departure.search');
     Route::post('/finish', [SendOutController::class, 'finish'])->name('departure.finish');
 });
+
+Route::post('/donations/create', [DonationController::class, 'create'])->name('donations.create');
+Route::post('/donations/callback', [DonationController::class, 'callback'])->name('donations.callback');
 
 Route::middleware('auth')->group(function(){
 

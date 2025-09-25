@@ -1373,6 +1373,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'transbank/transbank-sdk' => array(
+            'pretty_version' => '5.1.0',
+            'version' => '5.1.0.0',
+            'reference' => '4e17ccb419c69311731028f9fb7f7d42575e9745',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../transbank/transbank-sdk',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.6.2',
             'version' => '5.6.2.0',

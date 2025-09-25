@@ -22,4 +22,9 @@ return [
         ],
     ],
 
+    'webpay' => [
+        'commerce_code' => env('WEBPAY_COMMERCE_CODE', '597055555532'),
+        'api_key' => env('WEBPAY_API_KEY', 'default_api_key'),
+        'environment' => env('WEBPAY_ENVIRONMENT', 'TEST'),
+    ],
 ];
