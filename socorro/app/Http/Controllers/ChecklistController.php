@@ -6,6 +6,7 @@ use App\Models\QuestionCheck;
 use Illuminate\Http\Request;
 use App\Models\Delegation;
 use App\Models\Car;
+use Exception;
 
 class ChecklistController extends Controller
 {

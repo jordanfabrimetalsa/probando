@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\CarBrand;
 use App\Models\CarModel;
+use Exception;
 
 class VehiculoController extends Controller
 {
