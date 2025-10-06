@@ -40,9 +40,9 @@ class DonationController extends Controller
         $result = $transaction->commit($token);
 
         if ($result->isApproved()) {
-            return "✅ Donación exitosa de {$result->getAmount()} CLP";
+            return "Donación exitosa de {$result->getAmount()} CLP";
         } else {
-            return "❌ Error en la donación";
+            return "Error en la donación";
         }
     }
 }

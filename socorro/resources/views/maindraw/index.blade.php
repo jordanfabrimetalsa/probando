@@ -200,6 +200,7 @@
                             <div class="hero-buttons">
                                 <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</button>
                                 <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#departureModal">Detalle Salida</button>
+                                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#donationModal">Donación</button>
                             </div>
                         </div>
                         <div class="hero-stats">
@@ -237,6 +238,7 @@
                         <div class="hero-buttons">
                             <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#avisoModal">Aviso de Salida</button>
                             <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#departureModal">Detalle Salida</button>
+                            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#donationModal">Donación</button>
                         </div>
                         <div class="hero-stats">
                             <div class="stat">
@@ -287,13 +289,6 @@
         </div>
     </div>
 
-    <form action="{{ route('donations.create') }}" method="POST">
-        @csrf
-        <label>Monto de la donación:</label>
-        <input type="number" name="amount" value="1000" min="100" required>
-        <button type="submit">Donar con Webpay</button>
-    </form>
-
 
     @include('maindraw.news')
 
@@ -303,6 +298,8 @@
 
     @include('maindraw.gallery')
 
+    @include('maindraw.donation')
+
     @include('maindraw.departure')
 
     @include('maindraw.contact')
@@ -310,6 +307,7 @@
     @include('partials.footer')
 
     @include('maindraw.form')
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
