@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StockMovement;
+
 class InventarioController extends Controller
 {
     public function index()
@@ -120,7 +121,7 @@ class InventarioController extends Controller
                 $stockMovement->product_id = $product->id;
                 $stockMovement->user_id = auth()->user()->id;
                 $stockMovement->type = 'add';
-                $stockMovement->save();                
+                $stockMovement->save();
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Inventario registrado'
@@ -208,7 +209,7 @@ class InventarioController extends Controller
                     'message' => 'Esta reduciendo mas de lo que existe, solo se puede reducir ' . $product->stock . ' ' . ($product->stock == 1 ? 'unidad' : 'unidades')
                 ], 400);
             }
-            
+
             $unit_cost = round($product->total / $product->stock, 2);
             $reduction_value = $request->quantity * $unit_cost;
             $product->stock -= $request->quantity;

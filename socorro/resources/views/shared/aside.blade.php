@@ -43,7 +43,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('inventario') }}">
-                  <i class="material-symbols-rounded opacity-5">inventory</i>
+                  <i class="material-symbols-rounded opacity-5">checkbook</i>
                   <span class="nav-link-text ms-1">Inventario</span>
                 </a>
               </li>
@@ -84,6 +84,12 @@
               </li>
             </ul>
           </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
+              <i class="material-symbols-rounded opacity-5">checkbook</i>
+              <span class="nav-link-text ms-1">Registro de rescate</span>
+            </a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('calendario') }}">

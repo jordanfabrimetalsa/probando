@@ -164,7 +164,7 @@
           details:{
             type: 'inline'
           }
-        }      
+        }
       });
 
       datatableBrand = $('#datatableBrand').DataTable({

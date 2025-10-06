@@ -13,8 +13,7 @@ use App\Http\Controllers\MaindrawController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SendOutController;
 use App\Http\Controllers\DonationController;
-use App\Mail\ContactMailable;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\RescueController;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -132,6 +131,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [SendOutController::class, 'list'])->name('aviso.list');
         Route::get('/data', [SendOutController::class, 'data'])->name('aviso.data');
         Route::get('/download/{id}', [SendOutController::class, 'download'])->name('aviso.download');
+    });
+
+    Route::prefix('registro-rescate')->group(function(){
+        Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
+        Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
