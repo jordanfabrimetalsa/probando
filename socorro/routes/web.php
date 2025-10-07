@@ -136,6 +136,10 @@ Route::middleware('auth')->group(function(){
     Route::prefix('registro-rescate')->group(function(){
         Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
         Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
+        Route::post('/store', [RescueController::class, 'store'])->name('registro-rescate.store');
+        Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
+        Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
+        Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

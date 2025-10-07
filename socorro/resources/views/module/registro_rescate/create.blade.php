@@ -6,7 +6,7 @@
           <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="formUsuario" class="form" method="POST">
+          <form id="formRescue" class="form" method="POST">
             @csrf
             <div class="border mb-4">
                 <div class="row p-2">
@@ -15,7 +15,7 @@
                         <label for="type" class="form-label">Tipo</label>
                         <select class="form-select border border-gray p-2" aria-label="Default select example" value="{{ old('type') }}" name="type">
                             <option selected>Seleccione el Tipo</option>
-                            <option value="rescue">Rescate</option>
+                            <option value="accident">Accidente</option>
                             <option value="search">Busqueda</option>
                             <option value="passing">Recuperación</option>
 
@@ -63,7 +63,7 @@
                 </div>
                 <div class="row p-2">
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="helper_external" class="form-label">Trabajo Conjunto</label>
+                        <label for="helper_external" class="form-label">Ayuda Externa</label>
                         <select class="form-select border border-gray p-2" aria-label="Default select example" name="helper_external" value="{{ old('helper_external') }}">
                             <option selected>Seleccione el Ayudante Externo</option>
                             <option value="yes">Si</option>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
                         <label for="external_helper" class="form-label">Institucion Externa</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="helper_external" value="{{ old('helper_external') }}">
+                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="external_helper" value="{{ old('external_helper') }}">
                             <option selected>Seleccione el Ayudante Externo</option>
                             <option value="gope">Gope</option>
                             <option value="conaf">Conaf</option>
@@ -194,7 +194,7 @@
                 <div class="row p-2">
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
                         <label for="transport" class="form-label">Tipo Transporte</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="transport" value="{{ old('transport') }}">
+                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="type_transport" value="{{ old('transport') }}">
                             <option selected>Seleccione</option>
                             <option value="sked">Sked</option>
                             <option value="kong">Kong</option>
@@ -216,7 +216,7 @@
                     <h5 class="modal-title mb-2 text-center">Estado Actual</h5>
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
                         <label for="name_accident" class="form-label">Jefe de Operaciones</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="helicopter" value="{{ old('helicopter') }}">
+                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id" value="{{ old('voluntary_id') }}">
                             <option selected>Seleccione</option>
                             @foreach ($voluntaries as $voluntary)
                                 <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->last_name }}</option>
@@ -225,7 +225,7 @@
                     </div>
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
                         <label for="transport" class="form-label">Estado de Emergencia</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="transport" value="{{ old('transport') }}">
+                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="situation" value="{{ old('situation') }}">
                             <option selected>Seleccione</option>
                             <option value="pending">Pendiente</option>
                             <option value="in_progress">En Proceso</option>
@@ -233,8 +233,8 @@
                         </select>
                     </div>
                     <div class="mb-2 col-lg-12 col-md-12 col-sm-12">
-                        <label for="name_accident" class="form-label">Observación</label>
-                        <textarea class="form-control border border-gray p-2" id="name_accident" value="{{ old('name_accident') }}" name="name_accident" aria-describedby="emailHelp"></textarea>
+                        <label for="observations" class="form-label">Observación</label>
+                        <textarea class="form-control border border-gray p-2" id="observations" value="{{ old('observations') }}" name="observations" aria-describedby="emailHelp"></textarea>
                     </div>
                 </div>
             </div>

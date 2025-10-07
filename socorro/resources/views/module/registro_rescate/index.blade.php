@@ -14,7 +14,7 @@
               </div>
               <div class="card-body p-4">
                 <div class="w-100 p-2 mb-4">
-                  <table id="datatableVehicles" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                  <table id="datatableRescue" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
                       <tr>
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
@@ -40,23 +40,27 @@
 
 @push('script')
 <script>
-    var datatableVehicles;
+    var datatableRescue;
 
     $(document).ready(function(){
-      datatableVehicles = $('#datatableVehicles').DataTable({
+      datatableRescue = $('#datatableRescue').DataTable({
         ajax: {
           url: '{{ route("registro-rescate.data") }}',
           dataSrc: ''
         },
         columns: [
-          { data: 'name',
+          { data: 'name_accident',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
           { data: 'type',
             render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+              return data == 'accident'
+                ? '<span class="badge bg-info">Accidente</span>'
+                : data == 'search'
+                ? '<span class="badge bg-info">Busqueda</span>'
+                : '<span class="badge bg-info">Recuperación</span>';
             }
            },
           { data: 'place',
@@ -64,16 +68,18 @@
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'date',
+          { data: 'date_start_trek',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'status',
+          { data: 'situation',
             render: function(data){
-              return data == '1'
-                ? '<span class="badge bg-success">Activo</span>'
-                : '<span class="badge bg-danger">Inactivo</span>';
+              return data == 'pending'
+                ? '<span class="badge bg-success">Pendiente</span>'
+                : data == 'in_progress'
+                ? '<span class="badge bg-warning">En Proceso</span>'
+                : '<span class="badge bg-danger">Completado</span>';
             }
           },
           {
@@ -155,131 +161,67 @@
 
     });
 
+    $('#formRescue').submit(function(e){
+        e.preventDefault();
+        let formData = $(this).serialize();
 
-
-    $('#formModel').submit(function(e){
-      e.preventDefault();
-      let formData = $(this).serialize();
-      $.ajax({
-        url: '{{ route("vehiculo.model.store") }}',
-        type: 'POST',
-        data: formData,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Modelo de vehiculo registrado correctamente',
-          });
-          $('#formModel')[0].reset();
-          datatableModel.ajax.reload();
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar modelo de vehiculo' + JSON.stringify(error),
-          });
-          $('#CreateModelModal').modal('hide');
-        }
-      })
-    })
-
-    function editVoluntary(id){
-      $.ajax({
-        url: 'voluntarios/edit/'+id,
-        type: 'GET',
-        success:function(response){
-          console.log(response);
-          $('#EditModal').modal('show');
-          $('#formVoluntaryEdit').attr('action', 'voluntarios/update/'+id);
-          $('#vehicle_edit').val(response.vehicle);
-          $('#license_edit').val(response.license);
-          $('#type_edit').val(response.type);
-          $('#status_edit').val(response.status);
-          $('#name_edit').text(response.name);
-          $('#id').val(response.id);
-        },
-        error:function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al editar voluntario',
-          });
-          $('#EditModal').modal('hide');
-        }
-      });
-    }
-
-    function deleteVoluntary(id){
-      Swal.fire({
-              title: "¿Estas seguro de eliminar al voluntario?",
-              text: "No podrás revertir esto!",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Si, eliminarlo!"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $.ajax({
-                  url: 'voluntarios/destroy/'+id,
-                  type: 'DELETE',
-                  headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  },
-                  success: function(response){
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Exito.',
-                            text: 'Voluntario eliminado correctamente',
-                        });
-                        datatableVoluntaries.ajax.reload();
-                    },
-                    error: function(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error.',
-                            text: 'Error al eliminar voluntario',
-                        });
-                    }
-                });
-              }
+        $.ajax({
+            url: '{{ route("registro-rescate.store") }}',
+            type: 'POST',
+            data: formData,
+            success: function(response){
+            // Mostrar mensaje desde el backend
+            Swal.fire({
+                icon: response.status === 'success' ? 'success' : 'warning',
+                title: response.status === 'success' ? 'Éxito' : 'Aviso',
+                text: response.message,
             });
+
+            if (response.status === 'success') {
+                $('#formRescue')[0].reset();
+                datatableRescue.ajax.reload();
+                $('#CreateModal').modal('hide');
+            }
+            },
+            error: function(xhr){
+            let msg = 'Error al registrar rescate';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                msg += ': ' + xhr.responseJSON.message;
+            }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: msg,
+            });
+            $('#CreateModal').modal('hide');
+            }
+        });
+    });
+
+    function editRescue(id){
+        $.ajax({
+            url: '{{ url("registro-rescate/edit") }}/' + id,
+            type: 'GET',
+            success:function(response){
+            console.log(response);
+
+            $('#EditModal').modal('show');
+            let updateRoute = '{{ route("registro-rescate.update", ":id") }}';
+            updateRoute = updateRoute.replace(':id', id);
+            $('#formRescueEdit').attr('action', updateRoute);
+            },
+            error:function(error){
+            Swal.fire({
+                icon: 'error',
+                title: 'Error.',
+                text: 'Error al editar rescate',
+            });
+            $('#EditModal').modal('hide');
+            }
+        });
     }
 
-    function showRemark(id){
-      $('#id_user_remark').val(id);
-      $('#RemarkModal').modal('show');
-    }
-
-    $('#formVoluntaryRemark').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: 'voluntarios/remark',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Anotación registrada correctamente',
-          });
-          $('#formVoluntaryRemark')[0].reset();
-          $('#RemarkModal').modal('hide');
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar anotación' + JSON.stringify(error),
-          });
-          $('#RemarkModal').modal('hide');
-        }
-      })
-    })
 
 </script>
 
