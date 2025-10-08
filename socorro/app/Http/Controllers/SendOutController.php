@@ -12,7 +12,35 @@ class SendOutController extends Controller
     public function store(Request $request)
     {
         try{
-            $sendout = new SendOut;
+            $request->validate([
+                'name' => 'required',
+                'lastname' => 'required',
+                'document_type' => 'required',
+                'document_number' => 'required',
+                'email' => 'required|email',
+                'phone' => 'required|numeric',
+                'region' => 'required',
+                'destination' => 'required',
+                'route' => 'required',
+                'activity' => 'required',
+                'number_participants' => 'required|numeric',
+                'departure_date' => 'required|date',
+                'return_date' => 'required|date',
+            ]);
+
+            $sendout_search = SendOut::where('document_number', $request->document_number)
+                                        ->where('active', 1)
+                                        ->first();
+
+            if ($sendout_search) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al guardar la salida',
+                    'error' => 'Aun tienes un aviso activo.'
+                ], 409);
+            }else{
+                $sendout = new SendOut;
+            }
 
             $sendout->name = $request->name;
             $sendout->lastname = $request->lastname;
@@ -27,6 +55,7 @@ class SendOutController extends Controller
             $sendout->number_participants = $request->number_participants;
             $sendout->departure_date = $request->departure_date;
             $sendout->return_date = $request->return_date;
+            $sendout->active = 1;
 
             if($request->hasFile('file_path')){
                 $file = $request->file('file_path');

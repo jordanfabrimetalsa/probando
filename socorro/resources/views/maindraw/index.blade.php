@@ -432,20 +432,20 @@
                 success: function(response){
                     console.log('entra 2')
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Éxito',
+                        icon: response.success ? 'success' : 'error',
+                        title: response.success ? 'Éxito' : 'Error',
                         text: response.message
                     });
                     $('#form_departure')[0].reset();
-                    $('#avisoModal').modal('hide');
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
+                    $('#avisoModal').modal('hide');
                 },
                 error: function(error){
                     console.log(error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Error al registrar salida ' + error.responseJSON?.error
+                        text: error.responseJSON?.error
                     });
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
                 }
