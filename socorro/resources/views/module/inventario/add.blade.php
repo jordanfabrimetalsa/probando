@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="AddStockModal" tabindex="-1" aria-labelledby="AddStockModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="AddStockModalLabel"><i class="fa-brands fa-product-hunt"></i> Agregar Stock</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>

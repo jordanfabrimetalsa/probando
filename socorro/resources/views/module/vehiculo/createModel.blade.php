@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="CreateModelModal" tabindex="-1" aria-labelledby="CreateModelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content modal-extra-background">
         <div class="modal-header">
           <h5 class="modal-title" id="CreateModelModalLabel"><i class="fa-solid fa-icons"></i> Agregar Modelo de Vehículo</h5>
           <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>

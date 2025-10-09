@@ -1,5 +1,5 @@
 <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-extra-background">
         <div class="modal-body">
             <form id="createFileEventForm" method="POST" enctype="multipart/form-data">
                 @csrf

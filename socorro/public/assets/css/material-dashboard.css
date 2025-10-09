@@ -29129,4 +29129,14 @@ pre[class*=language-] {
   }
 }
 
+.modal-extra-background {
+  min-height: 100vh;
+  background: url('../img/fondodesnivel.png') no-repeat center center fixed;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-attachment: fixed;
+}
+
 /*# sourceMappingURL=dashboard-free.css.map */

@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="ReduceStockModal" tabindex="-1" aria-labelledby="ReduceStockModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-conten modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="ReduceStockModalLabel"><i class="fa-brands fa-product-hunt"></i> Reducir Stock</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>

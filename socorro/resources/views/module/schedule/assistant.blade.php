@@ -1,5 +1,5 @@
 <div class="modal fade" id="assistantModal" tabindex="-1" aria-labelledby="assistantModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-extra-background">
         <div class="modal-body">
             <form id="createAssistantEventForm" method="POST">
                 @csrf

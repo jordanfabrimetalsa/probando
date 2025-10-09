@@ -1,6 +1,6 @@
 <div class="modal fade" id="RemarkModal" tabindex="-1" aria-labelledby="RemarkModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="RemarkModalLabel"><i class="fa-solid fa-comment-dots"></i> Anotación</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>

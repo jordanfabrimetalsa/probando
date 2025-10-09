@@ -1,6 +1,6 @@
 <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="EditModalLabel"><i class="fa-solid fa-people-roof"></i> Editar Delegación</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>

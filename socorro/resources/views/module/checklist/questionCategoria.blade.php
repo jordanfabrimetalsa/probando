@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="QuestionModal" tabindex="-1" aria-labelledby="QuestionModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="QuestionModalLabel"><i class="fa-solid fa-icons"></i> Agregar Pregunta</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
