@@ -14,6 +14,7 @@ use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SendOutController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\RescueController;
+use App\Http\Controllers\PostulationController;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -139,6 +140,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
         Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
         Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
+    });
+
+    Route::prefix('postulations')->group(function(){
+        Route::get('/data', [PostulationController::class, 'data'])->name('postulations.data');
+        Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

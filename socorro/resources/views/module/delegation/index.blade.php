@@ -283,6 +283,34 @@
         destroy: true
       });
     }
+
+    
+    $('#formDelegationEventPostulation').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+        url: '{{ route("postulations.store") }}',
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Postulación registrada correctamente',
+          });
+          $('#formDelegationEventPostulation')[0].reset();
+          $('#CreateModalEventPostulation').modal('hide');
+          datatableDelegations.ajax.reload();
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al registrar postulación',
+          });
+          $('#CreateModalEventPostulation').modal('hide');
+        }
+      })
+    })
     
     $('#formDelegationEdit').submit(function(e){
       e.preventDefault();
