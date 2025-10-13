@@ -32,7 +32,6 @@ Route::post('/donations/create', [DonationController::class, 'create'])->name('d
 Route::post('/donations/callback', [DonationController::class, 'callback'])->name('donations.callback');
 
 Route::middleware('auth')->group(function(){
-
     Route::prefix('dashboard')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     });

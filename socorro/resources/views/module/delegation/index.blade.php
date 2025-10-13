@@ -35,11 +35,16 @@
 
 @include('module.delegation.create')
 @include('module.delegation.edit')
+@include('module.delegation.createPostulation')
+
 @endsection
 
 @push('script')
 <script>
     var datatableDelegations;
+    var datatableVoluntaries;
+    var datatablePostulations;
+
     $(document).ready(function(){
       datatableDelegations = $('#datatableDelegations').DataTable({
         ajax:{
@@ -150,7 +155,6 @@
     })
 
     function editDelegation(id){
-      console.log(id);
       $.ajax({
         url: 'delegaciones/edit/'+id,
         type: 'GET',
@@ -159,6 +163,7 @@
           $('#EditModal').modal('show');
           $('#id').val(response.id);
           $('#name_edit').val(response.name);
+          $('#postulation_status').val(response.postulation_status == 'C' ? 'Cerrado' : 'Abierto');
         },
         error: function(error){
           Swal.fire({
@@ -167,7 +172,116 @@
             text: 'Error al editar delegación',
           });
         }
-      })
+      });
+
+      datatablePostulations = $('#datatablePostulations').DataTable({
+        language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+        },
+        dom:
+                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                "<'row'<'col-12'tr>>" +
+                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+        responsive:{
+          details:{
+            type: 'inline'
+          }
+        },
+        buttons: [
+                {
+                  text: '<i class="fa-solid fa-circle-plus"></i>',
+                  className: 'btn btn-dark text-white gap-2 me-2',
+                  action: () => {
+                    $('#CreateModalEventPostulation').modal('show') 
+                  }
+                },
+                {
+                  extend: 'excelHtml5',
+                  text: '<i class="fa-solid fa-file-excel"></i>',
+                  className: 'btn btn-success me-2'
+                }
+        ],
+        columns:[
+          {data: 'title'},
+          {data: 'start_date', render: function(data){
+            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+          }},
+          {data: 'end_date', render: function(data){
+            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+          }}
+        ],
+        destroy: true
+      });
+
+      datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+        ajax:{
+          url: '{{ route("voluntarios.data") }}',
+          dataSrc: ''
+        },
+        language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+        },
+        dom:
+                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                "<'row'<'col-12'tr>>" +
+                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+        responsive:{
+          details:{
+            type: 'inline'
+          }
+        },
+        buttons: [
+                {
+                  extend: 'excelHtml5',
+                  text: '<i class="fa-solid fa-file-excel"></i>',
+                  className: 'btn btn-success me-2'
+                }
+        ],
+        columns:[
+          {data: 'name'},
+          {
+            data: 'type',
+            render: function(data, type, row) {
+              return data == 'V' ? 'Voluntario' : 'Aspirante';
+            }
+          }
+        ],
+        destroy: true
+      });
     }
     
     $('#formDelegationEdit').submit(function(e){

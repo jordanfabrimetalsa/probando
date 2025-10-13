@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('delegations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('postulation_status', ['A', 'C'])->default('C');
             $table->timestamps();
         });
     }
