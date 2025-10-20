@@ -11,16 +11,8 @@
           </div>
           <div class="card card-body mt-n6 mb-4">
             <div class="row gx-4 mb-2">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img src="../assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-                </div>
-              </div>
               <div class="col-auto my-auto">
                 <div class="h-100">
-                  <h5 class="mb-1">
-                    <span id="fullname_title_show"></span>
-                  </h5>
                   <p class="mb-0 font-weight-normal text-sm">
                     <span id="type_show"></span> - Delegación <span id="delegation_show"></span>
                   </p>
@@ -31,7 +23,7 @@
               <div class="col-12">
                 <div class="card card-plain h-100">
                   <div class="card-header pb-0 p-3">
-                    <h6 class="mb-0">Información Personal</h6>
+                    <h5 class="mb-0">Información Personal</h5>
                   </div>
                     <div class="card-body p-3">
                       <ul class="list-group">
@@ -51,7 +43,7 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h6 class="mb-0">Información Médica</h6>
+                      <h5 class="mb-0">Información Médica</h5>
                     </div>
                     <div class="card-body p-3">
                       <ul class="list-group">
@@ -68,21 +60,21 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h6 class="mb-0">Configuración</h6>
+                      <h5 class="mb-0">Configuración</h5>
                     </div>
                     <div class="card-body p-3">
                       <ul class="list-group">
                         <li class="list-group-item border-0 px-0">
                           <div class="form-check form-switch ps-0">
-                            <input class="form-check-input ms-auto" type="checkbox" id="status_show" checked>
+                            <input class="form-check-input ms-auto" type="checkbox" id="status_show" checked disabled>
                             <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="status_show" id="text_status_show"></label>
                           </div>
                           <div class="form-check form-switch ps-0">
-                            <input class="form-check-input ms-auto" type="checkbox" id="payment_show" checked>
+                            <input class="form-check-input ms-auto" type="checkbox" id="payment_show" checked disabled>
                             <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="payment_show" id="text_payment_show"></label>
                           </div>
                           <div class="form-check form-switch ps-0">
-                            <input class="form-check-input ms-auto" type="checkbox" id="license_show" checked>
+                            <input class="form-check-input ms-auto" type="checkbox" id="license_show" checked disabled>
                             <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="license_show" id="text_license_show"></label>
                           </div>
                         </li>
@@ -95,7 +87,7 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h6 class="mb-0">Números de Emergencia</h6>
+                      <h5 class="mb-0">Números de Emergencia</h5>
                     </div>
                     <div class="card-body p-3">
                       <ul class="list-group" id="emergency_name_show">
@@ -108,7 +100,7 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h6 class="mb-0">Anotaciones</h6>
+                      <h5 class="mb-0">Anotaciones</h5>
                     </div>
                     <div class="card-body p-3">
                       <ul class="list-group" id="remark_name_show">

@@ -35,9 +35,10 @@
         </div>
       </div>
   </div>
-  @include('module.vehiculo.create')
   @include('module.vehiculo.createBrand')
   @include('module.vehiculo.createModel')
+  @include('module.vehiculo.create')
+
 @endsection
 
 @push('script')
@@ -104,16 +105,6 @@
             text: '<i class="fa-solid fa-circle-plus"></i>',
             className: 'btn btn-dark me-2',
             action: () => $('#CreateModal').modal('show')
-          },
-          {
-            text: '<i class="fa-solid fa-copyright"></i>',
-            className: 'btn btn-dark me-2',
-            action: () => $('#CreateBrandModal').modal('show')
-          },
-          {
-            text: '<i class="fa-brands fa-buromobelexperte"></i>',
-            className: 'btn btn-dark me-2',
-            action: () => $('#CreateModelModal').modal('show')
           },
           {
             extend: 'excelHtml5',
@@ -224,68 +215,105 @@
         bFilter: false,
       });
 
-    datatableModel = $('#datatableModel').DataTable({
-        ajax: {
-          url: '{{ route("vehiculo.model.data") }}',
-          dataSrc: ''
-        },
-        columns: [
-          { data: 'name',
-            render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          },
-          { data: 'brand.name',
-            render: function(data){
+        datatableModel = $('#datatableModel').DataTable({
+            ajax: {
+            url: '{{ route("vehiculo.model.data") }}',
+            dataSrc: ''
+            },
+            columns: [
+            { data: 'name',
+                render: function(data){
                 return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
-            }
-          }
-        ],
-        buttons: [
-          {
-            extend: 'excelHtml5',
-            text: '<i class="fa-solid fa-file-excel"></i>',
-            className: 'btn btn-success me-2'
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<i class="fa-solid fa-file-pdf"></i>',
-            className: 'btn btn-danger me-2'
-          }
-        ],
-        language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
                 }
-        },
-        dom:
-          "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-          "<'row'<'col-12'tr>>" +
-          "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
-        responsive:{
-          details:{
-            type: 'inline'
-          }
-        },
-        searching: false,
-        bFilter: false,
-      });
+            },
+            { data: 'brand.name',
+                render: function(data){
+                    return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+                }
+            }
+            ],
+            buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fa-solid fa-file-excel"></i>',
+                className: 'btn btn-success me-2'
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa-solid fa-file-pdf"></i>',
+                className: 'btn btn-danger me-2'
+            }
+            ],
+            language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+            },
+            dom:
+            "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+            "<'row'<'col-12'tr>>" +
+            "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+            responsive:{
+            details:{
+                type: 'inline'
+            }
+            },
+            searching: false,
+            bFilter: false,
+        });
+
+        getBrandData();
+        getModelData();
     });
+
+    function getBrandData() {
+        $.ajax({
+            url: '{{ route("vehiculo.brand.data") }}',
+            type: 'GET',
+            success: function(response) {
+                let brandOptions = '<option value="">Seleccione una marca</option>';
+                response.forEach(function(brand) {
+                    brandOptions += `<option value="${brand.id}">${brand.name}</option>`;
+                });
+                $('#brand_id, #model_brand_id').html(brandOptions);
+            },
+            error: function(error) {
+                console.error('Error al cargar marcas:', error);
+            }
+        });
+    }
+
+    function getModelData() {
+        $.ajax({
+            url: '{{ route("vehiculo.model.data") }}',
+            type: 'GET',
+            success: function(response) {
+                let modelOptions = '<option value="">Seleccione un modelo</option>';
+                response.forEach(function(model) {
+                    modelOptions += `<option value="${model.id}">${model.name}</option>`;
+                });
+                $('#model_id').html(modelOptions);
+            },
+            error: function(error) {
+                console.error('Error al cargar modelos:', error);
+            }
+        });
+    }
 
     $('#formVehiculo').submit(function(e){
       e.preventDefault();
@@ -332,6 +360,7 @@
           });
           $('#formBrand')[0].reset();
           datatableBrand.ajax.reload();
+          getBrandData();
         },
         error: function(error){
           Swal.fire({
@@ -359,6 +388,7 @@
           });
           $('#formModel')[0].reset();
           datatableModel.ajax.reload();
+          getBrandData();
         },
         error: function(error){
           Swal.fire({

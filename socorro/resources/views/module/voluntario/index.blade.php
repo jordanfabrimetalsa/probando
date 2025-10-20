@@ -55,7 +55,7 @@
           dataSrc: ''
         },
         columns: [
-          { 
+          {
             data: null,
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data.name+' '+data.lastname+'</p>'
@@ -180,6 +180,7 @@
           success: function(response){
             console.log(response);
             $('#ShowModal').modal('show');
+            $('#image_show').attr('src', response.image);
             $('#fullname_title_show').text(response.name + ' ' + response.lastname);
             $('#fullname_show').text(response.name + ' ' + response.lastname);
             $('#document_show').text(response.document);
@@ -241,7 +242,7 @@
                   colour = 'danger';
                   break;
               }
-              
+
               remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                               <div class="d-flex align-items-start flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">${element.remark}</h6>
@@ -261,7 +262,7 @@
           }
         });
       }catch(e){
-        console.log(e);  
+        console.log(e);
       }
     }
 
