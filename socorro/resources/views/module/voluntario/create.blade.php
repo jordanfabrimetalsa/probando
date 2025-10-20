@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="CreateModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="CreateModalLabel"><i class="fa-solid fa-user-plus"></i> Registrar Voluntario</h5>
@@ -18,7 +18,7 @@
                     @foreach ($delegations as $delegation)
                         <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
                     @endforeach
-                </select>   
+                </select>
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
             <div class="col-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
-                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp" required>  
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" aria-describedby="emailHelp" required>
               </div>
             </div>
             <div class="col-6">
@@ -107,7 +107,7 @@
                     <option selected>Seleccione Opción</option>
                     <option value="1">Sí</option>
                     <option value="0">No</option>
-                </select>   
+                </select>
               </div>
             </div>
             <div class="col-4">
@@ -118,7 +118,7 @@
                       <option value="1">Sí</option>
                       <option value="0">No</option>
                   </select>
-                </div>  
+                </div>
               </div>
               <div class="col-4">
                 <div class="mb-3">

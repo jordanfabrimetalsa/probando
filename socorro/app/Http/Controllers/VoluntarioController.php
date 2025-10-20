@@ -169,6 +169,7 @@ class VoluntarioController extends Controller
             $remark = new Remark();
             $remark->voluntary_id = $request->id_user_remark;
             $remark->remark = $request->remark;
+            $remark->gravity = $request->gravity;
             $remark->save();
 
             return response()->json(['success' => 'Voluntario actualizado correctamente']);
