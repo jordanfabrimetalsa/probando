@@ -1,9 +1,9 @@
 <!-- Modal -->
 <div class="modal fade" id="CreateModalEventPostulation" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-  <div class="modal-dialog"> 
+  <div class="modal-dialog">
     <div class="modal-content modal-extra-background">
       <div class="modal-header">
-        <h5 class="modal-title" id="CreateModalLabel"><i class="fa-solid fa-people-roof"></i> Registrar Delegación</h5>
+        <h5 class="modal-title" id="CreateModalLabel"><i class="fa-solid fa-people-roof"></i> Crear nuevas postulaciones</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -31,15 +31,16 @@
             <div class="col-sm-12 col-md-6 col-lg-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha de inicio<span class="text-danger">*</span></label>
-                <input type="datetime-local" class="form-control border border-gray p-2" id="cant_people_selected" name="cant_people_selected" required>
+                <input type="datetime-local" class="form-control border border-gray p-2" id="start_date" name="start_date" required>
               </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-6">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha de fin<span class="text-danger">*</span></label>
-                <input type="datetime-local" class="form-control border border-gray p-2" id="cant_people_selected" name="cant_people_selected" required>
+                <input type="datetime-local" class="form-control border border-gray p-2" id="end_date" name="end_date" required>
               </div>
             </div>
+            <input type="hidden" name="delegation_id_postulation" id="delegation_id_postulation">
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Crear Delegación</button>
         </form>

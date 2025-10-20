@@ -1,5 +1,5 @@
 <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="EditModalLabel"><i class="fa-solid fa-people-roof"></i> Editar Delegación</h5>
@@ -11,28 +11,24 @@
           @method('PUT')
           <input type="hidden" id="id" name="id">
           <div class="row">
-            <div class="col-6">
+            <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="name_edit" name="name" readonly>
               </div>
             </div>
-            <div class="col-6">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Postulaciones<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="postulation_status" name="postulation_status" readonly>
-              </div>
-            </div>
           </div>
           <!--<button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Editar Delegación</button>-->
         </form>
-        
+
         <table id="datatablePostulations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
           <thead class="bg-gradient-dark text-center">
               <tr class="text-center">
                 <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                 <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha de inicio</th>
                 <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha de fin</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
               </tr>
           </thead>
           <tbody class="text-center">

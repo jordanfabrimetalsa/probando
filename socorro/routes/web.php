@@ -15,6 +15,7 @@ use App\Http\Controllers\SendOutController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\RescueController;
 use App\Http\Controllers\PostulationController;
+use App\Http\Controllers\PostulationsPeopleController;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -143,8 +144,14 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('postulations')->group(function(){
-        Route::get('/data', [PostulationController::class, 'data'])->name('postulations.data');
+        Route::get('/data/{id}', [PostulationController::class, 'data'])->name('postulations.data');
         Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
+        Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');
+    });
+
+    Route::prefix('postulations-people')->group(function(){
+        Route::get('/data/{id}', [PostulationsPeopleController::class, 'data'])->name('postulations-people.data');
+        Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

@@ -4,38 +4,39 @@
 
 @section('content')
 
-<div class="container-fluid py-2">
-    <div class="row">
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-people-roof"></i> Administración de Delegaciones</h6>
-              </div>
+    <div class="container-fluid py-2">
+        <div class="row">
+            <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-people-roof"></i> Administración de Delegaciones</h6>
+                </div>
+                </div>
+                <div class="card-body p-4">
+                <div class="w-100 p-2 mb-4">
+                    <table id="datatableDelegations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                    <thead class="bg-gradient-dark text-center">
+                        <tr class="text-center">
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    </tbody>
+                    </table>
+                </div>
+                </div>
             </div>
-            <div class="card-body p-4">
-              <div class="w-100 p-2 mb-4">
-                <table id="datatableDelegations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                  <thead class="bg-gradient-dark text-center">
-                    <tr class="text-center">
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-                  </tbody>
-                </table>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+        </div>
     </div>
-</div>
 
-@include('module.delegation.create')
-@include('module.delegation.edit')
-@include('module.delegation.createPostulation')
+    @include('module.delegation.details')
+    @include('module.delegation.create')
+    @include('module.delegation.edit')
+    @include('module.delegation.createPostulation')
 
 @endsection
 
@@ -44,6 +45,7 @@
     var datatableDelegations;
     var datatableVoluntaries;
     var datatablePostulations;
+    var datatablePostulationsPeople;
 
     $(document).ready(function(){
       datatableDelegations = $('#datatableDelegations').DataTable({
@@ -122,7 +124,7 @@
                         <i class="fa-solid fa-trash"></i>
                       </a>`;
             }
-          }        
+          }
         ]
       });
     });
@@ -151,8 +153,8 @@
           });
           $('#CreateModal').modal('hide');
         }
-      })
-    })
+      });
+    });
 
     function editDelegation(id){
       $.ajax({
@@ -162,6 +164,7 @@
           console.log(response.name);
           $('#EditModal').modal('show');
           $('#id').val(response.id);
+          $('#delegation_id_postulation').val(response.id);
           $('#name_edit').val(response.name);
           $('#postulation_status').val(response.postulation_status == 'C' ? 'Cerrado' : 'Abierto');
         },
@@ -175,62 +178,163 @@
       });
 
       datatablePostulations = $('#datatablePostulations').DataTable({
-        language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-        },
-        dom:
-                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-                "<'row'<'col-12'tr>>" +
-                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
-        responsive:{
-          details:{
-            type: 'inline'
-          }
-        },
-        buttons: [
+            ajax:{
+            url: 'postulations/data/'+id,
+            dataSrc: ''
+            },
+            language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+            },
+            dom:
+                    "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                    "<'row'<'col-12'tr>>" +
+                    "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+            responsive:{
+            details:{
+                type: 'inline'
+            }
+            },
+            buttons: [
                 {
-                  text: '<i class="fa-solid fa-circle-plus"></i>',
-                  className: 'btn btn-dark text-white gap-2 me-2',
-                  action: () => {
-                    $('#CreateModalEventPostulation').modal('show') 
-                  }
-                },
-                {
-                  extend: 'excelHtml5',
-                  text: '<i class="fa-solid fa-file-excel"></i>',
-                  className: 'btn btn-success me-2'
+                    text: '<i class="fa-solid fa-circle-plus"></i>',
+                    className: 'btn btn-dark text-white gap-2 me-2',
+                    action: () => {
+                        $('#CreateModalEventPostulation').modal('show')
+                    }
+                    },
+                    {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa-solid fa-file-excel"></i>',
+                    className: 'btn btn-success me-2'
+                    }
+            ],
+            columns:[
+            {data: 'title'},
+            {data: 'status', render: function(data){
+                return data == 'A' ? '<span class="badge bg-success">Abierto</span>' : '<span class="badge bg-danger">Cerrado</span>';
+            }},
+            {
+                data: 'start_date', render: function(data){
+                return moment(data).format('DD/MM/YYYY HH:mm:ss');
                 }
-        ],
-        columns:[
-          {data: 'title'},
-          {data: 'start_date', render: function(data){
-            return moment(data).format('DD/MM/YYYY HH:mm:ss');
-          }},
-          {data: 'end_date', render: function(data){
-            return moment(data).format('DD/MM/YYYY HH:mm:ss');
-          }}
-        ],
-        destroy: true
-      });
+            },
+            {
+                data: 'end_date', render: function(data){
 
-      datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+                var today = moment();
+                var date = moment(data);
+
+                if(today.isAfter(date)){
+                return '<span style="color:red;">' + date.format('DD/MM/YYYY HH:mm:ss') + '</span>';
+                }else{
+                return date.format('DD/MM/YYYY HH:mm:ss');
+                }
+            }
+            },
+            {
+                data: null,
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                return `
+                    <a href="javascript:;" class="btn btn-info text-white" onclick="detailsPostulation(${data.id})" data-bs-toggle="modal" data-bs-target="#DetailsModalPostulation">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>`;
+                }
+            }
+            ],
+            destroy: true
+        });
+
+        datatablePostulationsPeople = $('#datatablePostulationsPeople').DataTable({
+            ajax:{
+            url: 'postulations-people/data/'+id,
+            dataSrc: ''
+            },
+            language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+            },
+            dom:
+                    "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                    "<'row'<'col-12'tr>>" +
+                    "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+            responsive:{
+            details:{
+                type: 'inline'
+            }
+            },
+            buttons: [
+                    {
+                    text: '<i class="fa-solid fa-circle-plus"></i>',
+                    className: 'btn btn-dark text-white gap-2 me-2',
+                    action: () => $('#CreateModal').modal('show')
+                    },
+                    {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa-solid fa-file-excel"></i>',
+                    className: 'btn btn-success me-2'
+                    },
+                    {
+                    extend: 'print',
+                    text: '<i class="fa-solid fa-print"></i>',
+                    className: 'btn btn-primary me-2'
+                    },
+                    {
+                    extend: 'csvHtml5',
+                    text: '<i class="fa-solid fa-file-csv"></i>',
+                    className: 'btn btn-success me-2'
+                    },
+                    {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa-solid fa-file-pdf"></i>',
+                    className: 'btn btn-danger me-2'
+                    }
+            ],
+            columns:[
+                {data: 'data', render: function(data){
+                    return data.name + ' ' + data.last_name;
+                }}
+            ],
+            destroy: true
+        });
+    }
+
+    datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+        destroy: true,
         ajax:{
           url: '{{ route("voluntarios.data") }}',
           dataSrc: ''
@@ -281,45 +385,52 @@
           }
         ],
         destroy: true
-      });
-    }
+    });
 
-    
     $('#formDelegationEventPostulation').submit(function(e){
-      e.preventDefault();
-      $.ajax({
-        url: '{{ route("postulations.store") }}',
-        type: 'POST',
-        data: $(this).serialize(),
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Postulación registrada correctamente',
-          });
-          $('#formDelegationEventPostulation')[0].reset();
-          $('#CreateModalEventPostulation').modal('hide');
-          datatableDelegations.ajax.reload();
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar postulación',
-          });
-          $('#CreateModalEventPostulation').modal('hide');
-        }
-      })
-    })
-    
+        e.preventDefault();
+        $.ajax({
+            url: '{{ route("postulations.store") }}',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(response){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: response.message + ' - Titular: ' + response.postulation.title,
+                    confirmButtonText: 'Aceptar'
+                });
+                $('#formDelegationEventPostulation')[0].reset();
+                $('#CreateModalEventPostulation').modal('hide');
+                datatablePostulations.ajax.reload();
+            },
+            error: function(error){
+                let errorMsg = 'Error al registrar postulación';
+                if (error.status === 422) {
+                    // Errores de validación
+                    errorMsg = Object.values(error.responseJSON.errors).flat().join(', ');
+                } else if (error.responseJSON?.error) {
+                    errorMsg = error.responseJSON.error;
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorMsg,
+                    confirmButtonText: 'Aceptar'
+                });
+                $('#CreateModalEventPostulation').modal('hide');
+            }
+        });
+    });
+
     $('#formDelegationEdit').submit(function(e){
       e.preventDefault();
       let id = $('#id').val();
-      
+
       $.ajax({
         url: 'delegaciones/update/' + id,
         type: 'PUT',
-        data: $(this).serialize(), // <-- ESTA LÍNEA ES CLAVE
+        data: $(this).serialize(),
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -343,16 +454,16 @@
     });
 
     function deleteDelegation(id){
-            Swal.fire({
-              title: "¿Estas seguro de eliminar el usuario?",
-              text: "No podrás revertir esto!",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Si, eliminarlo!"
-            }).then((result) => {
-              if (result.isConfirmed) {
+        Swal.fire({
+            title: "¿Estas seguro de eliminar el usuario?",
+            text: "No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminarlo!"
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                   url: 'delegaciones/destroy/'+id,
                   type: 'DELETE',
@@ -375,9 +486,33 @@
                         });
                     }
                 });
-              }
-            });
-          }
+            }
+        });
+    }
+
+    function detailsPostulation(id){
+        $.ajax({
+            url: 'postulations/details/'+id,
+            type: 'GET',
+            success: function(response){
+                console.log(response.name);
+                $('#DetailsModalPostulation').modal('show');
+                $('#titlePostulation').val(response.title);
+                $('#cant_people_selectedPostulation').val(response.cant_people_selected);
+                $('#descriptionPostulation').val(response.description);
+                $('#start_datePostulation').val(response.start_date);
+                $('#end_datePostulation').val(response.end_date);
+            },
+            error: function(error){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error.',
+                    text: 'Error al editar delegación',
+                });
+            }
+        });
+    }
+
 </script>
 
 @endpush
