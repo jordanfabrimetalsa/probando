@@ -88,6 +88,8 @@ Route::middleware('auth')->group(function(){
     Route::prefix('inventario')->group(function(){
         Route::get('/', [InventarioController::class,'index'])->name('inventario');
         Route::get('/data', [InventarioController::class,'data'])->name('inventario.data');
+        Route::get('/warehouse/data', [InventarioController::class,'dataWarehouse'])->name('inventario.warehouse');
+        Route::get('/category/data', [InventarioController::class,'dataCategory'])->name('inventario.category');
         Route::get('/stock_movements', [InventarioController::class,'stock_movements'])->name('inventario.stock_movements');
         Route::post('/reduce_stock', [InventarioController::class,'reduce_stock'])->name('inventario.reduce_stock');
         Route::get('/create', [InventarioController::class,'create'])->name('inventario.create');

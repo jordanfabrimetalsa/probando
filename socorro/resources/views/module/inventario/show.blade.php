@@ -1,5 +1,5 @@
 <div class="modal fade" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content modal-extra-background">
       <div class="modal-header">
         <h5 class="modal-title" id="ShowModalLabel">Información del Producto</h5>
@@ -10,23 +10,6 @@
           <div class="page-header min-height-100 mt-2">
           </div>
           <div class="card card-body mx-2 mx-md-2 mt-n6 mb-4">
-            <div class="row gx-4 mb-2">
-              <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                  <img src="../assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-                </div>
-              </div>
-              <div class="col-auto my-auto">
-                <div class="h-100">
-                  <h5 class="mb-1">
-                    <span id="fullname_title_show"></span>
-                  </h5>
-                  <p class="mb-0 font-weight-normal text-sm">
-                    <span id="brand_show"></span>
-                  </p>
-                </div>
-              </div>
-            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card card-plain h-100">
@@ -35,6 +18,7 @@
                         </div>
                         <div class="card-body p-3">
                             <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nombre Producto:</strong> &nbsp; <span id="fullname_title_show"></span></li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Stock:</strong> &nbsp; <span id="stock_show"></span></li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Total en Costo:</strong> &nbsp; <span id="total_show"></span></li>
                             </ul>

@@ -99,9 +99,6 @@
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">IVA</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                     </tr>
@@ -113,9 +110,6 @@
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">IVA</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                     </tr>
@@ -172,6 +166,9 @@
 <script>
   // https://mindicador.cl/
   $(document).ready(function(){
+      Warehouse();
+      Category();
+
       $.getJSON('https://mindicador.cl/api', function(data) {
       var dailyIndicators = data;
 
@@ -295,28 +292,10 @@
         { data: 'name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         { data: 'stock', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         {
-          data: null,
-          render: d => {
-            const unitary = d.stock > 0 ? d.total / d.stock : 0;
-            return `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(unitary)}</p>`;
-          }
-        },
-        {
-          data: 'total',
-          render: d => `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(d)}</p>`
-        },
-        {
-          data: null,
-          render: d => {
-            const tax = d.stock > 0 ? (d.total * 19) / 100 : 0;
-            return `<p class="text-xs text-secondary mb-0 text-success">$${Intl.NumberFormat('es-CL').format(tax)}</p>`;
-          }
-        },
-        {
           data: 'status',
           render: d => d == '1'
             ? '<span class="badge bg-success">Disponible</span>'
-            : '<span class="badge bg-danger">Agotado</span>'
+            : '<span class="badge bg-danger">Deshabilitado</span>'
         },
         {
           data: null,
@@ -343,16 +322,6 @@
           text: '<i class="fa-solid fa-circle-plus"></i>',
           className: 'btn btn-dark text-white gap-2 me-2',
           action: () => $("#CreateModal").modal('show')
-        },
-        {
-          text: '<i class="fa-solid fa-warehouse"></i>',
-          className: 'btn btn-dark text-white gap-2 me-2',
-          action: () => $("#CreateWarehouseModal").modal('show')
-        },
-        {
-          text: '<i class="fa-solid fa-table-list"></i>',
-          className: 'btn btn-dark text-white gap-2 me-2',
-          action: () => $("#CreateCategoryModal").modal('show')
         },
         {
           extend: 'excelHtml5',
@@ -403,7 +372,7 @@
           type: 'inline'
         }
       },
-      order: [[6, 'asc']], 
+      order: [[1, 'asc']], 
       rowGroup: {
         dataSrc: 'category_name',
         startRender: function(rows, group) {
@@ -411,31 +380,6 @@
             .addClass('group-header bg-dark')
             .append(`<td colspan="12" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`);
         }
-      },
-      drawCallback: function(settings) {
-        var api = this.api();
-        var sum_unitary = api
-          .column(3)
-          .data()
-          .reduce(function(a, b) {
-            return a + b;
-          }, 0);
-
-        var sum_total = api
-          .column(4)
-          .data()
-          .reduce(function(a, b) {
-            return a + b;
-          }, 0);
-
-        $(api.table().footer()).html(
-          `<tr>
-            <th colspan="1" class="text-center text-white" style="font-size:12px">Total:</th>
-            <th colspan="3"></th>
-            <th class="text-center text-white" style="font-size:12px">$${Intl.NumberFormat('es-CL').format(sum_total)}</th>
-            <th colspan="4"></th>
-          </tr>`
-        );
       }
     });
 
@@ -590,7 +534,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar inventario',
+            text: 'Error al registrar inventario por: ' + error.responseJSON.message,
           });
           $('#CreateModal').modal('hide');
         }
@@ -610,6 +554,8 @@
                         text: 'Categoría registrada correctamente',
                     });
                     $('#CreateCategoryModal').modal('hide');
+                    $('#formCategory')[0].reset();
+                    Category();
                 },
                 error: function(error){
                     Swal.fire({
@@ -635,6 +581,8 @@
                 text: 'Bodega registrado correctamente',
             });
             $('#CreateWarehouseModal').modal('hide');
+            $('#formWarehouse')[0].reset();
+            Warehouse();
             },
             error: function(error){
             Swal.fire({
@@ -715,7 +663,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al agregar stock',
+            text: 'Error al agregar stock ' + error.responseJSON.message,
           });
           $('#AddStockModal').modal('hide');
         }
@@ -754,6 +702,52 @@
         }
       })
     })
+
+    function Warehouse(){
+      $.ajax({
+        url: 'inventario/warehouse/data',
+        type: 'GET',
+        success: function(response){
+          var responseWarehouse = '';
+          responseWarehouse += '<option selected disabled>Seleccione la Bodega</option>';
+          response.map(item => {
+            responseWarehouse += '<option value="' + item.id + '">' + item.name + '</option>';
+          })
+
+          $('#id_warehouse').html(responseWarehouse);
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al obtener bodegas',
+          });
+        }
+      })
+    }
+
+    function Category(){
+      $.ajax({
+        url: 'inventario/category/data',
+        type: 'GET',
+        success: function(response){
+          var responseCategory = '';
+          responseCategory += '<option selected disabled>Seleccione la Categoria</option>';
+          response.map(item => {
+            responseCategory += '<option value="' + item.id + '">' + item.name + '</option>';
+          })
+
+          $('#id_category').html(responseCategory);
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al obtener categorías',
+          });
+        }
+      })
+    }
 </script>
 
 @endpush

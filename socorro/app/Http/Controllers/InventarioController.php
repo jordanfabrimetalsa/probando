@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\StockProductAdd;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,7 @@ class InventarioController extends Controller
 {
     public function index()
     {
-        $warehouses = Warehouse::all();
-        $categories = Category::all();
-        return view('module.inventario.index', compact('warehouses', 'categories'));
+        return view('module.inventario.index');
     }
 
     public function data(){
@@ -100,6 +99,18 @@ class InventarioController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'barcode' => 'required|max:100|unique:products,barcode',
+            'name' => 'required|max:100|unique:products,name',
+            'description' => 'required|max:255',
+            'colour' => 'required|max:100',
+            'size' => 'required|max:100',
+            'brand' => 'required|max:100',
+            'status' => 'required|boolean',
+            'id_category' => 'required|exists:categories,id',
+            'id_warehouse' => 'required|exists:warehouses,id'
+        ]);
+
         try{
             $product = new Product();
             $product->barcode = $request->barcode;
@@ -108,35 +119,20 @@ class InventarioController extends Controller
             $product->colour = $request->colour;
             $product->size = $request->size;
             $product->brand = $request->brand;
-            $product->stock = $request->stock;
-            $product->total = $request->stock * $request->price;
             $product->status = $request->status;
             $product->id_category = $request->id_category;
             $product->id_warehouse = $request->id_warehouse;
+            $product->save();
 
-            if($product->save()){
-                $stockMovement = new StockMovement();
-                $stockMovement->quantity = $request->stock;
-                $stockMovement->unit_cost = $request->price;
-                $stockMovement->product_id = $product->id;
-                $stockMovement->user_id = auth()->user()->id;
-                $stockMovement->type = 'add';
-                $stockMovement->save();
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Inventario registrado'
-                ], 201);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Error al crear el inventario'
-                ], 500);
-            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Inventario registrado'
+            ], 201);
 
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al crear el inventario'
+                'message' => 'Error al crear el inventario por: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -160,18 +156,26 @@ class InventarioController extends Controller
 
     public function addStock(Request $request)
     {
-        try{
-            $request->validate([
-                'product_id_show' => 'required|exists:products,id',
-                'quantity' => 'required|numeric',
-                'unit_cost' => 'required|numeric'
-            ]);
+        $request->validate([
+            'product_id_show' => 'required|exists:products,id',
+            'quantity' => 'required|numeric',
+            'unit_cost' => 'required|numeric'
+        ]);
 
-            $product = Product::find($request->product_id_show);
-            $product->stock = ($product->stock + $request->quantity);
-            $product->total += ($request->quantity * $request->unit_cost);
-            $product->status = true;
-            if($product->save()){
+        try{
+            // Registrar el agregado de stock en la tabla stock_products
+            $stockAdd = new StockProductAdd();
+            $stockAdd->count = $request->quantity;
+            $stockAdd->cost = $request->unit_cost;
+            $stockAdd->product_id = $request->product_id_show;
+
+            // Actualizar el stock del producto
+            $productDetail = Product::find($request->product_id_show);
+            $productDetail->stock = $productDetail->stock + $request->quantity;
+            $productDetail->status = true;
+            $productDetail->save();
+
+            if($stockAdd->save()){
                 $stockMovement = new StockMovement();
                 $stockMovement->quantity = $request->quantity;
                 $stockMovement->unit_cost = $request->unit_cost;
@@ -188,7 +192,7 @@ class InventarioController extends Controller
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al agregar stock'
+                'message' => 'Error al agregar stock ' . $e->getMessage()
             ], 500);
         }
     }
@@ -254,6 +258,30 @@ class InventarioController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error al eliminar el inventario'
+            ], 500);
+        }
+    }
+
+    public function dataWarehouse(){
+        try{
+            $warehouses = Warehouse::all();
+            return response()->json($warehouses);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al obtener las bodegas'
+            ], 500);
+        }
+    }
+
+    public function dataCategory(){
+        try{                                                                                                            
+            $categories = Category::all();
+            return response()->json($categories);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al obtener las categorías'
             ], 500);
         }
     }
