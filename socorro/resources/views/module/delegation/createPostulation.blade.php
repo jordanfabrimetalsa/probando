@@ -7,7 +7,7 @@
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="formDelegationEventPostulation" class="form" method="POST">
+        <form id="formDelegationEventPostulation" class="form" method="POST" action="{{ route('postulations.store') }}">
           @csrf
           <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-6">

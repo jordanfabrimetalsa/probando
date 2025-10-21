@@ -48,6 +48,18 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [UserController::class,'destroy'])->name('usuarios.destroy');
     });
 
+    Route::prefix('postulations')->group(function(){
+        Route::get('/data/{id}', [PostulationController::class, 'data'])->name('postulations.data');
+        Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
+        Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');
+    });
+
+    Route::prefix('postulations-people')->group(function(){
+        Route::get('/data/{id}', [PostulationsPeopleController::class, 'data'])->name('postulations-people.data');
+        Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
+    });
+
+
     Route::prefix('delegaciones')->group(function(){
         Route::get('/', [DelegacionController::class,'index'])->name('delegaciones');
         Route::get('/data', [DelegacionController::class,'data'])->name('delegaciones.data');
@@ -141,17 +153,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
         Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
         Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
-    });
-
-    Route::prefix('postulations')->group(function(){
-        Route::get('/data/{id}', [PostulationController::class, 'data'])->name('postulations.data');
-        Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
-        Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');
-    });
-
-    Route::prefix('postulations-people')->group(function(){
-        Route::get('/data/{id}', [PostulationsPeopleController::class, 'data'])->name('postulations-people.data');
-        Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

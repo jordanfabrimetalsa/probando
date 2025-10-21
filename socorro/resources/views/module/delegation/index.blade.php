@@ -299,11 +299,6 @@
             },
             buttons: [
                     {
-                    text: '<i class="fa-solid fa-circle-plus"></i>',
-                    className: 'btn btn-dark text-white gap-2 me-2',
-                    action: () => $('#CreateModal').modal('show')
-                    },
-                    {
                     extend: 'excelHtml5',
                     text: '<i class="fa-solid fa-file-excel"></i>',
                     className: 'btn btn-success me-2'
@@ -392,6 +387,9 @@
         $.ajax({
             url: '{{ route("postulations.store") }}',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             data: $(this).serialize(),
             success: function(response){
                 Swal.fire({
