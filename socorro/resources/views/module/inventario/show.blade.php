@@ -20,7 +20,6 @@
                             <ul class="list-group">
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nombre Producto:</strong> &nbsp; <span id="fullname_title_show"></span></li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Stock:</strong> &nbsp; <span id="stock_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Total en Costo:</strong> &nbsp; <span id="total_show"></span></li>
                             </ul>
                         </div>
                     </div>

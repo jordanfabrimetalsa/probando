@@ -60,7 +60,6 @@ Route::middleware('auth')->group(function(){
         Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
     });
 
-
     Route::prefix('delegaciones')->group(function(){
         Route::get('/', [DelegacionController::class,'index'])->name('delegaciones');
         Route::get('/data', [DelegacionController::class,'data'])->name('delegaciones.data');

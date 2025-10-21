@@ -142,9 +142,10 @@ class InventarioController extends Controller
         try{
             $products = Product::join('categories', 'products.id_category', '=', 'categories.id')
                                 ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
-                                ->select('products.*', 'categories.name as category_name', 'categories.description as category_description', 'warehouses.name as warehouse_name', 'warehouses.description as warehouse_description', 'warehouses.status as warehouse_status', 'warehouses.path as warehouse_path', 'products.total as total')
+                                ->select('products.*', 'categories.name as category_name', 'categories.description as category_description', 'warehouses.name as warehouse_name', 'warehouses.description as warehouse_description', 'warehouses.status as warehouse_status', 'warehouses.path as warehouse_path')
                                 ->where('products.id', $id)
                                 ->get();
+
             return response()->json($products);
         }catch(Exception $e){
             return response()->json([
@@ -199,25 +200,24 @@ class InventarioController extends Controller
 
     public function reduce_stock(Request $request)
     {
-        try{
-            $request->validate([
-                'product_id_reduce' => 'required|exists:products,id',
-                'quantity' => 'required|numeric'
-            ]);
+        $request->validate([
+            'product_id_reduce' => 'required|exists:products,id',
+            'quantity' => 'required|numeric'
+        ]);
 
+        try{
             $product = Product::find($request->product_id_reduce);
 
-            if ($product->stock < $request->quantity || $product->stock == 0) {
+            $valueComparation = intval($product->stock) - intval($request->quantity);
+            
+            if($valueComparation < 0){
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Esta reduciendo mas de lo que existe, solo se puede reducir ' . $product->stock . ' ' . ($product->stock == 1 ? 'unidad' : 'unidades')
                 ], 400);
             }
 
-            $unit_cost = round($product->total / $product->stock, 2);
-            $reduction_value = $request->quantity * $unit_cost;
             $product->stock -= $request->quantity;
-            $product->total -= $reduction_value;
 
             if($product->stock == 0){
                 $product->status = false;
@@ -226,7 +226,7 @@ class InventarioController extends Controller
             if($product->save()){
                 $stockMovement = new StockMovement();
                 $stockMovement->quantity = $request->quantity;
-                $stockMovement->unit_cost = $unit_cost;
+                $stockMovement->unit_cost = 0;
                 $stockMovement->product_id = $request->product_id_reduce;
                 $stockMovement->user_id = auth()->user()->id;
                 $stockMovement->type = 'reduce';

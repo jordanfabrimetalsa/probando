@@ -152,12 +152,12 @@
     </div>
 </div>
 
+@include('module.inventario.reduce')
 @include('module.inventario.create')
 @include('module.inventario.category')
 @include('module.inventario.warehouse')
 @include('module.inventario.show')
 @include('module.inventario.add')
-@include('module.inventario.reduce')
 
 @endsection
 
@@ -490,7 +490,6 @@
                 $('#fullname_title_show').text(response[0].name);
                 $('#brand_show').text(response[0].brand);
                 $('#stock_show').text(response[0].stock > 0 ? response[0].stock : 'Agotado');
-                $('#total_show').text(response[0].total.toLocaleString('es-CL', {style: 'currency', currency: 'CLP'}));
 
                 $('#category_show').text(response[0].category_name);
                 $('#description_category_show').text(response[0].category_description);
@@ -504,7 +503,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error.',
-                    text: 'Error al mostrar inventario',
+                    text: 'Error al mostrar inventario' + error.responseJSON.message,
                 });
             }
         })
@@ -696,7 +695,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al reducir stock',
+            text: 'Error al reducir stock: ' + error.responseJSON.message,
           });
           $('#ReduceStockModal').modal('hide');
         }
