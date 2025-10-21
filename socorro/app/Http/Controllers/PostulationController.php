@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Postulation;
+use App\Models\Voluntary;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -58,6 +59,17 @@ class PostulationController extends Controller
             $postulation = Postulation::find($id);
 
             return response()->json($postulation);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function voluntariesData($id)
+    {
+        try{
+            $voluntaries = Voluntary::where('delegation_id', $id)->get();
+
+            return response()->json($voluntaries);
         }catch(Exception $e){
             return response()->json($e);
         }

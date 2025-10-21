@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('postulations')->group(function(){
+        Route::get('/voluntaries/data/{id}', [PostulationController::class, 'voluntariesData'])->name('postulations.voluntaries.data');
         Route::get('/data/{id}', [PostulationController::class, 'data'])->name('postulations.data');
         Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
         Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');

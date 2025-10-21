@@ -326,61 +326,63 @@
             ],
             destroy: true
         });
+
+        datatableVoluntaries = $('#datatableVoluntaries').DataTable({
+          destroy: true,
+          ajax:{
+            url: 'postulations/voluntaries/data/'+id,
+            dataSrc: ''
+          },
+          language: {
+                  "decimal": "",
+                  "emptyTable": "No hay información",
+                  "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                  "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                  "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                  "infoPostFix": "",
+                  "thousands": ",",
+                  "lengthMenu": "Mostrar _MENU_ Entradas",
+                  "loadingRecords": "Cargando...",
+                  "processing": "Procesando...",
+                  "search": "<i class='fa-solid fa-magnifying-glass'></i>",
+                  "zeroRecords": "Sin resultados encontrados",
+                  "paginate": {
+                      "first": "Primero",
+                      "last": "Ultimo",
+                      "next": "Siguiente",
+                      "previous": "Anterior"
+                  }
+          },
+          dom:
+                  "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
+                  "<'row'<'col-12'tr>>" +
+                  "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
+          responsive:{
+            details:{
+              type: 'inline'
+            }
+          },
+          buttons: [
+                  {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa-solid fa-file-excel"></i>',
+                    className: 'btn btn-success me-2'
+                  }
+          ],
+          columns:[
+            {data: 'name'},
+            {
+              data: 'type',
+              render: function(data, type, row) {
+                return data == 'V' ? 'Voluntario' : 'Aspirante';
+              }
+            }
+          ],
+          destroy: true
+        });
     }
 
-    datatableVoluntaries = $('#datatableVoluntaries').DataTable({
-        destroy: true,
-        ajax:{
-          url: '{{ route("voluntarios.data") }}',
-          dataSrc: ''
-        },
-        language: {
-                "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "Mostrar _MENU_ Entradas",
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "search": "<i class='fa-solid fa-magnifying-glass'></i>",
-                "zeroRecords": "Sin resultados encontrados",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-        },
-        dom:
-                "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
-                "<'row'<'col-12'tr>>" +
-                "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
-        responsive:{
-          details:{
-            type: 'inline'
-          }
-        },
-        buttons: [
-                {
-                  extend: 'excelHtml5',
-                  text: '<i class="fa-solid fa-file-excel"></i>',
-                  className: 'btn btn-success me-2'
-                }
-        ],
-        columns:[
-          {data: 'name'},
-          {
-            data: 'type',
-            render: function(data, type, row) {
-              return data == 'V' ? 'Voluntario' : 'Aspirante';
-            }
-          }
-        ],
-        destroy: true
-    });
+    
 
     $('#formDelegationEventPostulation').submit(function(e){
         e.preventDefault();
