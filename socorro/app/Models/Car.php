@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\CarBrand;
 use App\Models\CarModel;
 use App\Models\Delegation;
+use App\Models\Maintenance;
+use App\Models\DocumentCar;
 
 class Car extends Model
 {
@@ -24,5 +26,15 @@ class Car extends Model
     public function delegation()
     {
         return $this->belongsTo(Delegation::class, 'id_delegations');
+    }
+
+    public function maintenance()
+    {
+        return $this->hasMany(Maintenance::class);
+    }
+
+    public function documentCar()
+    {
+        return $this->hasOne(DocumentCar::class);
     }
 }

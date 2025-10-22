@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\CarBrand;
 use App\Models\CarModel;
+use App\Models\DocumentCar;
+use App\Models\Maintenance;
 use App\Models\Delegation;
 use Exception;
 
@@ -154,6 +156,60 @@ class VehiculoController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Modelo registrado'
+            ], 201);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function documentStore(Request $request){
+        $request->validate([
+                'car_id_document' => 'required|exists:cars,id',
+                'circulation_permit' => 'required',
+                'gases' => 'required',
+                'technical_inspection' => 'required',
+                'insurance' => 'required',
+        ]);
+
+        try{
+            $document = new DocumentCar();
+            $document->car_id = $request->car_id_document;
+            $document->circulation_permit = $request->circulation_permit;
+            $document->gases = $request->gases;
+            $document->technical_inspection = $request->technical_inspection;
+            $document->insurance = $request->insurance;
+            $document->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Documentación del vehículo actualizada correctamente'
+            ], 201);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function MaintenanceStore(Request $request){
+        $request->validate([
+                'car_id_maintenance' => 'required|exists:cars,id',
+                'kilometer' => 'required',
+                'place' => 'required',
+                'cost' => 'required',
+                'date' => 'required',
+        ]);
+
+        try{
+            $maintenance = new Maintenance();
+            $maintenance->car_id = $request->car_id_maintenance;
+            $maintenance->kilometer = $request->kilometer;
+            $maintenance->place = $request->place;
+            $maintenance->cost = $request->cost;
+            $maintenance->date = $request->date;
+            $maintenance->save();
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Mantenimiento del vehículo realizado correctamente'
             ], 201);
         }catch(Exception $e){
             return response()->json($e);

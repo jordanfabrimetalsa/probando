@@ -52,14 +52,14 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h5 class="mb-0">Información Mantención</h5>
+                      <h5 class="mb-0">Documentacion</h5>
                     </div>
                     <div class="card-body p-3">
                       <ul class="list-group">
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Kilometraje:</strong> &nbsp; <span id="blood_type_show"></span></li>
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Lugar:</strong> &nbsp; <span id="place_show"></span></li>
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Costo:</strong> &nbsp; <span id="cost_show"></span></li>
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Fecha:</strong> &nbsp; <span id="date_show"></span></li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Circulación:</strong> &nbsp; <span id="circulation_permit_show"></span></li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Gases:</strong> &nbsp; <span id="gases_show"></span></li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Revisión Técnica:</strong> &nbsp; <span id="technical_inspection_show"></span></li>
+                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Seguro:</strong> &nbsp; <span id="insurance_show"></span></li>
                       </ul>
                     </div>
                   </div>
@@ -69,23 +69,10 @@
                 <div class="col-12">
                   <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">
-                      <h5 class="mb-0">Documentación</h5>
+                      <h5 class="mb-0">Mantenciones</h5>
                     </div>
                     <div class="card-body p-3">
-                      <ul class="list-group" id="document_name_show">
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div class="card card-plain h-100">
-                    <div class="card-header pb-0 p-3">
-                      <h5 class="mb-0">Gasto</h5>
-                    </div>
-                    <div class="card-body p-3">
-                      <ul class="list-group" id="expense_name_show">
+                      <ul class="list-group" id="maintenance_name_show">
                       </ul>
                     </div>
                   </div>

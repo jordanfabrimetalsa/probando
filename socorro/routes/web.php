@@ -124,6 +124,8 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', [VehiculoController::class,'update'])->name('vehiculo.update');
         Route::delete('/destroy/{id}', [VehiculoController::class,'destroy'])->name('vehiculo.destroy');
         Route::get('/show/{id}', [VehiculoController::class,'show'])->name('vehiculo.show');
+        Route::post('/document/store', [VehiculoController::class,'documentStore'])->name('vehiculo.document.store');
+        Route::post('/maintenance/store', [VehiculoController::class,'maintenanceStore'])->name('vehiculo.maintenance.store');
     });
 
     Route::prefix('calendario')->group(function(){

@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Voluntarios')
+@section('title', 'vehiculos')
 
 @section('content')
   <div class="container-fluid py-2">
@@ -35,7 +35,10 @@
         </div>
       </div>
   </div>
+
   @include('module.vehiculo.show')
+  @include('module.vehiculo.document')
+  @include('module.vehiculo.maintenance')
   @include('module.vehiculo.createBrand')
   @include('module.vehiculo.createModel')
   @include('module.vehiculo.create')
@@ -91,8 +94,11 @@
                       <a href="javascript:;" class="btn btn-info text-white" onclick="showCar(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-solid fa-car"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-dark text-white" onclick="editCar(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="createDocumentCar(${data.id})" data-bs-toggle="modal" data-bs-target="#DocumentModal">
+                        <i class="fa-solid fa-folder-tree"></i>
+                      </a>
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="createMaintenanceCar(${data.id})" data-bs-toggle="modal" data-bs-target="#MaintenanceModal">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
                       </a>
                       <a onclick="deleteCar(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
@@ -270,9 +276,9 @@
             "<'row'<'col-12'tr>>" +
             "<'row mt-2'<'col-md-6'i><'col-md-6'p>>",
             responsive:{
-            details:{
-                type: 'inline'
-            }
+              details:{
+                  type: 'inline'
+              }
             },
             searching: false,
             bFilter: false,
@@ -402,33 +408,60 @@
       })
     })
 
-    $('#formVoluntaryEdit').submit(function(e){
+    $('#formDocumentCar').submit(function(e){
       e.preventDefault();
-      let id = $('#id').val();
-
+      let formData = new FormData(this);
       $.ajax({
-        url: 'voluntarios/update/'+id,
-        type: 'PUT',
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        data: $(this).serialize(),
+        url: '{{ route("vehiculo.document.store") }}',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,  
         success: function(response){
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Voluntario actualizado correctamente',
+            text: 'Documentación del vehículo actualizada correctamente',
           });
-          $('#EditModal').modal('hide');
-          datatableVoluntaries.ajax.reload();
+          $('#formDocumentCar')[0].reset();
+          $('#DocumentModal').modal('hide');
         },
         error: function(error){
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al actualizar voluntario' + JSON.stringify(error),
+            text: 'Error al actualizar documentación del vehículo' + JSON.stringify(error),
           });
-          $('#EditModal').modal('hide');
+          $('#DocumentModal').modal('hide');
+        }
+      })
+    })
+
+    $('#formMaintenanceCar').submit(function(e){
+      e.preventDefault();
+      let formData = new FormData(this);
+      $.ajax({
+        url: '{{ route("vehiculo.maintenance.store") }}',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response){
+          Swal.fire({
+            icon: 'success',
+            title: 'Exito.',
+            text: 'Mantenimiento del vehículo actualizado correctamente',
+          });
+          $('#formMaintenanceCar')[0].reset();
+          $('#MaintenanceModal').modal('hide');
+        },
+        error: function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error.',
+            text: 'Error al actualizar mantenimiento del vehículo' + JSON.stringify(error),
+          });
+          $('#MaintenanceModal').modal('hide');
         }
       })
     })
@@ -452,7 +485,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al editar voluntario',
+            text: 'Error al editar vehiculo',
           });
           $('#EditModal').modal('hide');
         }
@@ -515,35 +548,45 @@
             $('#type_show').text(response.type);
             $('#delegation_show').text(response.delegation.name);
 
-            $('#kilometer_maintenance_show').text(response.kilometer);
-            $('#place_maintenance_show').text(response.place);
-            $('#cost_maintenance_show').text(response.cost);
-            $('#date_maintenance_show').text(response.date);
+            $('#circulation_permit_show').text(response.documentCar.circulation_permit);
+            $('#gases_show').text(response.documentCar.gases);
+            $('#technical_inspection_show').text(response.documentCar.technical_inspection);
+            $('#insurance_show').text(response.documentCar.insurance);
 
-            /*var emergency = '';
-            response.emergency.forEach(element => {
-              emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+            var maintenance = '';
+            response.maintenance.forEach(element => {
+              maintenance += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                               <div class="d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${element.emergency_name}</h6>
-                                <p class="mb-0 text-xs">${element.relationship}</p>
+                                <h6 class="mb-0 text-sm">${element.kilometer}</h6>
+                                <p class="mb-0 text-xs">${element.place} - $${element.cost}</p>
                               </div>
-                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}"><i class="fa-solid fa-phone-volume"></i></a>
+                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.date}"><i class="fa-solid fa-phone-volume"></i></a>
                             </li>`;
             });
-            $('#emergency_name_show').html(emergency);*/
+            $('#maintenance_name_show').html(maintenance);
 
           },
           error: function(error){
             Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al mostrar voluntario' + JSON.stringify(error),
+            text: 'Error al mostrar vehiculo' + JSON.stringify(error),
           });
           }
         });
       }catch(e){
         console.log(e);
       }
+    }
+
+    function createDocumentCar(id){
+      $('#car_id_document').val(id);
+      $('#DocumentModal').modal('show');
+    }
+
+    function createMaintenanceCar(id){
+      $('#car_id_maintenance').val(id);
+      $('#MaintenanceModal').modal('show');
     }
 
 </script>
