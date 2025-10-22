@@ -14,11 +14,13 @@ return new class extends Migration
             $table->foreignId('model_id')->constrained('model_cars')->cascadeOnDelete();
             $table->string('plate');
             $table->string('chassis');
+            $table->string('kilometer');
             $table->string('colour');
             $table->string('year');
             $table->string('motor');
             $table->string('type');
             $table->string('status');
+            $table->foreignId('id_delegations')->constrained('delegations')->cascadeOnDelete();
             $table->timestamps();
         });
     }

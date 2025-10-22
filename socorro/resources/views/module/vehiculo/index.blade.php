@@ -9,7 +9,7 @@
             <div class="card my-4">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-gear"></i>Administrar Vehículos</h6>
+                  <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-car"></i> Administrar Vehículos</h6>
                 </div>
               </div>
               <div class="card-body p-4">
@@ -24,7 +24,7 @@
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                       </tr>
-                    </thead>
+                    </thead>  
                     <tbody class="text-center">
                     </tbody>
                   </table>
@@ -35,6 +35,7 @@
         </div>
       </div>
   </div>
+  @include('module.vehiculo.show')
   @include('module.vehiculo.createBrand')
   @include('module.vehiculo.createModel')
   @include('module.vehiculo.create')
@@ -87,13 +88,13 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
-                        <i class="fa-regular fa-user"></i>
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showCar(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+                        <i class="fa-solid fa-car"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-dark text-white" onclick="editVoluntary(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="editCar(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </a>
-                      <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
+                      <a onclick="deleteCar(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
                       </a>
                       `;
@@ -388,7 +389,7 @@
           });
           $('#formModel')[0].reset();
           datatableModel.ajax.reload();
-          getBrandData();
+          getModelData();
         },
         error: function(error){
           Swal.fire({
@@ -432,14 +433,14 @@
       })
     })
 
-    function editVoluntary(id){
+    function editCar(id){
       $.ajax({
-        url: 'voluntarios/edit/'+id,
+        url: 'vehiculo/edit/'+id,
         type: 'GET',
         success:function(response){
           console.log(response);
           $('#EditModal').modal('show');
-          $('#formVoluntaryEdit').attr('action', 'voluntarios/update/'+id);
+          $('#formVoluntaryEdit').attr('action', 'vehiculo/update/'+id);
           $('#vehicle_edit').val(response.vehicle);
           $('#license_edit').val(response.license);
           $('#type_edit').val(response.type);
@@ -458,9 +459,9 @@
       });
     }
 
-    function deleteVoluntary(id){
+    function deleteCar(id){
       Swal.fire({
-              title: "¿Estas seguro de eliminar al voluntario?",
+              title: "¿Estas seguro de eliminar el vehículo?",
               text: "No podrás revertir esto!",
               icon: "warning",
               showCancelButton: true,
@@ -470,7 +471,7 @@
             }).then((result) => {
               if (result.isConfirmed) {
                 $.ajax({
-                  url: 'voluntarios/destroy/'+id,
+                  url: 'vehiculo/destroy/'+id,
                   type: 'DELETE',
                   headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -479,15 +480,15 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Exito.',
-                            text: 'Voluntario eliminado correctamente',
+                            text: 'Vehículo eliminado correctamente',
                         });
-                        datatableVoluntaries.ajax.reload();
+                        datatableVehicles.ajax.reload();
                     },
                     error: function(error){
                         Swal.fire({
                             icon: 'error',
                             title: 'Error.',
-                            text: 'Error al eliminar voluntario',
+                            text: 'Error al eliminar vehículo',
                         });
                     }
                 });
@@ -495,73 +496,56 @@
             });
     }
 
-    function showRemark(id){
-      $('#id_user_remark').val(id);
-      $('#RemarkModal').modal('show');
-    }
+    function showCar(id){
+      try{
+        $.ajax({
+          url: 'vehiculo/show/' + id,
+          type: 'GET',
+          success: function(response){
+            console.log(response);
+            $('#ShowModal').modal('show');
+            $('#kilometer_show').text(response.kilometer.toLocaleString('es-CL'));
+            $('#brand_show').text(response.brand.name);
+            $('#model_show').text(response.model.name);
+            $('#plate_show').text(response.plate);
+            $('#chassis_show').text(response.chassis);
+            $('#motor_show').text(response.motor);
+            $('#year_show').text(response.year);
+            $('#color_show').text(response.colour);
+            $('#type_show').text(response.type);
+            $('#delegation_show').text(response.delegation.name);
 
-    $('#formVoluntaryRemark').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: 'voluntarios/remark',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Anotación registrada correctamente',
-          });
-          $('#formVoluntaryRemark')[0].reset();
-          $('#RemarkModal').modal('hide');
-        },
-        error: function(error){
-          Swal.fire({
+            $('#kilometer_maintenance_show').text(response.kilometer);
+            $('#place_maintenance_show').text(response.place);
+            $('#cost_maintenance_show').text(response.cost);
+            $('#date_maintenance_show').text(response.date);
+
+            /*var emergency = '';
+            response.emergency.forEach(element => {
+              emergency += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                              <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">${element.emergency_name}</h6>
+                                <p class="mb-0 text-xs">${element.relationship}</p>
+                              </div>
+                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.emergency_phone}"><i class="fa-solid fa-phone-volume"></i></a>
+                            </li>`;
+            });
+            $('#emergency_name_show').html(emergency);*/
+
+          },
+          error: function(error){
+            Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar anotación' + JSON.stringify(error),
+            text: 'Error al mostrar voluntario' + JSON.stringify(error),
           });
-          $('#RemarkModal').modal('hide');
-        }
-      })
-    })
-
-    function showEmergency(id){
-      $('#id_user_emergency').val(id);
-      $('#EmergencyModal').modal('show');
+          }
+        });
+      }catch(e){
+        console.log(e);
+      }
     }
 
-    $('#formVoluntaryEmergency').submit(function(e){
-      e.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: 'voluntarios/emergency',
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response){
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito.',
-            text: 'Emergencia registrada correctamente',
-          });
-          $('#formVoluntaryEmergency')[0].reset();
-          $('#EmergencyModal').modal('hide');
-        },
-        error: function(error){
-          Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al registrar emergencia' + JSON.stringify(error),
-          });
-          $('#EmergencyModal').modal('hide');
-        }
-      })
-    })
 </script>
 
 @endpush

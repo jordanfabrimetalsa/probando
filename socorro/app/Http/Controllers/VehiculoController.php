@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\CarBrand;
 use App\Models\CarModel;
+use App\Models\Delegation;
 use Exception;
 
 class VehiculoController extends Controller
@@ -14,7 +15,8 @@ class VehiculoController extends Controller
     {
         $brands = CarBrand::all();
         $models = CarModel::all();
-        return view('module.vehiculo.index', compact('brands', 'models'));
+        $delegations = Delegation::all();
+        return view('module.vehiculo.index', compact('brands', 'models', 'delegations'));
     }
 
     public function data(){
@@ -23,6 +25,18 @@ class VehiculoController extends Controller
                         ->with('model')
                         ->get();
             return response()->json($vehiculos);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function show($id){
+        try{
+            $car = Car::with('brand')
+                        ->with('model')
+                        ->with('delegation')
+                        ->find($id);
+            return response()->json($car);
         }catch(Exception $e){
             return response()->json($e);
         }
@@ -47,18 +61,19 @@ class VehiculoController extends Controller
     }
 
     public function Store(Request $request){
-        try{
-            $request->validate([
-                'brand_id' => 'required',
-                'model_id' => 'required',
-                'plate' => 'required|string|max:255',
-                'chassis' => 'required|string|max:255',
-                'colour' => 'required|string|max:255',
-                'year' => 'required|numeric',
-                'motor' => 'required|string|max:255',
-                'type' => 'required|string|max:255'
-            ]);
+        $request->validate([
+            'brand_id' => 'required',
+            'model_id' => 'required',
+            'plate' => 'required|string|max:255',
+            'chassis' => 'required|string|max:255',
+            'colour' => 'required|string|max:255',
+            'year' => 'required|numeric',
+            'motor' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'kilometer' => 'required|numeric'
+        ]);
 
+        try{
             $car = new Car();
             $car->brand_id = $request->brand_id;
             $car->model_id = $request->model_id;
@@ -68,12 +83,40 @@ class VehiculoController extends Controller
             $car->year = $request->year;
             $car->motor = $request->motor;
             $car->type = $request->type;
+            $car->kilometer = $request->kilometer;
+            $car->id_delegations = $request->id_delegations;
             $car->status = $request->status;
-            $car->save();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Vehículo registrado'
-            ], 201);
+
+            if($car->save()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Vehículo registrado'
+                ], 201);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Error al registrar vehículo'
+                ], 500);
+            }
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function destroy($id){
+        try{
+            $car = Car::find($id);
+            if($car->delete()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Vehículo eliminado'
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Error al eliminar vehículo'
+                ], 500);
+            }
         }catch(Exception $e){
             return response()->json($e);
         }

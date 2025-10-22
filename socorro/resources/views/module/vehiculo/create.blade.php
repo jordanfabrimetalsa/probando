@@ -25,16 +25,22 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="mb-3">
                         <label for="plate" class="form-label">Patente</label>
-                        <input type="text" class="form-control border border-gray p-2" id="plate" name="plate" maxlength="7" autocomplete="off" required>
+                        <input type="text" class="form-control border border-gray p-2" id="plate" name="plate" maxlength="7" required>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="motor" class="form-label">Motor</label>
+                        <input type="text" class="form-control border border-gray p-2" name="motor" id="motor" maxlength="20" required>
+                    </div>
+                </div>
+                <div class="col-4">
                     <div class="mb-3">
                         <label for="chassis" class="form-label">Chasis</label>
-                        <input type="text" class="form-control border border-gray p-2" id="chassis" name="chassis" maxlength="17" autocomplete="off" required>
+                        <input type="text" class="form-control border border-gray p-2" id="chassis" name="chassis" maxlength="17" required>
                     </div>
                 </div>
             </div>
@@ -42,24 +48,16 @@
                 <div class="col-4">
                     <div class="mb-3">
                         <label for="colour" class="form-label">Color</label>
-                        <input type="text" class="form-control border border-gray p-2" name="colour" id="colour" maxlength="20" autocomplete="off" required>
+                        <input type="text" class="form-control border border-gray p-2" name="colour" id="colour" maxlength="20" required>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="mb-3">
                         <label for="year" class="form-label">Año</label>
-                        <input type="number" class="form-control border border-gray p-2" name="year" id="year" min="1950" max="2050" autocomplete="off" required>
+                        <input type="number" class="form-control border border-gray p-2" name="year" id="year" min="1950" max="2050" required>
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="mb-3">
-                        <label for="motor" class="form-label">Motor</label>
-                        <input type="text" class="form-control border border-gray p-2" name="motor" id="motor" maxlength="20" autocomplete="off" required>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
                     <div class="mb-3">
                         <label for="type" class="form-label">Tipo</label>
                         <select name="type" id="type" class="form-control" required>
@@ -70,7 +68,26 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-6">
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Delegación Perteneciente</label>
+                        <select name="id_delegations" id="id_delegations" class="form-control" required>
+                            <option value="">Seleccione una delegación</option>
+                            @foreach ($delegations as $delegation)
+                                <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mb-3">
+                        <label for="kilometer" class="form-label">Kilometraje</label>
+                        <input type="number" name="kilometer" id="kilometer" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-4">
                     <div class="mb-3">
                         <label for="status" class="form-label">Estado</label>
                         <select name="status" id="status" class="form-control" required>
