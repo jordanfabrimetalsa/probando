@@ -37,6 +37,8 @@ class VehiculoController extends Controller
             $car = Car::with('brand')
                         ->with('model')
                         ->with('delegation')
+                        ->with('documentCar')
+                        ->with('maintenance')
                         ->find($id);
             return response()->json($car);
         }catch(Exception $e){

@@ -530,52 +530,70 @@
     }
 
     function showCar(id){
-      try{
+      try {
         $.ajax({
           url: 'vehiculo/show/' + id,
           type: 'GET',
           success: function(response){
+            // Si la respuesta viene como string JSON
+            if (typeof response === 'string') {
+              response = JSON.parse(response);
+            }
+
             console.log(response);
+
             $('#ShowModal').modal('show');
+
             $('#kilometer_show').text(response.kilometer.toLocaleString('es-CL'));
-            $('#brand_show').text(response.brand.name);
-            $('#model_show').text(response.model.name);
+            $('#brand_show').text(response.brand?.name || '');
+            $('#model_show').text(response.model?.name || '');
             $('#plate_show').text(response.plate);
             $('#chassis_show').text(response.chassis);
             $('#motor_show').text(response.motor);
             $('#year_show').text(response.year);
             $('#color_show').text(response.colour);
             $('#type_show').text(response.type);
-            $('#delegation_show').text(response.delegation.name);
+            $('#delegation_show').text(response.delegation?.name || '');
 
-            $('#circulation_permit_show').text(response.documentCar.circulation_permit);
-            $('#gases_show').text(response.documentCar.gases);
-            $('#technical_inspection_show').text(response.documentCar.technical_inspection);
-            $('#insurance_show').text(response.documentCar.insurance);
+            // ✅ Cambiar documentCar → document_car
+            if (response.document_car) {
+              $('#circulation_permit_show').html(response.document_car.circulation_permit = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
+              $('#gases_show').html(response.document_car.gases = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
+              $('#technical_inspection_show').html(response.document_car.technical_inspection = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
+              $('#insurance_show').html(response.document_car.insurance = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
+            } else {
+              $('#circulation_permit_show, #gases_show, #technical_inspection_show, #insurance_show').html('Sin datos');
+            }
 
+            // ✅ Mostrar mantenimiento
             var maintenance = '';
-            response.maintenance.forEach(element => {
-              maintenance += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                              <div class="d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${element.kilometer}</h6>
-                                <p class="mb-0 text-xs">${element.place} - $${element.cost}</p>
-                              </div>
-                              <a class="btn btn-danger pe-3 mb-0 ms-auto w-30 w-md-auto text-white text-center" href="tel:${element.date}"><i class="fa-solid fa-phone-volume"></i></a>
-                            </li>`;
-            });
-            $('#maintenance_name_show').html(maintenance);
+            if (response.maintenance && response.maintenance.length > 0) {
+              response.maintenance.forEach(element => {
+                maintenance += `
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">${element.kilometer.toLocaleString('es-CL')} km</h6>
+                      <p class="mb-0 text-xs">${element.place} - $${element.cost.toLocaleString('es-CL')}</p>
+                      <small class="text-muted">${element.date}</small>
+                    </div>
+                  </li>`;
+              });
+            } else {
+              maintenance = `<li class="list-group-item border-0 px-0 mb-2 pt-0">Sin registros</li>`;
+            }
 
+            $('#maintenance_name_show').html(maintenance);
           },
           error: function(error){
             Swal.fire({
-            icon: 'error',
-            title: 'Error.',
-            text: 'Error al mostrar vehiculo' + JSON.stringify(error),
-          });
+              icon: 'error',
+              title: 'Error',
+              text: 'Error al mostrar vehículo: ' + JSON.stringify(error)
+            });
           }
         });
-      }catch(e){
-        console.log(e);
+      } catch(e){
+        console.error(e);
       }
     }
 

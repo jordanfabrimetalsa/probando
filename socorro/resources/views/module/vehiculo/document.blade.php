@@ -29,7 +29,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="mb-3">
                         <label for="technical_inspection" class="form-label">Inspección Técnica</label>
                         <select name="technical_inspection" id="technical_inspection" class="form-control" required>
@@ -39,7 +39,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="mb-3">
                         <label for="insurance" class="form-label">Seguro</label>
                         <select name="insurance" id="insurance" class="form-control" required>
