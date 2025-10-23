@@ -140,6 +140,8 @@ Route::middleware('auth')->group(function(){
 
         Route::post('/file/store', [ScheduleController::class, 'storeFile'])->name('calendario.file.store');
         Route::get('/dataFile/{id}', [ScheduleController::class, 'dataFile'])->name('calendario.dataFile');
+
+        Route::get('/file/download/{id}', [ScheduleController::class, 'downloadFile'])->name('calendario.download');
     });
 
     Route::prefix('contacto')->group(function(){

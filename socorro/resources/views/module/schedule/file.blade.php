@@ -1,9 +1,9 @@
 <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-extra-background">
+    <div class="modal-dialog">
         <div class="modal-body">
             <form id="createFileEventForm" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="modal-content">
+                <div class="modal-content modal-extra-background">
                     <div class="modal-header">
                         <h5 class="modal-title" id="eventModalLabel">Ingrese Archivo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

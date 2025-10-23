@@ -1,9 +1,9 @@
 <div class="modal fade" id="assistantModal" tabindex="-1" aria-labelledby="assistantModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-extra-background">
+    <div class="modal-dialog">
         <div class="modal-body">
             <form id="createAssistantEventForm" method="POST">
                 @csrf
-                <div class="modal-content">
+                <div class="modal-content  modal-extra-background">
                     <div class="modal-header">
                         <h5 class="modal-title" id="eventModalLabel">Ingresar Participante</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -23,7 +23,7 @@
                             <label for="date" class="form-label">Tipo Asignación</label>
                             <select class="form-selected form-control" id="assign" name="assign">
                                 <option selected disabled>Seleccionar Opción</option>
-                                <option value="assitant">Asistente/Guardia</option>
+                                <option value="assistant">Asistente/Guardia</option>
                                 <option value="support">Apoyo</option>
                                 <option value="leader">Lider</option>
                                 <option value="speaker">Presentador</option>

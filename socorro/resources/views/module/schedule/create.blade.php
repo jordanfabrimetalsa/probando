@@ -1,8 +1,8 @@
 <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-extra-background">
+    <div class="modal-dialog">
         <form id="createEventForm" method="POST">
             @csrf
-            <div class="modal-content">
+            <div class="modal-content  modal-extra-background">
             <div class="modal-header">
                 <h5 class="modal-title" id="eventModalLabel">Crear evento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>

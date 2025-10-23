@@ -11,22 +11,23 @@ class SendOutController extends Controller
 {
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'lastname' => 'required',
+            'document_type' => 'required',
+            'document_number' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+            'region' => 'required',
+            'destination' => 'required',
+            'route' => 'required',
+            'activity' => 'required',
+            'number_participants' => 'required|numeric',
+            'departure_date' => 'required|date',
+            'return_date' => 'required|date',
+        ]);
+
         try{
-            $request->validate([
-                'name' => 'required',
-                'lastname' => 'required',
-                'document_type' => 'required',
-                'document_number' => 'required',
-                'email' => 'required|email',
-                'phone' => 'required|numeric',
-                'region' => 'required',
-                'destination' => 'required',
-                'route' => 'required',
-                'activity' => 'required',
-                'number_participants' => 'required|numeric',
-                'departure_date' => 'required|date',
-                'return_date' => 'required|date',
-            ]);
 
             $sendout_search = SendOut::where('document_number', $request->document_number)
                                         ->where('active', 1)

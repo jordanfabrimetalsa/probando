@@ -51,14 +51,14 @@ class ScheduleController extends Controller
     public function dataFile($id)
     {
         try {
-            $files = FileSchedule::with('event')
-                ->where('event_id', $id)
-                ->get()
-                ->map(function ($file) {
-                    // Genera URL pública para el archivo
-                    $file->path = asset('storage/' . $file->path);
-                    return $file;
-                });
+
+            $files = FileSchedule::with('event')->where('event_id', $id)->get()->map(function($file) {
+                if ($file->path) {
+                    $file->download_url = route('calendario.download', $file->id);
+                }
+                return $file;
+            });
+
 
             return response()->json($files);
         } catch (\Exception $e) {
@@ -102,7 +102,7 @@ class ScheduleController extends Controller
             'start' => $start->toDateString(),
             'end' => $end->toDateString()
         ]);
-        
+
         return response()->json([
             'success' => true,
             'event' => [
@@ -159,20 +159,16 @@ class ScheduleController extends Controller
         try {
 
             $path = $request->file('file')->store('files', 'public');
-            $name = $request->file('file')->getClientOriginalName();
-            $size = $request->file('file')->getSize();
-            $type = $request->file('file')->getMimeType();
-    
-            $fileSchedule = new FileSchedule;
-            $fileSchedule->event_id = $request->id_event;
-            $fileSchedule->name = $name;
-            $fileSchedule->path = $path;
-            $fileSchedule->type = $type;
+            $file = new FileSchedule;
+            $file->event_id = $request->id_event;
+            $file->name = $request->file('file')->getClientOriginalName();
+            $file->path = $path;
+            $file->type = $request->file('file')->getMimeType();
             
-            if ($fileSchedule->save()) {
+            if ($file->save()) {
                 return response()->json([
                     'success' => true,
-                    'file' => $fileSchedule,
+                    'file' => $file,
                     'message' => 'Archivo guardado correctamente'                
                 ]);
             }
@@ -180,7 +176,7 @@ class ScheduleController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al guardar el archivo',
-                'error' => $fileSchedule
+                'error' => $file
             ], 500);
     
         } catch (\Exception $e) {

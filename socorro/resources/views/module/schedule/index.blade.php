@@ -216,7 +216,7 @@
                                 orderable: false,
                                 searchable: false,
                                 render: function(data) {
-                                    return `<a href="${data.path}" class="btn btn-success" download>
+                                    return `<a href="${data.download_url}" class="btn btn-success">
                                                 <i class="fa-solid fa-download"></i>
                                             </a>`;
                                 }
