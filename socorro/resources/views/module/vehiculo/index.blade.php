@@ -391,7 +391,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Modelo de vehiculo registrado correctamente',
+            text: response.message,
           });
           $('#formModel')[0].reset();
           datatableModel.ajax.reload();
@@ -421,7 +421,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Documentación del vehículo actualizada correctamente',
+            text: response.message,
           });
           $('#formDocumentCar')[0].reset();
           $('#DocumentModal').modal('hide');
@@ -450,7 +450,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Mantenimiento del vehículo actualizado correctamente',
+            text: response.message,
           });
           $('#formMaintenanceCar')[0].reset();
           $('#MaintenanceModal').modal('hide');
@@ -494,39 +494,41 @@
 
     function deleteCar(id){
       Swal.fire({
-              title: "¿Estas seguro de eliminar el vehículo?",
-              text: "No podrás revertir esto!",
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Si, eliminarlo!"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $.ajax({
-                  url: 'vehiculo/destroy/'+id,
-                  type: 'DELETE',
-                  headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                  },
-                  success: function(response){
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Exito.',
-                            text: 'Vehículo eliminado correctamente',
-                        });
-                        datatableVehicles.ajax.reload();
-                    },
-                    error: function(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error.',
-                            text: 'Error al eliminar vehículo',
-                        });
-                    }
-                });
-              }
-            });
+        title: "¿Estas seguro de eliminar el vehículo?",
+        text: "No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminarlo!"
+      }).then((result) => {
+        if (result.isConfirmed) 
+        {
+          $.ajax({
+            url: 'vehiculo/destroy/'+id,
+            type: 'DELETE',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response){
+              Swal.fire({
+                icon: 'success',
+                title: 'Exito.',
+                text: 'Vehículo eliminado correctamente',
+              });
+                
+              datatableVehicles.ajax.reload();
+            },
+            error: function(error){
+              Swal.fire({
+                icon: 'error',
+                title: 'Error.',
+                text: 'Error al eliminar vehículo',
+              });
+            }
+          });
+        }
+      });
     }
 
     function showCar(id){
@@ -535,16 +537,12 @@
           url: 'vehiculo/show/' + id,
           type: 'GET',
           success: function(response){
-            // Si la respuesta viene como string JSON
-            if (typeof response === 'string') {
+            if (typeof response === 'string'){
               response = JSON.parse(response);
             }
 
-            console.log(response);
-
             $('#ShowModal').modal('show');
-
-            $('#kilometer_show').text(response.kilometer.toLocaleString('es-CL'));
+            $('#kilometer_show').text(`${response.kilometer.toLocaleString('es-CL')} km`);
             $('#brand_show').text(response.brand?.name || '');
             $('#model_show').text(response.model?.name || '');
             $('#plate_show').text(response.plate);
@@ -555,26 +553,23 @@
             $('#type_show').text(response.type);
             $('#delegation_show').text(response.delegation?.name || '');
 
-            // ✅ Cambiar documentCar → document_car
             if (response.document_car) {
-              $('#circulation_permit_show').html(response.document_car.circulation_permit = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
-              $('#gases_show').html(response.document_car.gases = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
-              $('#technical_inspection_show').html(response.document_car.technical_inspection = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
-              $('#insurance_show').html(response.document_car.insurance = 'Vigente' ? '<span class="badge bg-gradient-success">Vigente</span>' : '<span class="badge bg-gradient-danger">Vencido</span>');
+              $('#circulation_permit_show').html(response.document_car.circulation_permit == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
+              $('#gases_show').html(response.document_car.gases == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
+              $('#technical_inspection_show').html(response.document_car.technical_inspection == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
+              $('#insurance_show').html(response.document_car.insurance == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
             } else {
               $('#circulation_permit_show, #gases_show, #technical_inspection_show, #insurance_show').html('Sin datos');
             }
 
-            // ✅ Mostrar mantenimiento
             var maintenance = '';
             if (response.maintenance && response.maintenance.length > 0) {
               response.maintenance.forEach(element => {
                 maintenance += `
                   <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                     <div class="d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="mb-0 text-sm">${element.kilometer.toLocaleString('es-CL')} km</h6>
-                      <p class="mb-0 text-xs">${element.place} - $${element.cost.toLocaleString('es-CL')}</p>
-                      <small class="text-muted">${element.date}</small>
+                      <h6 class="mb-0 text-sm">Lugar: ${element.place} / ${element.kilometer.toLocaleString('es-CL')} KM</h6>
+                      <p class="mb-0 text-xs">Costo: $${element.cost.toLocaleString('es-CL')} <span class="badge bg-danger">${element.date}</span></p>
                     </div>
                   </li>`;
               });

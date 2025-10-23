@@ -12,19 +12,19 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="kilometer" class="form-label">Kilometraje de mantenimiento</label>
-                        <input type="number" class="form-control border border-gray p-2" id="kilometer" name="kilometer" required>
+                        <input type="number" placeholder="Kilometraje actual" class="form-control border border-gray p-2" id="kilometer" name="kilometer" required>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="place" class="form-label">Ubicación</label>
-                        <input type="text" class="form-control border border-gray p-2" id="place" name="place" required>
+                        <input type="text" placeholder="Ubicación" class="form-control border border-gray p-2" id="place" name="place" required>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="mb-3">
                         <label for="cost" class="form-label">Costo</label>
-                        <input type="number" class="form-control border border-gray p-2" id="cost" name="cost" required>
+                        <input type="number" placeholder="$0000" class="form-control border border-gray p-2" id="cost" name="cost" required>
                     </div>
                 </div>
                 <div class="col-6">

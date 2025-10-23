@@ -166,39 +166,59 @@ class VehiculoController extends Controller
 
     public function documentStore(Request $request){
         $request->validate([
-                'car_id_document' => 'required|exists:cars,id',
-                'circulation_permit' => 'required',
-                'gases' => 'required',
-                'technical_inspection' => 'required',
-                'insurance' => 'required',
+            'car_id_document' => 'required|exists:cars,id',
+            'circulation_permit' => 'required',
+            'gases' => 'required',
+            'technical_inspection' => 'required',
+            'insurance' => 'required',
         ]);
 
-        try{
-            $document = new DocumentCar();
-            $document->car_id = $request->car_id_document;
-            $document->circulation_permit = $request->circulation_permit;
-            $document->gases = $request->gases;
-            $document->technical_inspection = $request->technical_inspection;
-            $document->insurance = $request->insurance;
-            $document->save();
+        try {
+            $document = DocumentCar::updateOrCreate(
+                ['car_id' => $request->car_id_document],
+                [
+                    'circulation_permit' => $request->circulation_permit,
+                    'gases' => $request->gases,
+                    'technical_inspection' => $request->technical_inspection,
+                    'insurance' => $request->insurance,
+                ]
+            );
+
+            $message = $document->wasRecentlyCreated 
+                ? 'Documentación del vehículo registrada correctamente'
+                : 'Documentación del vehículo actualizada correctamente';
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Documentación del vehículo actualizada correctamente'
+                'message' => $message
             ], 201);
-        }catch(Exception $e){
-            return response()->json($e);
+            
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al procesar la documentación',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 
     public function MaintenanceStore(Request $request){
         $request->validate([
                 'car_id_maintenance' => 'required|exists:cars,id',
-                'kilometer' => 'required',
-                'place' => 'required',
-                'cost' => 'required',
-                'date' => 'required',
+                'kilometer' => 'required|numeric',
+                'place' => 'required|string|max:255',
+                'cost' => 'required|numeric',
+                'date' => 'required|date',
         ]);
+
+        $car = Car::findOrFail($request->car_id_maintenance);
+        
+        if($request->kilometer < $car->kilometer){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'El kilómetro debe ser mayor al del vehículo'
+            ], 400);
+        }
 
         try{
             $maintenance = new Maintenance();
@@ -207,14 +227,26 @@ class VehiculoController extends Controller
             $maintenance->place = $request->place;
             $maintenance->cost = $request->cost;
             $maintenance->date = $request->date;
-            $maintenance->save();
-            
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Mantenimiento del vehículo realizado correctamente'
-            ], 201);
+
+            if($maintenance->save()){
+                $car->kilometer = $request->kilometer;
+                $car->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Mantenimiento del vehículo registrado correctamente'
+                ], 201);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Error al registrar mantenimiento del vehículo'
+                ], 500);
+            }
         }catch(Exception $e){
-            return response()->json($e);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error interno: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

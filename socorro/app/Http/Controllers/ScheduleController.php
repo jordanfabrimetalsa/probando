@@ -8,6 +8,7 @@ use App\Models\Guard;
 use App\Models\Voluntary;
 use App\Models\BossEvent;
 use App\Models\FileSchedule;
+use Carbon\Carbon;
 use Exception;
 
 class ScheduleController extends Controller
@@ -91,14 +92,17 @@ class ScheduleController extends Controller
             'end' => 'required|date|after_or_equal:start'
         ]);
 
+        $start = Carbon::parse($validated['start'])->startOfDay();
+        $end = Carbon::parse($validated['end'])->addDay()->startOfDay(); // end exclusivo
+
         $schedule = Schedule::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'type' => $validated['type'],
-            'start' => $validated['start'],
-            'end' => $validated['end']
+            'start' => $start->toDateString(),
+            'end' => $end->toDateString()
         ]);
-
+        
         return response()->json([
             'success' => true,
             'event' => [

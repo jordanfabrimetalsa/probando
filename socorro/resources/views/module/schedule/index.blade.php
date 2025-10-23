@@ -98,9 +98,9 @@
                     $('#start_read').val(startDate.isValid() ? startDate.format('DD-MM-YYYY') : 'N/A');
                     
                     if (info.event.end) {
-                        const endDate = moment(info.event.end);
-                        const displayEndDate = info.event.allDay ? endDate.subtract(1, 'day') : endDate;
-                        $('#end_read').val(displayEndDate.isValid() ? displayEndDate.format('DD-MM-YYYY') : 'N/A');
+                        // end guardado es exclusivo para allDay; mostrar inclusivo restando 1 día
+                        const endDate = moment(info.event.end).subtract(1, 'day');
+                        $('#end_read').val(endDate.isValid() ? endDate.format('DD-MM-YYYY') : 'N/A');
                     } else {
                         $('#end_read').val(startDate.isValid() ? startDate.format('DD-MM-YYYY') : 'N/A');
                     }
@@ -112,7 +112,10 @@
                     datatableGuard = $('#datatableGuards').DataTable({
                         ajax: {
                             url: '/calendario/dataGuard/' + info.event.id,
-                            dataSrc: ''
+                            dataSrc: '',
+                            error: function(xhr) {
+                             console.error('Error cargando guards:', xhr.responseText || xhr.statusText);
+                            }
                         },
                         columns: [
                             { 
@@ -200,7 +203,10 @@
                     datatableFile = $('#datatableFile').DataTable({
                         ajax: {
                             url: '/calendario/dataFile/' + info.event.id,
-                            dataSrc: ''
+                            dataSrc: '',
+                            error: function(xhr) {
+                             console.error('Error cargando guards:', xhr.responseText || xhr.statusText);
+                            }
                         },
                         columns: [
                             { data: 'name' },
@@ -324,14 +330,17 @@
                         end: end
                     },
                     success: function(response) {
+                        // Usar start/end devueltos por el servidor (end exclusivo ya ajustado)
                         calendar.addEvent({
+                            id: response.event.id,
                             title: title,
                             description: description,
-                            start: start,
-                            end: end,
+                            start: response.event.start,
+                            end: response.event.end,
                             allDay: true,
                             extendedProps: {
-                                type: type
+                                type: type,
+                                description: description
                             }
                         });
 
