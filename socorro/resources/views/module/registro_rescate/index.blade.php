@@ -226,9 +226,11 @@
         type: 'GET',
         success:function(response){
           $('#type_show').val(response.data.type);
+
           $('#place_show').val(response.data.place);
           $('#road_show').val(response.data.road);
           $('#weather_show').val(response.data.weather);
+
           $('#Stretcher_show').val(response.data.Stretcher);
           $('#address_show').val(response.data.address);
           $('#city_show').val(response.data.city);
@@ -261,9 +263,17 @@
           $('#state_show').val(response.data.state);
           $('#id_show').val(response.data.id);
 
-          // CORRECCIÓN: Usa el ID correcto y asigna el ID del voluntario
+          $('#type_show_hidden').val(response.data.type);
+          $('#weather_show_hidden').val(response.data.weather);
+          $('#helper_external_show_hidden').val(response.data.helper_external);
+          $('#external_helper_show_hidden').val(response.data.external_helper);
+
+          $('#Stretcher_show_hidden').val(response.data.Stretcher);
+          $('#medical_assistance_show_hidden').val(response.data.medical_assistance);
+          $('#type_transport_show_hidden').val(response.data.type_transport);
+          $('#helicopter_show_hidden').val(response.data.helicopter);
+           $('#voluntary_id_show_hidden').val(response.data.voluntary_id);
           $('#voluntary_id_show').val(response.data.voluntary.name + ' ' + response.data.voluntary.last_name); // o response.voluntary.id
-        
 
         },
         error:function(error){
@@ -275,6 +285,5 @@
         }
       });
     }
-</script>
 
 @endpush
