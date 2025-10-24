@@ -9,7 +9,7 @@
             <div class="card my-4">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                  <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-user-gear"></i>Registro de Rescate</h6>
+                  <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-map-location-dot"></i> Registro de Rescate</h6>
                 </div>
               </div>
               <div class="card-body p-4">
@@ -34,6 +34,7 @@
           </div>
         </div>
         @include('module.registro_rescate.create')
+        @include('module.registro_rescate.show')
       </div>
   </div>
 @endsection
@@ -88,13 +89,10 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showRescue(${data.id})" data-bs-toggle="modal" data-bs-target="#CreateModal">
-                        <i class="fa-regular fa-user"></i>
+                      <a href="javascript:;" class="btn btn-info text-white" onclick="showRescue(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+                        <i class="fa-solid fa-map-location-dot"></i>
                       </a>
-                      <a href="javascript:;" class="btn btn-dark text-white" onclick="editRescue(${data.id})" data-bs-toggle="modal" data-bs-target="#EditModal">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                      </a>
-                      <a onclick="deleteVoluntary(${data.id})" class="btn btn-danger text-white">
+                      <a onclick="deleteRescue(${data.id})" class="btn btn-danger text-white">
                         <i class="fa-solid fa-trash"></i>
                       </a>
                       `;
@@ -222,7 +220,61 @@
         });
     }
 
+    function showRescue(id){
+      $.ajax({
+        url: 'registro-rescate/show/' + id,
+        type: 'GET',
+        success:function(response){
+          $('#type_show').val(response.data.type);
+          $('#place_show').val(response.data.place);
+          $('#road_show').val(response.data.road);
+          $('#weather_show').val(response.data.weather);
+          $('#Stretcher_show').val(response.data.Stretcher);
+          $('#address_show').val(response.data.address);
+          $('#city_show').val(response.data.city);
 
+          $('#created_at_show').val(response.data.created_at);
+          $('#date_call_show').val(response.data.date_call);
+          $('#date_finish_rescue_show').val(response.data.date_finish_rescue);
+          $('#date_middle_trek_show').val(response.data.date_middle_trek);
+          $('#date_start_trek_show').val(response.data.date_start_trek);
+
+          $('#kilometer_total_show').val(response.data.kilometer_total);
+          $('#different_height_show').val(response.data.different_height);
+          $('#quantity_people_show').val(response.data.quantity_people);
+          $('#quantity_voluntaries_show').val(response.data.quantity_voluntaries);
+          $('#helper_external_show').val(response.data.helper_external);
+          $('#external_helper_show').val(response.data.external_helper);
+          $('#allergic_show').val(response.data.allergic);
+          $('#disease_show').val(response.data.disease);
+          $('#gravity_show').val(response.data.gravity);
+          $('#helicopter_show').val(response.data.helicopter);
+          $('#medical_assistance_show').val(response.data.medical_assistance);
+          $('#injury_show').val(response.data.injury);
+          $('#observations_show').val(response.data.observations);
+          $('#phone_accident_show').val(response.data.phone_accident);
+          $('#email_accident_show').val(response.data.email_accident);
+          $('#name_accident_show').val(response.data.name_accident);
+          $('#user_id_show').val(response.data.user_id);
+          $('#type_transport_show').val(response.data.type_transport);
+          $('#situation_show').val(response.data.situation);
+          $('#state_show').val(response.data.state);
+          $('#id_show').val(response.data.id);
+
+          // CORRECCIÓN: Usa el ID correcto y asigna el ID del voluntario
+          $('#voluntary_id_show').val(response.data.voluntary.name + ' ' + response.data.voluntary.last_name); // o response.voluntary.id
+        
+
+        },
+        error:function(error){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al mostrar rescate',
+          });
+        }
+      });
+    }
 </script>
 
 @endpush

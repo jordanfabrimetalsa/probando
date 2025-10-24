@@ -27,6 +27,30 @@ class RescueController extends Controller
         }
     }
 
+    public function show($id){
+        try{
+            $rescue = Rescue::with('voluntary')->find($id);
+
+            if(!$rescue){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Registro no encontrado'
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $rescue
+            ], 200);
+
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error interno: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function store(Request $request){
         try{
             $rescue = new Rescue();
