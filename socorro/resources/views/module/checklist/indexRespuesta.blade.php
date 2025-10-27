@@ -21,6 +21,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Favor de leer las instrucciones para evitar futuros problemas.</h5>
                   <p class="card-text">Todos los campos deben ser respondido por obligación, de no ser, este no sera enviado.</p>
+                  <p class="text-danger">Recuerde que modifican los datos del vehiculo, por favor verifique los datos antes de enviar.</p>
                 </div>
                 <div class="card-footer text-muted">
                   Administración de CSA Nacional
@@ -37,10 +38,10 @@
                         <div class="col-xl-4 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label for="">Vehiculo</label>
-                            <select name="" id="" class="form-control" required>
+                            <select name="car" id="car" class="form-control" required>
                               <option value="">Seleccione</option>
                               @foreach ($vehicles as $vehicle)
-                                <option value="{{ $vehicle->id }}">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</option>
+                                <option value="{{ $vehicle->id }}" data-kilometer="{{ $vehicle->kilometer }}">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</option>
                               @endforeach
                             </select>
                           </div>
@@ -54,12 +55,12 @@
                         <div class="col-xl-4 col-md-6 col-sm-12">
                           <div class="form-group">
                             <label for="">Combustible</label>
-                            <select class="form-control" id="fuel" name="fuel">
+                            <select class="form-control" id="fuel" name="fuel" onchange="calculateFuel()">
                               <option selected disabled>Seleccione</option>
                               <option value="1">1/5</option>
                               <option value="2">2/5</option>
                               <option value="3">3/5</option>
-                              <option value="4">4/5</option>
+                              <option value="4">4/5 (Minimo Operativo)</option>
                               <option value="5">5/5</option>
                             </select>
                           </div>
@@ -69,10 +70,10 @@
                         <div class="col-3">
                           <div class="form-group">
                             <label for="">Liquido Refigerante</label>
-                            <select class="form-control" id="fuel" name="fuel">
+                            <select class="form-control" id="liquid_freeze" name="liquid_freeze">
                               <option selected disabled>Seleccione</option>
                               <option value="0">Bajo</option>
-                              <option value="1">Medio</option>
+                              <option value="1">Medio (Minimo Operativo)</option>
                               <option value="2">Alto</option>
                             </select>
                           </div>
@@ -80,10 +81,10 @@
                         <div class="col-3">
                           <div class="form-group">
                             <label for="">Liquido Hidraulico</label>
-                            <select class="form-control" id="fuel" name="fuel">
+                            <select class="form-control" id="liquid_hydraulic" name="liquid_hydraulic">
                               <option selected disabled>Seleccione</option>
                               <option value="0">Bajo</option>
-                              <option value="1">Medio</option>
+                              <option value="1">Medio (Minimo Operativo)</option>
                               <option value="2">Alto</option>
                             </select>
                           </div>
@@ -91,10 +92,10 @@
                         <div class="col-3">
                           <div class="form-group">
                             <label for="">Aceite de Motor</label>
-                            <select class="form-control" id="fuel" name="fuel">
+                            <select class="form-control" id="liquid_motor" name="liquid_motor">
                               <option selected disabled>Seleccione</option>
                               <option value="0">Bajo</option>
-                              <option value="1">Medio</option>
+                              <option value="1">Medio (Minimo Operativo)</option>
                               <option value="2">Alto</option>
                             </select>
                           </div>
@@ -102,10 +103,10 @@
                         <div class="col-3">
                           <div class="form-group">
                             <label for="">Liquido de Freno</label>
-                            <select class="form-control" id="fuel" name="fuel">
+                            <select class="form-control" id="liquid_brake" name="liquid_brake">
                               <option selected disabled>Seleccione</option>
                               <option value="0">Bajo</option>
-                              <option value="1">Medio</option>
+                              <option value="1">Medio (Minimo Operativo)</option>
                               <option value="2">Alto</option>
                             </select>
                           </div>
@@ -126,7 +127,6 @@
                         <table class="table table-striped dt-responsive nowrap" style="width: 100%;">
                           <thead style="color: white" class="bg-gradient-dark text-center">
                             <tr class="text-center">
-                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">N°</th>
                               <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Pregunta</th>
                               <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Cantidad</th>
                               <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Respuesta</th>
@@ -134,10 +134,8 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @php $count = 1; @endphp
                             @foreach ($category as $item)
                               <tr>
-                                <td class="text-center">{{ $count++ }}</td>
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">{{ $item->quantity }}</td>
                                 <td class="text-center">
@@ -164,6 +162,40 @@
                   </div>
                 @endforeach
               </div>
+
+
+
+              <div id="accordionExample">
+                <div class="card" style="box-shadow: none !important">
+                  <div class="card-header">
+                    <h6>Responsables del Check</h6>
+                  </div>
+                  <div class="card-body">
+                      <div class="row mb-2">
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                          <div class="form-group">
+                            <label for="">Kilometraje</label>
+                            <input type="number" class="form-control" id="kilometer" name="kilometer" autocomplete="off" required>
+                          </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                          <div class="form-group">
+                            <label for="">Combustible</label>
+                            <select class="form-control" id="fuel" name="fuel" onchange="calculateFuel()">
+                              <option selected disabled>Seleccione</option>
+                              <option value="1">1/5</option>
+                              <option value="2">2/5</option>
+                              <option value="3">3/5</option>
+                              <option value="4">4/5 (Minimo Operativo)</option>
+                              <option value="5">5/5</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
               <br>
               <div class="col-12">
                 <button type="submit" class="btn btn-dark text-white"><i class="fa-solid fa-save"></i> Guardar Checklist</button>
@@ -174,5 +206,32 @@
       </div>
     </div>
 </div>
-
 @endsection
+
+@push('script')
+  <script>
+
+    $(document).ready(function(){
+      $('#car').change(function(){
+        var id = $(this).val();
+        var kilometer = $('#car option:selected').data('kilometer');
+        $('#kilometer').val(kilometer);
+      })
+    })
+
+    function calculateFuel() {
+      var fuel = $('#fuel').val();
+
+      if(fuel < 4){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Advertencia',
+          text: 'El combustible debe ser de 4/5 para ser operativo, recarge combustible y envio Factura/Boleta a Tesoreria via correo electronico.',
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar'
+        })
+      }
+    }
+
+  </script>
+@endpush
