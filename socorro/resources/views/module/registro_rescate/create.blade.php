@@ -219,7 +219,7 @@
                         <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id" value="{{ old('voluntary_id') }}">
                             <option selected>Seleccione</option>
                             @foreach ($voluntaries as $voluntary)
-                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->last_name }}</option>
+                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
                             @endforeach
                         </select>
                     </div>

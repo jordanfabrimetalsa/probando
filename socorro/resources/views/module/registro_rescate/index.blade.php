@@ -312,6 +312,58 @@
           }
 
           $('#voluntary_id_show_hidden').val(response.data.voluntario_id);
+
+          if(response.data.situation == 'completed'){
+            $('#button-update-rescue').prop('disabled', true);
+
+            $('#kilometer_total_show').prop('disabled', true);
+            $('#different_height_show').prop('disabled', true);
+            $('#quantity_people_show').prop('disabled', true);
+
+            $('#phone_accident_show').prop('disabled', true);
+            $('#email_accident_show').prop('disabled', true);
+            $('#address_show').prop('disabled', true);
+
+            $('#city_show').prop('disabled', true);
+            $('#state_show').prop('disabled', true);
+
+            $('#allergic_show').prop('disabled', true);
+            $('#disease_show').prop('disabled', true);
+
+            $('#gravity_show').prop('disabled', true);
+            $('#injury_show').prop('disabled', true);
+            $('#observations_show').prop('disabled', true);
+ 
+            $('#user_id_show').prop('disabled', true);
+            $('#situation_show').prop('disabled', true);
+
+            $('#voluntary_id_show').prop('disabled', true);
+          }else{
+            $('#button-update-rescue').prop('disabled', false);
+
+            $('#kilometer_total_show').prop('disabled', false);
+            $('#different_height_show').prop('disabled', false);
+            $('#quantity_people_show').prop('disabled', false);
+
+            $('#phone_accident_show').prop('disabled', false);
+            $('#email_accident_show').prop('disabled', false);
+            $('#address_show').prop('disabled', false);
+
+            $('#city_show').prop('disabled', false);
+            $('#state_show').prop('disabled', false);
+
+            $('#allergic_show').prop('disabled', false);
+            $('#disease_show').prop('disabled', false);
+
+            $('#gravity_show').prop('disabled', false);
+            $('#injury_show').prop('disabled', false);
+            $('#observations_show').prop('disabled', false);
+ 
+            $('#user_id_show').prop('disabled', false);
+            $('#situation_show').prop('disabled', false);
+
+            $('#voluntary_id_show').prop('disabled', false);
+          }
         },
         error:function(error){
           Swal.fire({
