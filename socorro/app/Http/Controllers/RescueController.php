@@ -167,11 +167,12 @@ class RescueController extends Controller
         if(!$rescue){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Rescate no encontrado'
+                'message' => 'Rescate no encontrado por: ' . $rescue
             ], 404);
         }
 
         $rescue->delete();
+
         return response()->json([
             'status' => 'success',
             'message' => 'Rescate eliminado correctamente'

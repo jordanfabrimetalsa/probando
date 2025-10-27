@@ -374,6 +374,43 @@
         }
       });
     }
+
+    function deleteRescue(id){
+      swal.fire({
+        title: '¿Estas seguro de eliminar este rescate?',
+        text: "No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: 'registro-rescate/destroy/' + id,
+              type: 'DELETE',
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              success:function(response){
+                Swal.fire({
+                icon: 'success',
+                title: 'Éxito.',
+                text: response.message,
+            });
+            datatableRescue.ajax.reload();
+          },
+          error:function(error){
+            Swal.fire({
+              icon: 'error',
+              title: 'Error.',
+              text: 'Error al eliminar rescate: ' + JSON.stringify(error),
+            });
+          }
+        });
+      }
+    });
+  }
 </script>
 
 @endpush
