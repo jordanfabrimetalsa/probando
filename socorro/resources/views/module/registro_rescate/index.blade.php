@@ -71,7 +71,7 @@
           },
           { data: 'date_start_trek',
             render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+              return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD/MM/YYYY HH:mm:ss')+'</p>'
             }
           },
           { data: 'situation',
@@ -197,34 +197,54 @@
         });
     });
 
-    function editRescue(id){
-        $.ajax({
-            url: '{{ url("registro-rescate/edit") }}/' + id,
-            type: 'GET',
-            success:function(response){
-            console.log(response);
+    $('#formRescueUpdate').submit(function(e){
+        e.preventDefault();
 
-            $('#EditModal').modal('show');
-            let updateRoute = '{{ route("registro-rescate.update", ":id") }}';
-            updateRoute = updateRoute.replace(':id', id);
-            $('#formRescueEdit').attr('action', updateRoute);
+        // Copiar valores actuales de selects deshabilitados a inputs hidden antes de serializar
+        $('#type_show_hidden').val($('#type_show').val());
+        $('#weather_show_hidden').val($('#weather_show').val());
+        $('#helper_external_show_hidden').val($('#helper_external_show').val());
+        $('#external_helper_show_hidden').val($('#external_helper_show').val());
+        $('#Stretcher_show_hidden').val($('#Stretcher_show').val());
+        $('#type_transport_show_hidden').val($('#type_transport_show').val());
+        $('#helicopter_show_hidden').val($('#helicopter_show').val());
+        $('#voluntary_id_show_hidden').val($('#voluntary_id_show').val());
+
+        let formData = $(this).serialize();
+        let id = $('#id_show').val();
+        
+        $.ajax({
+            url: '{{ url("registro-rescate/update") }}/' + id,
+            type: 'POST',
+            data: formData,
+            success:function(response){
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Éxito.',
+                  text: response.message,
+              });
+                $('#ShowModal').modal('hide');
+                $('#formRescueUpdate')[0].reset();
+                datatableRescue.ajax.reload();
             },
             error:function(error){
-            Swal.fire({
-                icon: 'error',
-                title: 'Error.',
-                text: 'Error al editar rescate',
-            });
-            $('#EditModal').modal('hide');
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error.',
+                  text: 'Error al editar rescate',
+              });
+              $('#ShowModal').modal('hide');
             }
         });
-    }
+    });
 
     function showRescue(id){
       $.ajax({
         url: 'registro-rescate/show/' + id,
         type: 'GET',
         success:function(response){
+          console.log(response.data.voluntary_name, response.data.voluntary_lastname);
+          console.log(response.data);
           $('#type_show').val(response.data.type);
 
           $('#place_show').val(response.data.place);
@@ -235,11 +255,13 @@
           $('#address_show').val(response.data.address);
           $('#city_show').val(response.data.city);
 
+          // Formatear a datetime-local (YYYY-MM-DDTHH:mm)
+          const toLocalDT = v => v ? v.replace(' ', 'T').slice(0,16) : '';
           $('#created_at_show').val(response.data.created_at);
-          $('#date_call_show').val(response.data.date_call);
-          $('#date_finish_rescue_show').val(response.data.date_finish_rescue);
-          $('#date_middle_trek_show').val(response.data.date_middle_trek);
-          $('#date_start_trek_show').val(response.data.date_start_trek);
+          $('#date_call_show').val(toLocalDT(response.data.date_call));
+          $('#date_finish_rescue_show').val(toLocalDT(response.data.date_finish_rescue));
+          $('#date_middle_trek_show').val(toLocalDT(response.data.date_middle_trek));
+          $('#date_start_trek_show').val(toLocalDT(response.data.date_start_trek));
 
           $('#kilometer_total_show').val(response.data.kilometer_total);
           $('#different_height_show').val(response.data.different_height);
@@ -272,18 +294,34 @@
           $('#medical_assistance_show_hidden').val(response.data.medical_assistance);
           $('#type_transport_show_hidden').val(response.data.type_transport);
           $('#helicopter_show_hidden').val(response.data.helicopter);
-           $('#voluntary_id_show_hidden').val(response.data.voluntary_id);
-          $('#voluntary_id_show').val(response.data.voluntary.name + ' ' + response.data.voluntary.last_name); // o response.voluntary.id
 
+          const id = response.data.voluntario_id;
+          const name = (response.data.voluntary_name || '').trim();
+          const lastname = (response.data.voluntary_lastname || '').trim();
+          const label = `${name} ${lastname}`.trim();
+          const $sel = $('#voluntary_id_show');
+
+          // si existe la opción, actualiza su texto y selección
+          const $opt = $sel.find(`option[value='${id}']`);
+          if ($opt.length) {
+            $opt.text(label);
+            $sel.val(id);
+          } else {
+            // si no existe, agrégala y selecciónala sin tocar el resto del foreach
+            $sel.append(new Option(label, id, true, true));
+          }
+
+          $('#voluntary_id_show_hidden').val(response.data.voluntario_id);
         },
         error:function(error){
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Error al mostrar rescate',
+            text: 'Error al mostrar rescate: ' + JSON.stringify(error),
           });
         }
       });
     }
+</script>
 
 @endpush

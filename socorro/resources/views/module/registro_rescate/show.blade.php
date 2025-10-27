@@ -142,7 +142,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="border mb-4">
                 <div class="row p-2">
                     <h5 class="modal-title mb-2 text-center">Detalle del Rescate</h5>
@@ -225,9 +224,10 @@
                     <h5 class="modal-title mb-2 text-center">Estado Actual</h5>
                     <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
                         <label for="name_accident" class="form-label">Jefe de Operaciones</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id_show" id="voluntary_id_show" readonly>
+                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id_show" id="voluntary_id_show">
+                            <option selected disabled>Seleccionar Jefe de Operación</option>
                             @foreach ($voluntaries as $voluntary)
-                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->last_name }}</option>
+                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
                             @endforeach
                         </select>
                         <input type="hidden" name="voluntary_id_show_hidden" id="voluntary_id_show_hidden">
@@ -256,3 +256,4 @@
       </div>
     </div>
   </div>
+</div>

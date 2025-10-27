@@ -29,7 +29,9 @@ class RescueController extends Controller
 
     public function show($id){
         try{
-            $rescue = Rescue::with('voluntary')->find($id);
+            $rescue = Rescue::join('voluntaries', 'rescue.voluntario_id', '=', 'voluntaries.id')
+                            ->select('rescue.*', 'voluntaries.name as voluntary_name', 'voluntaries.lastname as voluntary_lastname')
+                            ->find($id);
 
             if(!$rescue){
                 return response()->json([
@@ -46,7 +48,7 @@ class RescueController extends Controller
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error interno: ' . $e->getMessage()
+                'message' => 'Error interno: ' . $id . ' -  ' . $e->getMessage()
             ], 500);
         }
     }
@@ -100,16 +102,79 @@ class RescueController extends Controller
         }
     }
 
-    public function edit($id){
-        $rescue = Rescue::find($id);
-        return response()->json($rescue);
-    }
-
     public function update(Request $request, $id){
+        try{
+            $rescue = Rescue::find($id);    
+            if($rescue->situation != 'completed'){
+                $rescue->type = $request->type_show_hidden;
+                $rescue->place = $request->place_show;
+                $rescue->road = $request->road_show;
+                $rescue->weather = $request->weather_show_hidden;
+                $rescue->kilometer_total = $request->kilometer_total_show;
+                $rescue->different_height = $request->different_height_show;
+                $rescue->quantity_people = $request->quantity_people_show;
+                $rescue->quantity_voluntaries = $request->quantity_voluntaries_show;
+                $rescue->helper_external = $request->helper_external_show_hidden;
+                $rescue->external_helper = $request->external_helper_show_hidden;
 
+                $rescue->name_accident = $request->name_accident_show;
+                $rescue->phone_accident = $request->phone_accident_show;
+                $rescue->email_accident = $request->email_accident_show;
+                $rescue->address = $request->address_show;
+                $rescue->city = $request->city_show;
+                $rescue->state = $request->state_show;
+                $rescue->allergic = $request->allergic_show;
+                $rescue->disease = $request->disease_show;
+
+                $rescue->date_call = $request->date_call_show;
+                $rescue->date_start_trek = $request->date_start_trek_show;
+                $rescue->date_middle_trek = $request->date_middle_trek_show;
+                $rescue->date_finish_rescue = $request->date_finish_rescue_show;
+                $rescue->injury = $request->injury_show;
+                $rescue->gravity = $request->gravity_show;
+                $rescue->medical_assistance = $request->medical_assistance_show_hidden;
+
+                $rescue->Stretcher = $request->Stretcher_show_hidden;
+                $rescue->type_transport = $request->type_transport_show_hidden;
+                $rescue->helicopter = $request->helicopter_show_hidden;
+                $rescue->voluntario_id = $request->voluntary_id_show_hidden;
+                $rescue->situation = $request->situation_show;
+                $rescue->observations = $request->observations_show;
+                $rescue->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Rescate actualizado correctamente: ' . $request
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No se puede actualizar el rescate, porque ya esta completado.'
+                ]);
+            }
+            
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function destroy($id){
+        $rescue = Rescue::find($id);
 
+        if(!$rescue){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Rescate no encontrado'
+            ], 404);
+        }
+
+        $rescue->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Rescate eliminado correctamente'
+        ]);
     }
 }
