@@ -16,6 +16,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\RescueController;
 use App\Http\Controllers\PostulationController;
 use App\Http\Controllers\PostulationsPeopleController;
+use App\Http\Controllers\PDFController;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -38,7 +39,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     });
 
-    Route::prefix('usuarios')->group(function(){
+    Route::prefix('usuarios')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [UserController::class,'index'])->name('usuarios');
         Route::get('/data', [UserController::class,'data'])->name('usuarios.data');
         Route::get('/create', [UserController::class,'create'])->name('usuarios.create');
@@ -60,7 +61,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
     });
 
-    Route::prefix('delegaciones')->group(function(){
+    Route::prefix('delegaciones')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [DelegacionController::class,'index'])->name('delegaciones');
         Route::get('/data', [DelegacionController::class,'data'])->name('delegaciones.data');
         Route::get('/show/{id}', [DelegacionController::class,'show'])->name('delegaciones.show');
@@ -71,7 +72,7 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [DelegacionController::class,'destroy'])->name('delegaciones.destroy');
     });
 
-    Route::prefix('voluntarios')->group(function(){
+    Route::prefix('voluntarios')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [VoluntarioController::class,'index'])->name('voluntarios');
         Route::get('/data', [VoluntarioController::class,'data'])->name('voluntarios.data');
         Route::get('/show/{id}', [VoluntarioController::class,'show'])->name('voluntarios.show');
@@ -84,7 +85,7 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [VoluntarioController::class,'destroy'])->name('voluntarios.destroy');
     });
 
-    Route::prefix('inventario')->group(function(){
+    Route::prefix('inventario')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [InventarioController::class,'index'])->name('inventario');
         Route::get('/data', [InventarioController::class,'data'])->name('inventario.data');
         Route::get('/warehouse/data', [InventarioController::class,'dataWarehouse'])->name('inventario.warehouse');
@@ -111,9 +112,11 @@ Route::middleware('auth')->group(function(){
         Route::post('/question/store', [ChecklistController::class,'questionStore'])->name('checklist.question.store');
         Route::put('/categoria/update/{id}', [ChecklistController::class,'update'])->name('checklist.update');
         Route::delete('/categoria/destroy/{id}', [ChecklistController::class,'destroy'])->name('checklist.destroy');
+
+        Route::post('/store', [ChecklistController::class,'store'])->name('checklist.store');
     });
 
-    Route::prefix('vehiculo')->group(function(){
+    Route::prefix('vehiculo')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [VehiculoController::class,'index'])->name('vehiculo');
         Route::get('/data', [VehiculoController::class,'data'])->name('vehiculo.data');
         Route::get('/brand/data', [VehiculoController::class,'brandData'])->name('vehiculo.brand.data');
@@ -144,7 +147,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/file/download/{id}', [ScheduleController::class, 'downloadFile'])->name('calendario.download');
     });
 
-    Route::prefix('contacto')->group(function(){
+    Route::prefix('contacto')->middleware('checkrole:admin')->group(function(){
         Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
         Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
     });

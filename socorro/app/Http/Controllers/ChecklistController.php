@@ -6,6 +6,7 @@ use App\Models\QuestionCheck;
 use Illuminate\Http\Request;
 use App\Models\Delegation;
 use App\Models\Car;
+use App\Models\Voluntary;
 use Exception;
 
 class ChecklistController extends Controller
@@ -29,7 +30,8 @@ class ChecklistController extends Controller
         )
         ->where('checklist.status', 'Y')
         ->get();
-        return view('module.checklist.indexRespuesta', compact('question', 'vehicles'));
+        $voluntaries = Voluntary::all();
+        return view('module.checklist.indexRespuesta', compact('question', 'vehicles', 'voluntaries'));
     }
 
     public function data(){

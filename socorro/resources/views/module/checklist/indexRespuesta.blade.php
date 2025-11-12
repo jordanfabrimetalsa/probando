@@ -27,179 +27,184 @@
                   Administración de CSA Nacional
                 </div>
               </div>
-
-              <div id="accordionExample">
-                <div class="card" style="box-shadow: none !important">
-                  <div class="card-header">
-                    <h6>Información General</h6>
+              <form id="formChecklist">
+                <div id="accordionExample">
+                  <div class="card" style="box-shadow: none !important">
+                    <div class="card-header">
+                      <h6>Información General</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                          <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Vehiculo</label>
+                              <select name="car" id="car" class="form-control" required>
+                                <option value="">Seleccione</option>
+                                @foreach ($vehicles as $vehicle)
+                                  <option value="{{ $vehicle->id }}" data-kilometer="{{ $vehicle->kilometer }}">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Kilometraje</label>
+                              <input type="number" class="form-control" id="kilometer" name="kilometer" autocomplete="off" required>
+                            </div>
+                          </div>
+                          <div class="col-xl-4 col-md-6 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Combustible</label>
+                              <select class="form-control" id="fuel" name="fuel" onchange="calculateFuel()">
+                                <option selected disabled>Seleccione</option>
+                                <option value="1">1/5</option>
+                                <option value="2">2/5</option>
+                                <option value="3">3/5</option>
+                                <option value="4">4/5 (Minimo Operativo)</option>
+                                <option value="5">5/5</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xl-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Liquido Refigerante</label>
+                              <select class="form-control" id="liquid_freeze" name="liquid_freeze">
+                                <option selected disabled>Seleccione</option>
+                                <option value="0">Bajo</option>
+                                <option value="1">Medio (Minimo Operativo)</option>
+                                <option value="2">Alto</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Liquido Hidraulico</label>
+                              <select class="form-control" id="liquid_hydraulic" name="liquid_hydraulic">
+                                <option selected disabled>Seleccione</option>
+                                <option value="0">Bajo</option>
+                                <option value="1">Medio (Minimo Operativo)</option>
+                                <option value="2">Alto</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Aceite de Motor</label>
+                              <select class="form-control" id="liquid_motor" name="liquid_motor">
+                                <option selected disabled>Seleccione</option>
+                                <option value="0">Bajo</option>
+                                <option value="1">Medio (Minimo Operativo)</option>
+                                <option value="2">Alto</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xl-3 col-md-4 col-sm-12">
+                            <div class="form-group">
+                              <label for="">Liquido de Freno</label>
+                              <select class="form-control" id="liquid_brake" name="liquid_brake">
+                                <option selected disabled>Seleccione</option>
+                                <option value="0">Bajo</option>
+                                <option value="1">Medio (Minimo Operativo)</option>
+                                <option value="2">Alto</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="row p-2">
+                          @foreach ($question->groupBy('category') as $key => $category)
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false" aria-controls="collapse{{ $loop->index }}">
+                                  {{ $key }}
+                                </button>
+                              </h2>
+                              <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <table class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                                    <thead style="color: white" class="bg-gradient-dark text-center">
+                                      <tr class="text-center">
+                                        <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Pregunta</th>
+                                        <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Cantidad</th>
+                                        <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Respuesta</th>
+                                        <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Observacion</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      @foreach ($category as $item)
+                                        <tr>
+                                          <td class="text-center">{{ $item->name }}</td>
+                                          <td class="text-center">{{ $item->quantity }}</td>
+                                          <td class="text-center">
+                                            <div class="form-check form-check-inline">
+                                              <input class="form-check-input" type="radio" value="Si" id="respuesta_{{ $item->id }}_si" name="respuesta[{{ $item->id }}]">
+                                              <label class="form-check-label" for="respuesta_{{ $item->id }}_si">Si</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                              <input class="form-check-input" type="radio" value="No" id="respuesta_{{ $item->id }}_no" name="respuesta[{{ $item->id }}]">
+                                              <label class="form-check-label" for="respuesta_{{ $item->id }}_no">No</label>
+                                            </div>
+                                          </td>
+                                          <td class="text-center"><input type="text" class="form-control" id="observacion_{{ $item->id }}" name="observacion[{{ $item->id }}]" placeholder="Observacion"></td>
+                                        </tr>
+                                      @endforeach
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          @endforeach
+                        </div> 
+                        <hr>
+                        <br>
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="">Observaciones</label>
+                              <textarea class="form-control" name="observations" id="observations" cols="30" rows="5"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   </div>
-                  <div class="card-body">
+                  <br>
+                </div>
+                <div id="accordionExample" class="mt-2">
+                  <div class="card" style="box-shadow: none !important">
+                    <div class="card-header">
+                      <h6>Responsable del Check</h6>
+                    </div>
+                    <div class="card-body">
                       <div class="row mb-2">
-                        <div class="col-xl-4 col-md-6 col-sm-12">
+                        <div class="col-xl-6 col-md-6 col-sm-12">
                           <div class="form-group">
-                            <label for="">Vehiculo</label>
-                            <select name="car" id="car" class="form-control" required>
-                              <option value="">Seleccione</option>
-                              @foreach ($vehicles as $vehicle)
-                                <option value="{{ $vehicle->id }}" data-kilometer="{{ $vehicle->kilometer }}">{{ $vehicle->brand->name }} {{ $vehicle->model->name }}</option>
+                            <label for="">Lider de Patrulla</label>
+                            <select class="form-control" id="leader" name="leader">
+                              <option selected disabled>Seleccione Lider de Patrulla</option>
+                              @foreach ($voluntaries as $voluntary)
+                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
                               @endforeach
                             </select>
                           </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 col-sm-12">
+                        <div class="col-xl-6 col-md-6 col-sm-12">
                           <div class="form-group">
-                            <label for="">Kilometraje</label>
-                            <input type="number" class="form-control" id="kilometer" name="kilometer" autocomplete="off" required>
+                            <label for="">Correo Electronico</label>
+                            <input type="email" class="form-control" id="email" name="email">
                           </div>
                         </div>
-                        <div class="col-xl-4 col-md-6 col-sm-12">
-                          <div class="form-group">
-                            <label for="">Combustible</label>
-                            <select class="form-control" id="fuel" name="fuel" onchange="calculateFuel()">
-                              <option selected disabled>Seleccione</option>
-                              <option value="1">1/5</option>
-                              <option value="2">2/5</option>
-                              <option value="3">3/5</option>
-                              <option value="4">4/5 (Minimo Operativo)</option>
-                              <option value="5">5/5</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-3">
-                          <div class="form-group">
-                            <label for="">Liquido Refigerante</label>
-                            <select class="form-control" id="liquid_freeze" name="liquid_freeze">
-                              <option selected disabled>Seleccione</option>
-                              <option value="0">Bajo</option>
-                              <option value="1">Medio (Minimo Operativo)</option>
-                              <option value="2">Alto</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-3">
-                          <div class="form-group">
-                            <label for="">Liquido Hidraulico</label>
-                            <select class="form-control" id="liquid_hydraulic" name="liquid_hydraulic">
-                              <option selected disabled>Seleccione</option>
-                              <option value="0">Bajo</option>
-                              <option value="1">Medio (Minimo Operativo)</option>
-                              <option value="2">Alto</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-3">
-                          <div class="form-group">
-                            <label for="">Aceite de Motor</label>
-                            <select class="form-control" id="liquid_motor" name="liquid_motor">
-                              <option selected disabled>Seleccione</option>
-                              <option value="0">Bajo</option>
-                              <option value="1">Medio (Minimo Operativo)</option>
-                              <option value="2">Alto</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-3">
-                          <div class="form-group">
-                            <label for="">Liquido de Freno</label>
-                            <select class="form-control" id="liquid_brake" name="liquid_brake">
-                              <option selected disabled>Seleccione</option>
-                              <option value="0">Bajo</option>
-                              <option value="1">Medio (Minimo Operativo)</option>
-                              <option value="2">Alto</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-
-                @foreach ($question->groupBy('category') as $key => $category)
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading{{ $loop->index }}">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="false" aria-controls="collapse{{ $loop->index }}">
-                        {{ $key }}
-                      </button>
-                    </h2>
-                    <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <table class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                          <thead style="color: white" class="bg-gradient-dark text-center">
-                            <tr class="text-center">
-                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Pregunta</th>
-                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Cantidad</th>
-                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Respuesta</th>
-                              <th scope="col" class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-white">Observacion</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @foreach ($category as $item)
-                              <tr>
-                                <td class="text-center">{{ $item->name }}</td>
-                                <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">
-                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" value="Si" id="respuesta_{{ $item->id }}_si" name="respuesta[{{ $item->id }}]">
-                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_si">Si</label>
-                                  </div>
-                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" value="No" id="respuesta_{{ $item->id }}_no" name="respuesta[{{ $item->id }}]">
-                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_no">No</label>
-                                  </div>
-                                  <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" value="N/A" id="respuesta_{{ $item->id }}_na" name="respuesta[{{ $item->id }}]">
-                                    <label class="form-check-label" for="respuesta_{{ $item->id }}_na">N/A</label>
-                                  </div>
-                                </td>
-                                <td class="text-center"><input type="text" class="form-control" id="observacion_{{ $item->id }}" name="observacion[{{ $item->id }}]" placeholder="Observacion"></td>
-                              </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
                       </div>
                     </div>
                   </div>
-                @endforeach
-              </div>
-
-
-
-              <div id="accordionExample">
-                <div class="card" style="box-shadow: none !important">
-                  <div class="card-header">
-                    <h6>Responsables del Check</h6>
-                  </div>
-                  <div class="card-body">
-                      <div class="row mb-2">
-                        <div class="col-xl-4 col-md-6 col-sm-12">
-                          <div class="form-group">
-                            <label for="">Kilometraje</label>
-                            <input type="number" class="form-control" id="kilometer" name="kilometer" autocomplete="off" required>
-                          </div>
-                        </div>
-                        <div class="col-xl-4 col-md-6 col-sm-12">
-                          <div class="form-group">
-                            <label for="">Combustible</label>
-                            <select class="form-control" id="fuel" name="fuel" onchange="calculateFuel()">
-                              <option selected disabled>Seleccione</option>
-                              <option value="1">1/5</option>
-                              <option value="2">2/5</option>
-                              <option value="3">3/5</option>
-                              <option value="4">4/5 (Minimo Operativo)</option>
-                              <option value="5">5/5</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      </div>
-                  </div>
                 </div>
-              </div>
-              <br>
-              <div class="col-12">
-                <button type="submit" class="btn btn-dark text-white"><i class="fa-solid fa-save"></i> Guardar Checklist</button>
-              </div>
+                <br>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-dark text-white d-block mx-auto"><i class="fa-solid fa-save"></i> Guardar Checklist</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -210,13 +215,43 @@
 
 @push('script')
   <script>
-
     $(document).ready(function(){
+
       $('#car').change(function(){
         var id = $(this).val();
         var kilometer = $('#car option:selected').data('kilometer');
         $('#kilometer').val(kilometer);
       })
+
+      $('#formChecklist').submit(function(e){
+        e.preventDefault();
+        
+        var formData = $(this).serialize();
+        $.ajax({
+          url: '/checklist/store',
+          type: 'POST',
+          data: formData,
+          success: function(response){
+            Swal.fire({
+              icon: 'success',
+              title: 'Checklist Guardado',
+              text: 'El checklist se guardo correctamente' + response,
+              showConfirmButton: true,
+              confirmButtonText: 'Aceptar'
+            })
+          },
+          error: function(response){
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ocurrio un error al guardar el checklist' + response,
+              showConfirmButton: true,
+              confirmButtonText: 'Aceptar'
+            })
+          }
+        })
+      })
+      
     })
 
     function calculateFuel() {
