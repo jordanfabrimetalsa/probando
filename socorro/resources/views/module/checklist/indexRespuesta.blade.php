@@ -228,14 +228,14 @@
         
         var formData = $(this).serialize();
         $.ajax({
-          url: '/checklist/store',
+          url: '/checklist/question/store',
           type: 'POST',
           data: formData,
           success: function(response){
             Swal.fire({
               icon: 'success',
               title: 'Checklist Guardado',
-              text: 'El checklist se guardo correctamente' + response,
+              text: 'El checklist se guardo correctamente' + response.message,
               showConfirmButton: true,
               confirmButtonText: 'Aceptar'
             })
@@ -244,7 +244,7 @@
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Ocurrio un error al guardar el checklist' + response,
+              text: 'Ocurrio un error al guardar el checklist' + response.message,
               showConfirmButton: true,
               confirmButtonText: 'Aceptar'
             })

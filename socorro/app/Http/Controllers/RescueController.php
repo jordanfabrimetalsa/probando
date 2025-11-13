@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Rescue;
 use App\Models\Voluntary;
 use Exception;
+use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class RescueController extends Controller
 {
@@ -90,9 +92,15 @@ class RescueController extends Controller
             $rescue->observations = $request->observations;
             $rescue->save();
 
+            $pdf = PDF::loadView('module.pdf.rescue', compact('rescue'));
+
+            $relativePath = "rescues/rescue_{$rescue->id}.pdf"; // dentro de 'public' disk
+            Storage::disk('public')->put($relativePath, $pdf->output());
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'Rescate registrado correctamente'
+                'message' => 'Rescate registrado correctamente',
+                'download_url' => Storage::disk('public')->url($relativePath) // opcional
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -100,6 +108,21 @@ class RescueController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+    public function pdf($id) 
+    {
+        $rescue = \App\Models\Rescue::findOrFail($id);
+        $path = "rescues/rescue_{$rescue->id}.pdf";
+
+        if (!\Storage::disk('public')->exists($path)) {
+            $pdf = \PDF::loadView('module.pdf.rescue', compact('rescue'));
+            \Storage::disk('public')->put($path, $pdf->output());
+        }
+
+        $absolutePath = \Storage::disk('public')->path($path);
+
+        return response()->file($absolutePath);
     }
 
     public function update(Request $request, $id){

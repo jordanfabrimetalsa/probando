@@ -166,6 +166,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
         Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
         Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
+        Route::get('/pdf/{id}', [RescueController::class, 'pdf'])->name('registro-rescate.pdf');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
