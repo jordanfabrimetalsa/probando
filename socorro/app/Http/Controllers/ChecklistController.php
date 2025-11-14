@@ -89,10 +89,16 @@ class ChecklistController extends Controller
             $question->status = $request->status;
             $question->id_category_check = $request->id_category_check;
             $question->save();
+
+            $pdf = PDD::LoadView('module.pdf.checklist', compact('question'));
+            $pdf_path = "checklist/checklist_{$question->id}.pdf";
+            Storage::disk('public')->put($pdf_path, $pdf);
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Pregunta registrado'
             ], 201);
+
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',

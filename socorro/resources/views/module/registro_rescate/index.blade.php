@@ -157,7 +157,8 @@
           details:{
             type: 'inline'
           }
-        }
+        },
+        order: [[3, 'asc']],
       });
 
     });

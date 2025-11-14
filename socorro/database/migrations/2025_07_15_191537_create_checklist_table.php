@@ -11,9 +11,15 @@ return new class extends Migration
         Schema::create('checklist', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('quantity')->default(0);
-            $table->char('status', 1)->default('N');
-            $table->foreignId('id_category_check')->constrained('categories_check')->cascadeOnDelete();
+            $table->foreignId('id_car')->constrained('cars')->cascadeOnDelete();
+            $table->integer('kilometer');
+            $table->integer('fuel');
+            $table->integer('liquid_freeze');
+            $table->integer('liquid_hydraulic');
+            $table->integer('liquid_motor');
+            $table->integer('liquid_brake');
+            $table->text('observations')->nullable();
+            $table->foreignId('id_voluntary')->constrained('voluntarys')->cascadeOnDelete();
             $table->timestamps();
         });
     }
