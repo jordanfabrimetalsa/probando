@@ -68,12 +68,14 @@ class RescueController extends Controller
             $rescue->quantity_voluntaries = $request->quantity_voluntaries;
             $rescue->helper_external = $request->helper_external;
             $rescue->external_helper = $request->external_helper;
+
             $rescue->name_accident = $request->name_accident;
             $rescue->phone_accident = $request->phone_accident;
             $rescue->email_accident = $request->email_accident;
             $rescue->address = $request->address;
             $rescue->city = $request->city;
             $rescue->state = $request->state;
+            
             $rescue->allergic = $request->allergic;
             $rescue->disease = $request->disease;
             $rescue->date_call = $request->date_call;
@@ -110,7 +112,7 @@ class RescueController extends Controller
         }
     }
 
-    public function pdf($id) 
+    public function pdf($id)
     {
         $rescue = \App\Models\Rescue::findOrFail($id);
         $path = "rescues/rescue_{$rescue->id}.pdf";

@@ -92,7 +92,7 @@
                       <a href="javascript:;" class="btn btn-info text-white" onclick="showRescue(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-solid fa-map-location-dot"></i>
                       </a>
-                      <a href="/registro-rescate/pdf/${data.id}" target="_blank" class="btn btn-primary text-white">
+                      <a href="/registro-rescate/pdf/${data.id}" target="_blank" class="btn btn-dark text-white">
                         <i class="fa-solid fa-file-pdf"></i>
                       </a>
                       <a onclick="deleteRescue(${data.id})" class="btn btn-danger text-white">
