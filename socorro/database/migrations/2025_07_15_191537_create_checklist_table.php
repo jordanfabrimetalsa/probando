@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('liquid_brake');
             $table->text('observations')->nullable();
             $table->foreignId('id_voluntary')->constrained('voluntarys')->cascadeOnDelete();
+            $table->string('email');
             $table->timestamps();
         });
     }
