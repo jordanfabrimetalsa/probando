@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(ApiServices $apiServices): void
     {
+        
         Gate::define('watch-admin', function (User $user){
             return $user->role == 'admin';
         });
