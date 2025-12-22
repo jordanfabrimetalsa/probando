@@ -20,6 +20,7 @@
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-dark btn-search-load">Buscar</button>
                                 <button type="button" class="btn btn-warning" onclick="clearSearch()">Limpiar Busqueda</button>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#avisoModal">Crear Aviso</button>
                             </div>
                         </div>
                     </div>
@@ -65,10 +66,5 @@
             });
         }
     });
-
-    function clearSearch() {
-        document.getElementById('form_departure_search').reset();
-        $('#datatableUser tbody').html('');
-    }
 </script>
 @endpush

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
@@ -346,6 +347,9 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const myCarousel = document.getElementById('heroCarousel');
@@ -514,6 +518,38 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        var datatableUser;
+        $(document).ready(function() {
+            datatableUser = $('#datatableUser').DataTable({
+                language: {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
         $('#form_departure').submit(function(e) {
             console.log('entra 1');
             e.preventDefault();
@@ -560,6 +596,17 @@
     </script>
 
     <script>
+
+        function clearSearch() {
+            $('#form_departure_search')[0].reset();
+            if (datatableUser) {
+                datatableUser.clear().draw();
+            } else {
+                $('#datatableUser tbody').html('');
+            }
+            $('.btn-search-load').html('Buscar').prop('disabled', false);
+        }
+
         $('#contact-form').submit(function(e) {
             e.preventDefault();
 
@@ -599,6 +646,11 @@
 
         $('#form_departure_search').submit(function(e) {
             e.preventDefault();
+            if (datatableUser) {
+                datatableUser.clear().draw();
+            } else {
+                $('#datatableUser tbody').html('');
+            }
 
             $('.btn-search-load')
                 .html(
@@ -614,7 +666,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    var data = response.data;
+                    var data = response.data || [];
                     var count = 0;
                     var active_data = 0;
 
@@ -624,7 +676,11 @@
                             title: 'Ups',
                             text: 'No se ha encontrado a nadie con este rut.'
                         });
-                        $('#datatableUser tbody').html('');
+                        if (datatableUser) {
+                            datatableUser.clear().draw();
+                        } else {
+                            $('#datatableUser tbody').html('');
+                        }
                         $('.btn-search-load').html('Buscar').prop('disabled', false);
                         return;
                     }
@@ -639,23 +695,37 @@
                             var active = `<span class="badge bg-success">Finalizado</span>`;
                         }
 
-                        $('#datatableUser tbody').append(
-                            `<tr>
-                                <td>${item.name}</td>
-                                <td>${item.route}</td>
-                                <td>${item.departure_date}</td>
-                                <td>${item.return_date}</td>
-                                <td>${active}</td>
-                            </tr>`
-                        );
+                        if (datatableUser) {
+                            datatableUser.row.add([
+                                item.name,
+                                item.route,
+                                item.departure_date,
+                                item.return_date,
+                                active
+                            ]);
+                        } else {
+                            $('#datatableUser tbody').append(
+                                `<tr>
+                                    <td>${item.name}</td>
+                                    <td>${item.route}</td>
+                                    <td>${item.departure_date}</td>
+                                    <td>${item.return_date}</td>
+                                    <td>${active}</td>
+                                </tr>`
+                            );
+                        }
+                    }
+
+                    if (datatableUser) {
+                        datatableUser.draw();
                     }
 
                     Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: `Se han encontrado ${count} registros, ${active_data} activos`,
-                    showConfirmButton: false,
-                    timer: 5000
+                        position: "top-end",
+                        icon: "success",
+                        title: `Se han encontrado ${count} registros, ${active_data} activos`,
+                        showConfirmButton: false,
+                        timer: 5000
                     });
                     $('.btn-search-load').html('Buscar').prop('disabled', false);
                 },
@@ -665,7 +735,11 @@
                         title: 'Ups',
                         text: 'Error al buscar salida'
                     });
-                    $('#datatableUser tbody').html('');
+                    if (datatableUser) {
+                        datatableUser.clear().draw();
+                    } else {
+                        $('#datatableUser tbody').html('');
+                    }
                     $('.btn-search-load').html('Buscar').prop('disabled', false);
                 }
             })
@@ -694,8 +768,7 @@
                                 title: 'Éxito',
                                 text: response.message
                             });
-                            $('#datatableUser tbody').html('');
-                            $('#form_departure_search')[0].reset();
+                            $('#form_departure_search').trigger('submit');
                             $('.btn-search-load').html('Buscar').prop('disabled', false);
                         },
                         error: function(xhr) {
@@ -711,25 +784,12 @@
         }
 
         @if (session('success'))
-            <
-            script >
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: '{{ session('success') }}'
-                });
-    </script>
-    @endif
+            Swal.fire({ icon: 'success', title: 'Éxito', text: '{{ session('success') }}' });
+        @endif
 
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: '{{ session('error') }}'
-            });
-        </script>
-    @endif
+        @if (session('error'))
+            Swal.fire({ icon: 'error', title: 'Error', text: '{{ session('error') }}' });
+        @endif
 
     // Animación al hacer scroll
     const observer = new IntersectionObserver(entries => {
