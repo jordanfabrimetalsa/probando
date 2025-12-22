@@ -615,6 +615,8 @@
                 },
                 success: function(response) {
                     var data = response.data;
+                    var count = 0;
+                    var active_data = 0;
 
                     if (data.length === 0) {
                         Swal.fire({
@@ -628,8 +630,9 @@
                     }
 
                     for (const item of data) {
-
+                        count++;
                         if (item.active == true) {
+                            active_data++;
                             var active =
                                 `<button class="btn btn-dark" onclick="finishDeparture(${item.id})">Terminar</button>`;
                         } else {
@@ -646,6 +649,14 @@
                             </tr>`
                         );
                     }
+
+                    Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Se han encontrado ${count} registros, ${active_data} activos`,
+                    showConfirmButton: false,
+                    timer: 5000
+                    });
                     $('.btn-search-load').html('Buscar').prop('disabled', false);
                 },
                 error: function(xhr) {
