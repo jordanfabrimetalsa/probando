@@ -76,19 +76,19 @@
                                     <option value="">Seleccione</option>
                                     <option value="0">Región Arica y Parinacota</option>
                                     <option value="1">Región Tarapaca</option>
-                                    <option value="1">Región Antofagasta</option>
-                                    <option value="1">Región Atacama</option>
-                                    <option value="1">Región Coquimbo</option>
-                                    <option value="1">Región Metropolitana</option>
-                                    <option value="1">Región Valparaiso</option>
-                                    <option value="1">Región O'Higgins</option>
-                                    <option value="1">Región Maule</option>
-                                    <option value="1">Región Bio Bio</option>
-                                    <option value="1">Región Araucania</option>
-                                    <option value="1">Región Los Rios</option>
-                                    <option value="1">Región Los Lagos</option>
-                                    <option value="1">Región Aysen</option>
-                                    <option value="1">Región Magallanes</option>
+                                    <option value="3">Región Antofagasta</option>
+                                    <option value="4">Región Atacama</option>
+                                    <option value="5">Región Coquimbo</option>
+                                    <option value="6">Región Metropolitana</option>
+                                    <option value="7">Región Valparaiso</option>
+                                    <option value="8">Región O'Higgins</option>
+                                    <option value="9">Región Maule</option>
+                                    <option value="10">Región Bio Bio</option>
+                                    <option value="11">Región Araucania</option>
+                                    <option value="12">Región Los Rios</option>
+                                    <option value="13">Región Los Lagos</option>
+                                    <option value="14">Región Aysen</option>
+                                    <option value="15">Región Magallanes</option>
                                 </select>
                             </div>
                         </div>

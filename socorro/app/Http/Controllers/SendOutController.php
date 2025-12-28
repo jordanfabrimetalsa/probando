@@ -217,4 +217,9 @@ class SendOutController extends Controller
         ]);
     }
 
+    public function showInfo($id){
+        $sendout = SendOut::findOrFail($id);
+        return response()->json($sendout);
+    }
+
 }
