@@ -479,11 +479,9 @@
                 });
                 toast.show();
             } else if (toastEl) {
-                // Fallback: show via class if Bootstrap JS not available
                 toastEl.classList.add('show');
             }
 
-            // Prevent body scroll when navbar is shown on mobile
             if (collapseEl) {
                 collapseEl.addEventListener('show.bs.collapse', function() {
                     openMobileMenu();

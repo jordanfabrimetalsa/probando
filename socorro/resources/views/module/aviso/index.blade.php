@@ -90,9 +90,11 @@
 
 @push('script')
     <script>
-          var datatableContacto;
+          var datatableAviso;
+          var disabled_aperture = '';
+
           $(document).ready(function(){
-            datatableContacto = $('#datatableAviso').DataTable({
+            datatableAviso = $('#datatableAviso').DataTable({
               ajax: {
                 url: '{{ route("aviso.data") }}',
                 dataSrc: ''
@@ -122,6 +124,7 @@
                   type: 'inline'
                 }
               },
+              order: [[5, 'desc']], // Ordena por columna 5 (fecha de ida) en orden descendente
               dom:
                 "<'row mb-2'<'col-md-6 d-flex align-items-center'B><'col-md-6'f>>" +
                 "<'row'<'col-12'tr>>" +
@@ -206,7 +209,9 @@
                 },
                 { data: 'return_date' ,
                   render:function(data){
-                        if(moment(data).isAfter(moment())){
+                        if(moment(data).isSame(moment(), 'day')){
+                            return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD-MM-YYYY HH:mm')+'</p>'
+                        }else if(moment(data).isAfter(moment())){
                             return data = '<p class="text-xs text-secondary mb-0 text-danger">'+moment(data).format('DD-MM-YYYY HH:mm')+'</p>'
                         }else{
                             return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD-MM-YYYY HH:mm')+'</p>'
@@ -215,7 +220,7 @@
                 },
                 { data: 'active' ,
                   render:function(data){
-                    return data = '<p class="text-xs text-secondary mb-0">'+ data == 0 ? '<span class="badge bg-gradient-success">Activo</span>' : '<span class="badge bg-gradient-danger">Inactivo</span>' +'</p>'
+                    return data = '<p class="text-xs text-secondary mb-0">' + (data == 1 ? '<span class="badge bg-gradient-success">Activo</span>' : '<span class="badge bg-gradient-danger">Inactivo</span>') +'</p>'
                   }
                 },
                 {
@@ -224,7 +229,10 @@
                   searchable: false,
                   render: function(data, type, row) {
                     if (data.download_url) {
+                      disabled_aperture = data.active == 1 ? '<button class="btn btn-success" onclick="cambiarEstado('+data.id+')"><i class="fa-solid fa-calendar-check"></i></button>' : '';
+
                       return `
+                      ${disabled_aperture}
                       <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>
                       <a href="${data.download_url}" class="btn btn-dark"><i class="fa-solid fa-map-location-dot"></i></a>`;
                     }
@@ -238,11 +246,44 @@
               var message = $(this).data('message') || '';
               $('#messageModal .modal-body').text(message);
             });
-            $('#datatableAviso tbody').on('click', 'button.btn-view-message', function () {
-              var message = $(this).data('message') || '';
-              $('#messageModal .modal-body').text(message);
-            });
           });
 
+          function cambiarEstado(id){
+            Swal.fire({
+                title: "¿Esta seguro de cambiar el estado? el",
+                text: "No podras volver a cambiarlo!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, cambiarlo!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/aviso/cambiar-estado/'+id,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response){
+                            Swal.fire({
+                                title: "Cambiado!",
+                                text: "El estado ha sido cambiado.",
+                                icon: "success"
+                            });
+                            datatableAviso.ajax.reload();
+                        },error: function(error){
+                            Swal.fire({
+                                title: "No ha podido cambiar el estado!",
+                                text: "Intente nuevamente.",
+                                icon: "error"
+                            });
+                        }
+                    })
+
+                }
+            });
+          }
     </script>
 @endpush
+

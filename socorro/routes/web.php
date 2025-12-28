@@ -156,6 +156,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [SendOutController::class, 'list'])->name('aviso.list');
         Route::get('/data', [SendOutController::class, 'data'])->name('aviso.data');
         Route::get('/download/{id}', [SendOutController::class, 'download'])->name('aviso.download');
+        Route::post('/cambiar-estado/{id}', [SendOutController::class, 'changeState'])->name('aviso.changeState');
     });
 
     Route::prefix('registro-rescate')->group(function(){

@@ -204,4 +204,17 @@ class SendOutController extends Controller
 
         return response()->download($filePath);
     }
+
+    public function changeState($id){
+        $active = 0;
+        $change = SendOut::findOrFail($id);
+        $change->active = $active;
+        $change->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Estado cambiado correctamente'
+        ]);
+    }
+
 }
