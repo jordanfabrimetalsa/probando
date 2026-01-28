@@ -27,7 +27,6 @@ return new class extends Migration
             $table->boolean('license')->default(false);
             $table->boolean('payment')->default(false);
             $table->char('blood_type', 2)->default('N');
-            $table->string('password', 255);
             $table->enum('type', ['V', 'A'])->default('A');
             $table->boolean('status')->default(true);
             $table->timestamps();

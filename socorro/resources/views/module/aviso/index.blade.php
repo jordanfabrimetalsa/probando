@@ -241,7 +241,7 @@
                                                             <div class="mb-3">
                                                                 <label for="" class="form-label">Fecha de
                                                                     Salida</label>
-                                                                <input type="datetime-local" class="form-control"
+                                                                <input type="text" class="form-control"
                                                                     id="departure_date" name="departure_date" required
                                                                     readonly>
                                                             </div>
@@ -250,7 +250,7 @@
                                                             <div class="mb-3">
                                                                 <label for="" class="form-label">Fecha de
                                                                     Regreso</label>
-                                                                <input type="datetime-local" class="form-control"
+                                                                <input type="text" class="form-control"
                                                                     id="return_date" name="return_date" required readonly>
                                                             </div>
                                                         </div>
@@ -523,6 +523,7 @@
                 success: function(response) {
                     var region;
                     var document_type;
+                    var activity;
 
                     switch (response.region) {
                         case 0:
@@ -592,6 +593,33 @@
                         document_type = 'Rut';
                     }
 
+                    switch(response.activity){
+                        case 0:
+                            activity = 'Trekking';
+                            break;
+                        case 1:
+                            activity = 'Hikking';
+                            break;
+                        case 2:
+                            activity = 'Mountain Bike';
+                            break;
+                        case 3:
+                            activity = 'Escalada';
+                            break;
+                        case 4:
+                            activity = 'Escalada en Hielo';
+                            break;
+                        case 5:
+                            activity = 'Randonee';
+                            break;
+                        case 6:
+                            activity = 'Kayak';
+                            break;
+                        case 7:
+                            activity = 'Kitesurf';
+                            break;
+                    }
+
                     $('#name').val(response.name);
                     $('#last_name').val(response.lastname);
                     $('#document_type').val(document_type);
@@ -601,10 +629,10 @@
                     $('#region').val(region);
                     $('#destination').val(response.destination);
                     $('#route').val(response.route);
-                    $('#activity').val(response.activity);
+                    $('#activity').val(activity);
                     $('#number_participants').val(response.number_participants);
-                    $('#departure_date').val(response.departure_date);
-                    $('#return_date').val(response.return_date);
+                    $('#departure_date').val(moment(response.departure_date).format('DD-MM-YYYY HH:MM'));
+                    $('#return_date').val(moment(response.return_date).format('DD-MM-YYYY HH:MM'));
                 },
                 error: function(error) {
                     console.log(error);

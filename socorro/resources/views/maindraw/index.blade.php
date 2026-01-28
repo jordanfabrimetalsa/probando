@@ -70,44 +70,129 @@
 
         .floating-buttons {
             position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
+            right: 0;
+            top: 40%;
             display: flex;
             flex-direction: column;
             z-index: 1050;
+            align-items: flex-end;
         }
 
-        .floating-buttons .btn {
-            width: 50px;
-            height: 50px;
+        .floating-btn {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            overflow: hidden;
+            transition: width 0.3s ease;
+            padding: 0;
+            border: 0;
+        }
+
+        .border-floating {
+            border-radius: 5px 0 0 0;
+        }
+
+        .border-floating-1 {
+            border-radius: 0 0 0 5px;
+        }
+
+
+        .floating-btn, .floating-icon {
+            width: 50px;
+            text-align: center;
             font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.15s ease, width 0.15s ease;
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
+        .floating-btn .floating-text {
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            width: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
+        /* Hover effect */
+        .floating-btn:hover {
+            width: 180px;
+            color: white;
+            border-radius: 5px 0 0 5px;
+        }
 
-            50% {
-                transform: scale(1.1);
-            }
+        .floating-btn:hover .floating-icon {
+            opacity: 0;
+            width: 0;
+        }
 
-            100% {
-                transform: scale(1);
-            }
+        .floating-btn:hover .floating-text {
+            width: auto;
+            padding: 0 15px;
+            opacity: 1;
+        }
+
+        /* Colores opcionales */
+        .btn-1 {
+            background: #455A64;
+        }
+
+        .btn-2 {
+            background: #1565C0;
+        }
+
+        .btn-3 {
+            background: #EF6C00;
+        }
+
+        .btn-4 {
+            background: #C62828;
         }
     </style>
 </head>
 
 <body>
+
+    <div class="floating-buttons">
+        <div class="btn-wrapper-1">
+            <a href="#" class="floating-btn border-floating btn-1" data-bs-toggle="modal" data-bs-target="#avisoModal">
+                <span class="floating-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10c0-3.771 0-5.657 1.172-6.828S7.229 2 11 2h2c3.771 0 5.657 0 6.828 1.172S21 6.229 21 10v4c0 3.771 0 5.657-1.172 6.828S16.771 22 13 22h-2c-3.771 0-5.657 0-6.828-1.172S3 17.771 3 14z" opacity="0.5"/><path fill="currentColor" d="M16.519 16.501c.175-.136.334-.295.651-.612l3.957-3.958c.096-.095.052-.26-.075-.305a4.3 4.3 0 0 1-1.644-1.034a4.3 4.3 0 0 1-1.034-1.644c-.045-.127-.21-.171-.305-.075L14.11 12.83c-.317.317-.476.476-.612.651q-.243.311-.412.666c-.095.2-.166.414-.308.84l-.184.55l-.292.875l-.273.82a.584.584 0 0 0 .738.738l.82-.273l.875-.292l.55-.184c.426-.142.64-.212.84-.308q.355-.17.666-.412m5.849-5.809a2.163 2.163 0 1 0-3.06-3.059l-.126.128a.52.52 0 0 0-.148.465c.02.107.055.265.12.452c.13.375.376.867.839 1.33s.955.709 1.33.839c.188.065.345.1.452.12a.53.53 0 0 0 .465-.148z"/><path fill="currentColor" fill-rule="evenodd" d="M7.25 9A.75.75 0 0 1 8 8.25h6.5a.75.75 0 0 1 0 1.5H8A.75.75 0 0 1 7.25 9m0 4a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H8a.75.75 0 0 1-.75-.75m0 4a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H8a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg></span>
+                <span class="floating-text">Aviso de salida</span>
+            </a>
+        </div>
+
+        <div class="btn-wrapper">
+            <a href="#" class="floating-btn btn-2" data-bs-toggle="modal" data-bs-target="#departureModal">
+                <span class="floating-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464C22 4.93 22 7.286 22 12s0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12" opacity="0.5"/><path fill="currentColor" d="M10.543 7.517a.75.75 0 1 0-1.086-1.034l-2.314 2.43l-.6-.63a.75.75 0 1 0-1.086 1.034l1.143 1.2a.75.75 0 0 0 1.086 0zM13 8.25a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5zm-2.457 6.267a.75.75 0 1 0-1.086-1.034l-2.314 2.43l-.6-.63a.75.75 0 1 0-1.086 1.034l1.143 1.2a.75.75 0 0 0 1.086 0zM13 15.25a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5z"/></svg></span>
+                <span class="floating-text">Detalle Salida</span>
+            </a>
+        </div>
+
+        <div class="btn-wrapper">
+            <a href="#" class="floating-btn btn-3" data-bs-toggle="modal" data-bs-target="#departureModal">
+                <span class="floating-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 2h-1c-2.829 0-4.242 0-5.121.879S9 5.172 9 8v8c0 2.829 0 4.243.879 5.122c.878.878 2.292.878 5.119.878H16c2.828 0 4.242 0 5.121-.879C22 20.243 22 18.828 22 16V8c0-2.828 0-4.243-.879-5.121S18.828 2 16 2" opacity="0.5"/><path fill="currentColor" fill-rule="evenodd" d="M1.251 11.999a.75.75 0 0 1 .75-.75h11.973l-1.961-1.68a.75.75 0 0 1 .976-1.14l3.5 3a.75.75 0 0 1 0 1.14l-3.5 3a.75.75 0 0 1-.976-1.14l1.96-1.68H2.002a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg></span>
+                <span class="floating-text">Iniciar Sesión</span>
+            </a>
+        </div>
+
+        <div class="btn-wrapper-4">
+            <a href="#" class="floating-btn border-floating-1 btn-4" data-bs-toggle="modal" data-bs-target="#departureModal">
+                <span class="floating-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m14.556 15.548l-.455.48s-1.083 1.139-4.038-1.972s-1.872-4.25-1.872-4.25l.287-.303c.706-.744.773-1.938.156-2.81L7.374 4.91C6.61 3.83 5.135 3.688 4.26 4.609L2.691 6.26c-.433.457-.723 1.048-.688 1.705c.09 1.68.808 5.293 4.812 9.51c4.247 4.47 8.232 4.648 9.861 4.487c.516-.05.964-.329 1.325-.709l1.42-1.496c.96-1.01.69-2.74-.538-3.446l-1.91-1.1c-.806-.463-1.787-.327-2.417.336" opacity="0.5"/><path fill="currentColor" d="M17 12a5 5 0 1 0-4.478-2.774a.82.82 0 0 1 .067.574l-.298 1.113a.65.65 0 0 0 .796.796l1.113-.298a.82.82 0 0 1 .574.067A5 5 0 0 0 17 12"/></svg></span>
+                <span class="floating-text">Llamar</span>
+            </a>
+        </div>
+    </div>
+
+
     <div class="top-bar">
         <div class="container">
             <div class="top-bar-content">
@@ -520,26 +605,26 @@
         $(document).ready(function() {
             datatableUser = $('#datatableUser').DataTable({
                 language: {
-                    "sProcessing":     "Procesando...",
-                    "sLengthMenu":     "Mostrar _MENU_ registros",
-                    "sZeroRecords":    "No se encontraron resultados",
-                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix":    "",
-                    "sSearch":         "Buscar:",
-                    "sUrl":            "",
-                    "sInfoThousands":  ",",
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
                     "sLoadingRecords": "Cargando...",
                     "oPaginate": {
-                        "sFirst":    "Primero",
-                        "sLast":     "Último",
-                        "sNext":     "Siguiente",
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
                         "sPrevious": "Anterior"
                     },
                     "oAria": {
-                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
@@ -594,7 +679,6 @@
     </script>
 
     <script>
-
         function clearSearch() {
             $('#form_departure_search')[0].reset();
             if (datatableUser) {
@@ -782,45 +866,62 @@
         }
 
         @if (session('success'))
-            Swal.fire({ icon: 'success', title: 'Éxito', text: '{{ session('success') }}' });
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '{{ session('success') }}'
+            });
         @endif
 
         @if (session('error'))
-            Swal.fire({ icon: 'error', title: 'Error', text: '{{ session('error') }}' });
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}'
+            });
         @endif
 
-    // Animación al hacer scroll
-    const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add("show");
-    });
-    }, { threshold: 0.2 });
+        // Animación al hacer scroll
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add("show");
+            });
+        }, {
+            threshold: 0.2
+        });
 
-    document.querySelectorAll(".history-year").forEach(y => observer.observe(y));
+        document.querySelectorAll(".history-year").forEach(y => observer.observe(y));
 
-    // Función para alternar left/right
-    function reorderYears() {
-    const allYears = document.querySelectorAll(".history-year");
-    let lastSide = "right";
-    allYears.forEach(item => {
-    item.classList.remove("left","right");
-    if(lastSide === "right") { item.classList.add("left"); lastSide="left"; }
-    else { item.classList.add("right"); lastSide="right"; }
-    });
-    }
+        // Función para alternar left/right
+        function reorderYears() {
+            const allYears = document.querySelectorAll(".history-year");
+            let lastSide = "right";
+            allYears.forEach(item => {
+                item.classList.remove("left", "right");
+                if (lastSide === "right") {
+                    item.classList.add("left");
+                    lastSide = "left";
+                } else {
+                    item.classList.add("right");
+                    lastSide = "right";
+                }
+            });
+        }
 
-    // Inicializar alternancia
-    reorderYears();
+        // Inicializar alternancia
+        reorderYears();
 
-    // Toggle Saber más
-    const toggleBtn = document.getElementById("toggleHistory");
-    toggleBtn.addEventListener("click", () => {
-    document.querySelectorAll(".history-hidden").forEach(item => item.style.display = item.style.display === "block"
-    ? "none" : "block");
-    toggleBtn.textContent = document.querySelector(".history-hidden").style.display === "block" ? "Ver menos" :
-    "Saber más";
-    reorderYears(); // recalcula alternancia
-    });
+        // Toggle Saber más
+        const toggleBtn = document.getElementById("toggleHistory");
+        toggleBtn.addEventListener("click", () => {
+            document.querySelectorAll(".history-hidden").forEach(item => item.style.display = item.style.display ===
+                "block" ?
+                "none" : "block");
+            toggleBtn.textContent = document.querySelector(".history-hidden").style.display === "block" ?
+                "Ver menos" :
+                "Saber más";
+            reorderYears(); // recalcula alternancia
+        });
     </script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>

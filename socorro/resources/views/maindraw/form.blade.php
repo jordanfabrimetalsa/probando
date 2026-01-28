@@ -120,14 +120,14 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Actividad</label>
                                 <select name="activity" id="activity" class="form-control" required>
-                                    <option value="">Seleccione</option>
+                                    <option selected disabled>Seleccione</option>
                                     <option value="0">Trekking</option>
                                     <option value="1">Hikking</option>
-                                    <option value="1">Mountain Bike</option>
-                                    <option value="1">Escalada</option>
-                                    <option value="1">Escalada en Hielo</option>
-                                    <option value="1">Randonee</option>
-                                    <option value="1">Trail Running</option>
+                                    <option value="3">Mountain Bike</option>
+                                    <option value="4">Escalada</option>
+                                    <option value="5">Escalada en Hielo</option>
+                                    <option value="6">Randonee</option>
+                                    <option value="7">Trail Running</option>
                                 </select>
                             </div>
                         </div>
