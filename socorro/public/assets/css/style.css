@@ -1,4 +1,8 @@
 /* ===== Header Styles ===== */
+
+body.dark-mode .floating-text {
+    color:white !important;
+}
 /* Top Bar */
 .top-bar {
     background-color: #1a1a1a;
@@ -196,7 +200,196 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-attachment: fixed;
+}
+
+ body.dark-mode{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    --dm-bg: #0b1220;
+    --dm-surface: rgba(17, 24, 39, 0.88);
+    --dm-surface-2: rgba(30, 41, 59, 0.82);
+    --dm-text: #e5e7eb;
+    --dm-muted: #9ca3af;
+    --dm-border: rgba(148, 163, 184, 0.22);
+    --dm-accent: #ea4e1a;
+    color: var(--dm-text);
+    overflow-x: hidden;
+    margin: 0;
+    min-height: 100vh;
+    background: url('../img/background-dark.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-attachment: fixed;
  }
+
+body.dark-mode a {
+    color: var(--dm-text);
+}
+
+body.dark-mode a:hover {
+    color: var(--dm-accent);
+}
+
+body.dark-mode .divider {
+    color: rgba(148, 163, 184, 0.45);
+}
+
+body.dark-mode .emergency-link,
+body.dark-mode .social-icon {
+    color: var(--dm-text);
+}
+
+body.dark-mode .emergency-link:hover,
+body.dark-mode .social-icon:hover {
+    color: #ff6b6b;
+}
+
+
+body.dark-mode section {
+    color: var(--dm-text);
+}
+
+body.dark-mode .section-title {
+    color: var(--dm-accent);
+}
+
+body.dark-mode .section-subtitle {
+    color: var(--dm-muted);
+}
+
+body.dark-mode .services {
+    background: transparent;
+}
+
+body.dark-mode .service-card h3,
+body.dark-mode .news-card h3 {
+    color: var(--dm-accent);
+}
+
+body.dark-mode .service-card p,
+body.dark-mode .news-date {
+    color: var(--dm-muted);
+}
+
+body.dark-mode .news-card p {
+    color: var(--dm-muted);
+}
+
+body.dark-mode .news-category {
+    background: var(--dm-accent);
+}
+
+body.dark-mode .pagination-btn {
+    background: rgba(15, 23, 42, 0.75);
+    color: var(--dm-muted);
+    border-color: var(--dm-border);
+}
+
+body.dark-mode .pagination-btn:hover {
+    border-color: var(--dm-accent);
+    color: var(--dm-accent);
+}
+
+body.dark-mode .pagination-btn.active {
+    background: var(--dm-accent);
+    color: #ffffff;
+    border-color: var(--dm-accent);
+}
+
+body.dark-mode .team {
+    background: transparent;
+}
+
+body.dark-mode .team-member {
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid var(--dm-border);
+}
+
+body.dark-mode .team-member h4 {
+    color: var(--dm-accent);
+}
+
+body.dark-mode .member-role,
+body.dark-mode .member-bio {
+    color: var(--dm-muted);
+}
+
+body.dark-mode .gallery-overlay {
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.92), transparent);
+}
+
+body.dark-mode .contact-item,
+body.dark-mode .contact-form {
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid var(--dm-border);
+}
+
+body.dark-mode .contact-item p {
+    color: var(--dm-muted);
+}
+
+body.dark-mode .contact-item h4,
+body.dark-mode .contact-form h3 {
+    color: var(--dm-accent);
+}
+
+body.dark-mode .contact-icon {
+    background: rgba(2, 6, 23, 0.85);
+    color: var(--dm-text);
+}
+
+body.dark-mode .footer {
+    background: rgba(2, 6, 23, 0.92);
+    color: var(--dm-text);
+}
+
+body.dark-mode .footer-emergency a {
+    color: #fbbf24;
+}
+
+body.dark-mode .history-grid::before {
+    background: rgba(148, 163, 184, 0.35);
+}
+
+body.dark-mode .history-year h3 {
+    background: var(--dm-accent);
+}
+
+body.dark-mode .modal-content,
+body.dark-mode .toast {
+    background: rgba(2, 6, 23, 0.92);
+    color: var(--dm-text);
+    border: 1px solid var(--dm-border);
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: var(--dm-border);
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: rgba(15, 23, 42, 0.75);
+    color: var(--dm-text);
+    border-color: var(--dm-border);
+}
+
+body.dark-mode .form-control::placeholder,
+body.dark-mode textarea::placeholder {
+    color: rgba(229, 231, 235, 0.6);
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus,
+body.dark-mode input:focus,
+body.dark-mode textarea:focus {
+    border-color: rgba(234, 78, 26, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(234, 78, 26, 0.18);
+}
 
  @supports (-webkit-touch-callout: none) {
      body {
@@ -211,6 +404,41 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
 }
+
+body.dark-mode .modal-extra-background {
+    background-color: #182333f2;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.modal-extra-background.dark-mode {
+    background: url('../img/background-dark.png') no-repeat center center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+body.dark-mode #mainNav {
+    background-image: none !important;
+    background: #182333f2 !important;
+    color: white !important;
+}
+
+body.dark-mode #mainNav .nav-link {
+    color: white !important;
+}
+
+body.dark-mode .section-title {
+    color: white !important;
+}
+
+body.dark-mode .section-subtitle {
+    color: white !important;
+}
+
 
 .container {
     max-width: 1200px;
@@ -679,6 +907,11 @@ section {
     background: #ffffff;
 }
 
+body.dark-mode .services{
+    background-image: none;
+    background: #182333f2;
+}
+
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -687,6 +920,21 @@ section {
 
 .service-card {
     background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+body.dark-mode .service-card {
+    background-image: none;
+    background-color: #182333f2;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -773,6 +1021,21 @@ section {
 
 .news-card {
     background: url('../img/fondito.png') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    position: relative;
+}
+
+body.dark-mode .news-card {
+    background-image: none;
+    background: #182333f2;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -934,6 +1197,10 @@ section {
     background: #ffffff;
 }
 
+body.dark .team{
+    background: #182333f2;
+}
+
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -987,7 +1254,16 @@ section {
 
 /* Gallery Section */
 .gallery {
-    background: url('../img/fondito.png') no-repeat center center;
+    background-color: #ffffff;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+body.dark-mode .gallery {
+    background-image: none;
+    background: #182333f2;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -1102,6 +1378,12 @@ section {
     border: 1px solid rgba(59, 130, 246, 0.1);
 }
 
+body.dark-mode .contact-item{
+    background-image: none;
+    background: #182333f2;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
 .contact-item:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
@@ -1138,6 +1420,12 @@ section {
     -o-background-size: cover;
     padding: 2rem;
     border-radius: 15px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+body.dark-mode .contact-form{
+    background-image: none;
+    background: #182333f2;
     border: 1px solid rgba(59, 130, 246, 0.1);
 }
 
@@ -1286,6 +1574,10 @@ section {
 
     .section-title {
         font-size: 2rem;
+    }
+
+    body.dark-mode .section-title {
+        color: white !important;
     }
 
     .services-grid,
@@ -1484,7 +1776,23 @@ section {
     max-width: 500px;
 }
 
-.history-year p:hover {
+body.dark-mode .history-year p {
+    color: var(--dm-muted);
+    transition: all 0.3s ease;
+    background-image: none;
+    background: #182333f2;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: inline-block;
+    max-width: 500px;
+}
+
+body.dark-mode .history-year p:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
     border-color: #EA4E1A;
@@ -1738,6 +2046,11 @@ p {
     color: #e5e7eb;
     position: relative;
 }
+
+body.dark-mode .site-footer {
+    background: #182333f2 !important;
+}
+
 .site-footer .footer-title {
     color: #EA4E1A;
     font-weight: 700;
