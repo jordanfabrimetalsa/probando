@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('checklist', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('id_car')->constrained('cars')->cascadeOnDelete();
+            $table->foreignId('car_id')->constrained('cars')->cascadeOnDelete();
             $table->integer('kilometer');
             $table->integer('fuel');
             $table->integer('liquid_freeze');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('liquid_motor');
             $table->integer('liquid_brake');
             $table->text('observations')->nullable();
-            $table->foreignId('id_voluntary')->constrained('voluntarys')->cascadeOnDelete();
+            $table->foreignId('voluntary_id')->constrained('voluntaries')->cascadeOnDelete();
             $table->string('email');
             $table->timestamps();
         });
