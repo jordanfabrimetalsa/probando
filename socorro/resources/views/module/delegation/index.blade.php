@@ -19,6 +19,7 @@
                     <thead class="bg-gradient-dark text-center">
                         <tr class="text-center">
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Región</th>
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -111,6 +112,7 @@
         ],
         columns:[
           {data: 'name'},
+          {data: 'id_region'},
           {
             data: null,
             orderable: false,
@@ -382,7 +384,7 @@
         });
     }
 
-    
+
 
     $('#formDelegationEventPostulation').submit(function(e){
         e.preventDefault();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Delegation;
 use Exception;
+use App\Models\Regions;
 
 class DelegacionController extends Controller
 {
@@ -12,7 +13,8 @@ class DelegacionController extends Controller
     public function index()
     {
         $delegations = Delegation::all();
-        return view('module.delegation.index', compact('delegations'));
+        $regions = Regions::all();
+        return view('module.delegation.index', compact('delegations', 'regions'));
     }
 
     public function data()
@@ -26,6 +28,7 @@ class DelegacionController extends Controller
         try{
             $delegation = new Delegation();
             $delegation->name = $request->name;
+            $delegation->id_region = $request->id_region;
             $delegation->save();
             return response()->json(['success' => 'Delegación creada correctamente']);
         }catch(Exception $e){

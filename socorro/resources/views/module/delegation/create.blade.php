@@ -16,6 +16,17 @@
                 <input type="text" class="form-control border border-gray p-2" id="name" name="name" required>
               </div>
             </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Región de la Sede<span class="text-danger">*</span></label>
+                <select name="id_region" id="id_region" class="form-control border border-gray p-2">
+                  <option value="">Seleccione una región</option>
+                  @foreach($regions as $region)
+                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Crear Delegación</button>
         </form>

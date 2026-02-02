@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('delegations', function (Blueprint $table) {
+        Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('region_id')->constrained('regions')->cascadeOnDelete();
+            $table->string('title');
+            $table->string('subtitle')->nullable();
+            $table->text('content');
             $table->string('image')->nullable();
-            $table->enum('postulation_status', ['A', 'C'])->default('C');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->enum('status', ['A', 'I'])->default('A');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('delegations');
+        Schema::dropIfExists('news');
     }
 };
