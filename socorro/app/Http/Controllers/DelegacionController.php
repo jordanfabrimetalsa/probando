@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Delegation;
 use Exception;
 use App\Models\Regions;
+use Illuminate\Support\Facades\Auth;
 
 class DelegacionController extends Controller
 {
@@ -29,6 +30,7 @@ class DelegacionController extends Controller
             $delegation = new Delegation();
             $delegation->name = $request->name;
             $delegation->id_region = $request->id_region;
+            $delegation->id_voluntary = Auth::user()->id;
             $delegation->save();
             return response()->json(['success' => 'Delegación creada correctamente']);
         }catch(Exception $e){
@@ -60,6 +62,7 @@ class DelegacionController extends Controller
             ]);
 
             $delegation->name = $request->name;
+            $delegation->id_region = $request->id_region;
             $delegation->save();
             return response()->json(['success' => 'Delegación actualizada correctamente']);
         }catch(Exception $e){

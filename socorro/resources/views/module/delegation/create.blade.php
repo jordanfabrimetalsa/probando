@@ -27,6 +27,12 @@
                 </select>
               </div>
             </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="image" class="form-label">Imagen Referencial<span class="text-danger">*</span></label>
+                <input type="file" name="image" id="image" class="form-control border border-gray p-2" accept="image/png,image/jpeg,image/jpg" required>
+              </div>
+            </div>
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Crear Delegación</button>
         </form>
