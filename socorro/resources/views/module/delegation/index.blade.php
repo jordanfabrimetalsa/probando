@@ -20,6 +20,7 @@
                         <tr class="text-center">
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Región</th>
+                        <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Imagen</th>
                         <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -112,7 +113,17 @@
         ],
         columns:[
           {data: 'name'},
-          {data: 'id_region'},
+          {data: 'region.name'},
+                  {
+            data: 'image',
+            render: function(data, type, row) {
+                if (data) {
+                    return `<img src="/storage/${data}" width="80" class="img-thumbnail">`;
+                } else {
+                    return 'Sin imagen';
+                }
+            }
+        },
           {
             data: null,
             orderable: false,
@@ -133,16 +144,23 @@
 
     $('#formDelegation').submit(function(e){
       e.preventDefault();
+      let formData = new FormData(this);
+
       $.ajax({
         url: '{{ route("delegaciones.store") }}',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         type: 'POST',
-        data: $(this).serialize(),
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function(response){
-          Swal.fire({
+        Swal.fire({
             icon: 'success',
-            title: 'Exito.',
-            text: 'Delegación registrada correctamente',
-          });
+            title: 'Éxito',
+            text: response.success,
+        });
           $('#formDelegation')[0].reset();
           $('#CreateModal').modal('hide');
           datatableDelegations.ajax.reload();
@@ -151,7 +169,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar delegación',
+            text: error.responseJSON.error,
           });
           $('#CreateModal').modal('hide');
         }

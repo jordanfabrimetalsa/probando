@@ -181,7 +181,7 @@ class InventarioController extends Controller
                 $stockMovement->quantity = $request->quantity;
                 $stockMovement->unit_cost = $request->unit_cost;
                 $stockMovement->product_id = $request->product_id_show;
-                $stockMovement->user_id = auth()->user()->id;
+                $stockMovement->user_id = auth::user()->id;
                 $stockMovement->type = 'add';
                 $stockMovement->save();
 
@@ -209,7 +209,7 @@ class InventarioController extends Controller
             $product = Product::find($request->product_id_reduce);
 
             $valueComparation = intval($product->stock) - intval($request->quantity);
-            
+
             if($valueComparation < 0){
                 return response()->json([
                     'status' => 'error',
@@ -228,7 +228,7 @@ class InventarioController extends Controller
                 $stockMovement->quantity = $request->quantity;
                 $stockMovement->unit_cost = 0;
                 $stockMovement->product_id = $request->product_id_reduce;
-                $stockMovement->user_id = auth()->user()->id;
+                $stockMovement->user_id = auth::user()->id;
                 $stockMovement->type = 'reduce';
                 $stockMovement->save();
 
@@ -275,7 +275,7 @@ class InventarioController extends Controller
     }
 
     public function dataCategory(){
-        try{                                                                                                            
+        try{
             $categories = Category::all();
             return response()->json($categories);
         }catch(Exception $e){

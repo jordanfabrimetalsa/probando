@@ -19,7 +19,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Región de la Sede<span class="text-danger">*</span></label>
-                <select name="id_region" id="id_region" class="form-control border border-gray p-2">
+                <select name="region_id" id="region_id" class="form-control border border-gray p-2">
                   <option value="">Seleccione una región</option>
                   @foreach($regions as $region)
                     <option value="{{ $region->id }}">{{ $region->name }}</option>

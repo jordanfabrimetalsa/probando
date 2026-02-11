@@ -7,6 +7,7 @@ use App\Models\Delegation;
 use Exception;
 use App\Models\Regions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DelegacionController extends Controller
 {
@@ -20,23 +21,42 @@ class DelegacionController extends Controller
 
     public function data()
     {
-        $delegations = Delegation::all();
+        $delegations = Delegation::with('region')->get();
         return response()->json($delegations);
     }
 
     public function store(Request $request)
     {
-        try{
+        try {
+            Log::info('Store request data:', $request->all());
+
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'region_id' => 'required|integer',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+            ]);
+
             $delegation = new Delegation();
             $delegation->name = $request->name;
-            $delegation->id_region = $request->id_region;
-            $delegation->id_voluntary = Auth::user()->id;
-            $delegation->save();
-            return response()->json(['success' => 'Delegación creada correctamente']);
-        }catch(Exception $e){
-            return response()->json(['error' => $e]);
+            $delegation->region_id = $request->region_id;
+
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store('delegations', 'public');
+                $delegation->image = $path;
+                Log::info('Image saved at: ' . $path);
+            }
+
+            $save = $delegation->save();
+            Log::info('Delegation saved: ' . $save);
+
+            return response()->json(['success' => $save]);
+
+        } catch (\Exception $e) {
+            Log::error('Store error: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
+
 
     public function edit($id)
     {
@@ -62,7 +82,7 @@ class DelegacionController extends Controller
             ]);
 
             $delegation->name = $request->name;
-            $delegation->id_region = $request->id_region;
+            $delegation->region_id = $request->region_id;
             $delegation->save();
             return response()->json(['success' => 'Delegación actualizada correctamente']);
         }catch(Exception $e){

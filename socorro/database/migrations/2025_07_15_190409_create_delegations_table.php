@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('region_id')->constrained('regions')->cascadeOnDelete();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->nullable();
             $table->enum('postulation_status', ['A', 'C'])->default('C');
             $table->timestamps();
         });
