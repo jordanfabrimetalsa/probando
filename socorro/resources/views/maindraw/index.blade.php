@@ -433,6 +433,7 @@
         </div>
     </div>
 
+    @include('maindraw.postulations')
 
     @include('maindraw.news')
 
@@ -457,188 +458,175 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
-
-    <script>
-
-        const temaOscuro = () => {
-            document.querySelector('body').setAttribute('data-bs-theme', 'dark');
-            document.querySelector('body').classList.add('dark-mode');
-        }
-
-        const temaClaro = () => {
-            document.querySelector('body').setAttribute('data-bs-theme', 'light');
-            document.querySelector('body').classList.remove('dark-mode');
-        }
-
-        const cambiarTema = () => {
-            document.querySelector('body').getAttribute('data-bs-theme') === 'dark' ? temaClaro() : temaOscuro();
-        }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const myCarousel = document.getElementById('heroCarousel');
-
-            // Configuración básica del carrusel
-            const carousel = new bootstrap.Carousel(myCarousel, {
-                interval: 10000, // 5 segundos
-                wrap: true,
-                touch: true,
-                keyboard: true,
-                pause: false
-            });
-
-            // Configurar la transición suave
-            const carouselInner = myCarousel.querySelector('.carousel-inner');
-            carouselInner.style.transition = 'transform 1.5s ease-in-out';
-
-            // Manejar el evento de transición completa
-            myCarousel.addEventListener('slid.bs.carousel', function() {
-                // No es necesario hacer nada aquí, solo para asegurar que el evento se maneje
-            });
-
-            // Iniciar manualmente el ciclo si es necesario
-            let carouselInterval = setInterval(function() {
-                carousel.next();
-            }, 10000);
-
-            // Limpiar el intervalo si el carrusel se detiene
-            myCarousel.addEventListener('mouseenter', function() {
-                clearInterval(carouselInterval);
-            });
-
-            myCarousel.addEventListener('mouseleave', function() {
-                carouselInterval = setInterval(function() {
-                    carousel.next();
-                }, 10000);
-            });
-        });
-    </script>
-    <script>
-        // Navbar transparent at top, solid on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const nav = document.getElementById('mainNav');
-            const collapseEl = document.getElementById('navbarNav');
-            const togglerBtn = document.querySelector('#mainNav .navbar-toggler');
-            let backdropEl = null;
-
-            const ensureBackdrop = () => {
-                if (backdropEl) return backdropEl;
-                backdropEl = document.createElement('div');
-                backdropEl.className = 'mainnav-backdrop';
-                backdropEl.addEventListener('click', () => {
-                    requestCloseCollapse();
-                });
-                return backdropEl;
-            };
-
-            const openMobileMenu = () => {
-                if (window.innerWidth >= 992) return;
-                document.body.style.overflow = 'hidden';
-                document.body.appendChild(ensureBackdrop());
-            };
-
-            const closeMobileMenu = () => {
-                document.body.style.overflow = '';
-                if (backdropEl && backdropEl.parentNode) backdropEl.parentNode.removeChild(backdropEl);
-                backdropEl = null;
-            };
-
-            const requestCloseCollapse = () => {
-                if (!collapseEl) return;
-                if (!window.bootstrap || !window.bootstrap.Collapse) return;
-                const instance = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, {
-                    toggle: false
-                });
-                instance.hide();
-            };
-
-            if (togglerBtn) {
-                togglerBtn.addEventListener('click', (e) => {
-                    if (window.innerWidth >= 992) return;
-                    if (!collapseEl || !collapseEl.classList.contains('show')) return;
-                    e.preventDefault();
-                    e.stopPropagation();
-                    requestCloseCollapse();
-                });
-            }
-
-            const onScroll = () => {
-                const isMobile = window.innerWidth < 992;
-                // Mobile: always dark
-                if (isMobile) {
-                    nav.classList.add('scrolled');
-                } else {
-                    // Desktop: dark only after scrolling down
-                    if (window.scrollY > 10) {
-                        nav.classList.add('scrolled');
-                    } else {
-                        nav.classList.remove('scrolled');
-                    }
-                }
-            };
-            onScroll();
-            window.addEventListener('scroll', onScroll, {
-                passive: true
-            });
-
-            // Mobile: do NOT push content when menu opens (overlay behavior)
-            const updateOffsets = () => {
-                const isMobile = window.innerWidth < 992;
-                if (!isMobile) {
-                    document.body.style.paddingTop = '';
-                    return;
-                }
-                // Always keep content flush; navbar stays dark and overlays
-                document.body.style.paddingTop = '0px';
-                nav.classList.add('scrolled');
-            };
-            updateOffsets();
-            window.addEventListener('resize', updateOffsets);
-
-            // Show emergency toast on load
-            const toastEl = document.getElementById('emergencyToast');
-            if (toastEl && window.bootstrap && window.bootstrap.Toast) {
-                const toast = new bootstrap.Toast(toastEl, {
-                    autohide: false
-                });
-                toast.show();
-            } else if (toastEl) {
-                toastEl.classList.add('show');
-            }
-
-            if (collapseEl) {
-                collapseEl.addEventListener('show.bs.collapse', function() {
-                    openMobileMenu();
-                });
-                collapseEl.addEventListener('hidden.bs.collapse', () => {
-                    closeMobileMenu();
-                    updateOffsets();
-                });
-
-                collapseEl.querySelectorAll('a.nav-link').forEach((link) => {
-                    link.addEventListener('click', () => {
-                        if (window.innerWidth >= 992) return;
-                        requestCloseCollapse();
-                    });
-                });
-            }
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key !== 'Escape') return;
-                if (!collapseEl || !collapseEl.classList.contains('show')) return;
-                requestCloseCollapse();
-            });
-
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 992) {
-                    requestCloseCollapse();
-                    closeMobileMenu();
-                }
-            });
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/maindraw/maindraw.js') }}"></script>
+    <script src="{{ asset('assets/js/maindraw/darkmode.js') }}"></script>
+    <script src="{{ asset('assets/js/maindraw/progresive.js') }}"></script>
+
+    <script>
+        function showPostulations(id) {
+            $('#postulationsModal').modal('show');
+
+            $.ajax({
+                url: '/postulations/data/' + id,
+                type: 'GET',
+                success: function(response){
+                    if (response.length > 0) {
+                        var postulation = response[response.length-1]; // Tomar el ultimo registro de postulación
+                        var html =  `
+                            <div class=""><strong>${postulation.title}</strong></div><br>
+                            <div>
+                            La postulación comienza el <span class="text-danger" style="font-weight: bold;">${
+                                new Date(postulation.start_date).toLocaleDateString('es-CL')
+                            }
+                            </span> y termina el <span class="text-danger" style="font-weight: bold;">${
+                                new Date(postulation.end_date).toLocaleDateString('es-CL')
+                            }
+                            </span>
+                            </div><br>
+                            <div class="">Con respecto a la postulación, favor leer la siguiente información: ${postulation.description}. Ante cualquier duda hacerla por el formulario de contacto. Evite usar el 136 número exclusivo para emergencias!.</div><br><hr>
+                            <form id="form-postulation" type="post">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <textarea class="form-control" id="presentation" name="presentation" placeholder="Ingrese su presentacion" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Ingrese su apellido" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su rut" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Ingrese su telefono" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo" required>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" value="${postulation.id}" name="postulation_id" id="postulation_id">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <button type="button" onclick="submitFormulation()" class="btn btn-dark btn-search-load">Enviar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        `;
+                    } else {
+                        var html =  `
+                            <div class="pt-2 pb-2"><strong class="text-warning">No hay postulaciones disponibles para esta delegación</strong></div>
+                        `;
+                    }
+                    $('#postulations-reflect').html(html);
+                },
+                error: function(error){
+                    console.log(error);
+                    $('#postulations-reflect').html('<div class="text-danger">Error al cargar postulaciones</div>' + error + error.responseJSON.message);
+                }
+            })
+        }
+
+        function submitFormulation() {
+            console.log('submitFormulation called');
+            let form = document.getElementById('form-postulation');
+            console.log('Form element:', form);
+
+            let formData = new FormData(form);
+            console.log('FormData:', formData);
+
+            $.ajax({
+                url: '/postulations-people/store',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    console.log('Success response:', response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.message || 'Postulación enviada correctamente'
+                    });
+                    form.reset();
+                    $('#postulationsModal').modal('hide');
+                },
+                error: function(error){
+                    console.log('Error response:', error);
+                    let errorMsg = 'Error al enviar postulación';
+                    if (error.responseJSON && error.responseJSON.error) {
+                        errorMsg = error.responseJSON.error;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMsg
+                    });
+                }
+            });
+        }
+
+        $(document).ready(function() {
+        $('#form-postulation').submit(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: '/postulations-people/store',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.message || 'Postulación enviada correctamente'
+                    });
+                    $('#form-postulation')[0].reset();
+                    $('#postulationsModal').modal('hide');
+                },
+                error: function(error){
+                    console.log(error);
+                    let errorMsg = 'Error al enviar postulación';
+                    if (error.responseJSON && error.responseJSON.error) {
+                        errorMsg = error.responseJSON.error;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMsg
+                    });
+                }
+            });
+
+            return false; // Prevenir el envío tradicional
+        });
+    });
+    </script>
+
 
     <script>
         var datatableUser;
@@ -1022,32 +1010,6 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
-    </script>
-
-
-    <script>
-    let deferredPrompt;
-    const installBtn = document.getElementById('btnInstall');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'flex';
-    });
-
-    installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-
-        if (outcome === 'accepted') {
-            console.log('Usuario instaló la app');
-        }
-
-        deferredPrompt = null;
-        installBtn.style.display = 'none';
-    });
     </script>
 
 

@@ -28,8 +28,6 @@ class DelegacionController extends Controller
     public function store(Request $request)
     {
         try {
-            Log::info('Store request data:', $request->all());
-
             $request->validate([
                 'name' => 'required|string|max:255',
                 'region_id' => 'required|integer',
@@ -43,16 +41,12 @@ class DelegacionController extends Controller
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('delegations', 'public');
                 $delegation->image = $path;
-                Log::info('Image saved at: ' . $path);
             }
 
             $save = $delegation->save();
-            Log::info('Delegation saved: ' . $save);
-
-            return response()->json(['success' => $save]);
+            return response()->json(['success' => "Se ha generado con exito"]);
 
         } catch (\Exception $e) {
-            Log::error('Store error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()]);
         }
     }

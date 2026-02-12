@@ -34,6 +34,9 @@ Route::prefix('departure')->group(function(){
 Route::post('/donations/create', [DonationController::class, 'create'])->name('donations.create');
 Route::post('/donations/callback', [DonationController::class, 'callback'])->name('donations.callback');
 
+Route::get('/postulations/data/{id}', [PostulationController::class, 'data'])->name('postulations.data.public');
+Route::post('/postulations-people/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
+
 Route::middleware('auth')->group(function(){
     Route::prefix('dashboard')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
@@ -51,14 +54,12 @@ Route::middleware('auth')->group(function(){
 
     Route::prefix('postulations')->group(function(){
         Route::get('/voluntaries/data/{id}', [PostulationController::class, 'voluntariesData'])->name('postulations.voluntaries.data');
-        Route::get('/data/{id}', [PostulationController::class, 'data'])->name('postulations.data');
         Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
         Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');
     });
 
     Route::prefix('postulations-people')->group(function(){
         Route::get('/data/{id}', [PostulationsPeopleController::class, 'data'])->name('postulations-people.data');
-        Route::post('/store', [PostulationsPeopleController::class, 'store'])->name('postulations-people.store');
     });
 
     Route::prefix('delegaciones')->middleware('checkrole:admin')->group(function(){

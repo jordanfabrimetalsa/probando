@@ -11,6 +11,7 @@ class PostulationsPeople extends Model
     protected $fillable = [
         'name',
         'last_name',
+        'rut',
         'phone',
         'email',
         'presentation',

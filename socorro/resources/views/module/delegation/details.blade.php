@@ -44,7 +44,12 @@
           <table id="datatablePostulationsPeople" class="table table-striped dt-responsive nowrap" style="width: 100%;">
             <thead class="bg-gradient-dark text-center">
               <tr class="text-center">
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Postulante</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Apellido</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">RUT</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Teléfono</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Email</th>
+                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Presentación</th>
               </tr>
             </thead>
             <tbody class="text-center">

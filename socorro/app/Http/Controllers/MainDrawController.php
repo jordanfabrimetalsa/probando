@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMailable;
 use Exception;
 use App\Models\ContactForm;
+use App\Models\Delegation;
 
 class MainDrawController extends Controller
 {
     public function index()
     {
-        return view('maindraw.index');
+        $delegations = Delegation::all();
+        return view('maindraw.index', compact('delegations'));
     }
 
     public function store(Request $request)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Postulation;
+use App\Models\Delegation;
 use App\Models\Voluntary;
 use Illuminate\Http\Request;
 use Exception;
@@ -40,6 +41,10 @@ class PostulationController extends Controller
                 'end_date' => $validated['end_date'],
                 'delegation_id' => $validated['delegation_id_postulation']
             ]);
+
+            $delegation = Delegation::find($validated['delegation_id_postulation']);
+            $delegation->postulation_status = 'A';
+            $delegation->save();
 
             return response()->json([
                 'message' => 'Postulación creada correctamente',
