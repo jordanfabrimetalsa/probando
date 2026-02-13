@@ -8,6 +8,15 @@
       <div class="modal-body">
         <form id="formUsuario" class="form" method="POST" enctype="multipart/form-data">
           @csrf
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Voluntario</label>
+            <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id">
+              <option selected>Seleccione el correspondiente Voluntario</option>
+              @foreach($voluntarios as $voluntario)
+                <option value="{{ $voluntario->id }}">{{ $voluntario->name }} {{ $voluntario->lastname }}</option>
+              @endforeach
+            </select>
+          </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Nombre</label>
             <input type="text" class="form-control border border-gray p-2" id="exampleInputEmail1" name="name" aria-describedby="emailHelp">

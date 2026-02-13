@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('image')->nullable();
+            $table->foreignId('voluntary_id')->constrained('voluntaries')->cascadeOnDelete();
             $table->timestamps();
         });
 

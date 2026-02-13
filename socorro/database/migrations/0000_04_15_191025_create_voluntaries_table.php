@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('document', 10);
             $table->string('name');
             $table->string('lastname');
-            $table->string('email');
             $table->string('phone');
             $table->date('birthday');
             $table->string('address');

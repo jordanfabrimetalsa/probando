@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Models\Imagen;
+use App\Models\Voluntary;
+use App\Models\Delegation;
+use App\Models\Regions;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,7 +23,8 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('module.usuario.index');
+        $voluntarios = Voluntary::all();
+        return view('module.usuario.index', compact('voluntarios'));
     }
 
     public function data(){
@@ -35,6 +39,7 @@ class UserController extends Controller
             $user->role = $request->role;
             $user->status = $request->status;
             $user->password = Hash::make($request->password);
+            $user->voluntary_id = $request->voluntary_id;
             $user->save();
             $id_user = $user->id;
 
@@ -108,11 +113,44 @@ class UserController extends Controller
 
     public function create_user(){
         try{
+            $region = new Regions();
+            $region->name = 'metropolitana';
+            $region->save();
+
+            $delegation = new Delegation();
+            $delegation->name = 'admin';
+            $delegation->region_id = $region->id;
+            $delegation->image = 'admin';
+            $delegation->postulation_status = 'C';
+            $delegation->save();
+
+            $voluntary = new Voluntary();
+            $voluntary->delegation_id = $delegation->id;
+            $voluntary->document = '12345678';
+            $voluntary->name = 'admin';
+            $voluntary->lastname = 'admin';
+            $voluntary->phone = '12345678';
+            $voluntary->birthday = '2000-01-01';
+            $voluntary->address = 'admin';
+            $voluntary->profession = 'admin';
+            $voluntary->gender = 'M';
+            $voluntary->allergic = false;
+            $voluntary->disease = false;
+            $voluntary->medicine = false;
+            $voluntary->vehicle = false;
+            $voluntary->license = false;
+            $voluntary->payment = false;
+            $voluntary->blood_type = 'N';
+            $voluntary->type = 'A';
+            $voluntary->status = true;
+            $voluntary->save();
+
             $user = new User();
             $user->name = 'admin';
             $user->email = 'admin@admin.com';
             $user->role = 'admin';
             $user->status = 'A';
+            $user->voluntary_id = $voluntary->id;
             $user->password = Hash::make('admin');
 
             if($user->save()){
@@ -143,6 +181,6 @@ class UserController extends Controller
 
         }catch(Exception $e){
             return redirect()->route('login')->with('error', $e);
-        }   
+        }
     }
 }

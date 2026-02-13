@@ -53,12 +53,6 @@
           <div class="row">
             <div class="col-6">
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email<span class="text-danger">*</span></label>
-                <input type="email" class="form-control border border-gray p-2" id="email" name="email" aria-describedby="emailHelp" required>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Telefono<span class="text-danger">*</span></label>
                 <input type="text" class="form-control border border-gray p-2" id="phone" name="phone" aria-describedby="emailHelp" required>
               </div>
@@ -111,7 +105,7 @@
               </div>
             </div>
             <div class="col-4">
-                <div class="mb-3">
+              <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Enfermedad<span class="text-danger">*</span></label>
                   <select class="form-select border border-gray p-2" aria-label="Default select example" id="disease" name="disease" required>
                       <option selected>Seleccione Opción</option>
@@ -183,14 +177,6 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control border border-gray p-2" id="password" name="password" autocomplete="off" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
                   <option selected disabled>Seleccione el Estado</option>
@@ -207,7 +193,9 @@
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="type" name="type" required>
                   <option selected disabled>Seleccione el Tipo</option>
                   <option value="V">Voluntario</option>
-                <option value="A">Aspirante</option>
+                  <option value="A">Aspirante</option>
+                  <option value="H">Honorario</option>
+                  <option value="C">Cooperador</option>
               </select>
               </div>
             </div>

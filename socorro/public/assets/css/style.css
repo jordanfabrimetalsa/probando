@@ -273,6 +273,10 @@ body.dark-mode .news-date {
     color: var(--dm-muted);
 }
 
+body.dark-mode .services h5{
+    color: #fff;
+}
+
 body.dark-mode .news-card p {
     color: var(--dm-muted);
 }
