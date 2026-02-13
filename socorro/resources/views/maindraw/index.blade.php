@@ -483,6 +483,8 @@
         </div>
     </div>
 
+    @include('maindraw.boss')
+
     @include('maindraw.postulations')
 
     @include('maindraw.news')

@@ -21,6 +21,11 @@
                     <h3>Visión</h3>
                     <p>Ser el referente nacional de búsqueda, rescate, prevención y educación de actividades de montaña
                         en Chile.</p>
+
+                    <hr
+                        style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
+
+                    <button type="button" class="btn btn-outline-danger p-4" data-bs-toggle="modal" data-bs-target="#directivaModal">Directiva Nacional</button>
                 </div>
                 <div class="service-card">
                     <h3>Delegaciones</h3>
