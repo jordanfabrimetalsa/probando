@@ -170,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Simulate form submission
-        showNotification('¡Mensaje enviado exitosamente! Te contactaremos pronto.', 'success');
         this.reset();
     });
 

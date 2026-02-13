@@ -35,7 +35,7 @@
                                         <h5>Delegación {{ $delegation->name }}</h5>
                                         <button type="button"
                                             @if ($delegation->postulation_status == 'A') onclick="showPostulations({{ $delegation->id }})" @endif
-                                            class="btn {{ $delegation->postulation_status == 'A' ? 'btn-outline-success' : 'btn-outline-danger' }}"> Postulación {{ $delegation->postulation_status == 'A' ? 'Abierta' : 'Cerrada' }}
+                                            class="btn btn-postulations-load {{ $delegation->postulation_status == 'A' ? 'btn-outline-success' : 'btn-outline-danger' }}"> Postulación {{ $delegation->postulation_status == 'A' ? 'Abierta' : 'Cerrada' }}
                                         </button>
                                     </div>
                                 </div>
