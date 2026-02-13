@@ -114,13 +114,13 @@ class UserController extends Controller
     public function create_user(){
         try{
             $region = new Regions();
-            $region->name = 'metropolitana';
+            $region->name = 'Metropolitana';
             $region->save();
 
             $delegation = new Delegation();
-            $delegation->name = 'admin';
+            $delegation->name = 'Metropolitana';
             $delegation->region_id = $region->id;
-            $delegation->image = 'admin';
+            $delegation->image = 'delegations/w84ToCpCx3M9i00EC58jpukKR5yRkeA95UUhdWKK.png';
             $delegation->postulation_status = 'C';
             $delegation->save();
 
