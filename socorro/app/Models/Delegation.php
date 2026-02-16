@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Voluntary;
-use App\Models\Regions;
 
 class Delegation extends Model
 {

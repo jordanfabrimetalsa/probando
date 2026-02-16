@@ -13,6 +13,7 @@ use App\Models\Delegation;
 use App\Models\Regions;
 use Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -33,6 +34,8 @@ class UserController extends Controller
 
     public function store(Request $request){
         try{
+            DB::beginTransaction();
+
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
@@ -43,29 +46,20 @@ class UserController extends Controller
             $user->save();
             $id_user = $user->id;
 
-            if($this->up_image($request, $id_user)){
-                return response()->json(['success' => 'Usuario creado correctamente']);
-            }else{
-                return response()->json(['error' => 'Error al crear el usuario']);
+            // Actualizar busy del voluntario si existe
+            if ($request->voluntary_id) {
+                $voluntary = Voluntary::find($request->voluntary_id);
+                if ($voluntary) {
+                    $voluntary->update(['busy' => true]);
+                }
             }
-        }catch(Exception $e){
-            return response()->json(['error' => $e]);
-        }
-    }
 
-    public function up_image($request, $id_user){
-        try{
-            $path = $request->file('image')->store('images', 'public');
-            $name = basename($path);
+            DB::commit();
+            return response()->json(['success' => 'Usuario creado correctamente']);
 
-            $image = new Imagen();
-            $image->name = $name;
-            $image->path = $path;
-            $image->user_id = $id_user;
-            $image->save();
-            return response()->json(['success' => 'Imagen actualizada correctamente']);
-        }catch(Exception $e){
-            return response()->json(['error' => $e]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Error al crear el usuario: ' . $e->getMessage()]);
         }
     }
 
@@ -117,6 +111,10 @@ class UserController extends Controller
             $region->name = 'Metropolitana';
             $region->save();
 
+            $regions = new Regions();
+            $regions->name = 'Magallanes';
+            $regions->save();
+
             $delegation = new Delegation();
             $delegation->name = 'Metropolitana';
             $delegation->region_id = $region->id;
@@ -143,6 +141,7 @@ class UserController extends Controller
             $voluntary->blood_type = 'N';
             $voluntary->type = 'A';
             $voluntary->status = true;
+            $voluntary->busy = true;
             $voluntary->save();
 
             $user = new User();

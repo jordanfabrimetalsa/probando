@@ -31,7 +31,6 @@
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Número de Identificación:</strong> &nbsp; <span id="document_show"></span></li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Fecha de Nacimiento:</strong> &nbsp; <span id="birthday_show"></span></li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Genero:</strong> &nbsp; <span id="gender_show"></span></li>
-                        <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; <span id="email_show"></span></li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Dirección:</strong> &nbsp; <span id="address_show"></span></li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Profesión:</strong> &nbsp; <span id="profession_show"></span></li>
                       </ul>

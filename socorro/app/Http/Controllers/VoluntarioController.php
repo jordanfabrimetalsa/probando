@@ -34,7 +34,6 @@ class VoluntarioController extends Controller
             $voluntary->document = $request->document;
             $voluntary->name = $request->name;
             $voluntary->lastname = $request->lastname;
-            $voluntary->email = $request->email;
             $voluntary->phone = $request->phone;
             $voluntary->birthday = $request->birthday;
             $voluntary->address = $request->address;
@@ -47,9 +46,9 @@ class VoluntarioController extends Controller
             $voluntary->license = $request->license;
             $voluntary->payment = $request->payment;
             $voluntary->blood_type = $request->blood_type;
-            $voluntary->password = Hash::make($request->password);
             $voluntary->type = $request->type;
             $voluntary->status = $request->status;
+            $voluntary->busy = false;
 
             if($voluntary->save()){
                 $image_voluntary = new Image_Voluntary();

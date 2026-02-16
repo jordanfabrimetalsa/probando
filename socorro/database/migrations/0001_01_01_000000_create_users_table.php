@@ -20,7 +20,6 @@ return new class extends Migration
             $table->char('status', 1)->default('A');
             $table->string('password');
             $table->rememberToken();
-            $table->string('image')->nullable();
             $table->foreignId('voluntary_id')->constrained('voluntaries')->cascadeOnDelete();
             $table->timestamps();
         });

@@ -163,14 +163,15 @@
             $.ajax({
                 url: '{{route('usuarios.store')}}',
                 type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: $(this).serialize(),
                 success: function(response){
                     Swal.fire({
                         icon: 'success',
                         title: 'Exito.',
-                        text: 'Usuario registrado correctamente' + response,
+                        text: 'Usuario registrado correctamente',
                     });
                     $('#formUsuario')[0].reset();
                     $('#CreateModal').modal('hide');

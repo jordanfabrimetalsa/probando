@@ -13,7 +13,9 @@
             <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id">
               <option selected>Seleccione el correspondiente Voluntario</option>
               @foreach($voluntarios as $voluntario)
+                @if($voluntario->busy == false)
                 <option value="{{ $voluntario->id }}">{{ $voluntario->name }} {{ $voluntario->lastname }}</option>
+                @endif
               @endforeach
             </select>
           </div>
@@ -38,8 +40,10 @@
             <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
               <option selected>Seleccione el Rol</option>
               <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
+              <option value="jefe_operaciones">Jefe Operaciones</option>
+              <option value="organizador_guardia">Organizador Guardia</option>
               <option value="comun">Común</option>
+              <option value="cuartelero">Cuartelero</option>
             </select>
           </div>
           <div class="mb-3">
@@ -49,10 +53,6 @@
               <option value="A">Activo</option>
               <option value="I">Inactivo</option>
             </select>
-          </div>
-          <div class="mb-3">
-            <label>Imagen</label>
-            <input type="file" class="form-control border border-gray p-2" id="exampleInputPassword1" id="image" name="image">
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Usuario</button>
         </form>
