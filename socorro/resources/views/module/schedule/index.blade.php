@@ -45,7 +45,7 @@
                 headerToolbar: {
                     left: 'prevYear,prev,next,nextYear today',
                     center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay',                    
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay',
                 },
                 buttonText: {
                     today: 'Hoy',
@@ -93,10 +93,10 @@
                     $('#title_read').val(info.event.title);
                     $('#description_read').val(info.event.extendedProps.description);
                     $('#type_read').text(info.event.extendedProps.type == 'Guard' ? 'Guardia' : (info.event.extendedProps.type == 'Event' ? 'Evento' : 'Clase'));
-                    
+
                     const startDate = moment(info.event.start);
                     $('#start_read').val(startDate.isValid() ? startDate.format('DD-MM-YYYY') : 'N/A');
-                    
+
                     if (info.event.end) {
                         // end guardado es exclusivo para allDay; mostrar inclusivo restando 1 día
                         const endDate = moment(info.event.end).subtract(1, 'day');
@@ -118,7 +118,7 @@
                             }
                         },
                         columns: [
-                            { 
+                            {
                                 data: null,
                                 orderable: false,
                                 searchable: false,
@@ -282,14 +282,14 @@
 
             $('#createFileEventForm').on('submit', function(e) {
                 e.preventDefault();
-                
+
                 let formData = new FormData(this);
                 formData.append('id_event', selectedEvent.id);
 
                 for (let [key, value] of formData.entries()) {
                     console.log(key, value);
                     }
-                    
+
                 $.ajax({
                     url: "{{ route('calendario.file.store') }}",
                     type: 'POST',
@@ -307,7 +307,7 @@
                     error: function(xhr) {
                         alert('Error al guardar el evento: ' + (xhr.responseJSON?.error || 'Error desconocido'));
                     }
-                })                
+                })
             })
 
             $('#createEventForm').on('submit', function(e) {
@@ -317,7 +317,7 @@
                 const type = $('#type').val();
                 const start = $('#start').val();
                 const end = $('#end').val();
-                
+
                 $.ajax({
                     url: "{{ route('calendario.store') }}",
                     type: 'POST',
@@ -355,19 +355,20 @@
 
             $('#createAssistantEventForm').on('submit', function(e) {
                 e.preventDefault();
-                const id_event = $('#id_event').val();
-                const id_user = $('#id_user').val();
-                const assign = $('#assign').val();
-                
+
+                const formData = new FormData(this);
+
+                console.log('FormData contents:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(key + ':', value);
+                }
+
                 $.ajax({
                     url: "{{ route('calendario.assistant.store') }}",
                     type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id_event: id_event,
-                        id_user: id_user,
-                        assign: assign
-                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         datatableGuard.ajax.reload();
                         $('#assistantModal').modal('hide');

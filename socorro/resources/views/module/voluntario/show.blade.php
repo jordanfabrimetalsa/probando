@@ -26,6 +26,13 @@
                     <h5 class="mb-0">Información Personal</h5>
                   </div>
                     <div class="card-body p-3">
+                      <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                          <img id="image_show" src="" alt="Foto del voluntario" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
+                          <div class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1" style="width: 30px; height: 30px;"><i class="fa-solid fa-check text-white" style="font-size: 12px;"></i>
+                          </div>
+                        </div>
+                      </div>
                       <ul class="list-group">
                         <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Nombre Completo:</strong> &nbsp; <span id="fullname_show"></span></li>
                         <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Número de Identificación:</strong> &nbsp; <span id="document_show"></span></li>

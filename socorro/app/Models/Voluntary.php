@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Delegation;
+use App\Models\Image_Voluntary;
 use Illuminate\Database\Eloquent\Model;
 
 class Voluntary extends Model
@@ -34,5 +35,16 @@ class Voluntary extends Model
     public function delegation()
     {
         return $this->belongsTo(Delegation::class, 'delegation_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image_Voluntary::class, 'voluntary_id', 'id');
+    }
+
+    public function getImageAttribute()
+    {
+        $image = $this->images()->first();
+        return $image ? '/storage/' . $image->path : '/assets/img/default-avatar.png';
     }
 }

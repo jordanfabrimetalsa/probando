@@ -63,12 +63,12 @@
           </div>
         </li>
         @endcan
-        <li class="nav-item">
+        <!--<li class="nav-item">
             <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
               <i class="material-symbols-rounded opacity-5">checkbook</i>
               <span class="nav-link-text ms-1">Registro de rescate</span>
             </a>
-        </li>
+        </li>-->
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('calendario') }}">
             <i class="fa-solid fa-calendar opacity-5"></i>
@@ -81,7 +81,7 @@
                 <span class="nav-link-text ms-1">Aviso Salida</span>
             </a>
         </li>
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseChecklist" role="button" aria-expanded="false" aria-controls="collapseChecklist">
             <i class="fa-solid fa-list-check opacity-5"></i>
             <span class="nav-link-text ms-1">Check List</span>
@@ -102,7 +102,7 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li>-->
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 mb-2">

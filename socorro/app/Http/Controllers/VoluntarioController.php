@@ -78,14 +78,28 @@ class VoluntarioController extends Controller
     public function show(string $id)
     {
         try{
-            $voluntary = Voluntary::find($id)->with('delegation')->first();
+            $voluntary = Voluntary::with(['delegation', 'images'])->find($id);
+            if (!$voluntary) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Voluntario no encontrado'
+                ], 404);
+            }
+
+            // Verificar si el archivo existe
+            if ($voluntary->image && $voluntary->image !== '/assets/img/default-avatar.png') {
+                $imagePath = str_replace('/storage/', '', $voluntary->image);
+                $fullPath = storage_path('app/public/' . $imagePath);
+                $voluntary->image = env('APP_URL') . '/storage/' . $imagePath;
+            }
+
             $voluntary->emergency = Emergency::where('voluntary_id', $id)->get();
             $voluntary->remark = Remark::where('voluntary_id', $id)->get();
             return response()->json($voluntary);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al mostrar voluntario'
+                'message' => 'Error al mostrar voluntario: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -95,7 +109,7 @@ class VoluntarioController extends Controller
         try{
             $voluntary = Voluntary::find($id);
             return response()->json($voluntary);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error al editar voluntario'
@@ -114,7 +128,7 @@ class VoluntarioController extends Controller
             $voluntary->save();
 
             return response()->json(['success' => 'Voluntario actualizado correctamente']);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error al actualizar el voluntario'

@@ -33,7 +33,7 @@
               <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-bell opacity-5"></i>
               </a>
-              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+              <!--<ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                 <li>
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
@@ -64,13 +64,13 @@
                     </div>
                   </a>
                 </li>
-              </ul>
+              </ul>-->
             </li>
-            <li class="nav-item d-flex align-items-center">
+            <!--<li class="nav-item d-flex align-items-center">
               <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa-solid fa-user opacity-5"></i>
               </a>
-            </li>
+            </li>-->
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="{{ route('logout') }}" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa-solid fa-right-from-bracket opacity-5"></i>

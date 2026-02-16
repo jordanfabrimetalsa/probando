@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('guards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_event')->constrained('events');
-            $table->foreignId('id_user')->constrained('users');
+            $table->foreignId('id_voluntary')->constrained('voluntaries');
             $table->enum('type', ['assistant','guest','support','leader','speaker'])->default('assistant');
             $table->timestamps();
         });

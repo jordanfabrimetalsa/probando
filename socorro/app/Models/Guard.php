@@ -10,7 +10,7 @@ class Guard extends Model
 
     protected $fillable = [
         'id_event',
-        'id_user',
+        'id_voluntary',
         'type',
     ];
 
@@ -21,6 +21,6 @@ class Guard extends Model
 
     public function voluntaries()
     {
-        return $this->belongsTo(Voluntary::class, 'id_user');
+        return $this->belongsTo(Voluntary::class, 'id_voluntary');
     }
 }

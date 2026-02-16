@@ -44,6 +44,7 @@
               <option value="organizador_guardia">Organizador Guardia</option>
               <option value="comun">Común</option>
               <option value="cuartelero">Cuartelero</option>
+              <option value="administrador_nacional">Administrador Nacional</option>
             </select>
           </div>
           <div class="mb-3">

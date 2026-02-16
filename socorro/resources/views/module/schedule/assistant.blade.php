@@ -11,8 +11,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <input type="hidden" id="id_event" name="id_event">
-                            <label for="date" class="form-label">Tipo Evento</label>
-                            <select class="form-selected form-control" id="id_user" name="id_user">
+                            <label for="date" class="form-label">Participante</label>
+                            <select class="form-selected form-control" id="id_voluntary" name="id_voluntary">
                                 <option disabled selected>Seleccionar</option>
                                 @foreach($voluntaries as $voluntary)
                                     <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
@@ -21,9 +21,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Tipo Asignación</label>
-                            <select class="form-selected form-control" id="assign" name="assign">
-                                <option selected disabled>Seleccionar Opción</option>
-                                <option value="assistant">Asistente/Guardia</option>
+                            <select class="form-selected form-control" id="type" name="type">
+                                <option value="assistant" selected>Asistente/Guardia</option>
                                 <option value="support">Apoyo</option>
                                 <option value="leader">Lider</option>
                                 <option value="speaker">Presentador</option>
