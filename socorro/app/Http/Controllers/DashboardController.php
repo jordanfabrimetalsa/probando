@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Voluntary;
 use App\Models\StockMovement;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -25,9 +26,20 @@ class DashboardController extends Controller
                               ->first();
 
         $reduce = StockMovement::selectRaw('SUM(quantity * unit_cost) as total')
-                              ->where('type',  'reduce') 
+                              ->where('type',  'reduce')
                               ->get();
 
-        return view('module.dashboard.dashboard', compact('data', 'cant_voluntaries', 'add', 'reduce', 'cant_voluntaries_no_payment'));
+        $today = Carbon::today();
+
+        // Cumpleaños de hoy
+        $birthdaysToday = Voluntary::whereMonth('birthday', $today->month)
+            ->whereDay('birthday', $today->day)
+            ->get();
+
+        // Lista ordenada por mes y día
+        $allBirthdays = Voluntary::orderByRaw('MONTH(birthday), DAY(birthday)')
+            ->get();
+
+        return view('module.dashboard.dashboard', compact('data', 'cant_voluntaries', 'add', 'reduce', 'cant_voluntaries_no_payment', 'birthdaysToday', 'allBirthdays'));
     }
 }

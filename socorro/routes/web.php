@@ -16,6 +16,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\RescueController;
 use App\Http\Controllers\PostulationController;
 use App\Http\Controllers\PostulationsPeopleController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PDFController;
 
 Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
@@ -40,6 +41,18 @@ Route::post('/postulations-people/store', [PostulationsPeopleController::class, 
 Route::middleware('auth')->group(function(){
     Route::prefix('dashboard')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
+    });
+
+    Route::prefix('news')->group(function(){
+        Route::get('/', [NewsController::class,'index'])->name('news');
+        Route::get('/category/data', [NewsController::class,'categoryData'])->name('news.category.data');
+        Route::post('/category/store', [NewsController::class,'categoryStore'])->name('news.category.store');
+        Route::get('/data', [NewsController::class,'data'])->name('news.data');
+        Route::get('/show/{id}', [NewsController::class,'show'])->name('news.show');
+        Route::post('/store', [NewsController::class,'store'])->name('news.store');
+        Route::get('/edit/{id}', [NewsController::class,'edit'])->name('news.edit');
+        Route::put('/update/{id}', [NewsController::class,'update'])->name('news.update');
+        Route::delete('/destroy/{id}', [NewsController::class,'destroy'])->name('news.destroy');
     });
 
     Route::prefix('usuarios')->middleware('checkrole:admin')->group(function(){
