@@ -2,6 +2,176 @@
 
 @section('title', 'Horarios')
 
+@push('styles')
+<style>
+.calendar-responsive {
+    height: 600px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .calendar-responsive {
+        height: 500px;
+    }
+
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .fc .fc-header-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .fc .fc-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+    }
+
+    .fc .fc-button {
+        font-size: 12px;
+        padding: 4px 8px;
+        margin: 1px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .fc-daygrid-day-number {
+        font-size: 12px;
+    }
+
+    .fc-event-title {
+        font-size: 10px;
+    }
+
+    /* Modales en móviles */
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    /* DataTables responsive */
+    .dataTables_wrapper {
+        font-size: 12px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+/* Responsive para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .calendar-responsive {
+        height: 550px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 18px;
+    }
+
+    .fc-daygrid-day-number {
+        font-size: 13px;
+    }
+
+    .fc-event-title {
+        font-size: 11px;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .calendar-responsive {
+        height: 400px;
+    }
+
+    .fc .fc-toolbar {
+        flex-direction: column;
+    }
+
+    .fc .fc-toolbar-chunk {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .fc .fc-button {
+        font-size: 11px;
+        padding: 3px 6px;
+        margin: 1px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 14px;
+    }
+
+    .fc-daygrid-day-number {
+        font-size: 11px;
+    }
+
+    /* Badges más pequeños */
+    .badge {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+}
+
+/* Ocultar días de otros meses */
+.fc .fc-day-other {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Ocultar celdas vacías de otros meses */
+.fc-daygrid-day.fc-day-other {
+    display: none !important;
+}
+
+/* Asegurar que solo se muestren celdas del mes actual */
+.fc-daygrid-day:not(.fc-day-other) {
+    display: table-cell !important;
+}
+
+/* Resaltar día actual */
+.fc .fc-day-today {
+    background-color: #e3f2fd !important;
+}
+
+/* Responsive para eventos en móviles */
+@media (max-width: 768px) {
+    .fc-event {
+        font-size: 10px;
+        padding: 1px 2px;
+        margin: 1px 0;
+    }
+
+    .fc-event-title {
+        font-size: 9px;
+    }
+}
+</style>
+@endpush
+
 @section('content')
 
     <div class="container-fluid py-2">
@@ -16,7 +186,7 @@
                     <div class="card-body p-4">
                         <p>Categoria basada en que tipo de evento es, estos son solo administrado por directiva.</p>
                         <div class="w-100 mb-4">
-                            <div id="calendar" style="height: 600px;"></div>
+                            <div id="calendar" class="calendar-responsive"></div>
                         </div>
                     </div>
                 </div>
@@ -43,22 +213,46 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 droppable: true,
                 headerToolbar: {
-                    left: 'prevYear,prev,next,nextYear today',
+                    left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
                 },
                 buttonText: {
                     today: 'Hoy',
-                    dayGridMonth: 'Mensual',
-                    dayGridWeek: 'Semanal',
-                    dayGridDay: 'Diario',
-                    listMonth: 'Listado'
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    list: 'Lista'
+                },
+                views: {
+                    dayGridMonth: {
+                        titleFormat: { month: 'long', year: 'numeric' },
+                        fixedWeekCount: true,
+                        showNonCurrentDates: false,
+                        displayEventTime: false
+                    },
+                    dayGridWeek: {
+                        titleFormat: { month: 'short', day: 'numeric', year: 'numeric' }
+                    },
+                    dayGridDay: {
+                        titleFormat: { month: 'short', day: 'numeric', year: 'numeric' }
+                    },
+                    listWeek: {
+                        titleFormat: { month: 'short', day: 'numeric', year: 'numeric' }
+                    }
                 },
                 navLinks: true,
                 editable: true,
                 displayEventTime: false,
                 selectable: true,
                 locale: 'es',
+                height: 'auto',
+                contentHeight: 'auto',
+                aspectRatio: 1.8,
+                windowResize: true,
+                handleWindowResize: true,
+                showNonCurrentDates: false,
+                fixedWeekCount: false,
                 events: @json($events),
                 eventDidMount: function(info) {
                     const event = info.event;
@@ -85,6 +279,20 @@
                         titleEl.textContent = info.event.extendedProps.type == 'Guard' ? 'Guardia' : (info.event.extendedProps.type == 'Event' ? 'Evento' : 'Clase');
                         titleEl.style.color = 'white';
                     }
+                },
+                windowResize: function() {
+                    // Eliminar celdas de otros meses después de cada resize
+                    setTimeout(function() {
+                        $('.fc-day-other').closest('.fc-daygrid-day').remove();
+                        $('.fc-daygrid-day[data-date]').each(function() {
+                            const cellDate = $(this).data('date');
+                            const currentMonth = new Date().getMonth();
+                            const cellMonth = new Date(cellDate).getMonth();
+                            if (cellMonth !== currentMonth) {
+                                $(this).remove();
+                            }
+                        });
+                    }, 100);
                 },
                 eventClick: function (info) {
                     selectedEvent = info.event;
