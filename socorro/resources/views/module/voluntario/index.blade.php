@@ -90,9 +90,13 @@
                     {
                         data: 'status',
                         render: function(data) {
-                            return data == '1' ?
+                            return data == 'A' ?
                                 '<span class="badge bg-success">Activo</span>' :
-                                '<span class="badge bg-danger">Inactivo</span>';
+                                data == 'I' ?
+                                '<span class="badge bg-danger">Inactivo</span>' :
+                                data == 'S' ?
+                                '<span class="badge bg-warning">Suspendido</span>' :
+                                '<span class="badge bg-secondary">Receso</span>';
                         }
                     },
                     {

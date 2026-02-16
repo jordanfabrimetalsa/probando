@@ -180,8 +180,10 @@
                 <label for="exampleInputPassword1" class="form-label">Estado</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="status" name="status" required>
                   <option selected disabled>Seleccione el Estado</option>
-                  <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
+                  <option value="A">Activo</option>
+                  <option value="I">Inactivo</option>
+                  <option value="S">Suspendido</option>
+                  <option value="R">Receso</option>
               </select>
               </div>
             </div>

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('payment')->default(false);
             $table->char('blood_type', 2)->default('N');
             $table->enum('type', ['V', 'A', 'H', 'C'])->default('A');
-            $table->boolean('status')->default(true);
+            $table->enum('status', ['A', 'I', 'S', 'R'])->default('A');
             $table->boolean('busy')->default(false);
             $table->timestamps();
         });
