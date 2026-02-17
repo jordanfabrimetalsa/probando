@@ -36,6 +36,7 @@
       </div>
   </div>
 
+  @include('module.news.create-category')
   @include('module.news.create')
   @include('module.news.edit')
   @include('module.news.show')
@@ -215,16 +216,16 @@
             text: 'Categoria de noticia registrado correctamente',
           });
           $('#formCategoryNews')[0].reset();
-          datatableCategoryNews.ajax.reload();
+          $('#CreateCategoryModal').modal('hide');
           getCategoriesNews();
         },
         error: function(error){
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar marca de vehiculo' + JSON.stringify(error),
+            text: 'Error al registrar categoria de noticia' + JSON.stringify(error),
           });
-          $('#CreateBrandModal').modal('hide');
+          $('#CreateCategoryModal').modal('hide');
         }
       })
     })

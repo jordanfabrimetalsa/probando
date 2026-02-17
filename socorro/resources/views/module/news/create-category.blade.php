@@ -2,18 +2,17 @@
   <div class="modal-dialog">
     <div class="modal-content modal-extra-background">
       <div class="modal-header">
-        <h5 class="modal-title" id="CreateCategoryModalLabel"><i class="fa-solid fa-comment-dots"></i> Crear Categoria</h5>
+        <h5 class="modal-title" id="CreateCategoryModalLabel"><i class="fa-solid fa-plus"></i> Crear Categoria</h5>
         <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="formVoluntaryRemark" class="form" method="POST">
+        <form id="formCategoryNews" class="form" method="POST">
           @csrf
-          <input type="hidden" id="id_user_remark" name="id_user_remark">
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nombre</label>
-                <textarea class="form-control border border-gray p-2" id="remark_call" name="remark" required></textarea>
+                <input type="text" class="form-control border border-gray p-2" id="name" name="name" required>
               </div>
             </div>
           </div>

@@ -67,7 +67,7 @@
                                     Crear
                                     Noticia</button>
                                 <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
-                                    data-bs-target="#CreateCategory">
+                                    data-bs-target="#CreateCategoryModal">
                                     <i class="fa-solid fa-plus"></i> Agregar Categoria
                                 </button>
                             </div>

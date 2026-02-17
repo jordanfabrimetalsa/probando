@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\CategoriesNews;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -16,7 +18,7 @@ class NewsController extends Controller
 
     public function data()
     {
-        $news = News::all();
+        $news = News::with(['category', 'user'])->get();
         return response()->json($news);
     }
 
@@ -37,8 +39,22 @@ class NewsController extends Controller
         }
     }
 
-    public function create()
+    public function store(Request $request)
     {
-        return view('module.news.create');
+        try{
+            $news = new News();
+            $news->title = $request->title;
+            $news->slug = Str::slug($request->title);
+            $news->description = $request->description;
+            $news->category_id = $request->category_id;
+            $news->user_id = Auth::user()->id;
+            $name_image = time().".".$request->file('image')->getClientOriginalExtension();
+            $request->file('image')->move(public_path('images/news'), $name_image);
+            $news->image = $name_image;
+            $news->save();
+            return response()->json($news);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
     }
 }
