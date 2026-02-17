@@ -50,7 +50,7 @@
     <div class="container">
         <div class="logo">
             <img src="../../../../public/assets/img/logo-socorro.png" alt="Logo Socorro Andino" style="display: block; max-width: 100px; height: auto;">
-            <span>Delegación Nacional de CSA</span>
+            <span>Cuerpo de Socorro Andino de Chile</span>
         </div>
 
         <h2>Hemos recibido tu mensaje de contacto, con la siguiente información:</h2>

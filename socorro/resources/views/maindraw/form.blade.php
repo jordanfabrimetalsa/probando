@@ -83,6 +83,7 @@
                                     <option value="7">Región Valparaiso</option>
                                     <option value="8">Región O'Higgins</option>
                                     <option value="9">Región Maule</option>
+                                    <option value="16">Región Nuble</option>
                                     <option value="10">Región Bio Bio</option>
                                     <option value="11">Región Araucania</option>
                                     <option value="12">Región Los Rios</option>
@@ -111,7 +112,7 @@
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="" class="form-label">Archivo Track KMZ/GPX</label>
-                                <input type="file" class="form-control" id="file_path" name="file_path" required>
+                                <input type="file" class="form-control" id="file_path" name="file_path" accept=".kmz,.gpx" required>
                             </div>
                         </div>
                     </div>

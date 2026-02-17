@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\SendOut;
+use App\Mail\SendOutMailable;
+use Illuminate\Support\Facades\Mail;
 use Exception;
 
 class SendOutController extends Controller
@@ -27,11 +29,11 @@ class SendOutController extends Controller
             'return_date' => 'required|date',
         ]);
 
-        try{
+        try {
 
             $sendout_search = SendOut::where('document_number', $request->document_number)
-                                        ->where('active', 1)
-                                        ->first();
+                ->where('active', 1)
+                ->first();
 
             if ($sendout_search) {
                 return response()->json([
@@ -39,7 +41,7 @@ class SendOutController extends Controller
                     'message' => 'Error al guardar la salida',
                     'error' => 'Aun tienes un aviso activo.'
                 ], 409);
-            }else{
+            } else {
                 $sendout = new SendOut;
             }
 
@@ -58,7 +60,7 @@ class SendOutController extends Controller
             $sendout->return_date = $request->return_date;
             $sendout->active = 1;
 
-            if($request->hasFile('file_path')){
+            if ($request->hasFile('file_path')) {
                 $file = $request->file('file_path');
 
                 $path = $file->store('sendouts', 'public');
@@ -67,19 +69,59 @@ class SendOutController extends Controller
             }
 
             if ($sendout->save()) {
+                switch ($sendout->region) {
+                    case 0:
+                    case 1:
+                    case 11:
+                    case 14:
+                        Mail::to([$request->email, "socorroandino@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 3:
+                        Mail::to([$request->email, "antofagasta@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 4:
+                        Mail::to([$request->email, "atacama@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 5:
+                        Mail::to([$request->email, "coquimbo@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 6:
+                    case 7:
+                        Mail::to([$request->email, "metropolitana@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 8:
+                    case 9:
+                        Mail::to([$request->email, "ohiggins@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 16:
+                    case 10:
+                        Mail::to([$request->email, "nuble@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 12:
+                    case 13:
+                        Mail::to([$request->email, "loslagos@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    case 15:
+                        Mail::to([$request->email, "magallanes@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                        break;
+                    default:
+                        Mail::to([$request->email])->cc('socorroandino@socorroandinochile.cl')->send(new SendOutMailable($sendout));
+                        break;
+                }
+
                 return response()->json([
                     'success' => true,
                     'data' => $sendout,
                     'message' => 'Salida guardada correctamente'
                 ]);
-            }else{
+            } else {
                 Log::error('Error al guardar la salida: ' . $sendout->getMessage());
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al guardar la salida'
                 ], 500);
             }
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error al guardar la salida: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -91,7 +133,7 @@ class SendOutController extends Controller
 
     public function search(Request $request)
     {
-        try{
+        try {
             $sendout = SendOut::where('document_number', $request->rut)->get();
 
             if ($sendout) {
@@ -100,14 +142,14 @@ class SendOutController extends Controller
                     'data' => $sendout,
                     'message' => 'Salida encontrada correctamente'
                 ]);
-            }else{
+            } else {
                 Log::error('Error al buscar la salida: ' . $sendout->getMessage());
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al buscar la salida'
                 ], 500);
             }
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error al buscar la salida: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -117,8 +159,9 @@ class SendOutController extends Controller
         }
     }
 
-    public function finish(Request $request){
-        try{
+    public function finish(Request $request)
+    {
+        try {
             $sendout = SendOut::find($request->id);
 
             if ($sendout) {
@@ -130,22 +173,21 @@ class SendOutController extends Controller
                         'data' => $sendout,
                         'message' => 'Salida terminada correctamente'
                     ]);
-                }else{
+                } else {
                     Log::error('Error al terminar la salida: ' . $sendout->getMessage());
                     return response()->json([
                         'success' => false,
                         'message' => 'Error al terminar la salida'
                     ], 500);
                 }
-            }else{
+            } else {
                 Log::error('Error al terminar la salida: ' . $sendout->getMessage());
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al terminar la salida'
                 ], 500);
             }
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error al terminar la salida: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -155,13 +197,15 @@ class SendOutController extends Controller
         }
     }
 
-    public function list(){
+    public function list()
+    {
         return view('module.aviso.index');
     }
 
-    public function data(){
-        try{
-            $sendouts = SendOut::all()->map(function($sendout) {
+    public function data()
+    {
+        try {
+            $sendouts = SendOut::all()->map(function ($sendout) {
                 if ($sendout->file_path) {
                     $sendout->download_url = route('aviso.download', $sendout->id);
                 }
@@ -170,15 +214,14 @@ class SendOutController extends Controller
 
             if ($sendouts) {
                 return response()->json($sendouts);
-            }else{
+            } else {
                 Log::error('Error al listar las salidas');
                 return response()->json([
                     'success' => false,
                     'message' => 'Error al listar las salidas'
                 ], 500);
             }
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error al listar las salidas: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -205,7 +248,8 @@ class SendOutController extends Controller
         return response()->download($filePath);
     }
 
-    public function changeState($id){
+    public function changeState($id)
+    {
         $active = 0;
         $change = SendOut::findOrFail($id);
         $change->active = $active;
@@ -217,9 +261,9 @@ class SendOutController extends Controller
         ]);
     }
 
-    public function showInfo($id){
+    public function showInfo($id)
+    {
         $sendout = SendOut::findOrFail($id);
         return response()->json($sendout);
     }
-
 }
