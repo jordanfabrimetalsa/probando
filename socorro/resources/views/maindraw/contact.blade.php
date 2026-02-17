@@ -64,7 +64,7 @@
                 </div>
                 <form id="contact-form" method="POST" class="contact-form">
                     @csrf
-                    <h3 class="text-dark">Información General</h3>
+                    <h3 class="text-dark title-contact-form">Información General</h3>
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Nombre completo" value="{{ old('name') }}"
                             required>

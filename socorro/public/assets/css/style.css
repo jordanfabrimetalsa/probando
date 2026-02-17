@@ -339,6 +339,10 @@ body.dark-mode .contact-form h3 {
     color: var(--dm-accent);
 }
 
+body.dark-mode .contact-form .title-contact-form{
+    color:white !important;
+}
+
 body.dark-mode .contact-icon {
     background: rgba(2, 6, 23, 0.85);
     color: var(--dm-text);
