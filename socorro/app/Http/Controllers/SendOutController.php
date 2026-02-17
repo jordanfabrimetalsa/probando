@@ -30,7 +30,6 @@ class SendOutController extends Controller
         ]);
 
         try {
-
             $sendout_search = SendOut::where('document_number', $request->document_number)
                 ->where('active', 1)
                 ->first();
