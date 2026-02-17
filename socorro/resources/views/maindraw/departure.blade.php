@@ -30,7 +30,7 @@
                     <thead>
                         <tr>
                             <th class="text-center">Nombres</th>
-                            <th class="text-center">Ruta</th>
+                            <th class="text-center">Lugar</th>
                             <th class="text-center">Fecha de Salida</th>
                             <th class="text-center">Fecha de Regreso</th>
                             <th class="text-center">Acciones</th>

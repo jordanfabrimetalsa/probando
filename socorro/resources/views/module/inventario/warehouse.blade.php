@@ -27,6 +27,18 @@
           <div class="row">
             <div class="col-12">
               <div class="mb-3">
+                <label for="delegation_id" class="form-label">Delegación<span class="text-danger">*</span></label>
+                <select name="delegation_id" id="delegation_id" class="form-control border border-gray p-2">
+                  @foreach($delegations as $delegation)
+                    <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
                 <label for="description" class="form-label">Ubicación<span class="text-danger">*</span></label>
                 <input type="text" class="form-control border border-gray p-2" id="path" name="path">
               </div>

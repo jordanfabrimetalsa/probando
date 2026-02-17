@@ -29,15 +29,15 @@
                     <div class="collapse" id="collapseAdmin">
                         <ul class="nav ms-4">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('usuarios') }}">
-                                    <i class="material-symbols-rounded opacity-5">person</i>
-                                    <span class="nav-link-text ms-1">Usuarios</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
                                     <i class="material-symbols-rounded opacity-5">home</i>
                                     <span class="nav-link-text ms-1">Delegaciones</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="{{ route('usuarios') }}">
+                                    <i class="material-symbols-rounded opacity-5">person</i>
+                                    <span class="nav-link-text ms-1">Usuarios</span>
                                 </a>
                             </li>
                             <li class="nav-item">

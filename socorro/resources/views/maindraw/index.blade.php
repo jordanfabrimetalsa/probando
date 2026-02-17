@@ -864,7 +864,7 @@
                         if (datatableUser) {
                             datatableUser.row.add([
                                 item.name,
-                                item.route,
+                                item.destination,
                                 item.departure_date,
                                 item.return_date,
                                 active
@@ -873,7 +873,7 @@
                             $('#datatableUser tbody').append(
                                 `<tr>
                                     <td>${item.name}</td>
-                                    <td>${item.route}</td>
+                                    <td>${item.destination}</td>
                                     <td>${item.departure_date}</td>
                                     <td>${item.return_date}</td>
                                     <td>${active}</td>

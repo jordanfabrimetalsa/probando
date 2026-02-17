@@ -28,7 +28,7 @@
                 <div class="d-flex align-items-stretch gap-2">
                   <select class="select2" aria-label="Default select example" id="id_warehouse" name="id_warehouse" required>
                     <option selected disabled>Seleccione la Bodega</option>
-                  </select>   
+                  </select>
                 </div>
               </div>
             </div>
@@ -74,6 +74,12 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Talla</label>
                 <input type="text" class="form-control border border-gray p-2" id="size" name="size">
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Imagen Referencial <span class="text-danger">(PNG, JPEG, JPG)</span></label>
+                <input type="file" class="form-control border border-gray p-2" accept=".png, .jpeg, .jpg" id="image_reference" name="image_reference">
               </div>
             </div>
             <div class="col-4">

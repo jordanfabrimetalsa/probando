@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('path');
             $table->boolean('status')->default(false);
+            $table->foreignId('delegation_id')->constrained('delegations')->cascadeOnDelete();
             $table->timestamps();
         });
     }

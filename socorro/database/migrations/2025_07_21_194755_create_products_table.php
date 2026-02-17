@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->integer('stock')->default(0);
             $table->boolean('status')->default(false);
+            $table->text('image');
             $table->foreignId('id_category')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('id_warehouse')->constrained('warehouses')->cascadeOnDelete();
             $table->timestamps();

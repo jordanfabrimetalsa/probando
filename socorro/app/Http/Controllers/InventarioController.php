@@ -7,6 +7,7 @@ use App\Models\Warehouse;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\StockProductAdd;
+use App\Models\Delegation;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,8 @@ class InventarioController extends Controller
 {
     public function index()
     {
-        return view('module.inventario.index');
+        $delegations = Delegation::all();
+        return view('module.inventario.index', compact('delegations'));
     }
 
     public function data(){
@@ -77,7 +79,8 @@ class InventarioController extends Controller
                 'name' => 'required|max:100|unique:warehouses,name',
                 'description' => 'required|max:255',
                 'path' => 'required|max:255',
-                'status' => 'required|boolean'
+                'status' => 'required|boolean',
+                'delegation_id' => 'required|exists:delegations,id'
             ]);
 
             $warehouse = new Warehouse();
@@ -85,6 +88,7 @@ class InventarioController extends Controller
             $warehouse->description = $request->description;
             $warehouse->path = $request->path;
             $warehouse->status = $request->status;
+            $warehouse->delegation_id = $request->delegation_id;
             $warehouse->save();
             return response()->json([
                 'status' => 'success',
@@ -108,7 +112,8 @@ class InventarioController extends Controller
             'brand' => 'required|max:100',
             'status' => 'required|boolean',
             'id_category' => 'required|exists:categories,id',
-            'id_warehouse' => 'required|exists:warehouses,id'
+            'id_warehouse' => 'required|exists:warehouses,id',
+            'image_reference' => 'required|image|mimes:png,jpeg,jpg|max:2048'
         ]);
 
         try{
@@ -122,6 +127,13 @@ class InventarioController extends Controller
             $product->status = $request->status;
             $product->id_category = $request->id_category;
             $product->id_warehouse = $request->id_warehouse;
+
+            // Handle image upload
+            if ($request->hasFile('image_reference')) {
+               $name_product = uniqid() . '_' . $request->file('image_reference')->getClientOriginalName();
+               $product->image_reference = $request->file('image_reference')->storeAs('images', $name_product, 'public');
+            }
+
             $product->save();
 
             return response()->json([
