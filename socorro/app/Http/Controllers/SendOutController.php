@@ -60,16 +60,41 @@ class SendOutController extends Controller
             $sendout->return_date = $request->return_date;
             $sendout->active = 1;
 
+            // Guardar el archivo ANTES de guardar el modelo
             if ($request->hasFile('file_path')) {
                 $file = $request->file('file_path');
 
-                $path = $file->store('sendouts', 'public');
+                // Verificar que el archivo sea válido
+                if ($file->isValid()) {
+                    // Validar que sea GPX o KMZ
+                    $allowedExtensions = ['gpx', 'kmz'];
+                    $extension = strtolower($file->getClientOriginalExtension());
 
-                $sendout->file_path = $path;
+                    if (!in_array($extension, $allowedExtensions)) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Solo se permiten archivos GPX o KMZ',
+                            'error' => 'Extensión no válida: ' . $extension
+                        ], 400);
+                    }
+
+                    // Generar nombre de archivo manteniendo la extensión original
+                    $fileName = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+                    $path = $file->storeAs('sendouts', $fileName, 'public');
+
+                    $sendout->file_path = $path;
+                } else {
+                    Log::error('Archivo no válido: ' . $file->getErrorMessage());
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Archivo no válido',
+                        'error' => $file->getErrorMessage()
+                    ], 400);
+                }
             }
 
-            if ($sendout->save()) {
-                switch ($sendout->region) {
+           if ($sendout->save()) {
+                 /*switch ($sendout->region) {
                     case 0:
                     case 1:
                     case 11:
@@ -107,7 +132,7 @@ class SendOutController extends Controller
                     default:
                         Mail::to([$request->email])->cc('socorroandino@socorroandinochile.cl')->send(new SendOutMailable($sendout));
                         break;
-                }
+                }*/
 
                 return response()->json([
                     'success' => true,

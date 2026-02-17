@@ -22,6 +22,7 @@ class SendOut extends Model
         'activity',
         'number_participants',
         'departure_date',
-        'return_date'
+        'return_date',
+        'active'
     ];
 }
