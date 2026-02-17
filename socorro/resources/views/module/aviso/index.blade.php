@@ -273,9 +273,6 @@
     </div>
     </div>
 
-    @include('module.usuario.create')
-    @include('module.usuario.edit')
-
 @endsection
 
 @push('script')

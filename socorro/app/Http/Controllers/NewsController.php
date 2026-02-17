@@ -45,7 +45,7 @@ class NewsController extends Controller
             $news = new News();
             $news->title = $request->title;
             $news->slug = Str::slug($request->title);
-            $news->description = $request->description;
+            $news->description = $request->editor;
             $news->category_id = $request->category_id;
             $news->featured = $request->featured;
             $news->user_id = Auth::user()->id;
@@ -53,6 +53,18 @@ class NewsController extends Controller
             $request->file('image')->move(public_path('images/news'), $name_image);
             $news->image = $name_image;
             $news->save();
+            return response()->json($news);
+        }catch(Exception $e){
+            return response()->json($e);
+        }
+    }
+
+    public function show($id){
+        try{
+            $news = News::with(['category', 'user'])->find($id);
+            if ($news && $news->image) {
+                $news->image = asset('images/news/' . $news->image);
+            }
             return response()->json($news);
         }catch(Exception $e){
             return response()->json($e);

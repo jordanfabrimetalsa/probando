@@ -25,7 +25,7 @@
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Descripción<span
                                         class="text-danger">*</span></label>
-                                <textarea name="descripcion" id="editor" class="form-control"></textarea>
+                                <textarea name="editor" id="editor" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

@@ -36,10 +36,10 @@
       </div>
   </div>
 
+  @include('module.news.show')
   @include('module.news.create-category')
   @include('module.news.create')
   @include('module.news.edit')
-  @include('module.news.show')
 
 @endsection
 
@@ -66,7 +66,7 @@
            },
           { data: 'created_at',
             render: function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
+              return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD/MM/YYYY HH:mm:ss')+'</p>'
             }
           },
           { data: 'user.name',
@@ -87,8 +87,8 @@
                   searchable: false,
                   render: function(data, type, row) {
                     return `
-                      <a href="javascript:;" class="btn btn-info text-white" onclick="showNews(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
-                        <i class="fa-solid fa-car"></i>
+                      <a href="javascript:;" class="btn btn-dark text-white" onclick="showNews(${data.id})">
+                        <i class="fa-solid fa-newspaper"></i>
                       </a>
                       `;
                   }
@@ -185,7 +185,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Noticia registrada correctamente' + JSON.stringify(response),
+            text: 'Noticia registrada correctamente',
           });
           $('#formNews')[0].reset();
           $('#CreateModal').modal('hide');
@@ -195,7 +195,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar noticia' + JSON.stringify(error),
+            text: 'Error al registrar noticia',
           });
           $('#CreateModal').modal('hide');
         }
@@ -223,7 +223,7 @@
           Swal.fire({
             icon: 'error',
             title: 'Error.',
-            text: 'Error al registrar categoria de noticia' + JSON.stringify(error),
+            text: 'Error al registrar categoria de noticia',
           });
           $('#CreateCategoryModal').modal('hide');
         }
@@ -262,47 +262,21 @@
           url: 'news/show/' + id,
           type: 'GET',
           success: function(response){
-            if (typeof response === 'string'){
-              response = JSON.parse(response);
-            }
-
+            console.log(response);
             $('#ShowModal').modal('show');
-            $('#kilometer_show').text(`${response.kilometer.toLocaleString('es-CL')} km`);
-            $('#brand_show').text(response.brand?.name || '');
-            $('#model_show').text(response.model?.name || '');
-            $('#plate_show').text(response.plate);
-
-            if (response.document_car) {
-              $('#circulation_permit_show').html(response.document_car.circulation_permit == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
-              $('#gases_show').html(response.document_car.gases == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
-              $('#technical_inspection_show').html(response.document_car.technical_inspection == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
-              $('#insurance_show').html(response.document_car.insurance == 'Vigente' ? '<span class="badge bg-success">Vigente</span>' : '<span class="badge bg-danger">Vencido</span>');
-            } else {
-              $('#circulation_permit_show, #gases_show, #technical_inspection_show, #insurance_show').html('Sin datos');
-            }
-
-            var maintenance = '';
-            if (response.maintenance && response.maintenance.length > 0) {
-              response.maintenance.forEach(element => {
-                maintenance += `
-                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
-                    <div class="d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="mb-0 text-sm">Lugar: ${element.place} / ${element.kilometer.toLocaleString('es-CL')} KM</h6>
-                      <p class="mb-0 text-xs">Costo: $${element.cost.toLocaleString('es-CL')} <span class="badge bg-danger">${element.date}</span></p>
-                    </div>
-                  </li>`;
-              });
-            } else {
-              maintenance = `<li class="list-group-item border-0 px-0 mb-2 pt-0">Sin registros</li>`;
-            }
-
-            $('#maintenance_name_show').html(maintenance);
+            $('#show-title').text(response.title);
+            $('#show-content').html(response.description);
+            $('#show-category').text(response.category?.name || '');
+            $('#show-image').attr('src', response.image);
+            $('#show-created-at').text(moment(response.created_at).format('DD/MM/YYYY HH:mm:ss'));
+            $('#show-author').text(response.user?.name || '');
+            $('#show-featured').text(response.is_featured ? 'Destacado' : 'No Destacado');
           },
           error: function(error){
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Error al mostrar vehículo: ' + JSON.stringify(error)
+              text: 'Error al mostrar articulo'
             });
           }
         });
