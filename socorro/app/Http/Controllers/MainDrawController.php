@@ -29,7 +29,7 @@ class MainDrawController extends Controller
         try{
             $datos = $request->all();
             ContactForm::create($datos);
-            Mail::to($request->email)->send(new ContactMailable($datos));
+            Mail::to($request->email)->cc('socorroandino@socorroandinochile.cl')->send(new ContactMailable($datos));
             return response()->json([
                 'success' => true,
                 'message' => 'Correo Enviado Exitosamente'
