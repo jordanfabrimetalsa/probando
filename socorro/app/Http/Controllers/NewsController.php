@@ -47,6 +47,7 @@ class NewsController extends Controller
             $news->slug = Str::slug($request->title);
             $news->description = $request->description;
             $news->category_id = $request->category_id;
+            $news->featured = $request->featured;
             $news->user_id = Auth::user()->id;
             $name_image = time().".".$request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('images/news'), $name_image);

@@ -185,7 +185,7 @@
           Swal.fire({
             icon: 'success',
             title: 'Exito.',
-            text: 'Noticia registrada correctamente',
+            text: 'Noticia registrada correctamente' + JSON.stringify(response),
           });
           $('#formNews')[0].reset();
           $('#CreateModal').modal('hide');
