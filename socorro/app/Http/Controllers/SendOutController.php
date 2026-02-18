@@ -100,24 +100,24 @@ class SendOutController extends Controller
                     case 14:
                         Mail::to([$request->email, "socorroandino@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
-                    case 3:
+                    case 2:
                         Mail::to([$request->email, "antofagasta@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
-                    case 4:
+                    case 3:
                         Mail::to([$request->email, "atacama@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
-                    case 5:
+                    case 4:
                         Mail::to([$request->email, "coquimbo@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
+                    case 5:
                     case 6:
-                    case 7:
                         Mail::to([$request->email, "metropolitana@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
+                    case 7:
                     case 8:
-                    case 9:
                         Mail::to([$request->email, "ohiggins@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;
-                    case 16:
+                    case 9:
                     case 10:
                         Mail::to([$request->email, "nuble@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
                         break;

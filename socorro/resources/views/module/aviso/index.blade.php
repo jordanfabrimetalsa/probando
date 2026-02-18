@@ -356,43 +356,52 @@
                         render: function(data) {
 
                             switch (data) {
-                                case 1:
+                                case "0":
                                     return data =
-                                        '<p class="text-xs text-secondary mb-0">Región de Arica</p>'
-                                case 2:
-                                    return data =
-                                        '<p class="text-xs text-secondary mb-0">Región de Parinacota</p>'
-                                case 3:
+                                        '<p class="text-xs text-secondary mb-0">Región de Arica y Parinacota</p>'
+                                case "1":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Tarapacá</p>'
-                                case 4:
+                                case "2":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Antofagasta</p>'
-                                case 5:
+                                case "3":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Atacama</p>'
-                                case 6:
+                                case "4":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Coquimbo</p>'
-                                case 7:
+                                case "5":
                                     return data =
-                                        '<p class="text-xs text-secondary mb-0">Región de Valparaíso</p>'
-                                case 8:
+                                        '<p class="text-xs text-secondary mb-0">Región de Valparaiso</p>'
+                                case "6":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Metropolitana</p>'
-                                case 9:
+                                case "7":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de OHiggins</p>'
-                                case 10:
+                                case "8":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Maule</p>'
-                                case 11:
+                                case "9":
+                                    return data =
+                                        '<p class="text-xs text-secondary mb-0">Región de Ñuble</p>'
+                                case "10":
+                                    return data =
+                                        '<p class="text-xs text-secondary mb-0">Región de Bio Bio</p>'
+                                case "11":
+                                    return data =
+                                        '<p class="text-xs text-secondary mb-0">Región de Araucania</p>'
+                                case "12":
+                                    return data =
+                                        '<p class="text-xs text-secondary mb-0">Región de Los Rios</p>'
+                                case "13":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Los Lagos</p>'
-                                case 12:
+                                case "14":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Aysén</p>'
-                                case 13:
+                                case "15":
                                     return data =
                                         '<p class="text-xs text-secondary mb-0">Región de Magallanes</p>'
                                 default:
@@ -523,63 +532,67 @@
                     var activity;
 
                     switch (response.region) {
-                        case 0:
+                        case "0":
                             region = 'Región Arica y Parinacota';
                             break;
 
-                        case 1:
+                        case "1":
                             region = 'Región Tarapaca';
                             break;
 
-                        case 3:
+                        case "2":
                             region = 'RegiÖn Antofagasta';
                             break;
 
-                        case 4:
+                        case "3":
                             region = 'Región Atacama';
                             break;
 
-                        case 5:
+                        case "4":
                             region = 'Región Coquimbo';
                             break;
 
-                        case 6:
+                        case "5":
+                            region = 'Región Valparaiso';
+                            break;
+
+                        case "6":
                             region = 'Región Metropolitana';
                             break;
 
-                        case 7:
-                            region = 'Región Valparaíso';
-                            break;
-
-                        case 8:
+                        case "7":
                             region = 'Región O\'Higgins';
                             break;
 
-                        case 9:
+                        case "8":
                             region = 'Región Maule';
                             break;
 
-                        case 10:
+                        case "9":
+                            region = 'Región Ñuble';
+                            break;
+
+                        case "10":
                             region = 'Región Bio Bío';
                             break;
 
-                        case 11:
+                        case "11":
                             region = 'Región Araucania';
                             break;
 
-                        case 12:
+                        case "12":
                             region = 'Región Los Ríos';
                             break;
 
-                        case 13:
+                        case "13":
                             region = 'Región Los Lagos';
                             break;
 
-                        case 14:
+                        case "14":
                             region = 'Región Aysen';
                             break;
 
-                        case 15:
+                        case "15":
                             region = 'Región Magallanes';
                             break;
                     }
@@ -591,28 +604,28 @@
                     }
 
                     switch(response.activity){
-                        case 0:
+                        case "0":
                             activity = 'Trekking';
                             break;
-                        case 1:
+                        case "1":
                             activity = 'Hikking';
                             break;
-                        case 2:
+                        case "2":
                             activity = 'Mountain Bike';
                             break;
-                        case 3:
+                        case "3":
                             activity = 'Escalada';
                             break;
-                        case 4:
+                        case "4":
                             activity = 'Escalada en Hielo';
                             break;
-                        case 5:
+                        case "5":
                             activity = 'Randonee';
                             break;
-                        case 6:
+                        case "6":
                             activity = 'Kayak';
                             break;
-                        case 7:
+                        case "7":
                             activity = 'Kitesurf';
                             break;
                     }
