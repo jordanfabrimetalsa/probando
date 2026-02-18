@@ -50,8 +50,8 @@
                                                             class="text-dark">Fecha de Nacimiento:</strong> &nbsp; <span
                                                             id="birthday_show"></span></li>
                                                     <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Tipo:</strong> &nbsp; <span
-                                                            id="type_show"></span></li>
+                                                            class="text-dark">Edad</strong> &nbsp; <span
+                                                            id="age_show"></span></li>
                                                 </ul>
                                             </div>
                                             <div class="col-6">
@@ -68,6 +68,33 @@
                                                     <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                             class="text-dark">Estado:</strong> &nbsp; <span
                                                             id="status_show"></span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-plain h-100">
+                                    <div class="card-header pb-0 p-3">
+                                        <h5 class="mb-0">Información Voluntariado</h5>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                            class="text-dark">Tipo:</strong> &nbsp; <span
+                                                            id="type_show"></span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-6">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                            class="text-dark">Tiempo Servicio:</strong> &nbsp; <span
+                                                            id="servicio_show"></span></li>
                                                 </ul>
                                             </div>
                                         </div>

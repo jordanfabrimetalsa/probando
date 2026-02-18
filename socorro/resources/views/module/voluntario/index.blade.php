@@ -211,7 +211,12 @@
                         $('#document_show').text(response.document);
                         $('#email_show').text(response.email);
                         $('#phone_show').text(response.phone);
-                        $('#birthday_show').text(response.birthday);
+                        $('#birthday_show').text(moment(response.birthday).format('DD/MM/YYYY'));
+                        var age = moment().diff(moment(response.birthday), 'years');
+                        $('#age_show').text(age + ' años');
+
+                        var servicio = moment().diff(moment(response.init_voluntary), 'years');
+                        $('#servicio_show').text(servicio + ' años');
                         $('#address_show').text(response.address);
                         $('#profession_show').text(response.profession);
                         $('#gender_show').text(response.gender == 'M' ? 'Masculino' : 'Femenino');
@@ -239,7 +244,7 @@
                                 break;
                         }
                         $('#status_show').html(statusText);
-                        $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
+                        $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia de Conducir') : $('#text_license_show').text('No tiene licencia'));
                         $('#blood_type_show').text(response.blood_type);
                         var statusTextType = '';
                         switch (response.type) {
