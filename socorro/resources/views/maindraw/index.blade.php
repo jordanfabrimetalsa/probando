@@ -975,6 +975,13 @@
         // Inicializar alternancia
         reorderYears();
 
+        // Estado inicial: solo 2 primeros visibles
+        document.querySelectorAll('.history-hidden').forEach(item => {
+            item.style.display = 'none';
+        });
+        const toggleBtn = document.getElementById("toggleHistory");
+        if (toggleBtn) toggleBtn.textContent = 'Saber más';
+
         // Función para alternar contenido individual de historia
         function toggleHistoryItem(button) {
             const yearItem = button.closest('.history-year');
@@ -1069,7 +1076,6 @@
         setTimeout(updateHistoryButtonsVisibility, 0);
 
         // Toggle Saber más
-        const toggleBtn = document.getElementById("toggleHistory");
         toggleBtn.addEventListener("click", () => {
             document.querySelectorAll(".history-hidden").forEach(item => item.style.display = item.style.display ===
                 "block" ?
