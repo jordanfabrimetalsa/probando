@@ -25,7 +25,7 @@
                     <hr
                         style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
 
-                    <button type="button" class="btn btn-outline-danger p-4" data-bs-toggle="modal" data-bs-target="#directivaModal">Directiva Nacional</button>
+                    <button type="button" class="btn btn-outline-danger p-2" data-bs-toggle="modal" data-bs-target="#directivaModal">Directiva Nacional</button>
                 </div>
                 <div class="service-card">
                     <h3>Delegaciones</h3>

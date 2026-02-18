@@ -93,7 +93,7 @@ class SendOutController extends Controller
             }
 
            if ($sendout->save()) {
-                 /*switch ($sendout->region) {
+                 switch ($sendout->region) {
                     case 0:
                     case 1:
                     case 11:
@@ -131,7 +131,7 @@ class SendOutController extends Controller
                     default:
                         Mail::to([$request->email])->cc('socorroandino@socorroandinochile.cl')->send(new SendOutMailable($sendout));
                         break;
-                }*/
+                }
 
                 return response()->json([
                     'success' => true,
