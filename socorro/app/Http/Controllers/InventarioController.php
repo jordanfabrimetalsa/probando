@@ -113,7 +113,7 @@ class InventarioController extends Controller
             'status' => 'required|boolean',
             'id_category' => 'required|exists:categories,id',
             'id_warehouse' => 'required|exists:warehouses,id',
-            'image_reference' => 'required|image|mimes:png,jpeg,jpg|max:2048'
+            'image' => 'required|image|mimes:png,jpeg,jpg|max:2048'
         ]);
 
         try{
@@ -129,9 +129,9 @@ class InventarioController extends Controller
             $product->id_warehouse = $request->id_warehouse;
 
             // Handle image upload
-            if ($request->hasFile('image_reference')) {
-               $name_product = uniqid() . '_' . $request->file('image_reference')->getClientOriginalName();
-               $product->image_reference = $request->file('image_reference')->storeAs('images', $name_product, 'public');
+            if ($request->hasFile('image')) {
+               $name_product = uniqid() . '_' . $request->file('image')->getClientOriginalName();
+               $product->image = $request->file('image')->storeAs('images', $name_product, 'public');
             }
 
             $product->save();

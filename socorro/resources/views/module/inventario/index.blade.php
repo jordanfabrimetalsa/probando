@@ -45,7 +45,7 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-2 ps-3">
-                      <input type="number" id="uf_input" class="form-control" placeholder="0 UF" oninput="calculateTotalCLPUF(this)"> 
+                      <input type="number" id="uf_input" class="form-control" placeholder="0 UF" oninput="calculateTotalCLPUF(this)">
                     </div>
                   </div>
                 </div>
@@ -92,11 +92,12 @@
 
             <div class="card-body p-4">
               <div class="w-100 p-2 mb-4">
-                
+
                 <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Imagen</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
@@ -108,6 +109,7 @@
                   <tfoot  class="bg-gradient-dark text-center">
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Imagen</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
@@ -197,7 +199,7 @@
       .then(response => response.json())
       .then(data => {
         var totalCLPUF = data.uf.valor * uf;
-        document.getElementById("totalCLPUF").textContent = 
+        document.getElementById("totalCLPUF").textContent =
           totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
       })
       .catch(() => console.log('Error al consumir la API!'));
@@ -213,7 +215,7 @@
     }
 
     var totalIVA = (valueTotal * iva)/100;
-    document.getElementById("totalIVA").textContent = 
+    document.getElementById("totalIVA").textContent =
     totalIVA.toLocaleString("es-CL", { minimumFractionDigits: 0 });
   }
 
@@ -229,7 +231,7 @@
       .then(response => response.json())
       .then(data => {
         var totalCLPUF = data.dolar.valor * uf;
-        document.getElementById("totalCLPUSD").textContent = 
+        document.getElementById("totalCLPUSD").textContent =
           totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
       })
       .catch(() => console.log('Error al consumir la API!'));
@@ -289,6 +291,7 @@
       },
       columns: [
         { data: 'barcode', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        { data: 'image', render: d => d ? `<img src="{{ asset('storage/') }}/${d}" alt="Imagen" width="50" height="50" onerror="this.src='{{ asset('assets/img/default-placeholder.png') }}'">` : '<img src="{{ asset('assets/img/default-placeholder.png') }}" alt="Sin imagen" width="50" height="50">' },
         { data: 'name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         { data: 'stock', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         {
@@ -372,7 +375,7 @@
           type: 'inline'
         }
       },
-      order: [[1, 'asc']], 
+      order: [[1, 'asc']],
       rowGroup: {
         dataSrc: 'category_name',
         startRender: function(rows, group) {

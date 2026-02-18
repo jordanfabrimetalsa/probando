@@ -79,7 +79,7 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Imagen Referencial <span class="text-danger">(PNG, JPEG, JPG)</span></label>
-                <input type="file" class="form-control border border-gray p-2" accept=".png, .jpeg, .jpg" id="image_reference" name="image_reference">
+                <input type="file" class="form-control border border-gray p-2" accept=".png, .jpeg, .jpg" id="image" name="image">
               </div>
             </div>
             <div class="col-4">
