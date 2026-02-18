@@ -46,8 +46,7 @@
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="" class="form-label">Rut/Pasaporte <span class="text-danger">(Sin
-                                        puntos ni guion)</span></label>
+                                <label for="" class="form-label">Rut/Pasaporte</label>
                                 <input type="text" class="form-control" onchange="validarRut(this)"
                                     id="document_number" name="document_number" placeholder="Ingrese su rut o pasaporte"
                                     maxlength="9" required>
@@ -64,7 +63,7 @@
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="" class="form-label">Telefono (+56 Continue...)</label>
+                                <label for="" class="form-label">Telefono</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
                                     placeholder="Ingrese su numero de telefono" pattern="[0-9]+" minlength="6"
                                     maxlength="9">

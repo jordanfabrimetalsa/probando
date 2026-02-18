@@ -11,34 +11,36 @@
                 <form id="form_departure_search" type="post">
                     @csrf
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su rut" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-dark btn-search-load">Buscar</button>
-                                <button type="button" class="btn btn-warning" onclick="clearSearch()">Limpiar Busqueda</button>
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#avisoModal">Crear Aviso</button>
+                                <button type="button" class="btn btn-warning" onclick="clearSearch()">Limpiar</button>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#avisoModal">Crear</button>
                             </div>
                         </div>
                     </div>
                 </form>
                 <br>
-                <table id="datatableUser" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Nombres</th>
-                            <th class="text-center">Lugar</th>
-                            <th class="text-center">Fecha de Salida</th>
-                            <th class="text-center">Fecha de Regreso</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-body text-center">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table id="datatableUser" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Nombres</th>
+                                <th class="text-center">Lugar</th>
+                                <th class="text-center">Salida</th>
+                                <th class="text-center">Regreso</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body text-center">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
