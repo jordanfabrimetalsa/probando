@@ -223,13 +223,41 @@
 
                         $('#payment_show').attr('checked', response.payment == 1 ? $('#text_payment_show').text(
                             'Pagado') : $('#text_payment_show').text('No pagado'));
-                        $('#status_show').attr('checked', response.status == 1 ? $('#text_status_show').text(
-                            'Activo') : $('#text_status_show').text('Inactivo'));
-                        $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text(
-                            'Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
-
+                        var statusText = '';
+                        switch (response.status) {
+                            case 'A':
+                                statusText = '<span class="badge bg-success">Activo</span>';
+                                break;
+                            case 'I':
+                                statusText = '<span class="badge bg-danger">Inactivo</span>';
+                                break;
+                            case 'S':
+                                statusText = '<span class="badge bg-warning">Suspendido</span>';
+                                break;
+                            case 'R':
+                                statusText = '<span class="badge bg-secondary">Receso</span>';
+                                break;
+                        }
+                        $('#status_show').html(statusText);
+                        $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia') : $('#text_license_show').text('No tiene licencia'));
                         $('#blood_type_show').text(response.blood_type);
-                        $('#type_show').text(response.type == 'V' ? 'Voluntario' : 'Aspirante');
+                        var statusTextType = '';
+                        switch (response.type) {
+                            case 'V':
+                                statusTextType = '<span class="badge bg-success">Voluntario</span>';
+                                break;
+                            case 'A':
+                                statusTextType = '<span class="badge bg-danger">Aspirante</span>';
+                                break;
+                            case 'H':
+                                statusTextType = '<span class="badge bg-warning">Honorario</span>';
+                                break;
+                            case 'C':
+                                statusTextType = '<span class="badge bg-secondary">Cooperador</span>';
+                                break;
+                        }
+                        $('#type_show').html(statusTextType);
+                        $('#type_header_show').html(statusTextType);
                         $('#delegation_show').text(response.delegation.name);
 
                         var emergency = '';
