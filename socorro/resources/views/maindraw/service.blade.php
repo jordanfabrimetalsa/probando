@@ -36,7 +36,7 @@
                                 <div class="carousel-item @if ($loop->first) active @endif">
                                     <img src="storage/{{ $delegation->image }}" class="d-block w-100 rounded dark-img"
                                         alt="..." style="background-color: rgba(0,0,0,0.5);">
-                                    <div class="carousel-caption d-none d-md-block">
+                                    <div class="carousel-caption d-block">
                                         <h5>Delegación {{ $delegation->name }}</h5>
                                         <button type="button"
                                             @if ($delegation->postulation_status == 'A') onclick="showPostulations({{ $delegation->id }})" @endif
