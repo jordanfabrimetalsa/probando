@@ -1250,6 +1250,14 @@ body.dark-mode .services{
     border: 1px solid rgba(59, 130, 246, 0.1);
 }
 
+@media (max-width: 768px) {
+    .service-card{
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 body.dark-mode .service-card {
     background-image: none;
     background-color: #182333f2;
@@ -1350,6 +1358,15 @@ body.dark-mode .service-card {
     border: 1px solid rgba(59, 130, 246, 0.1);
     position: relative;
 }
+
+@media (max-width: 768px) {
+    .news-card{
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 
 body.dark-mode .news-card {
     background-image: none;
@@ -1696,6 +1713,14 @@ body.dark-mode .gallery {
     border: 1px solid rgba(59, 130, 246, 0.1);
 }
 
+@media (max-width: 768px) {
+    .contact-item{
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 body.dark-mode .contact-item{
     background-image: none;
     background: #182333f2;
@@ -1739,6 +1764,14 @@ body.dark-mode .contact-item{
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+@media (max-width: 768px) {
+    .contact-form{
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
 }
 
 body.dark-mode .contact-form{
@@ -2107,6 +2140,14 @@ body.dark-mode .contact-form{
     max-width: 500px;
 }
 
+@media (max-width: 768px) {
+    .history-year p {
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 .history-year.expanded p {
     -webkit-line-clamp: unset;
     line-clamp: unset;
@@ -2154,6 +2195,14 @@ body.dark-mode .history-year p:hover {
     max-width: 100%;
  }
 
+ @media (max-width: 768px) {
+    .history-content {
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
  .history-content p {
     background: transparent;
     box-shadow: none;
@@ -2190,6 +2239,14 @@ body.dark-mode .history-year p:hover {
     line-clamp: 2;
 }
 
+ @media (max-width: 768px) {
+    .history-summary  {
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 .history-full {
     color: #64748b;
     transition: all 0.3s ease;
@@ -2202,6 +2259,15 @@ body.dark-mode .history-year p:hover {
     margin-bottom: 0;
     line-height: 1.6;
 }
+
+ @media (max-width: 768px) {
+    .history-full {
+        background: url('../img/fondito.png');
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
 
 .history-year.expanded .history-summary {
     -webkit-line-clamp: unset;

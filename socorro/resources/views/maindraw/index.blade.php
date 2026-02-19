@@ -275,13 +275,13 @@
                     </a>
                     <span class="divider">|</span>
                     <a href="tel:112" class="emergency-link">
-                        Recuerda registrar tú salida.
+                        Registra tú salida.
                     </a>
                 </div>
                 <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/people/Cuerpo-de-Socorro-Andino-de-Chile/100063757382183/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/socorroandinodechile/" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/socorroandinocl" class="social-icon"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
@@ -369,9 +369,9 @@
                     </div>
                     <div class="hero-content">
                         <div class="social-links mb-2">
-                            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/people/Cuerpo-de-Socorro-Andino-de-Chile/100063757382183/" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/socorroandinocl" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/socorroandinodechile/" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
                         <div class="hero-text">
                             <h1 class="hero-title">Especialistas en Rescate <span style="color:#65bce4;">de
@@ -405,9 +405,9 @@
                     </div>
                     <div class="hero-content">
                         <div class="social-links mb-2">
-                            <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
-                            <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/people/Cuerpo-de-Socorro-Andino-de-Chile/100063757382183/" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                            <a href="https://x.com/socorroandinocl" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/socorroandinodechile/" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
                         <h1 class="hero-title">Has tu aviso <span style="color:#65bce4;"> de salida</span></h1>
                         <p class="hero-subtitle">Es información relevante para tu seguridad.</p>

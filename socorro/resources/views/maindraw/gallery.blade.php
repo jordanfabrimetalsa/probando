@@ -24,27 +24,11 @@
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="{{asset('assets/img/foto3.jpg')}}" alt="Equipo de rescate">
-                <div class="gallery-overlay">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <h4>Equipo Especializado</h4>
-                    <p>Tecnología de última generación</p>
-                </div>
-            </div>
-            <div class="gallery-item">
                 <img src="{{asset('assets/img/foto4.jpg')}}" alt="Rescate nocturno">
                 <div class="gallery-overlay">
                     <i class="fa-solid fa-moon"></i>
                     <h4>Operación Nocturna</h4>
                     <p>Rescate en condiciones extremas</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="{{asset('assets/img/foto5.jpg')}}" alt="Entrenamiento">
-                <div class="gallery-overlay">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <h4>Entrenamiento Continuo</h4>
-                    <p>Preparación del equipo</p>
                 </div>
             </div>
             <div class="gallery-item">
