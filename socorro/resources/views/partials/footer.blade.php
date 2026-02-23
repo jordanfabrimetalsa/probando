@@ -80,6 +80,7 @@
                     <img src="{{ asset('assets/img/andinismo.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
                     <img src="{{ asset('assets/img/museo.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
                     <img src="{{ asset('assets/img/fundacion.png') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
+                    <img src="{{ asset('assets/img/rumbo.jpg') }}" alt="Sponsor" width="60" height="60" class="rounded-circle border border-secondary">
                 </div>
             </div>
         </div>

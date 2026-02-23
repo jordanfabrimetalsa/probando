@@ -8,13 +8,15 @@ use App\Mail\ContactMailable;
 use Exception;
 use App\Models\ContactForm;
 use App\Models\Delegation;
+use App\Models\News;
 
 class MainDrawController extends Controller
 {
     public function index()
     {
         $delegations = Delegation::all();
-        return view('maindraw.index', compact('delegations'));
+        $news = News::with('category')->latest()->paginate(3);
+        return view('maindraw.index', compact('delegations', 'news'));
     }
 
     public function store(Request $request)
