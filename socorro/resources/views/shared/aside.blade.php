@@ -46,24 +46,24 @@
                                     <span class="nav-link-text ms-1">Voluntarios</span>
                                 </a>
                             </li>
-                            <!--<li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('inventario') }}">
                                     <i class="material-symbols-rounded opacity-5">checkbook</i>
                                     <span class="nav-link-text ms-1">Inventario</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('vehiculo') }}">
                                     <i class="material-symbols-rounded opacity-5">directions_car</i>
                                     <span class="nav-link-text ms-1">Vehículos</span>
                                 </a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('news') }}">
                                     <i class="material-symbols-rounded opacity-5">newspaper</i>
                                     <span class="nav-link-text ms-1">Noticias</span>
                                 </a>
-                            </li>-->
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('contacto') }}">
                                     <i class="material-symbols-rounded opacity-5">contact_support</i>

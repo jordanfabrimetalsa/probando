@@ -42,7 +42,7 @@
             overflow-x: hidden;
             margin: 0;
             min-height: 100vh;
-            background: url('{{ asset('assets/img/fondodesnivel.png') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/img/fondodesnivel2.png') }}') no-repeat center center fixed;
             background-size: cover;
             -webkit-background-size: cover;
             -moz-background-size: cover;
