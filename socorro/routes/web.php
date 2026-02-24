@@ -9,7 +9,7 @@ use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\DelegacionController;
 use App\Http\Controllers\VehiculoController;
 use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\MaindrawController;
+use App\Http\Controllers\MainDrawController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SendOutController;
 use App\Http\Controllers\DonationController;
@@ -19,7 +19,7 @@ use App\Http\Controllers\PostulationsPeopleController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PDFController;
 
-Route::get('/', [MaindrawController::class,'index'])->name('maindraw');
+Route::get('/', [MainDrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
 Route::get('/login', [UserController::class,'login_new'])->name('login');
 Route::post('/logear', [UserController::class,'login'])->name('logear');
