@@ -175,6 +175,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('registro-rescate')->group(function(){
+        Route::get('/registro_rescate', [RescueController::class, 'registerComun'])->name('registro_rescate');
         Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
         Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
         Route::get('/show/{id}', [RescueController::class, 'show'])->name('registro-rescate.show');

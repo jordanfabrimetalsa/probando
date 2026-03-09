@@ -17,6 +17,11 @@ class RescueController extends Controller
         return view('module.registro_rescate.index', compact('voluntaries'));
     }
 
+    public function registerComun(){
+        $voluntaries = Voluntary::all();
+        return view('module.registro_rescate.register_comun', compact('voluntaries'));
+    }
+
     public function data(){
         try{
             $rescue = Rescue::all();
@@ -75,7 +80,7 @@ class RescueController extends Controller
             $rescue->address = $request->address;
             $rescue->city = $request->city;
             $rescue->state = $request->state;
-            
+
             $rescue->allergic = $request->allergic;
             $rescue->disease = $request->disease;
             $rescue->date_call = $request->date_call;
@@ -117,9 +122,9 @@ class RescueController extends Controller
         $rescue = \App\Models\Rescue::findOrFail($id);
         $path = "rescues/rescue_{$rescue->id}.pdf";
 
-        if (!\Storage::disk('public')->exists($path)) {
-            $pdf = \PDF::loadView('module.pdf.rescue', compact('rescue'));
-            \Storage::disk('public')->put($path, $pdf->output());
+        if (!Storage::disk('public')->exists($path)) {
+            $pdf = PDF::loadView('module.pdf.rescue', compact('rescue'));
+            Storage::disk('public')->put($path, $pdf->output());
         }
 
         $absolutePath = \Storage::disk('public')->path($path);
@@ -129,7 +134,7 @@ class RescueController extends Controller
 
     public function update(Request $request, $id){
         try{
-            $rescue = Rescue::find($id);    
+            $rescue = Rescue::find($id);
             if($rescue->situation != 'completed'){
                 $rescue->type = $request->type_show_hidden;
                 $rescue->place = $request->place_show;
@@ -177,7 +182,7 @@ class RescueController extends Controller
                     'message' => 'No se puede actualizar el rescate, porque ya esta completado.'
                 ]);
             }
-            
+
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
