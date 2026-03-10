@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Rescue;
 use App\Models\Voluntary;
+use Illuminate\Support\Facades\DB;
 use Exception;
 use PDF;
 use Illuminate\Support\Facades\Storage;
@@ -62,6 +63,140 @@ class RescueController extends Controller
 
     public function store(Request $request){
         try{
+            if ($request->has('fecha_operativo')) {
+                $result = DB::transaction(function () use ($request) {
+                    $now = now();
+
+                    $rescateId = DB::table('rescates')->insertGetId([
+                        'fecha_operativo' => $request->input('fecha_operativo'),
+                        'hora_llamado' => $request->input('hora_llamado'),
+                        'tipo_emergencia' => $request->input('tipo_emergencia'),
+                        'nombre_llamado' => $request->input('nombre_llamado'),
+                        'telefono' => $request->input('telefono'),
+                        'nombre_completo' => $request->input('nombre_completo'),
+                        'rut_dni' => $request->input('rut_dni'),
+                        'edad' => $request->input('edad'),
+                        'sexo' => $request->input('sexo'),
+                        'estatura' => $request->input('estatura'),
+                        'peso' => $request->input('peso'),
+                        'telefono_afectado' => $request->input('telefono_afectado'),
+                        'condicion_fisica' => $request->input('condicion_fisica'),
+                        'lugar_exacto' => $request->input('lugar_exacto'),
+                        'latitud' => $request->input('latitud'),
+                        'longitud' => $request->input('longitud'),
+                        'altitud' => $request->input('altitud'),
+                        'ubicacion_vehiculo_rescate' => $request->input('ubicacion_vehiculo_rescate'),
+                        'condicion_sanitaria_inicial' => $request->input('condicion_sanitaria_inicial'),
+                        'eva_inicial' => $request->input('eva_inicial'),
+                        'msc_inicial' => $request->input('msc_inicial'),
+                        'estado_emocional_psicologico' => $request->input('estado_emocional_psicologico'),
+                        'resumen_acciones' => $request->input('resumen_acciones'),
+                        'medicamentos_administrados' => $request->input('medicamentos_administrados'),
+                        'metodo_evacuacion' => $request->input('metodo_evacuacion'),
+                        'destino_final_paciente' => $request->input('destino_final_paciente'),
+                        'descripcion_emergencia' => $request->input('descripcion_emergencia'),
+                        'observaciones_generales' => $request->input('observaciones_generales'),
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    DB::table('rescate_xabcde')->insert([
+                        'rescate_id' => $rescateId,
+                        'x_hemorragias' => $request->input('xabcde_x'),
+                        'a_via_aerea' => $request->input('xabcde_a'),
+                        'b_respiracion' => $request->input('xabcde_b'),
+                        'c_circulacion' => $request->input('xabcde_c'),
+                        'd_estado_neurologico' => $request->input('xabcde_d'),
+                        'e_exposicion' => $request->input('xabcde_e'),
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    DB::table('rescate_sample')->insert([
+                        'rescate_id' => $rescateId,
+                        'signos_sintomas' => $request->input('sample_signos_sintomas'),
+                        'alergias' => $request->input('sample_alergias'),
+                        'medicamentos' => $request->input('sample_medicamentos'),
+                        'patologias_previas' => $request->input('sample_patologias_previas'),
+                        'ultima_ingesta' => $request->input('sample_ultima_ingesta'),
+                        'eventos_previos' => $request->input('sample_eventos_previos'),
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    DB::table('rescate_bitacora')->insert([
+                        'rescate_id' => $rescateId,
+                        'emergencia_presencial' => $request->input('bitacora_emergencia_presencial'),
+                        'salida_cuartel' => $request->input('bitacora_salida_cuartel'),
+                        'llegada_acceso' => $request->input('bitacora_llegada_acceso'),
+                        'contacto_grupo' => $request->input('bitacora_contacto_grupo'),
+                        'evaluacion_sanitaria_inicial' => $request->input('bitacora_evaluacion_sanitaria_inicial'),
+                        'inicio_descenso' => $request->input('bitacora_inicio_descenso'),
+                        'llegada_extraccion' => $request->input('bitacora_llegada_extraccion'),
+                        'traslado_destino_final' => $request->input('bitacora_traslado_destino_final'),
+                        'regreso_cuartel' => $request->input('bitacora_regreso_cuartel'),
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]);
+
+                    $materiales = $request->input('material_equipo_utilizado', []);
+                    if (!is_array($materiales)) {
+                        $materiales = [];
+                    }
+
+                    $otros = trim((string) $request->input('material_equipo_otros'));
+                    if ($otros !== '') {
+                        $materiales[] = $otros;
+                    }
+
+                    $materiales = array_values(array_unique(array_filter(array_map('trim', $materiales), fn ($v) => $v !== '')));
+                    foreach ($materiales as $material) {
+                        DB::table('rescate_material_equipo')->insert([
+                            'rescate_id' => $rescateId,
+                            'material' => $material,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+
+                    $voluntarios = $request->input('voluntarios', []);
+                    if (!is_array($voluntarios)) {
+                        $voluntarios = [];
+                    }
+                    $voluntarios = array_values(array_unique(array_filter($voluntarios, fn ($v) => (string) $v !== '')));
+                    foreach ($voluntarios as $voluntarioId) {
+                        DB::table('rescate_voluntarios')->insert([
+                            'rescate_id' => $rescateId,
+                            'voluntario_id' => $voluntarioId,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+
+                    $instituciones = $request->input('instituciones', []);
+                    if (!is_array($instituciones)) {
+                        $instituciones = [];
+                    }
+                    $instituciones = array_values(array_unique(array_filter(array_map('trim', $instituciones), fn ($v) => $v !== '')));
+                    foreach ($instituciones as $institucion) {
+                        DB::table('rescate_instituciones')->insert([
+                            'rescate_id' => $rescateId,
+                            'institucion' => $institucion,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+
+                    return $rescateId;
+                });
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Rescate registrado correctamente',
+                    'rescate_id' => $result,
+                ]);
+            }
+
             $rescue = new Rescue();
             $rescue->type = $request->type;
             $rescue->place = $request->place;
