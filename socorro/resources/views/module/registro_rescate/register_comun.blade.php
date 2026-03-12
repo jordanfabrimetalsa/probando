@@ -31,13 +31,13 @@
                                     </div>
                                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label>Lugar de Emergencia</label>
-                                        <input type="text" name="lugar_emergencia" id="lugar_emergencia" value="{{ old('lugar_emergencia') }}"
+                                        <input type="text" name="lugar" id="lugar" value="{{ old('lugar') }}"
                                             class="form-control" placeholder="Lugar de Emergencia" required>
                                     </div>
-                                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label for="type" class="form-label">Tipo de Emergencia</label>
                                         <select class="form-select border border-gray p-2"
-                                            aria-label="Default select example" name="type" id="type" required>
+                                            aria-label="Default select example" name="tipo_emergencia" id="tipo_emergencia" required>
                                             <option selected disabled>Seleccione el Tipo</option>
                                             <option value="rescate_en_altura">Rescate en Altura</option>
                                             <option value="persona_lesionada">Persona Lesionada</option>
@@ -46,13 +46,13 @@
                                             <option value="recuperacion">Recuperación</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label>Nombre de quien realiza el llamado</label>
                                         <input type="text" name="nombre_llamado" id="nombre_llamado" value="{{ old('nombre_llamado') }}"
                                             class="form-control"
                                             placeholder="Nombre de quien realiza el llamado" required>
                                     </div>
-                                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label>Telefono</label>
                                         <input type="text" name="telefono" id="telefono" class="form-control"
                                             value="{{ old('telefono') }}" required>
@@ -152,7 +152,7 @@
                                     <h5 class="modal-title mb-2">4.- Situación inicial</h5>
                                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label>Condición sanitaria inicial reportada</label>
-                                        <textarea name="condicion_sanitaria_inicial" id="condicion_sanitaria_inicial" class="form-control" placeholder="Condición sanitaria inicial">{{ old('condicion_sanitaria_inicial') }}</textarea>
+                                        <textarea name="condicion_sanitaria_inicial" id="condicion_sanitaria_inicial" class="form-control" placeholder="Condición sanitaria inicial" required>{{ old('condicion_sanitaria_inicial') }}</textarea>
                                     </div>
                                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                                         <label>Evaluación EVA</label>
@@ -346,22 +346,22 @@
                                             <h5 class="modal-title mb-2">8.- Bitacora</h5>
                                             <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                                                 <label>Emergencia Presencial</label>
-                                                <textarea name="bitacora_emergencia_presencial" id="bitacora_emergencia_presencial" class="form-control" placeholder="Emergencia Presencial">{{ old('bitacora_emergencia_presencial') }}</textarea>
+                                                <textarea name="bitacora_emergencia_presencial" id="bitacora_emergencia_presencial" class="form-control" placeholder="Emergencia Presencial" required>{{ old('bitacora_emergencia_presencial') }}</textarea>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Salida del Cuartel/Base</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_salida_cuartel" id="bitacora_salida_cuartel" value="{{ old('bitacora_salida_cuartel') }}">
+                                                    name="bitacora_salida_cuartel" id="bitacora_salida_cuartel" value="{{ old('bitacora_salida_cuartel') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Llegada al punto de acceso</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_llegada_acceso" id="bitacora_llegada_acceso" value="{{ old('bitacora_llegada_acceso') }}">
+                                                    name="bitacora_llegada_acceso" id="bitacora_llegada_acceso" value="{{ old('bitacora_llegada_acceso') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Contacto con el grupo</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_contacto_grupo" id="bitacora_contacto_grupo" value="{{ old('bitacora_contacto_grupo') }}">
+                                                    name="bitacora_contacto_grupo" id="bitacora_contacto_grupo" value="{{ old('bitacora_contacto_grupo') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
                                                 <label>Evaluacion sanitaria inicial</label>
@@ -370,22 +370,22 @@
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Inicio del descenso</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_inicio_descenso" id="bitacora_inicio_descenso" value="{{ old('bitacora_inicio_descenso') }}">
+                                                    name="bitacora_inicio_descenso" id="bitacora_inicio_descenso" value="{{ old('bitacora_inicio_descenso') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Llegada al punto de extracción</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_llegada_extraccion" id="bitacora_llegada_extraccion" value="{{ old('bitacora_llegada_extraccion') }}">
+                                                    name="bitacora_llegada_extraccion" id="bitacora_llegada_extraccion" value="{{ old('bitacora_llegada_extraccion') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Traslado al destino final</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_traslado_destino_final" id="bitacora_traslado_destino_final" value="{{ old('bitacora_traslado_destino_final') }}">
+                                                    name="bitacora_traslado_destino_final" id="bitacora_traslado_destino_final" value="{{ old('bitacora_traslado_destino_final') }}" required>
                                             </div>
                                             <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
                                                 <label>Regreso al cuartel/base</label>
                                                 <input class="form-control" type="time"
-                                                    name="bitacora_regreso_cuartel" id="bitacora_regreso_cuartel" value="{{ old('bitacora_regreso_cuartel') }}">
+                                                    name="bitacora_regreso_cuartel" id="bitacora_regreso_cuartel" value="{{ old('bitacora_regreso_cuartel') }}" required>
                                             </div>
                                         </div>
 
@@ -458,7 +458,7 @@
                                         <div class="row p-2">
                                             <h5 class="modal-title mb-2">11.- Descripción de la emergencia</h5>
                                             <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
-                                                <textarea name="descripcion_emergencia" id="descripcion_emergencia" class="form-control" placeholder="Descripción de la emergencia">{{ old('descripcion_emergencia') }}</textarea>
+                                                <textarea name="descripcion_emergencia" id="descripcion_emergencia" class="form-control" placeholder="Descripción de la emergencia" required>{{ old('descripcion_emergencia') }}</textarea>
                                             </div>
                                         </div>
 

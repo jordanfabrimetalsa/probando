@@ -71,6 +71,7 @@ class RescueController extends Controller
                         'fecha_operativo' => $request->input('fecha_operativo'),
                         'hora_llamado' => $request->input('hora_llamado'),
                         'tipo_emergencia' => $request->input('tipo_emergencia'),
+                        'lugar' => $request->input('lugar'),
                         'nombre_llamado' => $request->input('nombre_llamado'),
                         'telefono' => $request->input('telefono'),
                         'nombre_completo' => $request->input('nombre_completo'),
@@ -96,6 +97,8 @@ class RescueController extends Controller
                         'destino_final_paciente' => $request->input('destino_final_paciente'),
                         'descripcion_emergencia' => $request->input('descripcion_emergencia'),
                         'observaciones_generales' => $request->input('observaciones_generales'),
+                        'id_delegation' => session('voluntary.delegation_id'),
+                        'id_usuario' => Auth::user()->id,
                         'created_at' => $now,
                         'updated_at' => $now,
                     ]);
@@ -197,52 +200,9 @@ class RescueController extends Controller
                 ]);
             }
 
-            $rescue = new Rescue();
-            $rescue->type = $request->type;
-            $rescue->place = $request->place;
-            $rescue->road = $request->road;
-            $rescue->weather = $request->weather;
-            $rescue->kilometer_total = $request->kilometer_total;
-            $rescue->different_height = $request->different_height;
-            $rescue->quantity_people = $request->quantity_people;
-            $rescue->quantity_voluntaries = $request->quantity_voluntaries;
-            $rescue->helper_external = $request->helper_external;
-            $rescue->external_helper = $request->external_helper;
-
-            $rescue->name_accident = $request->name_accident;
-            $rescue->phone_accident = $request->phone_accident;
-            $rescue->email_accident = $request->email_accident;
-            $rescue->address = $request->address;
-            $rescue->city = $request->city;
-            $rescue->state = $request->state;
-
-            $rescue->allergic = $request->allergic;
-            $rescue->disease = $request->disease;
-            $rescue->date_call = $request->date_call;
-            $rescue->date_start_trek = $request->date_start_trek;
-            $rescue->date_middle_trek = $request->date_middle_trek;
-            $rescue->date_finish_rescue = $request->date_finish_rescue;
-            $rescue->injury = $request->injury;
-            $rescue->gravity = $request->gravity;
-            $rescue->medical_assistance = $request->medical_assistance;
-            $rescue->Stretcher = $request->Stretcher;
-            $rescue->type_transport = $request->type_transport;
-            $rescue->helicopter = $request->helicopter;
-            $rescue->voluntario_id = $request->voluntary_id;
-            $rescue->user_id = Auth::user()->id;
-            $rescue->situation = $request->situation;
-            $rescue->observations = $request->observations;
-            $rescue->save();
-
-            $pdf = PDF::loadView('module.pdf.rescue', compact('rescue'));
-
-            $relativePath = "rescues/rescue_{$rescue->id}.pdf"; // dentro de 'public' disk
-            Storage::disk('public')->put($relativePath, $pdf->output());
-
             return response()->json([
                 'status' => 'success',
-                'message' => 'Rescate registrado correctamente',
-                'download_url' => Storage::disk('public')->url($relativePath) // opcional
+                'message' => 'Rescate registrado correctamente'
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -250,21 +210,6 @@ class RescueController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
-    }
-
-    public function pdf($id)
-    {
-        $rescue = \App\Models\Rescue::findOrFail($id);
-        $path = "rescues/rescue_{$rescue->id}.pdf";
-
-        if (!Storage::disk('public')->exists($path)) {
-            $pdf = PDF::loadView('module.pdf.rescue', compact('rescue'));
-            Storage::disk('public')->put($path, $pdf->output());
-        }
-
-        $absolutePath = \Storage::disk('public')->path($path);
-
-        return response()->file($absolutePath);
     }
 
     public function update(Request $request, $id){

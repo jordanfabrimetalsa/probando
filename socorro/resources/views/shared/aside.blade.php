@@ -108,7 +108,7 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
                 <i class="material-symbols-rounded opacity-5">checkbook</i>
-                <span class="nav-link-text ms-1">Administrador de rescates</span>
+                <span class="nav-link-text ms-1">Administrador de rescates </span>
                 </a>
             </li>
 

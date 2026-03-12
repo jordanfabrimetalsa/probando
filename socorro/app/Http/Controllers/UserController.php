@@ -167,9 +167,11 @@ class UserController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if($user){
+                $voluntary = Voluntary::find($user->voluntary_id);
                 if(Hash::check($request->password, $user->password)){
                     Auth::login($user);
                     $request->session()->regenerate();
+                    $request->session()->put('voluntary', $voluntary);
                     return redirect()->route('dashboard');
                 }else{
                     return redirect()->route('login')->with('error', 'Contraseña incorrecta');
