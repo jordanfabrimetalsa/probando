@@ -569,6 +569,9 @@
                     });
 
                     if (response.status === 'success') {
+                        if (response.download_url) {
+                            window.open(response.download_url, '_blank');
+                        }
                         $('#formRescue')[0].reset();
                         datatableRescue.ajax.reload();
                         $('#CreateModal').modal('hide');
