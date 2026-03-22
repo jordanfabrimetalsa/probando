@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Delegation;
+use App\Models\Cargo;
 use App\Models\Image_Voluntary;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +13,7 @@ class Voluntary extends Model
 
     protected $fillable = [
         'delegation_id',
+        'cargo_id',
         'document',
         'name',
         'lastname',
@@ -35,6 +37,10 @@ class Voluntary extends Model
     public function delegation()
     {
         return $this->belongsTo(Delegation::class, 'delegation_id', 'id');
+    }
+
+    public function cargo(){
+        return $this->belongsTo(Cargo::class, 'cargo_id', 'id');
     }
 
     public function images()

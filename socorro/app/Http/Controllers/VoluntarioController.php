@@ -9,6 +9,8 @@ use App\Models\Delegation;
 use App\Models\Image_Voluntary;
 use App\Models\Emergency;
 use App\Models\Remark;
+use App\Models\Cargo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class VoluntarioController extends Controller
@@ -16,13 +18,14 @@ class VoluntarioController extends Controller
 
     public function index()
     {
+        $cargos = Cargo::all();
         $delegations = Delegation::all();
-        return view('module.voluntario.index', compact('delegations'));
+        return view('module.voluntario.index', compact('delegations', 'cargos'));
     }
 
     public function data()
     {
-        $voluntarios = Voluntary::with('delegation')->get();
+        $voluntarios = Voluntary::with('delegation', 'cargo')->get();
         return response()->json($voluntarios);
     }
 
@@ -48,6 +51,7 @@ class VoluntarioController extends Controller
             $voluntary->blood_type = $request->blood_type;
             $voluntary->type = $request->type;
             $voluntary->status = $request->status;
+            $voluntary->init_voluntary = $request->init_voluntary;
             $voluntary->busy = false;
 
             if($voluntary->save()){
@@ -78,7 +82,7 @@ class VoluntarioController extends Controller
     public function show(string $id)
     {
         try{
-            $voluntary = Voluntary::with(['delegation', 'images'])->find($id);
+            $voluntary = Voluntary::with(['delegation', 'images', 'cargo'])->find($id);
             if (!$voluntary) {
                 return response()->json([
                     'status' => 'error',
@@ -92,9 +96,8 @@ class VoluntarioController extends Controller
                 $fullPath = storage_path('app/public/' . $imagePath);
                 $voluntary->image = env('APP_URL') . '/storage/' . $imagePath;
             }
-
+            $voluntary->remark = Remark::with('user')->where('voluntary_id', $id)->get();
             $voluntary->emergency = Emergency::where('voluntary_id', $id)->get();
-            $voluntary->remark = Remark::where('voluntary_id', $id)->get();
             return response()->json($voluntary);
         } catch (Exception $e) {
             return response()->json([
@@ -121,6 +124,8 @@ class VoluntarioController extends Controller
     {
         try{
             $voluntary = Voluntary::find($id);
+            $voluntary->cargo_id = $request->cargo_edit;
+            $voluntary->blood_type = $request->blood_type;
             $voluntary->vehicle = $request->vehicle;
             $voluntary->license = $request->license;
             $voluntary->type = $request->type;
@@ -183,6 +188,7 @@ class VoluntarioController extends Controller
             $remark->voluntary_id = $request->id_user_remark;
             $remark->remark = $request->remark;
             $remark->gravity = $request->gravity;
+            $remark->responsable_id = Auth::user()->id;
             $remark->save();
 
             return response()->json(['success' => 'Voluntario actualizado correctamente']);
@@ -190,6 +196,25 @@ class VoluntarioController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error al actualizar el voluntario'
+            ], 500);
+        }
+    }
+
+    public function storeCargo(Request $request){
+        try{
+            $request->validate([
+                'name' => ['required', 'string', 'max:100'],
+            ]);
+
+            $cargo = new Cargo();
+            $cargo->nombre = $request->name;
+            $cargo->save();
+
+            return response()->json(['success' => 'Cargo creado correctamente']);
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al crear el cargo: ' . $e->getMessage()
             ], 500);
         }
     }

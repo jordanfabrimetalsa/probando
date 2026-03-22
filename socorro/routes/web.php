@@ -18,6 +18,7 @@ use App\Http\Controllers\PostulationController;
 use App\Http\Controllers\PostulationsPeopleController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\CargoController;
 
 Route::get('/', [MainDrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -97,6 +98,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [VoluntarioController::class,'edit'])->name('voluntarios.edit');
         Route::put('/update/{id}', [VoluntarioController::class,'update'])->name('voluntarios.update');
         Route::delete('/destroy/{id}', [VoluntarioController::class,'destroy'])->name('voluntarios.destroy');
+        Route::get('/cargos', [VoluntarioController::class,'getCargos'])->name('voluntarios.cargos');
+        Route::post('/storeCargo', [VoluntarioController::class, 'storeCargo'])->name('voluntarios.storeCargo');
     });
 
     Route::prefix('inventario')->middleware('checkrole:admin')->group(function(){

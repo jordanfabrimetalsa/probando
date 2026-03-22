@@ -93,10 +93,25 @@
                                             <div class="col-6">
                                                 <ul class="list-group">
                                                     <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                            class="text-dark">Cargo:</strong> &nbsp; <span
+                                                            id="cargo_show"></span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-6">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                            class="text-dark">Fecha Inicio Voluntariado:</strong> &nbsp; <span
+                                                            id="init_voluntary_show"></span></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-6">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                             class="text-dark">Tiempo Servicio:</strong> &nbsp; <span
                                                             id="servicio_show"></span></li>
                                                 </ul>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

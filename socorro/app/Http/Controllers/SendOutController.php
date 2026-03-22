@@ -58,6 +58,7 @@ class SendOutController extends Controller
             $sendout->departure_date = $request->departure_date;
             $sendout->return_date = $request->return_date;
             $sendout->active = 1;
+            $sendout->file_path = null;
 
             // Guardar el archivo ANTES de guardar el modelo
             if ($request->hasFile('file_path')) {

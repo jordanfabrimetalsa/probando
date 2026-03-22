@@ -34,6 +34,9 @@
                                             Estado</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">
+                                            Cargo</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">
                                             Acciones</th>
                                     </tr>
                                 </thead>
@@ -53,6 +56,7 @@
     @include('module.voluntario.show')
     @include('module.voluntario.call')
     @include('module.voluntario.remark')
+    @include('module.voluntario.create_cargo')
 
 @endsection
 
@@ -82,21 +86,38 @@
                     {
                         data: 'type',
                         render: function(data) {
-                            return data === 'V' ?
-                                '<span class="badge bg-success">Voluntario</span>' :
-                                '<span class="badge bg-danger">Aspirante</span>';
+                            switch (data) {
+                                case 'V':
+                                    return '<span class="badge bg-success">Voluntario</span>';
+                                case 'A':
+                                    return '<span class="badge bg-danger">Aspirante</span>';
+                                case 'H':
+                                    return '<span class="badge bg-warning">Honoraria</span>';
+                                default:
+                                    return '<span class="badge bg-secondary">Cooperador</span>';
+                            }
                         }
                     },
                     {
                         data: 'status',
                         render: function(data) {
-                            return data == 'A' ?
-                                '<span class="badge bg-success">Activo</span>' :
-                                data == 'I' ?
-                                '<span class="badge bg-danger">Inactivo</span>' :
-                                data == 'S' ?
-                                '<span class="badge bg-warning">Suspendido</span>' :
-                                '<span class="badge bg-secondary">Receso</span>';
+                            switch (data) {
+                                case 'A':
+                                    return '<span class="badge bg-success">Activo</span>';
+                                case 'I':
+                                    return '<span class="badge bg-danger">Inactivo</span>';
+                                case 'S':
+                                    return '<span class="badge bg-warning">Suspendido</span>';
+                                default:
+                                    return '<span class="badge bg-secondary">Receso</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            const cargoNombre = row && row.cargo ? row.cargo.nombre : null;
+                            return cargoNombre ? '<p class="text-xs text-secondary mb-0">' + cargoNombre + '</p>' : '<p class="text-xs text-secondary mb-0">-</p>';
                         }
                     },
                     {
@@ -128,6 +149,11 @@
                         text: '<i class="fa-solid fa-circle-plus"></i>',
                         className: 'btn btn-dark me-2',
                         action: () => $('#CreateModal').modal('show')
+                    },
+                    {
+                        text: '<i class="fa-solid fa-chart-diagram"></i>',
+                        className: 'btn btn-dark me-2',
+                        action: () => $('#CreateModalCargo').modal('show')
                     },
                     {
                         extend: 'excelHtml5',
@@ -184,7 +210,7 @@
                         return $('<tr/>')
                             .addClass('group-header bg-dark')
                             .append(
-                                `<td colspan="5" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`
+                                `<td colspan="6" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`
                             );
                     }
                 }
@@ -216,6 +242,7 @@
                         $('#age_show').text(age + ' años');
 
                         var servicio = moment().diff(moment(response.init_voluntary), 'years');
+                        $('#init_voluntary_show').text(moment(response.init_voluntary).format('DD/MM/YYYY'));
                         $('#servicio_show').text(servicio + ' años');
                         $('#address_show').text(response.address);
                         $('#profession_show').text(response.profession);
@@ -239,13 +266,14 @@
                             case 'S':
                                 statusText = '<span class="badge bg-warning">Suspendido</span>';
                                 break;
-                            case 'R':
+                            default:
                                 statusText = '<span class="badge bg-secondary">Receso</span>';
                                 break;
                         }
                         $('#status_show').html(statusText);
                         $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia de Conducir') : $('#text_license_show').text('No tiene licencia'));
                         $('#blood_type_show').text(response.blood_type);
+                        $('#cargo_show').text(response.cargo?.nombre || 'Sin Cargo Institucional');
                         var statusTextType = '';
                         switch (response.type) {
                             case 'V':
@@ -302,11 +330,15 @@
                                     gravity = 'Extremo';
                                     colour = 'danger';
                                     break;
+                                case '0':
+                                    gravity = 'Felicitaciones';
+                                    colour = 'success';
+                                    break;
                             }
 
                             remark += `<li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                               <div class="d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">${element.remark}</h6>
+                                <h6 class="mb-0 text-sm">${element.remark} - "${element.user ? element.user.name : 'Sin usuario asignado'}"</h6>
                                 <p class="mb-0 text-xs">${moment(element.created_at).format('DD-MM-YYYY')} <span class="badge bg-${colour}">${gravity}</span></p>
                               </div>
                             </li>`;
@@ -358,6 +390,35 @@
                 }
             })
         })
+
+        $('#formCargo').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: '{{ route('voluntarios.storeCargo') }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Exito.',
+                        text: 'Cargo registrado correctamente',
+                    });
+                    $('#formCargo')[0].reset();
+                    datatableVoluntaries.ajax.reload();
+                },
+                error: function(error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error.',
+                        text: 'Error al registrar cargo' + JSON.stringify(error),
+                    });
+                }
+            })
+        })
+
         $('#formVoluntaryEdit').submit(function(e) {
             e.preventDefault();
             let id = $('#id').val();
@@ -408,6 +469,17 @@
                     $('#type_edit').val(response.type);
                     $('#status_edit').val(response.status);
                     $('#name_edit').text(response.name);
+                    const cargoId = response.cargo_id ?? '';
+                    $('#cargo_edit').val(cargoId);
+                    if ($('#cargo_edit').val() != String(cargoId)) {
+                        $('#cargo_edit').val('');
+                    }
+
+                    const bloodType = response.blood_type ?? '';
+                    $('#blood_type_edit').val(bloodType);
+                    if ($('#blood_type_edit').val() != String(bloodType)) {
+                        $('#blood_type_edit').val('');
+                    }
                     $('#id').val(response.id);
                 },
                 error: function(error) {

@@ -67,13 +67,9 @@ class RescueController extends Controller
 public function store(Request $request)
 {
     try{
-
         if ($request->has('fecha_operativo')) {
-
             $rescateId = DB::transaction(function () use ($request) {
-
                 $now = now();
-
                 $rescateId = DB::table('rescates')->insertGetId([
                     'fecha_operativo' => $request->input('fecha_operativo'),
                     'hora_llamado' => $request->input('hora_llamado'),
