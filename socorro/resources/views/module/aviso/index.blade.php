@@ -466,12 +466,14 @@
                                     '';
 
                                 return `
-                      ${disabled_aperture}
-                      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
-                      <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>
-                      <a href="${data.download_url}" class="btn btn-dark"><i class="fa-solid fa-map-location-dot"></i></a>`;
+                                    ${disabled_aperture}
+                                    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
+                                    <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>
+                                    <a href="${data.download_url}" class="btn btn-dark"><i class="fa-solid fa-map-location-dot"></i></a>`;
                             }
-                            return 'Sin archivo';
+                            return `${disabled_aperture}
+                                    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
+                                    <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>`;
                         }
                     }
                 ]
