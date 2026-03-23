@@ -206,6 +206,20 @@ public function store(Request $request)
                     'updated_at' => $now,
                 ]);
 
+                DB::table('rescate_voluntarios')->insert([
+                    'rescate_id' => $rescateId,
+                    'voluntario_id' => $request->input('voluntario_id'),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+
+                DB::table('rescate_instituciones')->insert([
+                    'rescate_id' => $rescateId,
+                    'institucion_id' => $request->input('institucion_id'),
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+
                 return $rescateId;
             });
 
