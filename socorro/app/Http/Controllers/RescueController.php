@@ -326,7 +326,10 @@ public function store(Request $request)
     }
 
     public function destroy($id){
-        $rescue = Rescue::find($id);
+        $rescue =
+        DB::table('rescates')
+        ->where('id', $id)
+        ->first();
 
         if(!$rescue){
             return response()->json([
@@ -335,7 +338,7 @@ public function store(Request $request)
             ], 404);
         }
 
-        $rescue->delete();
+        DB::table('rescates')->where('id', $id)->delete();
 
         return response()->json([
             'status' => 'success',
