@@ -28,7 +28,7 @@ class RescueController extends Controller
 
     public function data(){
         try{
-            $rescue = Rescue::all();
+            $rescue = DB::table('rescates')->get();
             return response()->json($rescue);
         }catch(Exception $e){
             return response()->json([
@@ -40,9 +40,8 @@ class RescueController extends Controller
 
     public function show($id){
         try{
-            $rescue = Rescue::join('voluntaries', 'rescue.voluntario_id', '=', 'voluntaries.id')
-                            ->select('rescue.*', 'voluntaries.name as voluntary_name', 'voluntaries.lastname as voluntary_lastname')
-                            ->find($id);
+            // Primero obtener datos básicos del rescate
+            $rescue = DB::table('rescates')->where('id', $id)->first();
 
             if(!$rescue){
                 return response()->json([
@@ -51,9 +50,71 @@ class RescueController extends Controller
                 ], 404);
             }
 
+            // Intentar obtener datos relacionados solo si las tablas existen
+            $voluntaries = [];
+            $instituciones = [];
+            $xabcde = null;
+            $sample = null;
+
+            try {
+                // Obtener voluntarios relacionados
+                $voluntaries = DB::table('rescate_voluntaries')
+                                ->join('voluntaries', 'rescate_voluntaries.voluntary_id', '=', 'voluntaries.id')
+                                ->where('rescate_voluntaries.rescate_id', $id)
+                                ->select('voluntaries.id', 'voluntaries.name', 'voluntaries.lastname')
+                                ->get();
+            } catch (Exception $e) {
+                // Tabla no existe, continuar sin voluntarios
+            }
+
+            try {
+                // Obtener instituciones relacionadas
+                $instituciones = DB::table('rescate_instituciones')
+                                  ->where('rescate_instituciones.rescate_id', $id)
+                                  ->pluck('institucion');
+            } catch (Exception $e) {
+                // Tabla no existe, continuar sin instituciones
+            }
+
+            try {
+                // Obtener datos XABCDE si existen
+                $xabcde = DB::table('rescate_xabcde')
+                           ->where('rescate_id', $id)
+                           ->first();
+            } catch (Exception $e) {
+                // Tabla no existe, continuar sin xabcde
+            }
+
+            try {
+                // Obtener datos SAMPLE si existen
+                $sample = DB::table('rescate_sample')
+                          ->where('rescate_id', $id)
+                          ->first();
+            } catch (Exception $e) {
+                // Tabla no existe, continuar sin sample
+            }
+
+
+            try {
+                // Obtener datos BITACORA si existen
+                $bitacora = DB::table('rescate_bitacora')
+                            ->where('rescate_id', $id)
+                            ->first();
+            } catch (Exception $e) {
+                // Tabla no existe, continuar sin bitacora
+            }
+
+            // Combinar todos los datos
+            $rescueData = (array) $rescue;
+            $rescueData['voluntaries'] = $voluntaries;
+            $rescueData['instituciones'] = $instituciones;
+            $rescueData['xabcde'] = $xabcde;
+            $rescueData['sample'] = $sample;
+            $rescueData['bitacora'] = $bitacora;
+
             return response()->json([
                 'status' => 'success',
-                'data' => $rescue
+                'data' => $rescueData
             ], 200);
 
         }catch(Exception $e){

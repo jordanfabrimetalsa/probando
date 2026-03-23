@@ -2,256 +2,288 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content modal-extra-background">
         <div class="modal-header">
-          <h5 class="modal-title" id="ShowModalLabel"><i class="fa-solid fa-register"></i> Información del Rescate</h5>
+          <h5 class="modal-title" id="ShowModalLabel"><i class="fa-solid fa-map-location-dot"></i> Detalles del Rescate</h5>
           <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id="formRescueUpdate" class="form" method="POST">
             @method('PUT')
             @csrf
-            <div class="border mb-4">
-                <div class="row p-2">
-                    <h5 class="modal-title mb-2 text-center">Información General</h5>
-                    <input type="hidden" name="id_show" id="id_show">
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="type" class="form-label">Tipo</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="type_show" id="type_show">
-                            <option selected>Seleccione el Tipo</option>
-                            <option value="accident">Accidente</option>
-                            <option value="search">Busqueda</option>
-                            <option value="passing">Recuperación</option>
-                        </select>
-                        <input type="hidden" name="type_show_hidden" id="type_show_hidden">
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="place" class="form-label">Lugar/Montaña</label>
-                        <input type="text" class="form-control border border-gray p-2" name="place_show" id="place_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="road" class="form-label">Ruta</label>
-                        <input type="text" class="form-control border border-gray p-2" name="road_show" id="road_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="weather" class="form-label">Clima</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="weather_show" id="weather_show">
-                            <option selected>Seleccione el Clima</option>
-                            <option value="hot">Despejado</option>
-                            <option value="cloudy">Nublado</option>
-                            <option value="rainy">Lluvia</option>
-                            <option value="snowy">Nieve</option>
-                            <option value="stormy">Tormenta</option>
-                            <option value="windy">Ventoso</option>
-                        </select>
-                        <input type="hidden" name="weather_show_hidden" id="weather_show_hidden">
-                    </div>
+            <input type="hidden" name="id_show" id="id_show">
 
-                </div>
-                <div class="row p-2">
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="kilometer_total" class="form-label">Kilometraje Total</label>
-                        <input type="number" class="form-control border border-gray p-2" name="kilometer_total_show" id="kilometer_total_show" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="different_height" class="form-label">Desnivel</label>
-                        <input type="number" class="form-control border border-gray p-2" name="different_height_show" id="different_height_show" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="quantity_people" class="form-label">Cantidad de personas</label>
-                        <input type="number" class="form-control border border-gray p-2" name="quantity_people_show" id="quantity_people_show" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
-                        <label for="quantity_voluntaries" class="form-label">Cantidad de voluntarios</label>
-                        <input type="number" class="form-control border border-gray p-2" name="quantity_voluntaries_show" id="quantity_voluntaries_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="helper_external" class="form-label">Ayuda Externa</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="helper_external_show" id="helper_external_show">
-                            <option selected>Seleccione el Ayudante Externo</option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                        <input type="hidden" name="helper_external_show_hidden" id="helper_external_show_hidden">
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="external_helper" class="form-label">Institucion Externa</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="external_helper_show" id="external_helper_show">
-                            <option selected>Seleccione el Ayudante Externo</option>
-                            <option value="gope">Gope</option>
-                            <option value="conaf">Conaf</option>
-                            <option value="bomberos">Bomberos</option>
-                            <option value="carabineros">Carabineros</option>
-                            <option value="parme">PARME</option>
-                            <option value="gremm">Gremm</option>
-                            <option value="unrem">UNIREM</option>
-                            <option value="rio_montaña">Rio Montaña</option>
-                            <option value="alfa_andino">Alfa Andino</option>
-                            <option value="pdi">PDI</option>
-                            <option value="seguridad_privada">Seguridad Privada</option>
-                            <option value="otros">Otros</option>
-                        </select>
-                        <input type="hidden" name="external_helper_show_hidden" id="external_helper_show_hidden">
-                    </div>
-                </div>
-            </div>
             <div class="border mb-4">
                 <div class="row p-2">
-                    <h5 class="modal-title mb-2 text-center">Información del Accidentado</h5>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="name_accident" class="form-label">Nombre Accidentado</label>
-                        <input type="text" class="form-control border border-gray p-2" name="name_accident_show" id="name_accident_show" aria-describedby="emailHelp" readonly>
+                    <h5 class="modal-title mb-2">1.- Datos generales del operativo</h5>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Fecha del Operativo</label>
+                        <input type="date" name="fecha_operativo_show" id="fecha_operativo_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="phone_accident" class="form-label">Telefono</label>
-                        <input type="number" class="form-control border border-gray p-2" name="phone_accident_show" id="phone_accident_show" aria-describedby="emailHelp">
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Hora del llamado de emergencia</label>
+                        <input type="time" name="hora_llamado_show" id="hora_llamado_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="email_accident" class="form-label">Correo</label>
-                        <input type="email" class="form-control border border-gray p-2" name="email_accident_show" id="email_accident_show" aria-describedby="emailHelp">
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Lugar de Emergencia</label>
+                        <input type="text" name="lugar_show" id="lugar_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="address" class="form-label">Direccion</label>
-                        <input type="text" class="form-control border border-gray p-2" name="address_show" id="address_show" aria-describedby="emailHelp">
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Tipo de Emergencia</label>
+                        <input type="text" name="tipo_emergencia_show" id="tipo_emergencia_show" class="form-control" readonly>
                     </div>
-                </div>
-                <div class="row p-2">
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="city" class="form-label">Comuna</label>
-                        <input type="text" class="form-control border border-gray p-2" name="city_show" id="city_show" aria-describedby="emailHelp">
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Nombre de quien realiza el llamado</label>
+                        <input type="text" name="nombre_llamado_show" id="nombre_llamado_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="state" class="form-label">Region</label>
-                        <input type="text" class="form-control border border-gray p-2" name="state_show" id="state_show" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="allergic" class="form-label">¿Alergico?</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="allergic_show" id="allergic_show">
-                            <option selected>Seleccione </option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-2 col-lg-3 col-md-6 col-sm-12">
-                        <label for="disease" class="form-label">¿Enfermedad?</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="disease_show" id="disease_show">
-                            <option selected>Seleccione</option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="border mb-4">
-                <div class="row p-2">
-                    <h5 class="modal-title mb-2 text-center">Detalle del Rescate</h5>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="date_call" class="form-label">Fecha de Llamada</label>
-                        <input type="datetime-local" class="form-control border border-gray p-2" name="date_call_show" id="date_call_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="date_start_trek" class="form-label">Fecha de Inicio del Rescate</label>
-                        <input type="datetime-local" class="form-control border border-gray p-2" name="date_start_trek_show" id="date_start_trek_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="date_middle_trek" class="form-label">Fecha de Encuentro Rescatado</label>
-                        <input type="datetime-local" class="form-control border border-gray p-2" name="date_middle_trek_show" id="date_middle_trek_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="date_finish_rescue" class="form-label">Fecha de Finalizacion Rescate</label>
-                        <input type="datetime-local" class="form-control border border-gray p-2" name="date_finish_rescue_show" id="date_finish_rescue_show" aria-describedby="emailHelp" readonly>
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="injury" class="form-label">Tipo de Lesión</label>
-                        <input type="text" class="form-control border border-gray p-2" name="injury_show" id="injury_show" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="gravity" class="form-label">Gravedad de Lesión</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="gravity_show" id="gravity_show">
-                            <option selected>Seleccione </option>
-                            <option value="leve">Leve</option>
-                            <option value="medio">Medio</option>
-                            <option value="grave">Grave</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="medical_assistance" class="form-label">¿Requirio Asistencia Medica?</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="medical_assistance_show" id="medical_assistance_show" >
-                            <option selected>Seleccione </option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                        <input type="hidden" name="medical_assistance_show_hidden" id="medical_assistance_show_hidden">
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="Stretcher" class="form-label">¿Requirio Camillaje?</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="Stretcher_show" id="Stretcher_show" >
-                            <option selected>Seleccione</option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                        <input type="hidden" name="Stretcher_show_hidden" id="Stretcher_show_hidden">
-                    </div>
-                </div>
-                <div class="row p-2">
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="transport" class="form-label">Tipo Transporte</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="type_transport_show" id="type_transport_show" >
-                            <option selected>Seleccione</option>
-                            <option value="sked">Sked</option>
-                            <option value="kong">Kong</option>
-                        </select>
-                        <input type="hidden" name="type_transport_show_hidden" id="type_transport_show_hidden">
-                    </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="helicopter" class="form-label">¿Requirio Helitransporte?</label>
-                        <select disabled class="form-select border border-gray p-2" aria-label="Default select example" name="helicopter_show" id="helicopter_show">
-                            <option selected>Seleccione</option>
-                            <option value="yes">Si</option>
-                            <option value="no">No</option>
-                        </select>
-                        <input type="hidden" name="helicopter_show_hidden" id="helicopter_show_hidden">
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono_show" id="telefono_show" class="form-control" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="border mb-4">
                 <div class="row p-2">
-                    <h5 class="modal-title mb-2 text-center">Estado Actual</h5>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="name_accident" class="form-label">Jefe de Operaciones</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id_show" id="voluntary_id_show">
-                            <option selected disabled>Seleccionar Jefe de Operación</option>
-                            @foreach ($voluntaries as $voluntary)
-                                <option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>
-                            @endforeach
-                        </select>
-                        <input type="hidden" name="voluntary_id_show_hidden" id="voluntary_id_show_hidden">
+                    <h5 class="modal-title mb-2">2.- Información de la persona lesionada/afectada</h5>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Nombre Completo</label>
+                        <input type="text" name="nombre_completo_show" id="nombre_completo_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-6 col-md-6 col-sm-12">
-                        <label for="transport" class="form-label">Estado de Emergencia</label>
-                        <select class="form-select border border-gray p-2" aria-label="Default select example" name="situation_show" id="situation_show">
-                            <option selected>Seleccione</option>
-                            <option value="pending">Pendiente</option>
-                            <option value="in_progress">En Proceso</option>
-                            <option value="completed">Completado</option>
-                        </select>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>RUT/DNI</label>
+                        <input type="text" name="rut_dni_show" id="rut_dni_show" class="form-control" readonly>
                     </div>
-                    <div class="mb-2 col-lg-12 col-md-12 col-sm-12">
-                        <label for="observations" class="form-label">Observación</label>
-                        <textarea class="form-control border border-gray p-2" id="observations_show" name="observations_show" aria-describedby="emailHelp"></textarea>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Edad</label>
+                        <input type="number" name="edad_show" id="edad_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Sexo</label>
+                        <input type="text" name="sexo_show" id="sexo_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Estatura aproximada (cm)</label>
+                        <input type="number" name="estatura_show" id="estatura_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Peso aproximado (kg)</label>
+                        <input type="number" name="peso_show" id="peso_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono_afectado_show" id="telefono_afectado_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Condición física aparente</label>
+                        <input type="text" name="condicion_fisica_show" id="condicion_fisica_show" class="form-control" readonly>
                     </div>
                 </div>
             </div>
-            <button type="submit" id="button-update-rescue" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Actualizar Rescate</button>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">3.- Ubicación</h5>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Lugar exacto del incidente</label>
+                        <input type="text" name="lugar_exacto_show" id="lugar_exacto_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Latitud</label>
+                        <input type="text" name="latitud_show" id="latitud_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Longitud</label>
+                        <input type="text" name="longitud_show" id="longitud_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Altitud (MSNMM)</label>
+                        <input type="text" name="altitud_show" id="altitud_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <label>Ubicación de vehículo/s de rescate</label>
+                        <input type="text" name="ubicacion_vehiculo_rescate_show" id="ubicacion_vehiculo_rescate_show" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">4.- Situación inicial</h5>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Condición sanitaria inicial</label>
+                        <textarea name="condicion_sanitaria_inicial_show" id="condicion_sanitaria_inicial_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Evaluación EVA</label>
+                        <textarea name="eva_inicial_show" id="eva_inicial_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Evaluación MSC</label>
+                        <textarea name="msc_inicial_show" id="msc_inicial_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Estado emocional/psicológico</label>
+                        <input type="text" name="estado_emocional_psicologico_show" id="estado_emocional_psicologico_show" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">5.- Evaluación primaria (XABCDE)</h5>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Parámetro</th>
+                                    <th>Observaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>X - Hemorragias Externas</td>
+                                    <td><input type="text" name="xabcde_x_show" id="xabcde_x_show" class="form-control" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>A - Via Aérea</td>
+                                    <td><input type="text" name="xabcde_a_show" id="xabcde_a_show" class="form-control" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>B - Respiración</td>
+                                    <td><input type="text" name="xabcde_b_show" id="xabcde_b_show" class="form-control" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>C - Circulación</td>
+                                    <td><input type="text" name="xabcde_c_show" id="xabcde_c_show" class="form-control" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>D - Estado Neurológico</td>
+                                    <td><input type="text" name="xabcde_d_show" id="xabcde_d_show" class="form-control" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>E - Exposición</td>
+                                    <td><input type="text" name="xabcde_e_show" id="xabcde_e_show" class="form-control" readonly></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">6.- Evaluación Secundaria (SAMPLE)</h5>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Signos y Síntomas</label>
+                        <input type="text" name="sample_signos_sintomas_show" id="sample_signos_sintomas_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Alergias</label>
+                        <input type="text" name="sample_alergias_show" id="sample_alergias_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Medicamentos</label>
+                        <input type="text" name="sample_medicamentos_show" id="sample_medicamentos_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Patologías previas</label>
+                        <input type="text" name="sample_patologias_previas_show" id="sample_patologias_previas_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Última ingesta</label>
+                        <input type="text" name="sample_ultima_ingesta_show" id="sample_ultima_ingesta_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Eventos previos</label>
+                        <input type="text" name="sample_eventos_previos_show" id="sample_eventos_previos_show" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">7.- Plan de Acción y Ejecución</h5>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <label>Resumen de acciones tomadas</label>
+                        <textarea name="resumen_acciones_show" id="resumen_acciones_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <label>Medicamentos administrados</label>
+                        <textarea name="medicamentos_administrados_show" id="medicamentos_administrados_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Método de evacuación</label>
+                        <input type="text" name="metodo_evacuacion_show" id="metodo_evacuacion_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                        <label>Destino final del paciente</label>
+                        <input type="text" name="destino_final_paciente_show" id="destino_final_paciente_show" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">8.- Bitácora</h5>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <label>Emergencia Presencial</label>
+                        <textarea name="bitacora_emergencia_presencial_show" id="bitacora_emergencia_presencial_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Salida del Cuartel/Base</label>
+                        <input type="time" name="bitacora_salida_cuartel_show" id="bitacora_salida_cuartel_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Llegada al punto de acceso</label>
+                        <input type="time" name="bitacora_llegada_acceso_show" id="bitacora_llegada_acceso_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Contacto con el grupo</label>
+                        <input type="time" name="bitacora_contacto_grupo_show" id="bitacora_contacto_grupo_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <label>Evaluación sanitaria inicial</label>
+                        <textarea name="bitacora_evaluacion_sanitaria_inicial_show" id="bitacora_evaluacion_sanitaria_inicial_show" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Inicio del descenso</label>
+                        <input type="time" name="bitacora_inicio_descenso_show" id="bitacora_inicio_descenso_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Llegada al punto de extracción</label>
+                        <input type="time" name="bitacora_llegada_extraccion_show" id="bitacora_llegada_extraccion_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Traslado al destino final</label>
+                        <input type="time" name="bitacora_traslado_destino_final_show" id="bitacora_traslado_destino_final_show" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3 col-lg-4 col-md-4 col-sm-12">
+                        <label>Regreso al cuartel/base</label>
+                        <input type="time" name="bitacora_regreso_cuartel_show" id="bitacora_regreso_cuartel_show" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">11.- Descripción de la emergencia</h5>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <textarea name="descripcion_emergencia_show" id="descripcion_emergencia_show" class="form-control" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">12.- Observaciones generales y recomendaciones</h5>
+                    <div class="mb-3 col-lg-12 col-md-12 col-sm-12">
+                        <textarea name="observaciones_generales_show" id="observaciones_generales_show" class="form-control" readonly></textarea>
+                    </div>
+                </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
