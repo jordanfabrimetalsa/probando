@@ -191,6 +191,28 @@ public function store(Request $request)
                     'updated_at' => $now,
                 ]);
 
+                $materiales = (array) $request->input('material_equipo_utilizado', []);
+                $materiales = array_values(array_unique(array_filter($materiales, fn($v) => $v !== null && $v !== '')));
+                if (in_array('Otros', $materiales, true)) {
+                    $otros = trim((string) $request->input('material_equipo_otros', ''));
+                    if ($otros !== '') {
+                        $materiales[] = $otros;
+                    }
+                    $materiales = array_values(array_filter($materiales, fn($v) => $v !== 'Otros'));
+                }
+
+                if (!empty($materiales)) {
+                    $materialRows = array_map(function ($material) use ($rescateId, $now) {
+                        return [
+                            'rescate_id' => $rescateId,
+                            'material' => $material,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ];
+                    }, $materiales);
+                    DB::table('rescate_material_equipo')->insert($materialRows);
+                }
+
                 DB::table('rescate_bitacora')->insert([
                     'rescate_id' => $rescateId,
                     'emergencia_presencial' => $request->input('bitacora_emergencia_presencial'),
@@ -206,19 +228,33 @@ public function store(Request $request)
                     'updated_at' => $now,
                 ]);
 
-                DB::table('rescate_voluntarios')->insert([
-                    'rescate_id' => $rescateId,
-                    'voluntario_id' => $request->input('voluntario_id'),
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ]);
+                $voluntariosIds = (array) $request->input('voluntarios', []);
+                $voluntariosIds = array_values(array_unique(array_filter($voluntariosIds, fn($v) => $v !== null && $v !== '')));
+                if (!empty($voluntariosIds)) {
+                    $voluntarioRows = array_map(function ($voluntarioId) use ($rescateId, $now) {
+                        return [
+                            'rescate_id' => $rescateId,
+                            'voluntario_id' => $voluntarioId,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ];
+                    }, $voluntariosIds);
+                    DB::table('rescate_voluntarios')->insert($voluntarioRows);
+                }
 
-                DB::table('rescate_instituciones')->insert([
-                    'rescate_id' => $rescateId,
-                    'institucion_id' => $request->input('institucion_id'),
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ]);
+                $instituciones = (array) $request->input('instituciones', []);
+                $instituciones = array_values(array_unique(array_filter($instituciones, fn($v) => $v !== null && $v !== '')));
+                if (!empty($instituciones)) {
+                    $institucionRows = array_map(function ($institucion) use ($rescateId, $now) {
+                        return [
+                            'rescate_id' => $rescateId,
+                            'institucion' => $institucion,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ];
+                    }, $instituciones);
+                    DB::table('rescate_instituciones')->insert($institucionRows);
+                }
 
                 return $rescateId;
             });
@@ -234,7 +270,13 @@ public function store(Request $request)
                 ->get();
 
             $voluntarios = DB::table('rescate_voluntarios')
-                ->where('rescate_id', $rescateId)
+                ->join('voluntaries', 'rescate_voluntarios.voluntario_id', '=', 'voluntaries.id')
+                ->where('rescate_voluntarios.rescate_id', $rescateId)
+                ->select(
+                    'rescate_voluntarios.voluntario_id',
+                    'voluntaries.name',
+                    'voluntaries.lastname'
+                )
                 ->get();
 
             $instituciones = DB::table('rescate_instituciones')

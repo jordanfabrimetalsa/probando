@@ -436,7 +436,7 @@
                                                             </option>
                                                             @foreach ($voluntaries as $voluntary)
                                                                 <option value="{{ $voluntary->id }}">
-                                                                    {{ $voluntary->name }} {{ $voluntary->lastname }}
+                                                                    {{ $voluntary->name }} {{ $voluntary->lastname }} - {{ $voluntary->type == 'A' ? 'Aspirante' : 'Voluntario' }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -463,8 +463,7 @@
                                                     <div class="col-12">
                                                         <select class="form-select form-select-sm border border-gray p-2"
                                                             name="instituciones[]" id="institucion_0">
-                                                            <option selected value="">Seleccione institución
-                                                            </option>
+                                                            <option selected value="">Seleccione institución</option>
                                                             <option value="GOPE">GOPE</option>
                                                             <option value="Carabineros">Carabineros</option>
                                                             <option value="UNIREM">UNIREM</option>

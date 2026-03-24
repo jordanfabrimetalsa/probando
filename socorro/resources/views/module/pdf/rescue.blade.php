@@ -212,7 +212,7 @@
         <h3>Voluntarios</h3>
         <p>
             @if (isset($voluntarios) && count($voluntarios))
-                {{ $voluntarios->pluck('voluntario_id')->implode(', ') }}
+                {{ $voluntarios->map(fn($v) => trim(($v->name ?? '') . ' ' . ($v->lastname ?? '')))->filter()->implode(', ') }}
             @endif
         </p>
 
