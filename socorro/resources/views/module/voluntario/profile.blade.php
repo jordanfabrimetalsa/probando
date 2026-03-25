@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-lg-8">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <div class="card h-100">
                                     <div class="card-header pb-0 p-3">
                                         <div class="row">
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <div class="card h-100">
                                     <div class="card-header pb-0 p-3">
                                         <div class="row">
@@ -126,15 +126,18 @@
                                                     class="text-dark">Teléfono:</strong> &nbsp; <span
                                                     class="p-2 bg-gray-100" id="phone_show">{{ $voluntary->phone }}</span>
                                             </li>
-                                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Tipo
-                                                    Sangre:</strong> &nbsp; <span id="status_show" class="p-2 bg-gray-100">
-                                                    {{ $voluntary->blood_type }}
-                                                </span>
+                                            <li class="list-group-item border-0 ps-0 text-sm"><strong
+                                                    class="text-dark">Licencia Clase B:</strong> &nbsp; <span
+                                                    class="p-2 bg-gray-100" id="phone_show">{{ $voluntary->license = 0 ? 'No' : 'Sí' }}</span>
                                             </li>
                                             <li class="mt-2">
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdrop">
                                                     <i class="material-symbols-rounded opacity-5">phone</i> N° Emergencias
+                                                </button>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdrop">
+                                                    <i class="material-symbols-rounded opacity-5">send</i> Solicitud Receso
                                                 </button>
                                             </li>
                                         </ul>
@@ -145,7 +148,65 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-12 mb-lg-0 mb-4">
+                <div class="card mt-4">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-6 d-flex align-items-center">
+                                <h6 class="mb-0">Antecedentes Medicos</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-md-3 mb-md-0 mb-4">
+                                <div
+                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                    <h6 class="mb-0">
+                                        Tipo
+                                        Sangre:</strong> &nbsp; <span id="status_show" class="p-2 bg-gray-100">
+                                            {{ $voluntary->blood_type }}
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-md-0 mb-4">
+                                <div
+                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                    <h6 class="mb-0">
+                                        Enfermedad:</strong> &nbsp; <span id="status_show" class="p-2 bg-gray-100">
+                                            {{ $voluntary->disease  = 0 ? 'No' : 'Sí' }}
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-md-0 mb-4">
+                                <div
+                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                    <h6 class="mb-0">
+                                        Alergia:</strong> &nbsp; <span id="status_show" class="p-2 bg-gray-100">
+                                            {{ $voluntary->allergic = 0 ? 'No' : 'Sí' }}
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-md-0 mb-4">
+                                <div
+                                    class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                    <h6 class="mb-0">
+                                        Medicamentos
+                                        :</strong> &nbsp; <span id="status_show" class="p-2 bg-gray-100">
+                                            {{ $voluntary->medicine = 0 ? 'No' : 'Sí' }}
+                                        </span>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-7 mt-4">
@@ -154,27 +215,28 @@
                         <h6 class="mb-0">Rescates Involucrados</h6>
                     </div>
                     <div class="card-body pt-4 p-3">
-<ul class="list-group">
-    <li class="list-group-item border-0 ps-0 text-sm">
-        <strong class="text-dark">Inicio de Servicio:</strong>
+                        <p class="text-body text-xs mb-3">Aquí se visualizan todos los rescates en las cuales se ha registrado tu participación.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 ps-0 text-sm">
+                                <strong class="text-dark">Inicio de Servicio:</strong>
 
-        @php
-            $fecha = \Carbon\Carbon::parse($voluntary->init_voluntary);
-            $diff = $fecha->diff(\Carbon\Carbon::now());
-        @endphp
+                                @php
+                                    $fecha = \Carbon\Carbon::parse($voluntary->init_voluntary);
+                                    $diff = $fecha->diff(\Carbon\Carbon::now());
+                                @endphp
 
-        <span class="p-2 bg-gray-100">
-            {{ $fecha->format('d/m/Y') }}
-        </span>
+                                <span class="p-2 bg-gray-100">
+                                    {{ $fecha->format('d/m/Y') }}
+                                </span>
 
-        <strong class="text-dark">Tiempo Servicio:</strong>
+                                <strong class="text-dark">Tiempo Servicio:</strong>
 
-        <span class="p-2 bg-gray-100">
-            {{ $diff->y }} años y {{ $diff->m }} meses
-        </span>
+                                <span class="p-2 bg-gray-100">
+                                    {{ $diff->y }} años y {{ $diff->m }} meses
+                                </span>
 
-    </li>
-</ul>
+                            </li>
+                        </ul>
                         <ul class="list-group">
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
@@ -183,23 +245,6 @@
                                             class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
                                     <span class="mb-2 text-xs">Email Address: <span
                                             class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                    <span class="text-xs">VAT Number: <span
-                                            class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                </div>
-                                <div class="ms-auto text-end">
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                            class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
-                                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                            class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
-                                </div>
-                            </li>
-                            <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                    <span class="mb-2 text-xs">Company Name: <span
-                                            class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-                                    <span class="mb-2 text-xs">Email Address: <span
-                                            class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
                                     <span class="text-xs">VAT Number: <span
                                             class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
                                 </div>
