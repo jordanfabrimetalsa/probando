@@ -66,11 +66,11 @@
                 </li>
               </ul>-->
             </li>
-            <!--<li class="nav-item d-flex align-items-center">
-              <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+            <li class="nav-item d-flex align-items-center">
+              <a href="{{ route('profile')}}" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa-solid fa-user opacity-5"></i>
               </a>
-            </li>-->
+            </li>
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="{{ route('logout') }}" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa-solid fa-right-from-bracket opacity-5"></i>

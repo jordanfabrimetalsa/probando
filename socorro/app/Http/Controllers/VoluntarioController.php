@@ -12,6 +12,7 @@ use App\Models\Remark;
 use App\Models\Cargo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class VoluntarioController extends Controller
 {
@@ -216,6 +217,25 @@ class VoluntarioController extends Controller
                 'status' => 'error',
                 'message' => 'Error al crear el cargo: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function profile(){
+        try{
+            $voluntaryId = Auth::user()->voluntary_id;
+            $voluntary = Voluntary::with(['delegation', 'cargo', 'images'])->find($voluntaryId);
+            if (!$voluntary) {
+                return redirect()->route('login')->with('error', 'Voluntario no encontrado');
+            }
+
+            $remark = Remark::with('user')->where('voluntary_id', $voluntaryId)->get();
+            $emergency = Emergency::where('voluntary_id', $voluntaryId)->get();
+
+            $cargos = Cargo::all();
+            $delegations = Delegation::all();
+            return view('module.voluntario.profile', compact('voluntary','cargos', 'delegations', 'remark', 'emergency'));
+        }catch(Exception $e){
+            return redirect()->route('login')->with('error', $e);
         }
     }
 }

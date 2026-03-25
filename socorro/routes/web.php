@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [DashboardController::class,'index'])->name('dashboard');
     });
 
+    Route::prefix('profile')->group(function(){
+        Route::get('/', [VoluntarioController::class, 'profile'])->name('profile');
+    });
+
     Route::prefix('news')->group(function(){
         Route::get('/', [NewsController::class,'index'])->name('news');
         Route::get('/category/data', [NewsController::class,'categoryData'])->name('news.category.data');

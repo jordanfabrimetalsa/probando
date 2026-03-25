@@ -52,6 +52,12 @@
                                     <span class="nav-link-text ms-1">Inventario</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
+                                <i class="material-symbols-rounded opacity-5">checkbook</i>
+                                <span class="nav-link-text ms-1">Rescates</span>
+                                </a>
+                            </li>
                             <!--<li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('vehiculo') }}">
                                     <i class="material-symbols-rounded opacity-5">directions_car</i>
@@ -105,10 +111,11 @@
                 <span class="nav-link-text ms-1">Registro de rescate</span>
                 </a>
             </li>
+            
             <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
-                <i class="material-symbols-rounded opacity-5">checkbook</i>
-                <span class="nav-link-text ms-1">Administrador de rescates </span>
+                <a class="nav-link text-dark" href="{{ route('profile') }}">
+                <i class="material-symbols-rounded opacity-5">person</i>
+                <span class="nav-link-text ms-1">Mi Perfil </span>
                 </a>
             </li>
 
