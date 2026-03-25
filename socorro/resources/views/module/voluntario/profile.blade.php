@@ -154,10 +154,27 @@
                         <h6 class="mb-0">Rescates Involucrados</h6>
                     </div>
                     <div class="card-body pt-4 p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Inicio de Servicio:</strong>
-                                &nbsp; <span class="p-2 bg-gray-100">{{ \Carbon\Carbon::parse($voluntary->init_voluntary)->format('d/m/Y') }}</span></li>
-                        </ul>
+<ul class="list-group">
+    <li class="list-group-item border-0 ps-0 text-sm">
+        <strong class="text-dark">Inicio de Servicio:</strong>
+
+        @php
+            $fecha = \Carbon\Carbon::parse($voluntary->init_voluntary);
+            $diff = $fecha->diff(\Carbon\Carbon::now());
+        @endphp
+
+        <span class="p-2 bg-gray-100">
+            {{ $fecha->format('d/m/Y') }}
+        </span>
+
+        <strong class="text-dark">Tiempo Servicio:</strong>
+
+        <span class="p-2 bg-gray-100">
+            {{ $diff->y }} años y {{ $diff->m }} meses
+        </span>
+
+    </li>
+</ul>
                         <ul class="list-group">
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
