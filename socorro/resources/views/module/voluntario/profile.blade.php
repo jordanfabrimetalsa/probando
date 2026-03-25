@@ -94,7 +94,7 @@
                                             <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                     class="text-dark">Fecha de
                                                     Nacimiento:</strong> &nbsp; <span class="p-2 bg-gray-100"
-                                                    id="birthday_show">{{ $voluntary->birthday }}</span></li>
+                                                    id="birthday_show">{{ \Carbon\Carbon::parse($voluntary->birthday)->format('d/m/Y') }}</span></li>
                                             <li class="list-group-item border-0 ps-0 text-sm"><strong
                                                     class="text-dark">Edad</strong> &nbsp; <span class="p-2 bg-gray-100"
                                                     id="age_show">{{ \Carbon\Carbon::parse($voluntary->birthday)->age }}</span>
