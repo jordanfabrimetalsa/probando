@@ -229,33 +229,38 @@
                                     {{ $fecha->format('d/m/Y') }}
                                 </span>
 
-                                <strong class="text-dark">Tiempo Servicio:</strong>
+                                <strong class="text-dark"> Tiempo Servicio:</strong>
 
                                 <span class="p-2 bg-gray-100">
                                     {{ $diff->y }} años y {{ $diff->m }} meses
                                 </span>
 
+                                <strong class="text-dark"> Cantidad:</strong>
+
+                                <span class="p-2 bg-gray-100">
+                                    {{ count($rescues) }}
+                                </span>
                             </li>
                         </ul>
+                        @foreach($rescues as $filas)
                         <ul class="list-group">
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
-                                    <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                    <span class="mb-2 text-xs">Company Name: <span
-                                            class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                                    <span class="mb-2 text-xs">Email Address: <span
-                                            class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                    <span class="text-xs">VAT Number: <span
-                                            class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                                    <h6 class="mb-3 text-sm">{{ $filas->tipo_emergencia }}</h6>
+                                    <span class="mb-2 text-xs">Fecha: <span
+                                            class="text-dark font-weight-bold ms-sm-2">{{ $filas->fecha_operativo }}</span></span>
+                                    <span class="mb-2 text-xs">Lugar: <span
+                                            class="text-dark ms-sm-2 font-weight-bold">{{ $filas->lugar }}</span></span>
+                                    <span class="text-xs">Sexo: <span
+                                            class="text-dark ms-sm-2 font-weight-bold">{{ $filas->sexo }}</span></span>
                                 </div>
-                                <div class="ms-auto text-end">
+                                <!--<div class="ms-auto text-end">
                                     <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
                                             class="material-symbols-rounded text-sm me-2">delete</i>Delete</a>
-                                    <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                            class="material-symbols-rounded text-sm me-2">edit</i>Edit</a>
-                                </div>
+                                </div>-->
                             </li>
                         </ul>
+                        @endforeach
                     </div>
                 </div>
             </div>

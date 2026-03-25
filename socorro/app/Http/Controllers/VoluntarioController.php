@@ -228,12 +228,19 @@ class VoluntarioController extends Controller
                 return redirect()->route('login')->with('error', 'Voluntario no encontrado');
             }
 
+            $rescues = DB::table('rescate_voluntarios')
+                        ->join('rescates', 'rescate_voluntarios.rescate_id', '=', 'rescates.id')
+                        ->where('rescate_voluntarios.voluntario_id', $voluntaryId)
+                        ->select('rescates.*')
+                        ->orderByDesc('rescates.fecha_operativo')
+                        ->get();
+
             $remark = Remark::with('user')->where('voluntary_id', $voluntaryId)->get();
             $emergency = Emergency::where('voluntary_id', $voluntaryId)->get();
 
             $cargos = Cargo::all();
             $delegations = Delegation::all();
-            return view('module.voluntario.profile', compact('voluntary','cargos', 'delegations', 'remark', 'emergency'));
+            return view('module.voluntario.profile', compact('voluntary','cargos', 'delegations', 'remark', 'emergency', 'rescues'));
         }catch(Exception $e){
             return redirect()->route('login')->with('error', $e);
         }
