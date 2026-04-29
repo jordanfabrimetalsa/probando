@@ -19,7 +19,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            @can('watch-admin')
+            @if(auth()->user()->role !== 'cuartelero')
                 <li class="nav-item">
                     <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseAdmin" role="button"
                         aria-expanded="false" aria-controls="collapseAdmin">
@@ -28,59 +28,64 @@
                     </a>
                     <div class="collapse" id="collapseAdmin">
                         <ul class="nav ms-4">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
-                                    <i class="material-symbols-rounded opacity-5">home</i>
-                                    <span class="nav-link-text ms-1">Delegaciones</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('usuarios') }}">
-                                    <i class="material-symbols-rounded opacity-5">person</i>
-                                    <span class="nav-link-text ms-1">Usuarios</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
-                                    <i class="material-symbols-rounded opacity-5">person</i>
-                                    <span class="nav-link-text ms-1">Voluntarios</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('inventario') }}">
+                            @canany(['watch-admin', 'watch-administrador-nacional'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('delegaciones') }}">
+                                        <i class="material-symbols-rounded opacity-5">home</i>
+                                        <span class="nav-link-text ms-1">Delegaciones</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('usuarios') }}">
+                                        <i class="material-symbols-rounded opacity-5">person</i>
+                                        <span class="nav-link-text ms-1">Usuarios</span>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany(['watch-admin', 'watch-jefe-operaciones', 'watch-administrador-nacional'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('voluntarios') }}">
+                                        <i class="material-symbols-rounded opacity-5">person</i>
+                                        <span class="nav-link-text ms-1">Voluntarios</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('inventario') }}">
+                                        <i class="material-symbols-rounded opacity-5">checkbook</i>
+                                        <span class="nav-link-text ms-1">Inventario</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
                                     <i class="material-symbols-rounded opacity-5">checkbook</i>
-                                    <span class="nav-link-text ms-1">Inventario</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
-                                <i class="material-symbols-rounded opacity-5">checkbook</i>
-                                <span class="nav-link-text ms-1">Rescates</span>
-                                </a>
-                            </li>
+                                    <span class="nav-link-text ms-1">Rescates</span>
+                                    </a>
+                                </li>
+                            @endcanany
                             <!--<li class="nav-item">
                                 <a class="nav-link text-dark" href="{{ route('vehiculo') }}">
                                     <i class="material-symbols-rounded opacity-5">directions_car</i>
                                     <span class="nav-link-text ms-1">Vehículos</span>
                                 </a>
                             </li>-->
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('news') }}">
-                                    <i class="material-symbols-rounded opacity-5">newspaper</i>
-                                    <span class="nav-link-text ms-1">Noticias</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="{{ route('contacto') }}">
-                                    <i class="material-symbols-rounded opacity-5">contact_support</i>
-                                    <span class="nav-link-text ms-1">Contactos</span>
-                                </a>
-                            </li>
+                            @canany(['watch-admin', 'watch-comunicaciones', 'watch-administrador-nacional'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('news') }}">
+                                        <i class="material-symbols-rounded opacity-5">newspaper</i>
+                                        <span class="nav-link-text ms-1">Noticias</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" href="{{ route('contacto') }}">
+                                        <i class="material-symbols-rounded opacity-5">contact_support</i>
+                                        <span class="nav-link-text ms-1">Contactos</span>
+                                    </a>
+                                </li>
+                            @endcanany
                         </ul>
                     </div>
                 </li>
-            @endcan
-
+            @endif
             <li class="nav-item">
                 <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseGuard" role="button"
                     aria-expanded="false" aria-controls="collapseGuard">
@@ -89,12 +94,14 @@
                 </a>
                 <div class="collapse" id="collapseGuard">
                     <ul class="nav ms-4">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="{{ route('calendario') }}">
-                                <i class="fa-solid fa-calendar opacity-5"></i>
-                                <span class="nav-link-text ms-1">Calendario</span>
-                            </a>
-                        </li>
+                        @if(auth()->user()->role !== 'cuartelero')
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="{{ route('calendario') }}">
+                                    <i class="fa-solid fa-calendar opacity-5"></i>
+                                    <span class="nav-link-text ms-1">Calendario</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="{{ route('aviso.list') }}">
                                 <i class="material-symbols-rounded opacity-5">hiking</i>
@@ -104,20 +111,21 @@
                     </ul>
                 </div>
             </li>
+            @if(auth()->user()->role !== 'cuartelero')
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('registro_rescate') }}">
+                    <i class="material-symbols-rounded opacity-5">checkbook</i>
+                    <span class="nav-link-text ms-1">Registro de rescate</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('registro_rescate') }}">
-                <i class="material-symbols-rounded opacity-5">checkbook</i>
-                <span class="nav-link-text ms-1">Registro de rescate</span>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="{{ route('profile') }}">
-                <i class="material-symbols-rounded opacity-5">person</i>
-                <span class="nav-link-text ms-1">Mi Perfil </span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('profile') }}">
+                    <i class="material-symbols-rounded opacity-5">person</i>
+                    <span class="nav-link-text ms-1">Mi Perfil </span>
+                    </a>
+                </li>
+            @endif
 
             <!--<li class="nav-item">
           <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseChecklist" role="button" aria-expanded="false" aria-controls="collapseChecklist">

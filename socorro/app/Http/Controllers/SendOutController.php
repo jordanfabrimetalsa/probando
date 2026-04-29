@@ -94,50 +94,61 @@ class SendOutController extends Controller
             }
 
            if ($sendout->save()) {
-                 switch ($sendout->region) {
-                    case 0:
-                    case 1:
-                    case 11:
-                    case 14:
-                        Mail::to([$request->email, "socorroandino@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 2:
-                        Mail::to([$request->email, "antofagasta@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 3:
-                        Mail::to([$request->email, "atacama@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 4:
-                        Mail::to([$request->email, "coquimbo@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 5:
-                    case 6:
-                        Mail::to([$request->email, "metropolitana@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 7:
-                    case 8:
-                        Mail::to([$request->email, "ohiggins@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 9:
-                    case 10:
-                        Mail::to([$request->email, "nuble@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 12:
-                    case 13:
-                        Mail::to([$request->email, "loslagos@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    case 15:
-                        Mail::to([$request->email, "magallanes@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
-                        break;
-                    default:
-                        Mail::to([$request->email])->cc('socorroandino@socorroandinochile.cl')->send(new SendOutMailable($sendout));
-                        break;
+                $mailSent = true;
+                $mailError = null;
+
+                try {
+                    switch ($sendout->region) {
+                        case 0:
+                        case 1:
+                        case 11:
+                        case 14:
+                            Mail::to([$request->email, "socorroandino@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 2:
+                            Mail::to([$request->email, "antofagasta@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 3:
+                            Mail::to([$request->email, "atacama@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 4:
+                            Mail::to([$request->email, "coquimbo@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 5:
+                        case 6:
+                            Mail::to([$request->email, "metropolitana@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 7:
+                        case 8:
+                            Mail::to([$request->email, "ohiggins@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 9:
+                        case 10:
+                            Mail::to([$request->email, "nuble@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 12:
+                        case 13:
+                            Mail::to([$request->email, "loslagos@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        case 15:
+                            Mail::to([$request->email, "magallanes@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            break;
+                        default:
+                            Mail::to([$request->email])->cc('socorroandino@socorroandinochile.cl')->send(new SendOutMailable($sendout));
+                            break;
+                    }
+                } catch (Exception $e) {
+                    $mailSent = false;
+                    $mailError = $e->getMessage();
+                    Log::error('Error al enviar correo de salida (SendOut ID: ' . $sendout->id . '): ' . $mailError);
                 }
 
                 return response()->json([
                     'success' => true,
                     'data' => $sendout,
-                    'message' => 'Salida guardada correctamente'
+                    'mail_sent' => $mailSent,
+                    'mail_error' => $mailError,
+                    'message' => $mailSent ? 'Salida guardada correctamente' : 'Salida guardada correctamente, pero no se pudo enviar el correo'
                 ]);
             } else {
                 Log::error('Error al guardar la salida: ' . $sendout->getMessage());

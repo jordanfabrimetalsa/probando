@@ -291,7 +291,7 @@
       },
       columns: [
         { data: 'barcode', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
-        { data: 'image', render: d => d ? `<img src="{{ asset('storage/') }}/${d}" alt="Imagen" width="50" height="50" onerror="this.src='{{ asset('assets/img/default-placeholder.png') }}'">` : '<img src="{{ asset('assets/img/default-placeholder.png') }}" alt="Sin imagen" width="50" height="50">' },
+        { data: 'image', render: d => d ? `<img src="{{ asset('storage/') }}/${d}" alt="Imagen" width="40" height="40" onerror="this.src='{{ asset('assets/img/sinimagenproducto.png') }}'">` : '<img src="{{ asset('assets/img/sinimagenproducto.png') }}" alt="Sin imagen" width="40" height="40">' },
         { data: 'name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         { data: 'stock', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         {

@@ -45,6 +45,7 @@
               <option value="comun">Común</option>
               <option value="cuartelero">Cuartelero</option>
               <option value="administrador_nacional">Administrador Nacional</option>
+              <option value="comunicaciones">Comunicaciones</option>
             </select>
           </div>
           <div class="mb-3">

@@ -17,7 +17,7 @@
                                 <span class="mask bg-gradient-dark opacity-10"></span>
                                 <div class="card-body position-relative z-index-1 p-3">
                                     <i class="material-symbols-rounded text-white p-2">wifi</i>
-                                    <p>Cargo: {{ $voluntary->cargo->nombre }}</p>
+                                    <p>Cargo: {{ $voluntary->cargo->nombre ?? '' }}</p>
                                     <h5 class="text-white mt-4 mb-5 pb-2">Cuerpo de Socorro Andino <span
                                             style="color:blanchedalmond">Delegación
                                             {{ $voluntary->delegation->name }}</span></h5>
@@ -134,10 +134,6 @@
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdrop">
                                                     <i class="material-symbols-rounded opacity-5">phone</i> N° Emergencias
-                                                </button>
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#staticBackdrop">
-                                                    <i class="material-symbols-rounded opacity-5">send</i> Solicitud Receso
                                                 </button>
                                             </li>
                                         </ul>
