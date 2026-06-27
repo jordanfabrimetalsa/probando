@@ -254,6 +254,43 @@
                                                                     id="return_date" name="return_date" required readonly>
                                                             </div>
                                                         </div>
+                                                        <hr>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Nombre de Emergencia</label>
+                                                                <input type="text" class="form-control" id="name_emergency_family" name="name_emergency_family" required readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Parentesco Emergencia</label>
+                                                                <input type="text" class="form-control" id="parentesco_family_emergency" name="parentesco_family_emergency" required readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Numero de Emergencia</label>
+                                                                <input type="text" class="form-control" id="number_family_emergency" name="number_family_emergency" required readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Nombre de Emergencia 2</label>
+                                                                <input type="text" class="form-control" id="name_emergency_family_2" name="name_emergency_family_2" required readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Parentesco Emergencia 2</label>
+                                                                <input type="text" class="form-control" id="parentesco_family_emergency_2" name="parentesco_family_emergency_2" required readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Numero de Emergencia 2</label>
+                                                                <input type="text" class="form-control" id="number_family_emergency_2" name="number_family_emergency_2" required readonly>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                             </form>
                                         </div>
@@ -642,6 +679,13 @@
                     $('#destination').val(response.destination);
                     $('#route').val(response.route);
                     $('#activity').val(activity);
+                    $('#name_emergency_family').val(response.name_emergency_family);
+                    $('#parentesco_family_emergency').val(response.parentesco_family_emergency);
+                    $('#number_family_emergency').val(response.number_family_emergency);
+                    $('#name_emergency_family_2').val(response.name_emergency_family_2);
+                    $('#parentesco_family_emergency_2').val(response.parentesco_family_emergency_2);
+                    $('#number_family_emergency_2').val(response.number_family_emergency_2);
+
                     $('#number_participants').val(response.number_participants);
                     $('#departure_date').val(moment(response.departure_date).format('DD-MM-YYYY HH:MM'));
                     $('#return_date').val(moment(response.return_date).format('DD-MM-YYYY HH:MM'));

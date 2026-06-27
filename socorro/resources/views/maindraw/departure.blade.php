@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su rut" required>
+                                <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su rut o pasaporte" maxlength="9" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-12">

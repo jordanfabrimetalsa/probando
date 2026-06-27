@@ -27,6 +27,12 @@ class SendOutController extends Controller
             'number_participants' => 'required|numeric',
             'departure_date' => 'required|date',
             'return_date' => 'required|date',
+            'name_emergency_family' => 'required',
+            'parentesco_family_emergency' => 'required',
+            'number_family_emergency' => 'required|numeric',
+            'name_emergency_family_2' => 'required',
+            'parentesco_family_emergency_2' => 'required',
+            'number_family_emergency_2' => 'required|numeric'
         ]);
 
         try {
@@ -59,6 +65,12 @@ class SendOutController extends Controller
             $sendout->return_date = $request->return_date;
             $sendout->active = 1;
             $sendout->file_path = null;
+            $sendout->name_emergency_family = $request->name_emergency_family;
+            $sendout->parentesco_family_emergency = $request->parentesco_family_emergency;
+            $sendout->number_family_emergency = $request->number_family_emergency;
+            $sendout->name_emergency_family_2 = $request->name_emergency_family_2;
+            $sendout->parentesco_family_emergency_2 = $request->parentesco_family_emergency_2;
+            $sendout->number_family_emergency_2 = $request->number_family_emergency_2;
 
             // Guardar el archivo ANTES de guardar el modelo
             if ($request->hasFile('file_path')) {
@@ -116,7 +128,7 @@ class SendOutController extends Controller
                             break;
                         case 5:
                         case 6:
-                            Mail::to([$request->email, "metropolitana@socorroandinochile.cl"])->send(new SendOutMailable($sendout));
+                            Mail::to([$request->email, "avisos.metropolitana@gmail.com"])->send(new SendOutMailable($sendout));
                             break;
                         case 7:
                         case 8:

@@ -55,11 +55,11 @@ class UserController extends Controller
             }
 
             DB::commit();
-            return response()->json(['success' => 'Usuario creado correctamente']);
+            return response()->json(['success' => 'Usuario creado correctamente'], 201);
 
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => 'Error al crear el usuario: ' . $e->getMessage()]);
+            return response()->json(['error' => 'Error al crear el usuario: ' . $e->getMessage()], 500);
         }
     }
 

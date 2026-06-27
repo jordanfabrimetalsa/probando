@@ -23,6 +23,12 @@ class SendOut extends Model
         'number_participants',
         'departure_date',
         'return_date',
-        'active'
+        'active',
+        'name_emergency_family',
+        'parentesco_family_emergency',
+        'number_family_emergency',
+        'name_emergency_family_2',
+        'parentesco_family_emergency_2',
+        'number_family_emergency_2',
     ];
 }

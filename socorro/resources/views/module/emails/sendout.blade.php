@@ -65,26 +65,29 @@
             @case(1)
                 <p><strong>Región:</strong> Región Tarapaca</p>
                 @break
-            @case(3)
+            @case(2)
                 <p><strong>Región:</strong> Región Antofagasta</p>
                 @break
-            @case(4)
+            @case(3)
                 <p><strong>Región:</strong> Región Atacama</p>
                 @break
-            @case(5)
+            @case(4)
                 <p><strong>Región:</strong> Región Coquimbo</p>
                 @break
-            @case(6)
+            @case(5)
                 <p><strong>Región:</strong> Región Metropolitana</p>
                 @break
-            @case(7)
+            @case(6)
                 <p><strong>Región:</strong> Región Valparaíso</p>
                 @break
-            @case(8)
+            @case(7)
                 <p><strong>Región:</strong> Región O’Higgins</p>
                 @break
-            @case(9)
+            @case(8)
                 <p><strong>Región:</strong> Región Maule</p>
+                @break
+            @case(9)
+                <p><strong>Región:</strong> Región Ñuble</p>
                 @break
             @case(10)
                 <p><strong>Región:</strong> Región Bio Bío</p>

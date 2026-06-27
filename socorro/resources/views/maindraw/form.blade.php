@@ -10,13 +10,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="pt-2 pb-2"><strong class="text-danger">¡Atención! </strong>, Este es un formulario para
+                    <div class="pt-2 pb-2">
+                    </div>
+                    <div class="text-center bg-danger text-white p-2 rounded"><i class="fa-solid fa-circle-exclamation"></i>
+                        <strong class="text-white">¡Atención! </strong>, Este es un formulario para
                         registrar tu salida a la montaña y
                         nosotros tener una información completa en caso de que llegaras a requerir nuestra ayuda.
-                        <br><br>
-                        Debes recordar dar aviso de finalizado la salida de aviso que has dado.
-                    </div>
-                    <br><br>
+                     <i class="fa-solid fa-circle-exclamation"></i></div> <br>
+                    <br>
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
@@ -57,7 +58,7 @@
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email"
+                                <input type="email" class="form-control" id="email" name="email" maxlength="100"
                                     placeholder="Ingrese su correo electronico" required>
                             </div>
                         </div>
@@ -65,7 +66,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Telefono</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="Ingrese su numero de telefono" pattern="[0-9]+" minlength="6"
+                                    placeholder="Ingrese su numero de telefono" pattern="[0-9]+" minlength="8"
                                     maxlength="9">
                             </div>
                         </div>
@@ -99,7 +100,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Lugar Destino</label>
                                 <input type="text" class="form-control" id="destination" name="destination"
-                                    placeholder="Ingrese el LUGAR DESTINO" minlength="5" required
+                                    placeholder="Ingrese el LUGAR DESTINO" minlength="5" maxlength="40" required
                                     onkeyup="this.value = this.value.toUpperCase();">
                             </div>
                         </div>
@@ -107,7 +108,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Ruta</label>
                                 <input type="text" class="form-control" id="route" name="route"
-                                    placeholder="Ingrese la ruta" minlength="5" required
+                                    placeholder="Ingrese la ruta" minlength="5" maxlength="60" required
                                     onkeyup="this.value = this.value.toUpperCase();">
                             </div>
                         </div>
@@ -115,9 +116,9 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="" class="form-label">Archivo Track KMZ/GPX</label>
+                                <label for="" class="form-label">Archivo Track GPX</label>
                                 <input type="file" class="form-control" id="file_path" name="file_path"
-                                    accept=".kmz,.gpx">
+                                    accept=".gpx">
                             </div>
                         </div>
                     </div>
@@ -156,18 +157,125 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Fecha de Regreso</label>
                                 <input type="datetime-local" class="form-control" id="return_date"
-                                    name="return_date" required onchange="validarFecha()">
+                                    name="return_date" required onchange="validarFecha()" disabled>
+                            </div>
+                        </div>
+                        <hr class="mb-3"><br>
+                        <h5 class="modal-title" id="avisoModalLabel" class="mb-4">Numeros de Emergencia</h5>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Nombre de Emergencia 1 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name_emergency_family" name="name_emergency_family" minlength="10"
+                                        maxlength="60"
+                                        placeholder="Ingrese el nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Parentesco 1 <span class="text-danger">*</span></label>
+                                    <select type="text" class="form-control" id="parentesco_family_emergency" name="parentesco_family_emergency"
+                                        placeholder="Ingrese el nombre" required>
+                                        <option value="">Seleccione</option>
+                                        <option value="Padre">Padre</option>
+                                        <option value="Madre">Madre</option>
+                                        <option value="Hermano">Hermano</option>
+                                        <option value="Hermana">Hermana</option>
+                                        <option value="Amigo">Amigo</option>
+                                        <option value="Otro">Otro</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="mb-3">
+                                    <label for="" class="form-label bg-light">Numero Telefonico 1 <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="number_family_emergency" name="number_family_emergency"
+                                        placeholder="Ingrese el numero"  pattern="[0-9]+" minlength="8"
+                                        maxlength="9" required>
+                                </div>
+                            </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre de Emergencia 2</label>
+                                <input type="text" class="form-control" id="name_emergency_family_2" name="name_emergency_family_2"
+                                    placeholder="Ingrese el nombre" minlength="10" maxlength="60" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Parentesco 2</label>
+                                <select type="text" class="form-control" id="parentesco_family_emergency_2" name="parentesco_family_emergency_2"
+                                    placeholder="Ingrese el nombre" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="Padre">Padre</option>
+                                    <option value="Madre">Madre</option>
+                                    <option value="Hermano">Hermano</option>
+                                    <option value="Hermana">Hermana</option>
+                                    <option value="Amigo">Amigo</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Numero Telefonico 2</label>
+                                <input type="text" class="form-control" id="number_family_emergency_2" name="number_family_emergency_2"
+                                    placeholder="Ingrese el numero" pattern="[0-9]+" minlength="8"
+                                    maxlength="9" required>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" id="btnSubmit" class="btn btn-dark btn-save-load">Guardar</button>
+                    <div class="text-center bg-warning p-2 rounded"><i class="fa-solid fa-circle-exclamation"></i>
+                        Debes recordar dar aviso de finalizado la salida de aviso que has dado y tambien, que solo es posible tener 1 solo aviso activo.
+                     <i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="modal-footer d-flex justify-content-between">
+
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#departureModal">
+                            Dar finalizado aviso
+                        </button>
+
+                        <div>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                Cerrar
+                            </button>
+
+                            <button type="submit" id="btnSubmit" class="btn btn-dark btn-save-load">
+                                Guardar
+                            </button>
+                        </div>
                     </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+$('#number_family_emergency').on('input', function () {
+    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+});
+
+
+$('#number_family_emergency').on('input', function() {
+    let valor = $(this).val();
+
+    if (valor.length > 9) {
+        $(this).val(valor.substring(0, 9));
+    }
+});
+
+$('#number_family_emergency_2').on('input', function() {
+    let valor = $(this).val();
+
+    if (valor.length > 9) {
+        $(this).val(valor.substring(0, 9));
+    }
+});
+
+$('#number_family_emergency_2').on('input', function () {
+    $(this).val($(this).val().replace(/[^0-9]/g, ''));
+});
+</script>
 
 <script>
     function validarFecha() {
@@ -195,6 +303,10 @@
                 text: 'La diferencia entre la fecha de salida y regreso debe ser mínimo de 1 hora',
             });
             document.getElementById('return_date').value = '';
+        }
+
+        if(departure !== null || departure !== '') {
+            document.getElementById('return_date').disabled = false;
         }
     }
 

@@ -15,20 +15,17 @@
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Navbar layout helpers */
         @media (min-width: 992px) {
             #mainNav .container {
                 display: flex;
                 align-items: center;
             }
 
-            /* 30% brand, 70% collapsible area */
             #mainNav .navbar-brand {
                 flex: 0 0 30%;
                 max-width: 30%;
             }
 
-            /* Collapsible area takes 60% so that inside 50/50 = 30/30 overall */
             #mainNav #navbarNav {
                 flex: 0 0 70%;
                 max-width: 70%;
@@ -37,7 +34,6 @@
                 gap: 1rem;
             }
 
-            /* Inside collapse: 30% menu centered, 30% tools right */
             #mainNav .center-nav {
                 flex: 0 0 100%;
                 max-width: 100%;
@@ -53,7 +49,6 @@
                 justify-content: flex-end;
             }
 
-            /* Limit search width on desktop */
             #mainNav .right-nav input.form-control {
                 max-width: 200px;
             }
@@ -61,7 +56,6 @@
 
         @media (max-width: 991.98px) {
 
-            /* On mobile/tablet allow the search to grow full width within its column */
             #mainNav .right-nav input.form-control {
                 width: 100%;
             }
@@ -409,7 +403,7 @@
                             <a href="https://x.com/socorroandinocl" class="text-white me-3"><i class="fab fa-twitter"></i></a>
                             <a href="https://www.instagram.com/socorroandinodechile/" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
-                        <h1 class="hero-title">Has tu aviso <span style="color:#65bce4;"> de salida</span></h1>
+                        <h1 class="hero-title">Haz tu aviso <span style="color:#65bce4;"> de salida</span></h1>
                         <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
                         <div class="hero-buttons">
                             <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
