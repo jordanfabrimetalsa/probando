@@ -7,20 +7,47 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="pt-2 pb-2"><strong class="text-danger">¡Atención!, </strong> Revisa aquí tu detalle de salida. En el caso de estar activa aún, favor de cerrarla.</div>
+                <div class="pt-2 pb-2"><strong class="text-danger">¡Atención!, </strong> Revisa aquí tu detalle de
+                    salida. En el caso de estar activa aún, favor de cerrarla.</div>
+                <p>Si tiene salida activa, ingrese su rut o pasaporte.</p>
                 <form id="form_departure_search" type="post">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
-                                <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese su rut o pasaporte" maxlength="9" required>
+                                <label>Tipo Documento</label>
+                                <select class="form-control" id="tipo_documento" name="tipo_documento" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="1">RUT</option>
+                                    <option value="2">Pasaporte</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-dark btn-search-load">Buscar</button>
-                                <button type="button" class="btn btn-warning" onclick="clearSearch()">Limpiar</button>
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#avisoModal">Crear</button>
+                                <label><span class="text-danger">¡Recuerde que RUT es sin punto ni guión!</span></label>
+                                <input type="text" class="form-control" id="rut" name="rut" disabled required>
+
+                                <div class="invalid-feedback">
+                                    El RUT ingresado no es válido.
+                                </div>
+
+                                <div class="valid-feedback">
+                                    RUT válido.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <div class="mb-3">
+                                <label class="form-label invisible">Acciones</label>
+
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-dark btn-search-load">Buscar</button>
+                                    <button type="button" class="btn btn-warning"
+                                        onclick="clearSearch()">Limpiar</button>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#avisoModal">Crear</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,23 +77,91 @@
 </div>
 
 @push('scripts')
-<script>
-    // Asegurarse de que el DOM esté completamente cargado
-    document.addEventListener('DOMContentLoaded', function() {
-        const departureModal = document.getElementById('departureModal');
+    <script>
+        // Asegurarse de que el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            const departureModal = document.getElementById('departureModal');
 
-        if (departureModal) {
-            // Limpiar el fondo oscuro del modal cuando se cierre
-            departureModal.addEventListener('hidden.bs.modal', function () {
-                const backdrops = document.getElementsByClassName('modal-backdrop');
-                for (let backdrop of backdrops) {
-                    backdrop.remove();
+            if (departureModal) {
+                // Limpiar el fondo oscuro del modal cuando se cierre
+                departureModal.addEventListener('hidden.bs.modal', function() {
+                    const backdrops = document.getElementsByClassName('modal-backdrop');
+                    for (let backdrop of backdrops) {
+                        backdrop.remove();
+                    }
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = 'auto';
+                    document.body.style.paddingRight = '0';
+                });
+            }
+        });
+
+        $(document).ready(function() {
+            $('#tipo_documento').on('change', function() {
+                let tipo = $(this).val();
+                $('#rut').val('');
+                if (tipo === '') {
+                    $('#rut')
+                        .prop('disabled', true)
+                        .attr('maxlength', 9);
+                    return;
                 }
-                document.body.classList.remove('modal-open');
-                document.body.style.overflow = 'auto';
-                document.body.style.paddingRight = '0';
+
+                $('#rut').prop('disabled', false);
+                if (tipo == '1') {
+                    // RUT
+                    $('#rut')
+                        .attr('maxlength', 9)
+                        .attr('placeholder', 'Ingrese RUT sin puntos ni guión');
+                } else {
+                    // Pasaporte
+                    $('#rut')
+                        .removeAttr('maxlength')
+                        .attr('placeholder', 'Ingrese Pasaporte');
+                }
+
             });
-        }
-    });
-</script>
+
+            $('#rut').on('input', function() {
+                let tipo = $('#tipo_documento').val();
+                let valor = $(this).val();
+
+                if (tipo == '1') {
+                    // Solo números y K
+                    valor = valor.toUpperCase().replace(/[^0-9K]/g, '');
+                } else if (tipo == '2') {
+                    // Solo letras y números
+                    valor = valor.toUpperCase().replace(/[^A-Z0-9]/g, '');
+                }
+
+                $(this).val(valor);
+
+            });
+
+            $('#rut').on('blur', function() {
+
+                if ($('#tipo_documento').val() != '1') {
+                    return;
+                }
+
+                let rut = $(this).val();
+
+                if (rut === '') {
+                    return;
+                }
+
+                if (!validarRut(rut)) {
+                    $(this)
+                        .addClass('is-invalid')
+                        .removeClass('is-valid');
+                } else {
+                    $(this)
+                        .removeClass('is-invalid')
+                        .addClass('is-valid');
+                }
+
+            });
+
+        });
+    </script>
 @endpush

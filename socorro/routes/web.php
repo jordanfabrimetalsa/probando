@@ -27,6 +27,8 @@ Route::post('/logear', [UserController::class,'login'])->name('logear');
 
 Route::post('contact', [MainDrawController::class, 'store'])->name('contact');
 
+Route::get('/news-main/show/{id}', [NewsController::class,'show'])->name('news-main.show');
+
 Route::prefix('departure')->group(function(){
     Route::post('/create', [SendOutController::class, 'store'])->name('departure.create');
     Route::post('/search', [SendOutController::class, 'search'])->name('departure.search');

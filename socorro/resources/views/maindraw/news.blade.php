@@ -9,23 +9,23 @@
             <div id="newsContainer">
                 <div class="news-grid">
                     @foreach($news as $item)
-                    <article class="news-card @if($item->featured) featured @endif">
-                        <div class="news-image">
-                            <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="img-fluid">
-                            @if($item->featured)
-                                <div class="news-badge">Destacada</div>
-                            @endif
-                        </div>
-                        <div class="news-content">
-                            <div class="news-meta">
-                                <span class="news-date">{{ $item->created_at->format('d M Y') }}</span>
-                                <span class="news-category">{{ $item->category->name }}</span>
+                        <article class="news-card @if($item->featured) featured @endif">
+                            <div class="news-image">
+                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="img-fluid">
+                                @if($item->featured)
+                                    <div class="news-badge">Destacada</div>
+                                @endif
                             </div>
-                            <h3>{{ $item->title }}</h3>
-                            {{ substr(strip_tags($item->description), 0, 150) }}{{ strlen(strip_tags($item->description)) > 150 ? '...' : '' }}
-                            <a href="{{ route('news.show', $item->slug) }}" class="news-link">Leer más →</a>
-                        </div>
-                    </article>
+                            <div class="news-content">
+                                <div class="news-meta">
+                                    <span class="news-date">{{ $item->created_at->format('d M Y') }}</span>
+                                    <span class="news-category">{{ $item->category->name }}</span>
+                                </div>
+                                <h3>{{ $item->title }}</h3>
+                                {{ substr(strip_tags($item->description), 0, 150) }}{{ strlen(strip_tags($item->description)) > 150 ? '...' : '' }}
+                                <a href="#"  onclick="showNews({{ $item->id }})" class="news-link">Leer más →</a>
+                            </div>
+                        </article>
                     @endforeach
                 </div>
                 <div class="pagination">

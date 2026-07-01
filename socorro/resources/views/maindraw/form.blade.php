@@ -282,14 +282,7 @@ $('#number_family_emergency_2').on('input', function () {
         let departure = new Date(document.getElementById('departure_date').value);
         let returnDate = new Date(document.getElementById('return_date').value);
 
-        if (departure <= new Date()) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'La fecha de salida no puede ser anterior a la fecha actual',
-            });
-            document.getElementById('departure_date').value = '';
-        } else if (returnDate <= departure) {
+        if (returnDate <= departure) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
