@@ -16,53 +16,36 @@
                     </div>
                     <div class="card-body p-4">
 
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col-sm-12 mb-2">
-                                <h6 class=" text-capitalize ps-3 text-dark"><i class="fa-solid fa-map-location-dot"></i>
-                                    Mapas</h6>
-                                <ul class="list-group list-group-flush border">
-                                    <li class="list-group-item">Google Earth <a href="https://earth.google.com/"
-                                            target="_blank" class="badge bg-gradient-dark float-end"><i
-                                                class="fa-solid fa-link"></i></a></li>
-                                    <li class="list-group-item">Maps.me <a href="https://www.maps.me/" target="_blank"
-                                            class="badge bg-gradient-dark float-end"><i class="fa-solid fa-link"></i></a>
-                                    </li>
-                                    <li class="list-group-item">Gaia GPS <a href="https://gaia.gps.com/" target="_blank"
-                                            class="badge bg-gradient-dark float-end"><i class="fa-solid fa-link"></i></a>
-                                    </li>
-                                    <li class="list-group-item">Suda Outdoor <a href="https://www.sudaoutdoor.com/"
-                                            target="_blank" class="badge bg-gradient-dark float-end"><i
-                                                class="fa-solid fa-link"></i></a></li>
-                                    <li class="list-group-item">Wikiloc <a href="https://www.wikiloc.com/" target="_blank"
-                                            class="badge bg-gradient-dark float-end"><i class="fa-solid fa-link"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12">
-                                <h6 class=" text-capitalize ps-3 text-dark"><i class="fa-solid fa-poo-storm"></i>
-                                    Meteorologia</h6>
-                                <ul class="list-group list-group-flush border">
-                                    <li class="list-group-item">Mountain Forecast<a href="https://mountainforecast.com/"
-                                            target="_blank" class="badge bg-gradient-dark float-end"><i
-                                                class="fa-solid fa-link"></i></a></li>
-                                    <li class="list-group-item">Windy<a href="https://windy.com/" target="_blank"
-                                            class="badge bg-gradient-dark float-end"><i class="fa-solid fa-link"></i></a>
-                                    </li>
-                                    <li class="list-group-item">AccuWeather<a href="https://www.accuweather.com/"
-                                            target="_blank" class="badge bg-gradient-dark float-end"><i
-                                                class="fa-solid fa-link"></i></a></li>
-                                    <li class="list-group-item">MeteoRed<a href="https://www.meteored.com/" target="_blank"
-                                            class="badge bg-gradient-dark float-end"><i class="fa-solid fa-link"></i></a>
-                                    </li>
-                                    <li class="list-group-item">MeteoBlue<a href="https://www.meteoblue.com/"
-                                            target="_blank" class="badge bg-gradient-dark float-end"><i
-                                                class="fa-solid fa-link"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <br>
-                        <hr>
-                        <br>
+                        @php
+                            $resourceGroups = [
+                                ['title' => 'Mapas y navegación', 'copy' => 'Herramientas para planificar y consultar rutas.', 'icon' => 'fa-map-location-dot', 'links' => [
+                                    ['Google Earth', 'https://earth.google.com/'], ['Maps.me', 'https://www.maps.me/'],
+                                    ['Gaia GPS', 'https://gaia.gps.com/'], ['Suda Outdoor', 'https://www.sudaoutdoor.com/'], ['Wikiloc', 'https://www.wikiloc.com/'],
+                                ]],
+                                ['title' => 'Meteorología', 'copy' => 'Pronósticos para evaluar las condiciones de montaña.', 'icon' => 'fa-cloud-sun', 'links' => [
+                                    ['Mountain Forecast', 'https://mountainforecast.com/'], ['Windy', 'https://windy.com/'],
+                                    ['AccuWeather', 'https://www.accuweather.com/'], ['MeteoRed', 'https://www.meteored.com/'], ['MeteoBlue', 'https://www.meteoblue.com/'],
+                                ]],
+                            ];
+                        @endphp
+                        <section class="departure-resources" aria-label="Recursos para salidas">
+                            @foreach($resourceGroups as $group)
+                                <article class="resource-panel">
+                                    <header class="resource-panel__header">
+                                        <span class="resource-panel__icon"><i class="fa-solid {{ $group['icon'] }}"></i></span>
+                                        <div><h6>{{ $group['title'] }}</h6><p>{{ $group['copy'] }}</p></div>
+                                    </header>
+                                    <div class="resource-links">
+                                        @foreach($group['links'] as [$label, $url])
+                                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">
+                                                <span>{{ $label }}</span><i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </article>
+                            @endforeach
+                        </section>
+                        <div class="departure-section-divider"></div>
                         <p>Lista de salidas, aquí puedes visualizar todas las salidas que han sido registradas. Si esta
                             activo, es porque aun el deportista aún no da aviso de salida.</p>
                         <div class="w-100 p-2 mb-4">
@@ -310,12 +293,19 @@
     </div>
     </div>
 
+<div class="modal fade" id="trackModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content track-modal">
+    <div class="modal-header"><div><span class="track-kicker">Ruta de montaña</span><h5 class="modal-title">Visualización del track GPX</h5></div><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body p-0"><div class="track-map-wrap"><div id="trackMap"></div><div id="trackLoading" class="track-loading"><span class="spinner-border spinner-border-sm"></span><strong>Cargando recorrido…</strong></div></div><div class="track-summary"><span><i class="fa-solid fa-route"></i><small>Distancia estimada</small><strong id="trackDistance">—</strong></span><span><i class="fa-solid fa-location-dot"></i><small>Puntos del track</small><strong id="trackPoints">—</strong></span><span><i class="fa-solid fa-person-hiking"></i><small>Aviso</small><strong id="trackDepartureName">—</strong></span><a id="trackDownload" class="btn btn-outline-dark btn-sm" href="#"><i class="fa-solid fa-download me-1"></i>Descargar GPX</a></div></div>
+</div></div></div>
 @endsection
 
 @push('script')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script>
         var datatableAviso;
         var disabled_aperture = '';
+        var departureTrackMap = null;
+        var departureTrackLayer = null;
 
         $(document).ready(function() {
             datatableAviso = $('#datatableAviso').DataTable({
@@ -502,11 +492,12 @@
                                     .id + ')"><i class="fa-solid fa-calendar-check"></i></button>' :
                                     '';
 
+                                const trackButton = data.has_gpx ? `<button class="btn btn-track" title="Ver track GPX" onclick="openTrack(${data.id}, '${data.track_url}', '${String(data.name + ' ' + data.lastname).replace(/'/g, "\\'")}', '${data.download_url}')"><i class="fa-solid fa-route"></i></button>` : '';
                                 return `
                                     <button class="btn btn-success" onclick="cambiarEstado('${data.id}')"><i class="fa-solid fa-calendar-check"></i></button>
                                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
                                     <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>
-                                    <a href="${data.download_url}" class="btn btn-dark"><i class="fa-solid fa-map-location-dot"></i></a>`;
+                                    ${trackButton}<a href="${data.download_url}" class="btn btn-dark" title="Descargar archivo"><i class="fa-solid fa-download"></i></a>`;
                             }
                             return `<button class="btn btn-success" onclick="cambiarEstado('${data.id}')"><i class="fa-solid fa-calendar-check"></i></button>
                                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
@@ -557,6 +548,28 @@
                     })
                 }
             });
+        }
+
+        function calculateTrackDistance(points) {
+            let total=0, radius=6371;
+            for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],dLat=(b[0]-a[0])*Math.PI/180,dLon=(b[1]-a[1])*Math.PI/180,v=Math.sin(dLat/2)**2+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)**2;total+=radius*2*Math.atan2(Math.sqrt(v),Math.sqrt(1-v));}
+            return total;
+        }
+
+        async function openTrack(id, trackUrl, name, downloadUrl) {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('trackModal')).show();
+            $('#trackLoading').removeClass('is-hidden').html('<span class="spinner-border spinner-border-sm"></span><strong>Cargando recorrido…</strong>');
+            $('#trackDistance, #trackPoints').text('—'); $('#trackDepartureName').text(name); $('#trackDownload').attr('href',downloadUrl);
+            if(!departureTrackMap){departureTrackMap=L.map('trackMap').setView([-33.45,-70.66],7);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(departureTrackMap);}
+            setTimeout(()=>departureTrackMap.invalidateSize(),250); if(departureTrackLayer)departureTrackLayer.remove();
+            try {
+                const response=await fetch(trackUrl,{headers:{Accept:'application/gpx+xml'}}); if(!response.ok)throw new Error('No fue posible abrir el archivo.');
+                const xml=new DOMParser().parseFromString(await response.text(),'application/xml'); if(xml.querySelector('parsererror'))throw new Error('El archivo GPX no tiene un formato válido.');
+                const points=[...xml.querySelectorAll('trkpt, rtept')].map(n=>[Number(n.getAttribute('lat')),Number(n.getAttribute('lon'))]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+                if(points.length<2)throw new Error('El GPX no contiene suficientes puntos para dibujar una ruta.');
+                departureTrackLayer=L.featureGroup([L.polyline(points,{color:'#ea4e1a',weight:4,opacity:.92}),L.circleMarker(points[0],{radius:7,color:'#fff',weight:3,fillColor:'#23845d',fillOpacity:1}).bindTooltip('Inicio'),L.circleMarker(points.at(-1),{radius:7,color:'#fff',weight:3,fillColor:'#c84317',fillOpacity:1}).bindTooltip('Término')]).addTo(departureTrackMap);
+                departureTrackMap.fitBounds(departureTrackLayer.getBounds(),{padding:[35,35]}); $('#trackDistance').text(calculateTrackDistance(points).toFixed(1)+' km'); $('#trackPoints').text(points.length.toLocaleString('es-CL')); $('#trackLoading').addClass('is-hidden');
+            } catch(error) { $('#trackLoading').html(`<i class="fa-solid fa-triangle-exclamation"></i><strong>${error.message}</strong>`); }
         }
 
         function showInfo(id) {
@@ -696,4 +709,13 @@
             })
         }
     </script>
+@endpush
+
+@push('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<style>
+    .departure-resources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:26px}.resource-panel{padding:17px;border:1px solid #dfe8eb;border-radius:13px;background:#fbfcfd}.resource-panel__header{display:flex;align-items:center;gap:11px;margin-bottom:14px}.resource-panel__icon{display:grid;flex:0 0 37px;height:37px;place-items:center;border-radius:9px;background:#e8f3f6;color:#176985;font-size:.85rem}.resource-panel__header h6{margin:0;color:#29444f;font-size:.79rem;font-weight:750}.resource-panel__header p{margin:3px 0 0;color:#80929a;font-size:.62rem}.resource-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.resource-links a{display:flex;min-height:38px;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid #e5ecef;border-radius:8px;background:#fff;color:#526b75;font-size:.69rem;font-weight:650;transition:border-color .18s,background .18s,color .18s,transform .18s}.resource-links a:last-child:nth-child(odd){grid-column:1/-1}.resource-links a i{color:#96aab2;font-size:.58rem}.resource-links a:hover{border-color:#b9d4dd;background:#f1f8fa;color:#176985;transform:translateY(-1px)}.resource-links a:hover i{color:#ea4e1a}.departure-section-divider{height:1px;margin:0 0 24px;background:linear-gradient(90deg,transparent,#dce6e9 10%,#dce6e9 90%,transparent)}
+    @media(max-width:767.98px){.departure-resources{grid-template-columns:1fr}.resource-panel{padding:14px}.resource-links{grid-template-columns:1fr}.resource-links a:last-child:nth-child(odd){grid-column:auto}.resource-panel__header p{font-size:.6rem}}
+    .btn-track{background:#eaf5f7!important;color:#176985!important}.track-kicker{color:#ea4e1a;font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.track-map-wrap{position:relative}.track-map-wrap #trackMap{height:min(62vh,560px);min-height:390px;background:#e9eff1}.track-loading{position:absolute;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;gap:10px;background:#f7fafbe8;color:#48616b;font-size:.75rem}.track-loading.is-hidden{display:none}.track-loading>i{color:#ea4e1a}.track-summary{display:flex;align-items:center;gap:28px;padding:16px 20px;border-top:1px solid #dce6e9}.track-summary>span{display:grid;grid-template-columns:auto 1fr;column-gap:9px}.track-summary>span>i{grid-row:1/3;align-self:center;color:#176985}.track-summary small{color:#84969e;font-size:.58rem;text-transform:uppercase}.track-summary strong{color:#29444f;font-size:.73rem}.track-summary>a{margin-left:auto}@media(max-width:767.98px){.track-map-wrap #trackMap{height:52vh;min-height:330px}.track-summary{display:grid;grid-template-columns:1fr 1fr;gap:13px}.track-summary>a{grid-column:1/-1;width:100%;margin:0}}
+</style>
 @endpush

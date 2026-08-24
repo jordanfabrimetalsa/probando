@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Cargo extends Model
 {
     protected $table = 'cargos';
+    protected $fillable = ['nombre'];
 
-    public $timestamps = false;
+    public function voluntaries()
+    {
+        return $this->hasMany(Voluntary::class, 'cargo_id');
+    }
 }

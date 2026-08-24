@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -19,6 +19,8 @@ use App\Http\Controllers\PostulationsPeopleController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\CargoController;
+use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\RoleController;
 
 Route::get('/', [MainDrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -50,7 +52,14 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [VoluntarioController::class, 'profile'])->name('profile');
     });
 
-    Route::prefix('news')->group(function(){
+    Route::prefix('finanzas')->middleware('permission:finances.manage')->group(function () {
+        Route::get('/', [FinanceController::class, 'index'])->name('finances.index');
+        Route::post('/categorias', [FinanceController::class, 'storeCategory'])->name('finances.categories.store');
+        Route::post('/movimientos', [FinanceController::class, 'storeTransaction'])->name('finances.transactions.store');
+        Route::delete('/movimientos/{transaction}', [FinanceController::class, 'destroyTransaction'])->name('finances.transactions.destroy');
+    });
+
+    Route::prefix('news')->middleware('permission:news.manage')->group(function(){
         Route::get('/', [NewsController::class,'index'])->name('news');
         Route::get('/category/data', [NewsController::class,'categoryData'])->name('news.category.data');
         Route::post('/category/store', [NewsController::class,'categoryStore'])->name('news.category.store');
@@ -62,7 +71,7 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [NewsController::class,'destroy'])->name('news.destroy');
     });
 
-    Route::prefix('usuarios')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('usuarios')->middleware('permission:users.manage')->group(function(){
         Route::get('/', [UserController::class,'index'])->name('usuarios');
         Route::get('/data', [UserController::class,'data'])->name('usuarios.data');
         Route::get('/create', [UserController::class,'create'])->name('usuarios.create');
@@ -70,6 +79,13 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [UserController::class,'edit'])->name('usuarios.edit');
         Route::put('/update/{id}', [UserController::class,'update'])->name('usuarios.update');
         Route::delete('/destroy/{id}', [UserController::class,'destroy'])->name('usuarios.destroy');
+    });
+
+    Route::prefix('roles')->middleware(['permission:roles.manage', 'national'])->group(function () {
+        Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+        Route::post('/', [RoleController::class, 'store'])->name('roles.store');
+        Route::put('/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
     });
 
     Route::prefix('postulations')->group(function(){
@@ -82,7 +98,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/data/{id}', [PostulationsPeopleController::class, 'data'])->name('postulations-people.data');
     });
 
-    Route::prefix('delegaciones')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('delegaciones')->middleware('permission:delegations.manage')->group(function(){
         Route::get('/', [DelegacionController::class,'index'])->name('delegaciones');
         Route::get('/data', [DelegacionController::class,'data'])->name('delegaciones.data');
         Route::get('/show/{id}', [DelegacionController::class,'show'])->name('delegaciones.show');
@@ -93,7 +109,7 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [DelegacionController::class,'destroy'])->name('delegaciones.destroy');
     });
 
-    Route::prefix('voluntarios')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('voluntarios')->middleware('permission:volunteers.manage')->group(function(){
         Route::get('/', [VoluntarioController::class,'index'])->name('voluntarios');
         Route::get('/data', [VoluntarioController::class,'data'])->name('voluntarios.data');
         Route::get('/show/{id}', [VoluntarioController::class,'show'])->name('voluntarios.show');
@@ -108,7 +124,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/storeCargo', [VoluntarioController::class, 'storeCargo'])->name('voluntarios.storeCargo');
     });
 
-    Route::prefix('inventario')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('inventario')->middleware('permission:inventory.manage')->group(function(){
         Route::get('/', [InventarioController::class,'index'])->name('inventario');
         Route::get('/data', [InventarioController::class,'data'])->name('inventario.data');
         Route::get('/warehouse/data', [InventarioController::class,'dataWarehouse'])->name('inventario.warehouse');
@@ -139,7 +155,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/store', [ChecklistController::class,'store'])->name('checklist.store');
     });
 
-    Route::prefix('vehiculo')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('vehiculo')->middleware('permission:vehicles.manage')->group(function(){
         Route::get('/', [VehiculoController::class,'index'])->name('vehiculo');
         Route::get('/data', [VehiculoController::class,'data'])->name('vehiculo.data');
         Route::get('/brand/data', [VehiculoController::class,'brandData'])->name('vehiculo.brand.data');
@@ -154,7 +170,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/maintenance/store', [VehiculoController::class,'maintenanceStore'])->name('vehiculo.maintenance.store');
     });
 
-    Route::prefix('calendario')->group(function(){
+    Route::prefix('calendario')->middleware('permission:calendar.manage')->group(function(){
         Route::get('/', [ScheduleController::class, 'index'])->name('calendario');
         Route::post('/store', [ScheduleController::class, 'store'])->name('calendario.store');
         Route::get('/events', [ScheduleController::class, 'getEvents'])->name('calendario.events');
@@ -170,20 +186,21 @@ Route::middleware('auth')->group(function(){
         Route::get('/file/download/{id}', [ScheduleController::class, 'downloadFile'])->name('calendario.download');
     });
 
-    Route::prefix('contacto')->middleware('checkrole:admin')->group(function(){
+    Route::prefix('contacto')->middleware('permission:contacts.manage')->group(function(){
         Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
         Route::get('/data', [ContactFormController::class, 'data'])->name('contacto.data');
     });
 
-    Route::prefix('aviso')->group(function(){
+    Route::prefix('aviso')->middleware('permission:departures.manage')->group(function(){
         Route::get('/', [SendOutController::class, 'list'])->name('aviso.list');
         Route::get('/data', [SendOutController::class, 'data'])->name('aviso.data');
         Route::get('/download/{id}', [SendOutController::class, 'download'])->name('aviso.download');
+        Route::get('/track/{id}', [SendOutController::class, 'track'])->name('aviso.track');
         Route::post('/cambiar-estado/{id}', [SendOutController::class, 'changeState'])->name('aviso.changeState');
         Route::get('/show-info/{id}', [SendOutController::class, 'showInfo'])->name('aviso.showInfo');
     });
 
-    Route::prefix('registro-rescate')->group(function(){
+    Route::prefix('registro-rescate')->middleware('permission:rescues.manage')->group(function(){
         Route::get('/registro_rescate', [RescueController::class, 'registerComun'])->name('registro_rescate');
         Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
         Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
@@ -197,4 +214,3 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');
 });
-

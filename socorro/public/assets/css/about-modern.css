@@ -1,0 +1,25 @@
+.maindraw-modern .services-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:20px;max-width:1120px;margin:0 auto;align-items:stretch}
+.maindraw-modern .about-institution-card,.maindraw-modern .delegation-showcase-card{padding:0!important;overflow:hidden;text-align:left;border-radius:12px!important}.maindraw-modern .delegation-showcase-card{display:flex;flex-direction:column}
+.about-card-heading{padding:34px 34px 30px;border-bottom:1px solid #dce5e9;background:#fff}
+.about-kicker,.delegation-card-heading>div>span{display:block;margin-bottom:9px;color:#c94316;font-size:.67rem;font-weight:750;text-transform:uppercase;letter-spacing:.12em}
+.about-card-heading h3,.delegation-card-heading h3{margin:0!important;color:#17313e!important;font-size:clamp(1.45rem,2.4vw,2rem)!important;font-weight:680;line-height:1.15;letter-spacing:-.025em}
+.about-card-heading p{max-width:580px;margin:16px 0 0;color:#526974;font-size:.9rem;line-height:1.75}
+.about-values{display:grid;grid-template-columns:1fr 1fr;background:#f8fafb}
+.about-value{display:grid;grid-template-columns:auto 1fr;align-items:start;gap:15px;padding:28px 26px}
+.about-value+.about-value{border-left:1px solid #dce5e9}
+.about-value-number{padding-top:2px;color:#bdc9ce;font-size:.68rem;font-weight:700;letter-spacing:.06em}
+.about-value h4{margin:0 0 8px;color:#17313e;font-size:.9rem;font-weight:700}.about-value p{margin:0;color:#637780;font-size:.8rem;line-height:1.65}
+.about-card-footer{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:20px 30px;border-top:1px solid #dce5e9;background:#fff}
+.about-card-footer p{max-width:390px;margin:0;color:#71828a;font-size:.72rem;line-height:1.55}
+.about-board-link{display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;padding:0;border:0;background:transparent;color:#176985;font-size:.75rem;font-weight:700}
+.about-board-link i{font-size:.64rem;transition:transform .2s ease}.about-board-link:hover i{transform:translateX(3px)}
+.delegation-card-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:28px 26px 12px}.delegation-card-heading h3{font-size:1.3rem!important}
+.delegation-total{padding-bottom:3px;border-bottom:2px solid #ea4e1a;color:#506975;font-size:.67rem;font-weight:700}
+.delegation-showcase-card>p{margin:0;padding:0 26px 20px;color:#687b84;font-size:.8rem}
+.delegation-showcase-card .carousel{flex:1;min-height:346px;margin:0!important;overflow:hidden;border-radius:0}.delegation-showcase-card .carousel-inner,.delegation-showcase-card .carousel-item{height:100%;min-height:346px;border-radius:0!important}
+.delegation-showcase-card .carousel-item img{position:absolute;inset:0;width:100%;height:100%!important;object-fit:cover!important}.delegation-showcase-card .carousel-caption{display:flex!important;align-items:flex-end;justify-content:space-between;gap:12px;text-align:left}
+.delegation-showcase-card .carousel-caption h5{margin:0;color:#fff;font-size:1rem;font-weight:700}.delegation-showcase-card .carousel-caption .btn{flex:0 0 auto;margin:0;font-size:.68rem}
+.delegation-showcase-card .carousel-control-prev,.delegation-showcase-card .carousel-control-next{width:40px;height:40px;top:50%;bottom:auto;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(5,31,43,.52);transform:translateY(-50%);opacity:1}
+.delegation-showcase-card .carousel-control-prev{left:10px}.delegation-showcase-card .carousel-control-next{right:10px}.delegation-showcase-card .carousel-control-prev-icon,.delegation-showcase-card .carousel-control-next-icon{width:15px;height:15px}
+@media(max-width:991.98px){.maindraw-modern .services-grid{grid-template-columns:1fr}.delegation-showcase-card .carousel,.delegation-showcase-card .carousel-inner,.delegation-showcase-card .carousel-item{min-height:380px}}
+@media(max-width:575.98px){.about-card-heading{padding:27px 22px}.about-values{grid-template-columns:1fr}.about-value{padding:23px 22px}.about-value+.about-value{border-top:1px solid #dce5e9;border-left:0}.about-card-footer{align-items:flex-start;flex-direction:column;padding:20px 22px}.delegation-card-heading{padding:25px 21px 12px}.delegation-showcase-card>p{padding:0 21px 17px}.delegation-showcase-card .carousel,.delegation-showcase-card .carousel-inner,.delegation-showcase-card .carousel-item{min-height:300px}.delegation-showcase-card .carousel-caption{display:block!important}.delegation-showcase-card .carousel-caption .btn{margin-top:8px}}

@@ -11,9 +11,12 @@ use App\Models\Imagen;
 use App\Models\Voluntary;
 use App\Models\Delegation;
 use App\Models\Regions;
+use App\Models\SystemRole;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Support\DelegationAccess;
 
 class UserController extends Controller
 {
@@ -24,17 +27,34 @@ class UserController extends Controller
 
     public function index()
     {
-        $voluntarios = Voluntary::all();
-        return view('module.usuario.index', compact('voluntarios'));
+        $voluntarios = DelegationAccess::scope(Voluntary::query())->get();
+        $roles = SystemRole::where('active', true)->orderBy('name')->get();
+        return view('module.usuario.index', compact('voluntarios', 'roles'));
     }
 
     public function data(){
-        return response()->json(User::all());
+        $query = User::with('voluntary.delegation');
+        if (!DelegationAccess::isNational()) {
+            $query->whereHas('voluntary', fn ($q) => $q->where('delegation_id', DelegationAccess::id()));
+        }
+        return response()->json($query->get());
     }
 
     public function store(Request $request){
+        $request->validate([
+            'voluntary_id' => ['nullable', 'exists:voluntaries,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'exists:system_roles,slug'],
+            'status' => ['required', 'in:A,I'],
+        ]);
         try{
             DB::beginTransaction();
+
+            if ($request->voluntary_id) {
+                DelegationAccess::authorize((int) Voluntary::findOrFail($request->voluntary_id)->delegation_id);
+            }
 
             $user = new User();
             $user->name = $request->name;
@@ -65,7 +85,9 @@ class UserController extends Controller
 
     public function edit($id){
         try{
-            $user = User::find($id);
+            $user = User::with('voluntary')->findOrFail($id);
+            abort_unless($user->voluntary, 403);
+            DelegationAccess::authorize((int) $user->voluntary->delegation_id);
             return response()->json($user);
         }catch(Exception $e){
             return response()->json(['error' => $e]);
@@ -73,8 +95,14 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
+        $request->validate([
+            'role' => ['required', 'exists:system_roles,slug'],
+            'status' => ['required', 'in:A,I'],
+        ]);
         try{
-            $user = User::find($id);
+            $user = User::with('voluntary')->findOrFail($id);
+            abort_unless($user->voluntary, 403);
+            DelegationAccess::authorize((int) $user->voluntary->delegation_id);
             $user->role = $request->role;
             $user->status = $request->status;
             $user->save();
@@ -86,7 +114,9 @@ class UserController extends Controller
 
     public function destroy($id){
         try{
-            $user = User::find($id);
+            $user = User::with('voluntary')->findOrFail($id);
+            abort_unless($user->voluntary, 403);
+            DelegationAccess::authorize((int) $user->voluntary->delegation_id);
             $user->delete();
             return response()->json(['success' => 'Usuario eliminado correctamente']);
         }catch(Exception $e){
@@ -181,7 +211,8 @@ class UserController extends Controller
             }
 
         }catch(Exception $e){
-            return redirect()->route('login')->with('error', $e);
+            Log::error('Error durante el inicio de sesión.', ['exception' => $e]);
+            return redirect()->route('login')->with('error', 'No fue posible iniciar sesión. Inténtalo nuevamente.');
         }
     }
 }

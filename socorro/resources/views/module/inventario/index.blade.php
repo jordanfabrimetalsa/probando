@@ -135,9 +135,12 @@
                     <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Producto</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Bodega</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Cantidad</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Saldo</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Motivo / Referencia</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Responsable</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha</th>
                     </tr>
@@ -397,6 +400,7 @@
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
+          { data: 'warehouse_name', defaultContent: '—', render: data => '<p class="text-xs text-secondary mb-0">'+(data || '—')+'</p>' },
           { data: 'quantity',
             render: function(data, type, row){
               let color = row.type === 'add' ? 'text-success' : 'text-danger';
@@ -404,6 +408,7 @@
               return data = '<p class="text-xs '+color+' mb-0">'+negative+data+'</p>'
             }
           },
+          { data: 'balance_after', defaultContent: null, render: (data, type, row) => '<p class="text-xs text-secondary mb-0">'+(data === null ? 'Histórico' : row.balance_before+' → '+data)+'</p>' },
           { data: 'unit_cost',
             render: function(data, type, row){
               let color = row.type === 'add' ? 'text-success' : 'text-danger';
@@ -419,14 +424,15 @@
               return data = '<p class="text-xs '+color+' mb-0">'+negative+'$'+Intl.NumberFormat('es-CL').format(total)+'</p>'
             }
           },
+          { data: 'reason', defaultContent: '—', render: (data, type, row) => '<p class="text-xs text-secondary mb-0">'+(data || '—')+(row.reference ? '<br><small>Ref. '+row.reference+'</small>' : '')+'</p>' },
           { data: 'user_name',
             render: function(data){
               return data = '<p class="text-xs text-secondary mb-0">'+data+'</p>'
             }
           },
-          { data: 'created_at',
+          { data: 'occurred_at',
             render:  function(data){
-              return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD-MM-YYYY')+'</p>'
+              return data = '<p class="text-xs text-secondary mb-0">'+moment(data).format('DD-MM-YYYY HH:mm')+'</p>'
             }
           }
         ],

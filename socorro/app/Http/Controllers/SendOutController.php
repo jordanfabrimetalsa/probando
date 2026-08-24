@@ -13,26 +13,55 @@ class SendOutController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'lastname' => 'required',
-            'document_type' => 'required',
-            'document_number' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
-            'region' => 'required',
-            'destination' => 'required',
-            'route' => 'required',
-            'activity' => 'required',
-            'number_participants' => 'required|numeric',
-            'departure_date' => 'required|date',
-            'return_date' => 'required|date',
-            'name_emergency_family' => 'required',
-            'parentesco_family_emergency' => 'required',
-            'number_family_emergency' => 'required|numeric',
-            'name_emergency_family_2' => 'required',
-            'parentesco_family_emergency_2' => 'required',
-            'number_family_emergency_2' => 'required|numeric'
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:50', 'regex:/^[\pL\s\'’-]+$/u'],
+            'lastname' => ['required', 'string', 'min:2', 'max:50', 'regex:/^[\pL\s\'’-]+$/u'],
+            'document_type' => ['required', 'in:0,1'],
+            'document_number' => ['required', 'string', 'min:5', 'max:20', 'regex:/^[A-Za-z0-9.-]+$/'],
+            'email' => ['required', 'email:rfc', 'max:100'],
+            'phone' => ['required', 'digits_between:8,12'],
+            'region' => ['required', 'integer', 'between:0,15'],
+            'destination' => ['required', 'string', 'min:3', 'max:80'],
+            'route' => ['required', 'string', 'min:3', 'max:150'],
+            'activity' => ['required', 'integer', 'in:0,1,3,4,5,6,7'],
+            'number_participants' => ['required', 'integer', 'between:1,100'],
+            'departure_date' => ['required', 'date'],
+            'return_date' => ['required', 'date', 'after:departure_date', function ($attribute, $value, $fail) use ($request) {
+                if ($request->departure_date && strtotime($value) < strtotime($request->departure_date) + 3600) {
+                    $fail('La fecha de regreso debe ser al menos una hora posterior a la salida.');
+                }
+            }],
+            'name_emergency_family' => ['required', 'string', 'min:3', 'max:60'],
+            'parentesco_family_emergency' => ['required', 'in:Padre,Madre,Hermano,Hermana,Amigo,Otro'],
+            'number_family_emergency' => ['required', 'digits_between:8,12'],
+            'name_emergency_family_2' => ['required', 'string', 'min:3', 'max:60'],
+            'parentesco_family_emergency_2' => ['required', 'in:Padre,Madre,Hermano,Hermana,Amigo,Otro'],
+            'number_family_emergency_2' => ['required', 'digits_between:8,12', 'different:number_family_emergency'],
+            'file_path' => ['nullable', 'file', 'extensions:gpx,kmz', 'max:10240'],
+        ], [
+            'required' => 'El campo :attribute es obligatorio.',
+            'email' => 'Ingresa un correo electrónico válido.',
+            'digits_between' => 'El campo :attribute debe tener entre :min y :max dígitos.',
+            'return_date.after' => 'La fecha de regreso debe ser posterior a la fecha de salida.',
+            'different' => 'Los dos contactos de emergencia deben ser diferentes.',
+            'file_path.extensions' => 'El archivo de ruta debe ser GPX o KMZ.',
+            'file_path.max' => 'El archivo de ruta no puede superar los 10 MB.',
+        ], [
+            'name' => 'nombres', 'lastname' => 'apellidos', 'document_type' => 'tipo de documento',
+            'document_number' => 'RUT o pasaporte', 'phone' => 'teléfono', 'region' => 'región',
+            'destination' => 'destino', 'route' => 'ruta', 'activity' => 'actividad',
+            'number_participants' => 'número de participantes', 'departure_date' => 'fecha de salida',
+            'return_date' => 'fecha de regreso', 'name_emergency_family' => 'primer contacto',
+            'parentesco_family_emergency' => 'parentesco del primer contacto',
+            'number_family_emergency' => 'teléfono del primer contacto',
+            'name_emergency_family_2' => 'segundo contacto',
+            'parentesco_family_emergency_2' => 'parentesco del segundo contacto',
+            'number_family_emergency_2' => 'teléfono del segundo contacto', 'file_path' => 'archivo de ruta',
+        ]);
+
+        $request->merge([
+            'document_number' => strtoupper(str_replace(['.', '-'], '', trim($validated['document_number']))),
+            'email' => strtolower(trim($validated['email'])),
         ]);
 
         try {
@@ -181,8 +210,21 @@ class SendOutController extends Controller
 
     public function search(Request $request)
     {
+        $validated = $request->validate([
+            'tipo_documento' => ['required', 'in:1,2'],
+            'rut' => ['required', 'string', 'min:5', 'max:20', 'regex:/^[A-Za-z0-9.-]+$/'],
+        ], [
+            'tipo_documento.required' => 'Selecciona el tipo de documento.',
+            'rut.required' => 'Ingresa el RUT o pasaporte.',
+            'rut.regex' => 'El documento contiene caracteres no válidos.',
+        ]);
+
         try {
-            $sendout = SendOut::where('document_number', $request->rut)->get();
+            $documentType = $validated['tipo_documento'] === '1' ? '1' : '0';
+            $documentNumber = strtoupper(str_replace(['.', '-'], '', trim($validated['rut'])));
+            $sendout = SendOut::where('document_type', $documentType)
+                ->whereRaw("REPLACE(REPLACE(UPPER(document_number), '.', ''), '-', '') = ?", [$documentNumber])
+                ->get();
 
             if ($sendout) {
                 return response()->json([
@@ -209,8 +251,15 @@ class SendOutController extends Controller
 
     public function finish(Request $request)
     {
+        $validated = $request->validate([
+            'id' => ['required', 'integer', 'exists:notice_departure,id'],
+        ], [
+            'id.required' => 'No se recibió el aviso que deseas finalizar.',
+            'id.exists' => 'El aviso indicado ya no existe.',
+        ]);
+
         try {
-            $sendout = SendOut::find($request->id);
+            $sendout = SendOut::find($validated['id']);
 
             if ($sendout) {
                 $sendout->active = false;
@@ -256,6 +305,8 @@ class SendOutController extends Controller
             $sendouts = SendOut::all()->map(function ($sendout) {
                 if ($sendout->file_path) {
                     $sendout->download_url = route('aviso.download', $sendout->id);
+                    $sendout->has_gpx = strtolower(pathinfo($sendout->file_path, PATHINFO_EXTENSION)) === 'gpx';
+                    if ($sendout->has_gpx) $sendout->track_url = route('aviso.track', $sendout->id);
                 }
                 return $sendout;
             });
@@ -294,6 +345,16 @@ class SendOutController extends Controller
         }
 
         return response()->download($filePath);
+    }
+
+    public function track($id)
+    {
+        $sendout = SendOut::findOrFail($id);
+        abort_unless($sendout->file_path && strtolower(pathinfo($sendout->file_path, PATHINFO_EXTENSION)) === 'gpx', 404, 'Este aviso no contiene una ruta GPX.');
+        $storageRoot = realpath(storage_path('app/public'));
+        $filePath = realpath(storage_path('app/public/'.$sendout->file_path));
+        abort_unless($storageRoot && $filePath && str_starts_with($filePath, $storageRoot.DIRECTORY_SEPARATOR), 404, 'Archivo GPX no encontrado.');
+        return response()->file($filePath, ['Content-Type' => 'application/gpx+xml; charset=UTF-8']);
     }
 
     public function changeState($id)

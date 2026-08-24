@@ -14,9 +14,11 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="quantity" class="form-label">Cantidad a Descontar<span class="text-danger">*</span></label>
-                <input type="number" class="form-control border border-gray p-2" id="quantity" name="quantity">
+                <input type="number" class="form-control border border-gray p-2" id="quantity" name="quantity" min="1" step="1" required>
               </div>
             </div>
+            <div class="col-12"><div class="mb-3"><label for="stock_reason" class="form-label">Motivo o destino<span class="text-danger">*</span></label><input type="text" class="form-control" id="stock_reason" name="reason" maxlength="180" placeholder="Ej.: entrega a operativo, baja por daño" required></div></div>
+            <div class="col-12"><div class="mb-3"><label for="stock_reduce_reference" class="form-label">Documento o responsable</label><input type="text" class="form-control" id="stock_reduce_reference" name="reference" maxlength="100" placeholder="Acta, operativo o persona responsable"></div></div>
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Reducir Stock</button>
         </form>
@@ -27,4 +29,3 @@
     </div>
   </div>
 </div>
-

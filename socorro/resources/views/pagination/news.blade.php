@@ -1,41 +1,32 @@
 @if ($paginator->hasPages())
-    <nav>
-        <ul class="pagination justify-content-center">
-            @if ($paginator->onFirstPage())
-                <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                    <span class="page-link" aria-hidden="true">&lsaquo;</span>
-                </li>
-            @else
-                <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
-                </li>
-            @endif
+    <nav class="news-pager" aria-label="Paginación de noticias">
+        @if ($paginator->onFirstPage())
+            <span class="news-pager__control is-disabled" aria-disabled="true"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Anterior</span></span>
+        @else
+            <a class="news-pager__control" href="{{ $paginator->previousPageUrl() }}" rel="prev" data-no-loading><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Anterior</span></a>
+        @endif
 
+        <div class="news-pager__pages" aria-label="Páginas">
             @foreach ($elements as $element)
                 @if (is_string($element))
-                    <li class="page-item disabled" aria-disabled="true"><span class="page-link">{{ $element }}</span></li>
+                    <span class="news-pager__ellipsis" aria-hidden="true">{{ $element }}</span>
                 @endif
-
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
-                            <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
+                            <span class="news-pager__page is-current" aria-current="page">{{ $page }}</span>
                         @else
-                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                            <a class="news-pager__page" href="{{ $url }}" aria-label="Ir a la página {{ $page }}" data-no-loading>{{ $page }}</a>
                         @endif
                     @endforeach
                 @endif
             @endforeach
+        </div>
 
-            @if ($paginator->hasMorePages())
-                <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
-                </li>
-            @else
-                <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                    <span class="page-link" aria-hidden="true">&rsaquo;</span>
-                </li>
-            @endif
-        </ul>
+        @if ($paginator->hasMorePages())
+            <a class="news-pager__control" href="{{ $paginator->nextPageUrl() }}" rel="next" data-no-loading><span>Siguiente</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        @else
+            <span class="news-pager__control is-disabled" aria-disabled="true"><span>Siguiente</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        @endif
     </nav>
 @endif

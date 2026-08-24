@@ -2,35 +2,34 @@
 
     <div class="modal-dialog modal-xl">
         <div class="modal-content modal-extra-background">
-            <form id="form_departure" type="POST" enctype="multipart/form-data">
+            <form id="form_departure" class="departure-registration-form" method="POST" enctype="multipart/form-data" data-loading-title="Registrando aviso de salida" novalidate>
                 @method('POST')
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="avisoModalLabel">Registro de Salida.</h5>
+                    <h5 class="modal-title" id="avisoModalLabel"><i class="fa-solid fa-person-hiking me-2"></i> Aviso de salida</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="pt-2 pb-2">
                     </div>
-                    <div class="text-center bg-danger text-white p-2 rounded"><i class="fa-solid fa-circle-exclamation"></i>
-                        <strong class="text-white">¡Atención! </strong>, Este es un formulario para
-                        registrar tu salida a la montaña y
-                        nosotros tener una información completa en caso de que llegaras a requerir nuestra ayuda.
-                     <i class="fa-solid fa-circle-exclamation"></i></div> <br>
-                    <br>
+                    <div class="safety-note"><i class="fa-solid fa-shield-halved"></i><div>
+                        <strong>Tu información puede hacer la diferencia.</strong><br>
+                        Registra los datos de tu salida para que podamos ayudarte con rapidez si ocurre una emergencia.
+                    </div></div>
+                    <h6 class="form-section-title"><i class="fa-regular fa-user"></i> Datos personales</h6>
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">Nombres</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Ingrese sus nombres" maxlength="20" required pattern="[A-Za-z\s]+">
+                                    placeholder="Ingrese sus nombres" minlength="2" maxlength="50" required autocomplete="given-name">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
                                 <label for="" class="form-label">Apellidos</label>
                                 <input type="text" class="form-control" id="lastname" name="lastname"
-                                    placeholder="Ingrese sus apellidos" maxlength="20" required pattern="[A-Za-z\s]+">
+                                    placeholder="Ingrese sus apellidos" minlength="2" maxlength="50" required autocomplete="family-name">
                             </div>
                         </div>
                     </div>
@@ -50,7 +49,7 @@
                                 <label for="" class="form-label">Rut/Pasaporte</label>
                                 <input type="text" class="form-control" onchange="validarRut(this)"
                                     id="document_number" name="document_number" placeholder="Ingrese su rut o pasaporte"
-                                    maxlength="9" required>
+                                    minlength="5" maxlength="20" required autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -66,11 +65,12 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Telefono</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                    placeholder="Ingrese su numero de telefono" pattern="[0-9]+" minlength="8"
-                                    maxlength="9">
+                                    placeholder="Ingrese su número de teléfono" inputmode="numeric" pattern="[0-9]{8,12}" minlength="8"
+                                    maxlength="12" required autocomplete="tel">
                             </div>
                         </div>
                     </div>
+                    <h6 class="form-section-title mt-3"><i class="fa-solid fa-route"></i> Plan de ruta</h6>
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
@@ -118,7 +118,8 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Archivo Track GPX</label>
                                 <input type="file" class="form-control" id="file_path" name="file_path"
-                                    accept=".gpx">
+                                    accept=".gpx,.kmz" data-max-size="10485760">
+                                <div class="form-text">Formato GPX o KMZ, máximo 10 MB.</div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Actividad</label>
                                 <select name="activity" id="activity" class="form-control" required>
-                                    <option selected disabled>Seleccione</option>
+                                    <option value="" selected disabled>Seleccione</option>
                                     <option value="0">Trekking</option>
                                     <option value="1">Hikking</option>
                                     <option value="3">Mountain Bike</option>
@@ -143,25 +144,25 @@
                                 <label for="" class="form-label">N° Participantes</label>
                                 <input type="number" class="form-control" id="number_participants"
                                     name="number_participants" placeholder="Ingrese el numero de participantes"
-                                    required min="1" value="1" onchange="validarParticipantes()">
+                                    required min="1" max="100" value="1" onchange="validarParticipantes()">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="" class="form-label">Fecha de Salida</label>
                                 <input type="datetime-local" class="form-control" id="departure_date"
-                                    name="departure_date" required onchange="validarFecha()">
+                                    name="departure_date" required>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="" class="form-label">Fecha de Regreso</label>
                                 <input type="datetime-local" class="form-control" id="return_date"
-                                    name="return_date" required onchange="validarFecha()" disabled>
+                                    name="return_date" required disabled>
                             </div>
                         </div>
                         <hr class="mb-3"><br>
-                        <h5 class="modal-title" id="avisoModalLabel" class="mb-4">Numeros de Emergencia</h5>
+                        <h6 class="form-section-title mt-3"><i class="fa-solid fa-phone-volume"></i> Contactos de emergencia</h6>
                             <div class="col-md-4 col-sm-12">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Nombre de Emergencia 1 <span class="text-danger">*</span></label>
@@ -190,8 +191,8 @@
                                 <div class="mb-3">
                                     <label for="" class="form-label bg-light">Numero Telefonico 1 <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="number_family_emergency" name="number_family_emergency"
-                                        placeholder="Ingrese el numero"  pattern="[0-9]+" minlength="8"
-                                        maxlength="9" required>
+                                        placeholder="Ingrese el número" inputmode="numeric" pattern="[0-9]{8,12}" minlength="8"
+                                        maxlength="12" required>
                                 </div>
                             </div>
                         <div class="col-md-4 col-sm-12">
@@ -220,14 +221,14 @@
                             <div class="mb-3">
                                 <label for="" class="form-label">Numero Telefonico 2</label>
                                 <input type="text" class="form-control" id="number_family_emergency_2" name="number_family_emergency_2"
-                                    placeholder="Ingrese el numero" pattern="[0-9]+" minlength="8"
-                                    maxlength="9" required>
+                                    placeholder="Ingrese el número" inputmode="numeric" pattern="[0-9]{8,12}" minlength="8"
+                                    maxlength="12" required>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center bg-warning p-2 rounded"><i class="fa-solid fa-circle-exclamation"></i>
-                        Debes recordar dar aviso de finalizado la salida de aviso que has dado y tambien, que solo es posible tener 1 solo aviso activo.
-                     <i class="fa-solid fa-circle-exclamation"></i></div>
+                    <div class="safety-note mb-0"><i class="fa-solid fa-circle-check"></i><div>
+                        <strong>Recuerda cerrar tu salida.</strong><br>Solo puedes mantener un aviso activo a la vez.
+                    </div></div>
                     <div class="modal-footer d-flex justify-content-between">
 
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
@@ -279,28 +280,16 @@ $('#number_family_emergency_2').on('input', function () {
 
 <script>
     function validarFecha() {
-        let departure = new Date(document.getElementById('departure_date').value);
-        let returnDate = new Date(document.getElementById('return_date').value);
+        const departureInput = document.getElementById('departure_date');
+        const returnInput = document.getElementById('return_date');
+        returnInput.disabled = !departureInput.value;
+        returnInput.setCustomValidity('');
+        if (!departureInput.value || !returnInput.value) return true;
 
-        if (returnDate <= departure) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'La fecha de regreso no puede ser anterior a la fecha de salida',
-            });
-            document.getElementById('return_date').value = '';
-        } else if ((returnDate - departure) < 60 * 60 * 1000) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'La diferencia entre la fecha de salida y regreso debe ser mínimo de 1 hora',
-            });
-            document.getElementById('return_date').value = '';
-        }
-
-        if(departure !== null || departure !== '') {
-            document.getElementById('return_date').disabled = false;
-        }
+        const minimumReturn = new Date(departureInput.value).getTime() + (60 * 60 * 1000);
+        const isValid = new Date(returnInput.value).getTime() >= minimumReturn;
+        if (!isValid) returnInput.setCustomValidity('La fecha de regreso debe ser al menos una hora posterior a la salida.');
+        return isValid;
     }
 
     function validarParticipantes() {
@@ -314,6 +303,24 @@ $('#number_family_emergency_2').on('input', function () {
             document.getElementById('number_participants').value = 1;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const departureInput = document.getElementById('departure_date');
+        const returnInput = document.getElementById('return_date');
+        const fileInput = document.getElementById('file_path');
+
+        departureInput?.addEventListener('change', function () {
+            if (this.value) {
+                const minimum = new Date(new Date(this.value).getTime() + (60 * 60 * 1000));
+                returnInput.min = new Date(minimum.getTime() - minimum.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            }
+            validarFecha();
+        });
+        returnInput?.addEventListener('change', validarFecha);
+        fileInput?.addEventListener('change', function () {
+            this.setCustomValidity(this.files[0] && this.files[0].size > 10485760 ? 'El archivo no puede superar los 10 MB.' : '');
+        });
+    });
 </script>
 
 <script>

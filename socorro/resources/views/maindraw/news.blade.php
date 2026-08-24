@@ -2,16 +2,16 @@
     <section id="noticias" class="news">
         <div class="reveal container">
             <div class="section-header">
-                <h2 class="section-title text-dark">Últimas Noticias</h2>
-                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                <p class="section-subtitle">Mantente informado sobre nuestras operaciones y novedades del rescate de montaña</p>
+                <span class="news-category">Actualidad institucional</span>
+                <h2 class="section-title text-dark mt-3">Últimas noticias</h2>
+                <p class="section-subtitle">Operaciones, prevención y novedades del rescate de montaña en Chile.</p>
             </div>
             <div id="newsContainer">
                 <div class="news-grid">
                     @foreach($news as $item)
                         <article class="news-card @if($item->featured) featured @endif">
                             <div class="news-image">
-                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="img-fluid">
+                                <img src="{{ asset('storage/'.$item->image) }}" alt="{{ $item->title }}" loading="lazy">
                                 @if($item->featured)
                                     <div class="news-badge">Destacada</div>
                                 @endif
@@ -22,8 +22,10 @@
                                     <span class="news-category">{{ $item->category->name }}</span>
                                 </div>
                                 <h3>{{ $item->title }}</h3>
-                                {{ substr(strip_tags($item->description), 0, 150) }}{{ strlen(strip_tags($item->description)) > 150 ? '...' : '' }}
-                                <a href="#"  onclick="showNews({{ $item->id }})" class="news-link">Leer más →</a>
+                                <p class="news-excerpt">{{ \Illuminate\Support\Str::limit(strip_tags($item->description), 155) }}</p>
+                                <a href="#" onclick="showNews({{ $item->id }}); return false;" class="news-link" data-no-loading>
+                                    Leer noticia <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                </a>
                             </div>
                         </article>
                     @endforeach

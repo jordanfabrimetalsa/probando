@@ -31,6 +31,7 @@ return array(
     'App\\Models\\Car' => $baseDir . '/app/Models/Car.php',
     'App\\Models\\CarBrand' => $baseDir . '/app/Models/CarBrand.php',
     'App\\Models\\CarModel' => $baseDir . '/app/Models/CarModel.php',
+    'App\\Models\\Cargo' => $baseDir . '/app/Models/Cargo.php',
     'App\\Models\\CategoriesNews' => $baseDir . '/app/Models/CategoriesNews.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
     'App\\Models\\CategoryCheck' => $baseDir . '/app/Models/CategoryCheck.php',

@@ -3,14 +3,12 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content modal-extra-background">
             <div class="modal-header">
-                <h5 class="modal-title" id="departureModalLabel">Mi Salida</h5>
+                <h5 class="modal-title" id="departureModalLabel"><i class="fa-solid fa-magnifying-glass-location me-2"></i> Consultar mi salida</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="pt-2 pb-2"><strong class="text-danger">¡Atención!, </strong> Revisa aquí tu detalle de
-                    salida. En el caso de estar activa aún, favor de cerrarla.</div>
-                <p>Si tiene salida activa, ingrese su rut o pasaporte.</p>
-                <form id="form_departure_search" type="post">
+                <div class="safety-note"><i class="fa-solid fa-circle-info"></i><div><strong>Revisa el estado de tu salida.</strong><br>Si ya regresaste, ciérrala para informar que estás a salvo.</div></div>
+                <form id="form_departure_search" method="POST" data-loading-title="Buscando tu salida" novalidate>
                     @csrf
                     <div class="row">
                         <div class="col-md-4 col-12">
@@ -42,7 +40,7 @@
                                 <label class="form-label invisible">Acciones</label>
 
                                 <div class="d-flex gap-2">
-                                    <button type="submit" class="btn btn-dark btn-search-load">Buscar</button>
+                                    <button type="submit" class="btn btn-dark btn-search-load"><i class="fa-solid fa-magnifying-glass me-1"></i> Buscar</button>
                                     <button type="button" class="btn btn-warning"
                                         onclick="clearSearch()">Limpiar</button>
                                     <button type="button" class="btn btn-info" data-bs-toggle="modal"

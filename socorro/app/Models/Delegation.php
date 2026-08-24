@@ -9,7 +9,9 @@ class Delegation extends Model
 {
     protected $table = 'delegations';
 
-    protected $fillable = ['name', 'region_id', 'image', 'postulation_status'];
+    protected $fillable = ['name', 'region_id', 'image', 'postulation_status', 'is_national'];
+
+    protected $casts = ['is_national' => 'boolean'];
 
     public function voluntaries()
     {
@@ -21,5 +23,4 @@ class Delegation extends Model
         return $this->belongsTo(Regions::class, 'region_id');
     }
 }
-
 

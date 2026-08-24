@@ -1,0 +1,256 @@
+.maindraw-modern .history {
+    position: relative;
+    overflow: hidden;
+    padding-inline: 0;
+    background:
+        linear-gradient(rgba(244, 249, 251, .95), rgba(244, 249, 251, .95)),
+        url('../img/fondodesnivel.png') center / cover fixed;
+}
+
+.maindraw-modern .history .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1120px;
+}
+
+.maindraw-modern .history-grid {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    max-width: 1020px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.maindraw-modern .history-grid::before {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: auto;
+    border-radius: 999px;
+    background: linear-gradient(#7acbe8, #c3dce6 75%, transparent);
+    transform: translateX(-50%);
+}
+
+.maindraw-modern .history-year,
+.maindraw-modern .history-year.left,
+.maindraw-modern .history-year.right {
+    position: relative;
+    width: calc(50% - 38px);
+    padding: 0;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .45s ease, transform .45s ease;
+}
+
+.maindraw-modern .history-year.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.maindraw-modern .history-year.left {
+    align-self: flex-start;
+    align-items: stretch;
+}
+
+.maindraw-modern .history-year.right {
+    align-self: flex-end;
+    align-items: stretch;
+}
+
+.maindraw-modern .history-year h3,
+.maindraw-modern .history-year.left h3,
+.maindraw-modern .history-year.right h3 {
+    position: absolute;
+    top: 20px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    min-width: 68px;
+    height: 34px;
+    margin: 0;
+    padding: 0 12px;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    background: #176985;
+    box-shadow: 0 0 0 1px #9bcfe1, 0 5px 14px rgba(12, 64, 84, .16);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 750;
+    line-height: 1;
+    transform: none;
+}
+
+.maindraw-modern .history-year.left h3 {
+    right: -73px;
+}
+
+.maindraw-modern .history-year.right h3 {
+    left: -73px;
+}
+
+.maindraw-modern .history-content {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.maindraw-modern .history-year p {
+    display: -webkit-box;
+    width: 100%;
+    max-width: none;
+    min-height: 106px;
+    margin: 0;
+    padding: 22px 24px;
+    overflow: hidden;
+    border: 1px solid #dce7eb !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, .98) !important;
+    box-shadow: 0 1px 2px rgba(12, 45, 58, .05), 0 10px 28px rgba(12, 67, 89, .07) !important;
+    color: #536974;
+    font-size: .9rem;
+    line-height: 1.68;
+    text-align: left;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+.maindraw-modern .history-year p:hover {
+    border-color: #a8d6e5 !important;
+    box-shadow: 0 1px 2px rgba(12, 45, 58, .05), 0 14px 34px rgba(12, 67, 89, .11) !important;
+    transform: none;
+}
+
+.maindraw-modern .history-year p strong {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    color: #c94316 !important;
+    font-size: .79rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: .045em;
+}
+
+.maindraw-modern .history-year p strong svg {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.maindraw-modern .history-year.expanded p {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+}
+
+.maindraw-modern .btn-read-more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    margin-top: 9px;
+    padding: 6px 10px;
+    border: 1px solid #cbdde4;
+    border-radius: 8px;
+    background: #fff;
+    color: #176985;
+    font-size: .76rem;
+    font-weight: 700;
+}
+
+.maindraw-modern .btn-read-more:hover {
+    border-color: #78c7e2;
+    background: #eaf8fd;
+}
+
+.maindraw-modern #toggleHistory {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 132px;
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid #176985;
+    border-radius: 8px;
+    background: #176985;
+    color: #fff;
+    font-size: .82rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(23, 105, 133, .16);
+}
+
+.maindraw-modern #toggleHistory::after {
+    content: "↓";
+    margin-left: 8px;
+}
+
+.maindraw-modern #toggleHistory:hover {
+    border-color: #0f536c;
+    background: #0f536c;
+}
+
+@media (max-width: 767.98px) {
+    .maindraw-modern .history {
+        background-attachment: scroll;
+    }
+
+    .maindraw-modern .history-grid {
+        gap: 20px;
+        padding-left: 42px;
+    }
+
+    .maindraw-modern .history-grid::before {
+        left: 14px;
+        transform: none;
+    }
+
+    .maindraw-modern .history-year,
+    .maindraw-modern .history-year.left,
+    .maindraw-modern .history-year.right {
+        width: 100%;
+        padding: 0;
+    }
+
+    .maindraw-modern .history-year h3,
+    .maindraw-modern .history-year.left h3,
+    .maindraw-modern .history-year.right h3 {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        display: inline-flex;
+        width: auto;
+        margin: 0 0 8px;
+    }
+
+    .maindraw-modern .history-year::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: -34px;
+        width: 12px;
+        height: 12px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        background: #EA4E1A;
+        box-shadow: 0 0 0 1px #e8a58d;
+    }
+
+    .maindraw-modern .history-year p {
+        min-height: auto;
+        padding: 18px;
+        font-size: .86rem;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+    }
+}

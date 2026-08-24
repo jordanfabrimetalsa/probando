@@ -14,15 +14,17 @@
             <div class="col-12">
               <div class="mb-3">
                 <label for="quantity" class="form-label">Cantidad<span class="text-danger">*</span></label>
-                <input type="number" class="form-control border border-gray p-2" id="quantity" name="quantity">
+                <input type="number" class="form-control border border-gray p-2" id="quantity" name="quantity" min="1" step="1" required>
               </div>
             </div>
             <div class="col-12">
               <div class="mb-3">
                 <label for="unit_cost" class="form-label">Costo Unitario<span class="text-danger">*</span></label>
-                <input type="number" class="form-control border border-gray p-2" id="unit_cost" name="unit_cost">
+                <input type="number" class="form-control border border-gray p-2" id="unit_cost" name="unit_cost" min="0" step="1" required>
               </div>
             </div>
+            <div class="col-12"><div class="mb-3"><label for="stock_source" class="form-label">Proveedor u origen<span class="text-danger">*</span></label><input type="text" class="form-control" id="stock_source" name="source" maxlength="150" placeholder="Ej.: compra, donación, proveedor" required></div></div>
+            <div class="col-12"><div class="mb-3"><label for="stock_add_reference" class="form-label">Documento o referencia</label><input type="text" class="form-control" id="stock_add_reference" name="reference" maxlength="100" placeholder="Factura, guía o acta"></div></div>
           </div>
           <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Agregar Stock</button>
         </form>
@@ -33,4 +35,3 @@
     </div>
   </div>
 </div>
-

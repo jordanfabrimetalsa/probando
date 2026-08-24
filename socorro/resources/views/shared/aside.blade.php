@@ -3,8 +3,7 @@
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand px-4 py-3 m-0" href="https://demos.creative-tim.com/material-dashboard/pages/dashboard "
-            target="_blank">
+        <a class="navbar-brand px-4 py-3 m-0" href="{{ route('dashboard') }}">
             <img src="../assets/img/logo-socorro.png" class="navbar-brand-img" width="26" height="26"
                 alt="main_logo">
             <span class="ms-1 text-sm ms-1 text-gray opacity-5">CSA Chile</span>
@@ -14,7 +13,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active bg-gradient-dark text-white" href="{{ route('dashboard') }}">
+                <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                     <i class="fa-solid fa-chart-line opacity-5"></i>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
@@ -41,6 +40,14 @@
                                         <span class="nav-link-text ms-1">Usuarios</span>
                                     </a>
                                 </li>
+                                @if(auth()->user()->hasPermission('roles.manage') && \App\Support\DelegationAccess::isNational())
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
+                                            <i class="fa-solid fa-user-shield opacity-5"></i>
+                                            <span class="nav-link-text ms-1">Roles y permisos</span>
+                                        </a>
+                                    </li>
+                                @endif
                             @endcanany
                             @canany(['watch-admin', 'watch-jefe-operaciones', 'watch-administrador-nacional'])
                                 <li class="nav-item">
@@ -55,6 +62,14 @@
                                         <span class="nav-link-text ms-1">Inventario</span>
                                     </a>
                                 </li>
+                                @if(auth()->user()->role === 'admin')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->routeIs('finances.*') ? 'active' : '' }}" href="{{ route('finances.index') }}">
+                                            <i class="fa-solid fa-wallet opacity-5"></i>
+                                            <span class="nav-link-text ms-1">Finanzas</span>
+                                        </a>
+                                    </li>
+                                @endif
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" href="{{ route('registro-rescate') }}">
                                     <i class="material-symbols-rounded opacity-5">checkbook</i>
@@ -166,7 +181,7 @@
                     </div>
                 @else
                     <div style="font-size: 0.8em">
-                        No se pudo obtener el clima actual. {{ $weatherData['main']['temp'] }}
+                        No se pudo obtener el clima actual.
                     </div>
                 @endif
             </a>
@@ -185,7 +200,7 @@
                     </div>
                 @else
                     <div style="font-size: 0.8em">
-                        No se pudo obtener el clima actual. {{ $weatherDataLaParva['main']['temp'] }}
+                        No se pudo obtener el clima actual.
                     </div>
                 @endif
             </a>

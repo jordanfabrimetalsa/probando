@@ -8,7 +8,7 @@ use App\Models\User;
 
 class Rescue extends Model
 {
-    protected $table = 'rescates';
+    protected $table = 'rescue';
 
     public function voluntary()
     {

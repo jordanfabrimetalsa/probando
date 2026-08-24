@@ -48,6 +48,11 @@ class Voluntary extends Model
         return $this->hasMany(Image_Voluntary::class, 'voluntary_id', 'id');
     }
 
+    public function financeTransactions()
+    {
+        return $this->hasMany(FinanceTransaction::class);
+    }
+
     public function getImageAttribute()
     {
         $image = $this->images()->first();

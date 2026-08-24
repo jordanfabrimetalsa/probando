@@ -13,6 +13,10 @@ use App\Models\Cargo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use App\Models\FinanceTransaction;
+use App\Support\DelegationAccess;
 
 class VoluntarioController extends Controller
 {
@@ -20,18 +24,20 @@ class VoluntarioController extends Controller
     public function index()
     {
         $cargos = Cargo::all();
-        $delegations = Delegation::all();
+        $delegations = DelegationAccess::isNational() ? Delegation::all() : Delegation::whereKey(DelegationAccess::id())->get();
         return view('module.voluntario.index', compact('delegations', 'cargos'));
     }
 
     public function data()
     {
-        $voluntarios = Voluntary::with('delegation', 'cargo')->get();
+        $voluntarios = DelegationAccess::scope(Voluntary::with('delegation', 'cargo'))->get();
         return response()->json($voluntarios);
     }
 
     public function store(Request $request)
     {
+        $request->validate(['delegation_id' => ['required', 'exists:delegations,id']]);
+        DelegationAccess::authorize((int) $request->delegation_id);
         try{
             $voluntary = new Voluntary();
             $voluntary->delegation_id = $request->delegation_id;
@@ -83,7 +89,7 @@ class VoluntarioController extends Controller
     public function show(string $id)
     {
         try{
-            $voluntary = Voluntary::with(['delegation', 'images', 'cargo'])->find($id);
+            $voluntary = DelegationAccess::scope(Voluntary::with(['delegation', 'images', 'cargo']))->find($id);
             if (!$voluntary) {
                 return response()->json([
                     'status' => 'error',
@@ -111,7 +117,7 @@ class VoluntarioController extends Controller
     public function edit(string $id)
     {
         try{
-            $voluntary = Voluntary::find($id);
+            $voluntary = DelegationAccess::scope(Voluntary::query())->findOrFail($id);
             return response()->json($voluntary);
         } catch (Exception $e) {
             return response()->json([
@@ -124,7 +130,7 @@ class VoluntarioController extends Controller
     public function update(Request $request, string $id)
     {
         try{
-            $voluntary = Voluntary::find($id);
+            $voluntary = DelegationAccess::scope(Voluntary::query())->findOrFail($id);
             $voluntary->cargo_id = $request->cargo_edit;
             $voluntary->blood_type = $request->blood_type;
             $voluntary->vehicle = $request->vehicle;
@@ -145,7 +151,7 @@ class VoluntarioController extends Controller
     public function destroy(string $id)
     {
         try{
-            $voluntary = Voluntary::find($id);
+            $voluntary = DelegationAccess::scope(Voluntary::query())->findOrFail($id);
             $voluntary->delete();
 
             /*$image_voluntary = Image_Voluntary::where('id', $id)->first();
@@ -165,6 +171,8 @@ class VoluntarioController extends Controller
 
     public function emergencyStore(Request $request)
     {
+        $target = Voluntary::findOrFail($request->id_user_emergency);
+        DelegationAccess::authorize((int) $target->delegation_id);
         try{
             $emergency = new Emergency();
             $emergency->voluntary_id = $request->id_user_emergency;
@@ -184,6 +192,8 @@ class VoluntarioController extends Controller
 
     public function remarkStore(Request $request)
     {
+        $target = Voluntary::findOrFail($request->id_user_remark);
+        DelegationAccess::authorize((int) $target->delegation_id);
         try{
             $remark = new Remark();
             $remark->voluntary_id = $request->id_user_remark;
@@ -202,14 +212,12 @@ class VoluntarioController extends Controller
     }
 
     public function storeCargo(Request $request){
-        try{
-            $request->validate([
-                'name' => ['required', 'string', 'max:100'],
-            ]);
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:100', 'unique:cargos,nombre'],
+        ], [], ['name' => 'nombre']);
 
-            $cargo = new Cargo();
-            $cargo->nombre = $request->name;
-            $cargo->save();
+        try{
+            Cargo::create(['nombre' => $validated['name']]);
 
             return response()->json(['success' => 'Cargo creado correctamente']);
         }catch(Exception $e){
@@ -223,26 +231,57 @@ class VoluntarioController extends Controller
     public function profile(){
         try{
             $voluntaryId = Auth::user()->voluntary_id;
-            $voluntary = Voluntary::with(['delegation', 'cargo', 'images'])->find($voluntaryId);
+            $relations = ['delegation', 'images'];
+            if (Schema::hasTable('cargos')) {
+                $relations[] = 'cargo';
+            }
+            $voluntary = Voluntary::with($relations)->find($voluntaryId);
             if (!$voluntary) {
                 return redirect()->route('login')->with('error', 'Voluntario no encontrado');
             }
+            if (!Schema::hasTable('cargos')) {
+                $voluntary->setRelation('cargo', null);
+            }
 
-            $rescues = DB::table('rescate_voluntarios')
-                        ->join('rescates', 'rescate_voluntarios.rescate_id', '=', 'rescates.id')
-                        ->where('rescate_voluntarios.voluntario_id', $voluntaryId)
-                        ->select('rescates.*')
-                        ->orderByDesc('rescates.fecha_operativo')
-                        ->get();
+            $rescuesQuery = DB::table('rescue')
+                ->where('rescue.voluntario_id', $voluntaryId);
+
+            if (Schema::hasTable('rescate_voluntarios')) {
+                $rescuesQuery->orWhereIn('rescue.id', function ($query) use ($voluntaryId) {
+                    $query->select('rescate_id')
+                        ->from('rescate_voluntarios')
+                        ->where('voluntario_id', $voluntaryId);
+                });
+            }
+
+            $rescues = $rescuesQuery
+                ->select([
+                    'rescue.*',
+                    DB::raw('rescue.type as tipo_emergencia'),
+                    DB::raw('rescue.date_finish_rescue as fecha_operativo'),
+                    DB::raw('rescue.place as lugar'),
+                    DB::raw("'-' as sexo"),
+                ])
+                ->orderByDesc('rescue.date_finish_rescue')
+                ->get();
 
             $remark = Remark::with('user')->where('voluntary_id', $voluntaryId)->get();
             $emergency = Emergency::where('voluntary_id', $voluntaryId)->get();
+            $dues = FinanceTransaction::with('category')
+                ->where('voluntary_id', $voluntaryId)
+                ->whereHas('category', fn ($query) => $query->where('system_key', 'membership_dues'))
+                ->latest('transaction_date')
+                ->get();
 
-            $cargos = Cargo::all();
-            $delegations = Delegation::all();
-            return view('module.voluntario.profile', compact('voluntary','cargos', 'delegations', 'remark', 'emergency', 'rescues'));
+            return view('module.voluntario.profile', compact('voluntary', 'remark', 'emergency', 'rescues', 'dues'));
         }catch(Exception $e){
-            return redirect()->route('login')->with('error', $e);
+            Log::error('No fue posible cargar el perfil del voluntario.', [
+                'user_id' => Auth::id(),
+                'voluntary_id' => Auth::user()?->voluntary_id,
+                'exception' => $e,
+            ]);
+
+            return redirect()->route('dashboard')->with('error', 'No fue posible cargar tu perfil. Inténtalo nuevamente.');
         }
     }
 }

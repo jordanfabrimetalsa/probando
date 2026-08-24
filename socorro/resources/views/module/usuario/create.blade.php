@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Voluntario</label>
             <select class="form-select border border-gray p-2" aria-label="Default select example" name="voluntary_id">
-              <option selected>Seleccione el correspondiente Voluntario</option>
+              <option value="" selected>Seleccione el correspondiente Voluntario</option>
               @foreach($voluntarios as $voluntario)
                 @if($voluntario->busy == false)
                 <option value="{{ $voluntario->id }}">{{ $voluntario->name }} {{ $voluntario->lastname }}</option>
@@ -38,14 +38,10 @@
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Rol</label>
             <select class="form-select border border-gray p-2" aria-label="Default select example" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="jefe_operaciones">Jefe Operaciones</option>
-              <option value="organizador_guardia">Organizador Guardia</option>
-              <option value="comun">Común</option>
-              <option value="cuartelero">Cuartelero</option>
-              <option value="administrador_nacional">Administrador Nacional</option>
-              <option value="comunicaciones">Comunicaciones</option>
+              <option value="" selected disabled>Seleccione el rol</option>
+              @foreach($roles as $role)
+                <option value="{{ $role->slug }}">{{ $role->name }}</option>
+              @endforeach
             </select>
           </div>
           <div class="mb-3">

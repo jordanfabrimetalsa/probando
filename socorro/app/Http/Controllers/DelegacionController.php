@@ -8,25 +8,27 @@ use Exception;
 use App\Models\Regions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Support\DelegationAccess;
 
 class DelegacionController extends Controller
 {
 
     public function index()
     {
-        $delegations = Delegation::all();
+        $delegations = DelegationAccess::isNational() ? Delegation::all() : Delegation::whereKey(DelegationAccess::id())->get();
         $regions = Regions::all();
         return view('module.delegation.index', compact('delegations', 'regions'));
     }
 
     public function data()
     {
-        $delegations = Delegation::with('region')->get();
+        $delegations = DelegationAccess::scope(Delegation::with('region'), 'delegations.id')->get();
         return response()->json($delegations);
     }
 
     public function store(Request $request)
     {
+        abort_unless(DelegationAccess::isNational(), 403, 'Solo la Delegación Nacional puede crear delegaciones.');
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -55,7 +57,8 @@ class DelegacionController extends Controller
     public function edit($id)
     {
         try{
-            $delegation = Delegation::find($id);
+            $delegation = Delegation::findOrFail($id);
+            DelegationAccess::authorize((int) $delegation->id);
             return response()->json($delegation);
         }catch(Exception $e){
             return response()->json(['error' => $e]);
@@ -66,6 +69,7 @@ class DelegacionController extends Controller
     {
         try{
             $delegation = Delegation::findOrFail($id);
+            DelegationAccess::authorize((int) $delegation->id);
 
             if (!$request->has('name') || $request->name === null) {
                 return response()->json(['error' => 'El campo nombre es obligatorio.'], 422);
@@ -86,8 +90,10 @@ class DelegacionController extends Controller
 
     public function destroy(string $id)
     {
+        abort_unless(DelegationAccess::isNational(), 403, 'Solo la Delegación Nacional puede eliminar delegaciones.');
         try{
-            $delegation = Delegation::find($id);
+            $delegation = Delegation::findOrFail($id);
+            abort_if($delegation->is_national, 422, 'La Delegación Nacional no se puede eliminar.');
             $delegation->delete();
             return response()->json(['success' => 'Delegación eliminada correctamente']);
         }catch(Exception $e){

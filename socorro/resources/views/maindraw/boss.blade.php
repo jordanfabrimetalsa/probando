@@ -1,131 +1,71 @@
-<!-- Modal de Lista de Salidas -->
-<div class="modal fade" id="directivaModal" tabindex="-1" aria-labelledby="departureModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+@php
+    $directiva = [
+        ['nombre' => 'Felipe Silva', 'cargo' => 'Director Nacional', 'icono' => 'fa-shield-halved', 'principal' => true],
+        ['nombre' => 'Sergio Godoy', 'cargo' => 'Secretario General', 'icono' => 'fa-file-signature'],
+        ['nombre' => 'Sergio Merino', 'cargo' => 'Tesorero Nacional', 'icono' => 'fa-scale-balanced'],
+        ['nombre' => 'Daniela Silva', 'cargo' => 'Directora Administrativa', 'icono' => 'fa-building-shield'],
+        ['nombre' => 'Maurizio Binfa', 'cargo' => 'Director Técnico', 'icono' => 'fa-compass-drafting'],
+    ];
+@endphp
+
+<div class="modal fade national-board-modal" id="directivaModal" tabindex="-1"
+    aria-labelledby="directivaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content modal-extra-background">
-            <div class="modal-header">
-                <h5 class="modal-title" id="departureModalLabel">Directiva Nacional CSA - {{ date('Y') }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <p>Directiva asumida para regir este periodo, con el fin de llevar a cabo la gestión del CSA,
-                        institución sin fines de lucro.</p>
-                    <div class="row mt-n1-9">
-                        <div class="col-md-6 col-xl-3 mt-1-9 wow fadeInUp mb-2" data-wow-delay=".2s"
-                            style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                            <div class="team-style07">
-                                <div class="team-thumb mb-1-9">
-                                    <div class="thumb"><img src="{{ asset('assets/img/sinperfil.png') }}"
-                                            class="rounded-circle" alt="..."></div>
-                                    <div class="team-social">
-                                        <ul class="styled-icons">
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h3 class="h5 mb-1"><a href="#!">Felipe Silva</a></h3>
-                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                                <p class="mb-0">Director Nacional</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xl-3 mt-1-9 wow fadeInUp mb-2" data-wow-delay=".3s"
-                            style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-                            <div class="team-style07">
-                                <div class="team-thumb mb-1-9">
-                                    <div class="thumb"><img src="{{ asset('assets/img/sinperfil.png') }}"
-                                            class="rounded-circle" alt="..."></div>
-                                    <div class="team-social">
-                                        <ul class="styled-icons">
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h3 class="h5 mb-1"><a href="#!">Sergio Godoy</a></h3>
-                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                                <p class="mb-0">Secretario General</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xl-3 mt-1-9 wow fadeInUp mb-2" data-wow-delay=".4s"
-                            style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                            <div class="team-style07">
-                                <div class="team-thumb mb-1-9">
-                                    <div class="thumb"><img src="{{ asset('assets/img/sinperfil.png') }}"
-                                            class="rounded-circle" alt="..."></div>
-                                    <div class="team-social">
-                                        <ul class="styled-icons">
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h3 class="h5 mb-1"> <a href="#!">Sergio Merino</a></h3>
-                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                                <p class="mb-0">Tesorero Nacional</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xl-3 mt-1-9 wow fadeInUp mb-2" data-wow-delay=".5s"
-                            style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-                            <div class="team-style07">
-                                <div class="team-thumb mb-1-9">
-                                    <div class="thumb"><img src="{{ asset('assets/img/sinperfil.png') }}"
-                                            class="rounded-circle" alt="..."></div>
-                                    <div class="team-social">
-                                        <ul class="styled-icons">
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h3 class="h5 mb-1"> <a href="#!">Daniela Silva</a></h3>
-                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                                <p class="mb-0">Directora Administrativa</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-xl-3 mt-1-9 wow fadeInUp mb-2" data-wow-delay=".5s"
-                            style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
-                            <div class="team-style07">
-                                <div class="team-thumb mb-1-9">
-                                    <div class="thumb"><img src="{{ asset('assets/img/sinperfil.png') }}"
-                                            class="rounded-circle" alt="..."></div>
-                                    <div class="team-social">
-                                        <ul class="styled-icons">
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-facebook-f"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-twitter"></i></a></li>
-                                            <li><a class="styled-icons-item" href="#!"><i
-                                                        class="fab fa-linkedin-in"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <h3 class="h5 mb-1"> <a href="#!">Maurizio Binfa</a></h3>
-                                <hr style="border-top: 3px solid rgb(102, 204, 251); width: 20%; margin: 0 auto; margin-bottom: 1rem;">
-                                <p class="mb-0">Director Técnico</p>
-                            </div>
-                        </div>
+            <div class="modal-header national-board-header">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="{{ asset('assets/img/logo-socorro.png') }}" alt="Cuerpo de Socorro Andino"
+                        class="national-board-logo">
+                    <div>
+                        <span class="national-board-kicker">Gobierno institucional</span>
+                        <h5 class="modal-title" id="directivaModalLabel">Directiva Nacional</h5>
+                        <small>Periodo {{ date('Y') }}</small>
                     </div>
                 </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
+
+            <div class="modal-body national-board-body">
+                <div class="national-board-intro">
+                    <div>
+                        <span class="national-board-eyebrow">Cuerpo de Socorro Andino de Chile</span>
+                        <h2>Liderazgo al servicio del rescate y la comunidad</h2>
+                        <p>La Directiva Nacional conduce la gestión institucional y resguarda el cumplimiento de
+                            nuestra misión voluntaria, gratuita y de servicio público en todo el país.</p>
+                    </div>
+                    <div class="national-board-seal" aria-hidden="true">
+                        <i class="fa-solid fa-mountain-sun"></i><span>Chile</span>
+                    </div>
+                </div>
+
+                <div class="national-board-grid">
+                    @foreach ($directiva as $miembro)
+                        <article class="board-member {{ !empty($miembro['principal']) ? 'board-member--principal' : '' }}">
+                            <div class="board-member-photo">
+                                <img src="{{ asset('assets/img/sinperfil.png') }}" alt="Retrato de {{ $miembro['nombre'] }}">
+                            </div>
+                            <div class="board-member-info">
+                                <span class="board-member-role"><i class="fa-solid {{ $miembro['icono'] }}"></i>
+                                    {{ $miembro['cargo'] }}</span>
+                                <h3>{{ $miembro['nombre'] }}</h3>
+                                <span class="board-member-institution">Directiva Nacional · CSA Chile</span>
+                            </div>
+                            <span class="board-member-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        </article>
+                    @endforeach
+                </div>
+
+                <div class="national-board-footer-note">
+                    <i class="fa-solid fa-handshake-angle"></i>
+                    <span>Compromiso, preparación y servicio voluntario en beneficio de quienes realizan actividades
+                        en montaña y zonas de difícil acceso.</span>
+                </div>
+            </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark me-1"></i> Cerrar
+                </button>
             </div>
         </div>
     </div>

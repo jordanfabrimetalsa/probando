@@ -12,12 +12,13 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StockMovement;
+use App\Support\DelegationAccess;
 
 class InventarioController extends Controller
 {
     public function index()
     {
-        $delegations = Delegation::all();
+        $delegations = DelegationAccess::isNational() ? Delegation::all() : Delegation::whereKey(DelegationAccess::id())->get();
         return view('module.inventario.index', compact('delegations'));
     }
 
@@ -26,6 +27,7 @@ class InventarioController extends Controller
             $products = Product::join('categories', 'products.id_category', '=', 'categories.id')
             ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
             ->select('products.*', 'products.barcode as barcode', 'categories.name as category_name', 'warehouses.name as warehouse_name')
+            ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('warehouses.delegation_id', DelegationAccess::id()))
             ->get();
             return response()->json($products);
         }catch(Exception $e){
@@ -38,9 +40,13 @@ class InventarioController extends Controller
 
     public function stock_movements(){
         try{
-            $stock_movements = StockMovement::join('products', 'stock_movement.product_id', '=', 'products.id')
-            ->join('users', 'stock_movement.user_id', '=', 'users.id')
-            ->select('stock_movement.*', 'users.name as user_name', 'products.name as product_name', 'stock_movement.quantity as quantity', 'stock_movement.unit_cost as unit_cost', 'stock_movement.unit_cost as unit_cost', 'stock_movement.product_id as product_id', 'stock_movement.user_id as user_id', 'stock_movement.created_at as created_at', 'stock_movement.updated_at as updated_at')
+            $stock_movements = StockMovement::leftJoin('products', 'stock_movement.product_id', '=', 'products.id')
+            ->leftJoin('users', 'stock_movement.user_id', '=', 'users.id')
+            ->leftJoin('warehouses', 'stock_movement.warehouse_id', '=', 'warehouses.id')
+            ->select('stock_movement.*', 'users.name as user_name', 'products.name as product_name', 'warehouses.name as warehouse_name')
+            ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('stock_movement.delegation_id', DelegationAccess::id()))
+            ->orderByDesc('stock_movement.occurred_at')
+            ->orderByDesc('stock_movement.id')
             ->get();
             return response()->json($stock_movements);
         }catch(Exception $e){
@@ -52,15 +58,14 @@ class InventarioController extends Controller
     }
 
     public function categoryStore(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|max:100|unique:categories,name',
+            'description' => 'required|max:255'
+        ]);
         try{
-            $request->validate([
-                'name' => 'required|max:100|unique:categories,name',
-                'description' => 'required|max:255'
-            ]);
-
             $category = new Category();
-            $category->name = $request->name;
-            $category->description = $request->description;
+            $category->name = $validated['name'];
+            $category->description = $validated['description'];
             $category->save();
             return response()->json([
                 'status' => 'success',
@@ -74,21 +79,21 @@ class InventarioController extends Controller
         }
     }
     public function warehouseStore(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|max:100|unique:warehouses,name',
+            'description' => 'required|max:255',
+            'path' => 'required|max:255',
+            'status' => 'required|boolean',
+            'delegation_id' => 'required|exists:delegations,id'
+        ]);
         try{
-            $request->validate([
-                'name' => 'required|max:100|unique:warehouses,name',
-                'description' => 'required|max:255',
-                'path' => 'required|max:255',
-                'status' => 'required|boolean',
-                'delegation_id' => 'required|exists:delegations,id'
-            ]);
-
+            DelegationAccess::authorize((int) $validated['delegation_id']);
             $warehouse = new Warehouse();
-            $warehouse->name = $request->name;
-            $warehouse->description = $request->description;
-            $warehouse->path = $request->path;
-            $warehouse->status = $request->status;
-            $warehouse->delegation_id = $request->delegation_id;
+            $warehouse->name = $validated['name'];
+            $warehouse->description = $validated['description'];
+            $warehouse->path = $validated['path'];
+            $warehouse->status = $validated['status'];
+            $warehouse->delegation_id = $validated['delegation_id'];
             $warehouse->save();
             return response()->json([
                 'status' => 'success',
@@ -117,6 +122,8 @@ class InventarioController extends Controller
         ]);
 
         try{
+            $warehouse = Warehouse::findOrFail($request->id_warehouse);
+            DelegationAccess::authorize((int) $warehouse->delegation_id);
             $product = new Product();
             $product->barcode = $request->barcode;
             $product->name = $request->name;
@@ -158,6 +165,7 @@ class InventarioController extends Controller
                                 ->join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
                                 ->select('products.*', 'categories.name as category_name', 'categories.description as category_description', 'warehouses.name as warehouse_name', 'warehouses.description as warehouse_description', 'warehouses.status as warehouse_status', 'warehouses.path as warehouse_path')
                                 ->where('products.id', $id)
+                                ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('warehouses.delegation_id', DelegationAccess::id()))
                                 ->get();
 
             return response()->json($products);
@@ -171,39 +179,35 @@ class InventarioController extends Controller
 
     public function addStock(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'product_id_show' => 'required|exists:products,id',
-            'quantity' => 'required|numeric',
-            'unit_cost' => 'required|numeric'
-        ]);
+            'quantity' => 'required|integer|min:1|max:1000000',
+            'unit_cost' => 'required|numeric|min:0|max:999999999',
+            'source' => 'required|string|min:2|max:150',
+            'reference' => 'nullable|string|max:100',
+        ], [], ['product_id_show' => 'producto', 'quantity' => 'cantidad', 'unit_cost' => 'costo unitario', 'source' => 'origen']);
 
         try{
-            // Registrar el agregado de stock en la tabla stock_products
-            $stockAdd = new StockProductAdd();
-            $stockAdd->count = $request->quantity;
-            $stockAdd->cost = $request->unit_cost;
-            $stockAdd->product_id = $request->product_id_show;
+            DB::transaction(function () use ($validated) {
+                $product = Product::lockForUpdate()->findOrFail($validated['product_id_show']);
+                $warehouse = Warehouse::findOrFail($product->id_warehouse);
+                DelegationAccess::authorize((int) $warehouse->delegation_id);
+                $before = (int) $product->stock;
+                $after = $before + (int) $validated['quantity'];
 
-            // Actualizar el stock del producto
-            $productDetail = Product::find($request->product_id_show);
-            $productDetail->stock = $productDetail->stock + $request->quantity;
-            $productDetail->status = true;
-            $productDetail->save();
+                StockProductAdd::create(['count' => $validated['quantity'], 'cost' => $validated['unit_cost'], 'product_id' => $product->id]);
+                $product->update(['stock' => $after, 'status' => true]);
+                StockMovement::create([
+                    'type' => 'add', 'quantity' => $validated['quantity'], 'balance_before' => $before,
+                    'balance_after' => $after, 'unit_cost' => $validated['unit_cost'],
+                    'reason' => 'Entrada desde '.$validated['source'], 'reference' => $validated['reference'] ?? null,
+                    'occurred_at' => now(), 'product_id' => $product->id, 'warehouse_id' => $product->id_warehouse,
+                    'delegation_id' => $warehouse->delegation_id,
+                    'user_id' => Auth::id(),
+                ]);
+            });
 
-            if($stockAdd->save()){
-                $stockMovement = new StockMovement();
-                $stockMovement->quantity = $request->quantity;
-                $stockMovement->unit_cost = $request->unit_cost;
-                $stockMovement->product_id = $request->product_id_show;
-                $stockMovement->user_id = auth::user()->id;
-                $stockMovement->type = 'add';
-                $stockMovement->save();
-
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Stock agregado correctamente'
-                ], 200);
-            }
+            return response()->json(['status' => 'success', 'message' => 'Stock agregado correctamente'], 200);
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
@@ -214,43 +218,37 @@ class InventarioController extends Controller
 
     public function reduce_stock(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'product_id_reduce' => 'required|exists:products,id',
-            'quantity' => 'required|numeric'
-        ]);
+            'quantity' => 'required|integer|min:1|max:1000000',
+            'reason' => 'required|string|min:3|max:180',
+            'reference' => 'nullable|string|max:100',
+        ], [], ['product_id_reduce' => 'producto', 'quantity' => 'cantidad', 'reason' => 'motivo']);
 
         try{
-            $product = Product::find($request->product_id_reduce);
+            DB::transaction(function () use ($validated) {
+                $product = Product::lockForUpdate()->findOrFail($validated['product_id_reduce']);
+                $warehouse = Warehouse::findOrFail($product->id_warehouse);
+                DelegationAccess::authorize((int) $warehouse->delegation_id);
+                $before = (int) $product->stock;
+                if ((int) $validated['quantity'] > $before) {
+                    throw new \DomainException('Solo existen '.$before.' unidades disponibles.');
+                }
+                $after = $before - (int) $validated['quantity'];
+                $lastUnitCost = (int) (StockProductAdd::where('product_id', $product->id)->latest()->value('cost') ?? 0);
+                $product->update(['stock' => $after, 'status' => $after > 0]);
+                StockMovement::create([
+                    'type' => 'reduce', 'quantity' => $validated['quantity'], 'balance_before' => $before,
+                    'balance_after' => $after, 'unit_cost' => $lastUnitCost, 'reason' => $validated['reason'],
+                    'reference' => $validated['reference'] ?? null, 'occurred_at' => now(),
+                    'product_id' => $product->id, 'warehouse_id' => $product->id_warehouse, 'user_id' => Auth::id(),
+                    'delegation_id' => $warehouse->delegation_id,
+                ]);
+            });
 
-            $valueComparation = intval($product->stock) - intval($request->quantity);
-
-            if($valueComparation < 0){
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Esta reduciendo mas de lo que existe, solo se puede reducir ' . $product->stock . ' ' . ($product->stock == 1 ? 'unidad' : 'unidades')
-                ], 400);
-            }
-
-            $product->stock -= $request->quantity;
-
-            if($product->stock == 0){
-                $product->status = false;
-            }
-
-            if($product->save()){
-                $stockMovement = new StockMovement();
-                $stockMovement->quantity = $request->quantity;
-                $stockMovement->unit_cost = 0;
-                $stockMovement->product_id = $request->product_id_reduce;
-                $stockMovement->user_id = auth::user()->id;
-                $stockMovement->type = 'reduce';
-                $stockMovement->save();
-
-                return response()->json([
-                    'status' => 'success',
-                    'message' => 'Stock reducido correctamente'
-                ], 200);
-            }
+            return response()->json(['status' => 'success', 'message' => 'Stock reducido correctamente'], 200);
+        } catch (\DomainException $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 422);
         }catch(Exception $e){
             return response()->json([
                 'status' => 'error',
@@ -262,11 +260,15 @@ class InventarioController extends Controller
     public function destroy(string $id)
     {
         try{
-            $product = Product::find($id);
+            $product = Product::findOrFail($id);
+            DelegationAccess::authorize((int) $product->warehouse->delegation_id);
+            if ($product->stock > 0) {
+                return response()->json(['status' => 'error', 'message' => 'No puedes archivar un producto que todavía tiene stock. Registra primero su salida.'], 422);
+            }
             $product->delete();
             return response()->json([
                 'status' => 'success',
-                'message' => 'Inventario eliminado'
+                'message' => 'Producto archivado; su historial fue conservado.'
             ], 200);
         }catch(Exception $e){
             return response()->json([
@@ -278,7 +280,7 @@ class InventarioController extends Controller
 
     public function dataWarehouse(){
         try{
-            $warehouses = Warehouse::all();
+            $warehouses = DelegationAccess::scope(Warehouse::query())->get();
             return response()->json($warehouses);
         }catch(Exception $e){
             return response()->json([

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\DelegationAccess;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Rescue;
@@ -15,14 +17,12 @@ class RescueController extends Controller
 {
 
     public function index(){
-        $delegacionId = session('voluntary.delegation_id');
-        $voluntaries = Voluntary::where('delegation_id', $delegacionId)->get();
+        $voluntaries = DelegationAccess::scope(Voluntary::query())->get();
         return view('module.registro_rescate.index', compact('voluntaries'));
     }
 
     public function registerComun(){
-        $delegacionId = session('voluntary.delegation_id');
-        $voluntaries = Voluntary::where('delegation_id', $delegacionId)->get();
+        $voluntaries = DelegationAccess::scope(Voluntary::query())->get();
         return view('module.registro_rescate.register_comun', compact('voluntaries'));
     }
 
@@ -161,7 +161,7 @@ public function store(Request $request)
                     'destino_final_paciente' => $request->input('destino_final_paciente'),
                     'descripcion_emergencia' => $request->input('descripcion_emergencia'),
                     'observaciones_generales' => $request->input('observaciones_generales'),
-                    'id_delegation' => session('voluntary.delegation_id'),
+                    'id_delegation' => DelegationAccess::id(),
                     'id_usuario' => Auth::user()->id,
                     'created_at' => $now,
                     'updated_at' => $now,

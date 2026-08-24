@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
         
         $middleware->alias([
             'checkrole' => \App\Http\Middleware\CheckRole::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
+            'national' => \App\Http\Middleware\RequireNationalDelegation::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

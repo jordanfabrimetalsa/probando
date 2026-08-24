@@ -13,10 +13,10 @@
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Rol</label>
             <select class="form-select border border-gray p-2" aria-label="Default select example" id="role" name="role">
-              <option selected>Seleccione el Rol</option>
-              <option value="admin">Admin</option>
-              <option value="leader">Lider</option>
-              <option value="comun">Común</option>
+              <option value="" selected disabled>Seleccione el rol</option>
+              @foreach($roles as $systemRole)
+                <option value="{{ $systemRole->slug }}">{{ $systemRole->name }}</option>
+              @endforeach
             </select>
           </div>
           <div class="mb-3">

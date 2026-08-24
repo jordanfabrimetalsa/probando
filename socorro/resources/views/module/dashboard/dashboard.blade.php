@@ -1,246 +1,41 @@
-  @extends('layout.main')
+@extends('layout.main')
 
-  @section('title', 'Dashboard')
+@section('title', 'Panel general')
 
-  @section('content')
-      <div class="container-fluid py-2">
-          <div class="row">
-              <div class="ms-3">
-                  <div class="col-12">
-                      <h3>
-                          Bievenido al sistema de centralización de información del CSA.
-                      </h3>
+@section('content')
+<div class="flux-toolbar">
+    <div><h1 class="flux-page-title">Panel general</h1><p class="flux-page-copy">Resumen operativo del Cuerpo de Socorro Andino de Chile.</p></div>
+    <span class="text-muted small"><i class="fa-regular fa-calendar me-2"></i>{{ now()->locale('es')->translatedFormat('d \d\e F, Y') }}</span>
+</div>
 
-                      <div class="card">
-                          <div class="card-header">
-                              Favor jamas hacer uso de información confidencial fuera de la institución.
-                          </div>
-                          <div class="card-footer">
-                              <p>Esta información es confidencial y solo accesible para miembros autorizados del CSA.</p>
-                          </div>
-                      </div>
-                  </div>
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3"><div class="flux-stat"><div class="d-flex justify-content-between"><div><div class="flux-stat__label">Voluntarios</div><div class="flux-stat__value">{{ $cant_voluntaries }}</div><div class="flux-stat__meta">Miembros registrados</div></div><span class="flux-stat__icon"><i class="fa-solid fa-people-group"></i></span></div></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="flux-stat flux-stat--orange"><div class="d-flex justify-content-between"><div><div class="flux-stat__label">Avisos activos</div><div class="flux-stat__value">{{ $activeDepartures }}</div><div class="flux-stat__meta">Salidas aún abiertas</div></div><span class="flux-stat__icon"><i class="fa-solid fa-person-hiking"></i></span></div></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="flux-stat"><div class="d-flex justify-content-between"><div><div class="flux-stat__label">Rescates {{ now()->year }}</div><div class="flux-stat__value">{{ $rescuesThisYear }}</div><div class="flux-stat__meta">Operaciones registradas</div></div><span class="flux-stat__icon"><i class="fa-solid fa-shield-heart"></i></span></div></div></div>
+    <div class="col-sm-6 col-xl-3"><div class="flux-stat"><div class="d-flex justify-content-between"><div><div class="flux-stat__label">Saldo financiero</div><div class="flux-stat__value" style="font-size:1.35rem">$ {{ number_format($financeBalance, 0, ',', '.') }}</div><div class="flux-stat__meta">Balance acumulado</div></div><span class="flux-stat__icon"><i class="fa-solid fa-wallet"></i></span></div></div></div>
+</div>
 
+<div class="row g-3 mb-4">
+    <div class="col-xl-4"><div class="flux-panel"><h2 class="flux-panel__title">Voluntarios por delegación</h2><p class="flux-panel__copy">Distribución actual de los equipos.</p><div class="flux-chart"><canvas id="volunteersChart"></canvas></div></div></div>
+    <div class="col-xl-4"><div class="flux-panel"><h2 class="flux-panel__title">Avisos de salida</h2><p class="flux-panel__copy">Registros creados durante los últimos seis meses.</p><div class="flux-chart"><canvas id="departuresChart"></canvas></div></div></div>
+    <div class="col-xl-4"><div class="flux-panel"><h2 class="flux-panel__title">Flujo financiero</h2><p class="flux-panel__copy">Comparación mensual de ingresos y egresos.</p><div class="flux-chart"><canvas id="financeChart"></canvas></div></div></div>
+</div>
 
-                  <div class="row mt-2">
-                      <div class="col-md-6">
-                          <div class="card">
-                              <div class="card-header">
-                                  Cumpleaños de hoy
-                              </div>
-                              <div class="card-body">
-                                  @if (count($birthdaysToday) > 0)
-                                      <ul class="list-group">
-                                          @foreach ($birthdaysToday as $birthday)
-                                              <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                  <div>
-                                                      <strong>{{ $birthday->name }} {{ $birthday->lastname }}</strong>
-                                                      <br>
-                                                      <small
-                                                          class="text-muted">Cumpleaños: {{ \Carbon\Carbon::parse($birthday->birthday)->format('d \d\e M') }}</small>
-                                                  </div>
-                                                  <span
-                                                      class="badge bg-primary rounded-pill">{{ \Carbon\Carbon::parse($birthday->birthday)->age }}
-                                                      años</span>
-                                              </li>
-                                          @endforeach
-                                      </ul>
-                                  @else
-                                      <p>No hay cumpleaños de hoy</p>
-                                  @endif
-                              </div>
-                          </div>
-                      </div>
+<div class="row g-3">
+    <div class="col-lg-5"><div class="flux-panel"><div class="d-flex justify-content-between align-items-center"><div><h2 class="flux-panel__title">Cumpleaños de hoy</h2><p class="flux-panel__copy">Personas a quienes podemos saludar.</p></div><i class="fa-solid fa-cake-candles text-warning"></i></div>@forelse($birthdaysToday as $birthday)<div class="d-flex justify-content-between align-items-center py-2 border-bottom"><strong class="small">{{ $birthday->name }} {{ $birthday->lastname }}</strong><span class="badge bg-primary">{{ Carbon\Carbon::parse($birthday->birthday)->age }} años</span></div>@empty<p class="text-muted small mb-0">No hay cumpleaños hoy.</p>@endforelse</div></div>
+    <div class="col-lg-7"><div class="flux-panel"><h2 class="flux-panel__title">Próximos cumpleaños</h2><p class="flux-panel__copy">Los siguientes cinco aniversarios del equipo.</p><div class="row g-2">@foreach($upcomingBirthdays as $birthday)<div class="col-md-6"><div class="d-flex align-items-center gap-3 p-2 rounded border"><span class="flux-stat__icon"><i class="fa-regular fa-calendar"></i></span><div><strong class="d-block small">{{ $birthday->name }} {{ $birthday->lastname }}</strong><span class="text-muted" style="font-size:.7rem">{{ Carbon\Carbon::parse($birthday->birthday)->locale('es')->translatedFormat('d \d\e F') }}</span></div></div></div>@endforeach</div></div></div>
+</div>
+@endsection
 
-                      <div class="col-md-6">
-                          <div class="card">
-                              <div class="card-header">
-                                  Próximos Cumpleaños
-                              </div>
-                              <div class="card-body">
-                                  <ul class="list-group">
-                                      @foreach ($allBirthdays as $birthday)
-                                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                                              <div>
-                                                  <strong>{{ $birthday->name }} {{ $birthday->lastname }}</strong>
-                                                  <br>
-                                                  <small
-                                                      class="text-muted">Cumpleaños: {{ \Carbon\Carbon::parse($birthday->birthday)->format('d \d\e M') }}</small>
-                                              </div>
-                                              <span
-                                                  class="badge bg-danger rounded-pill">{{ \Carbon\Carbon::parse($birthday->birthday)->age }}
-                                                  años</span>
-                                          </li>
-                                      @endforeach
-                                  </ul>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-
-                  <!--
-              <h3 class="mb-0 h4 font-weight-bolder text-white">Analitica del CSA</h3>
-              <p class="mb-4">
-                Datos primordiales a conocer.
-              </p>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-              <div class="card">
-                <div class="card-header p-2 ps-3">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <p class="text-sm mb-0 text-capitalize">Activo Inventario </p>
-                      <h4 class="mb-0">$ {{ number_format($add->total ?? 0, 0, ',', '.') }} </h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                      <i class="fa-solid fa-wallet"></i>
-                    </div>
-                  </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                  <p class="mb-0 text-sm">General</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-              <div class="card">
-                <div class="card-header p-2 ps-3">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <p class="text-sm mb-0 text-capitalize">Voluntarios Activos</p>
-                      <h4 class="mb-0">{{ $cant_voluntaries }}</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                      <i class="fa-solid fa-people-group"></i>
-                    </div>
-                  </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                  <p class="mb-0 text-sm">Activos Totales</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-              <div class="card">
-                <div class="card-header p-2 ps-3">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <p class="text-sm mb-0 text-capitalize">Voluntarios Impagos</p>
-                      <h4 class="mb-0">{{ $cant_voluntaries_no_payment }}</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                      <i class="fa-solid fa-lock"></i>
-                    </div>
-                  </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                  <p class="mb-0 text-sm">Sin pago de cuota</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-              <div class="card">
-                <div class="card-header p-2 ps-3">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <p class="text-sm mb-0 text-capitalize">Sales</p>
-                      <h4 class="mb-0">$103,430</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                      <i class="material-symbols-rounded opacity-10">weekend</i>
-                    </div>
-                  </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                  <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4 col-md-6 mt-4 mb-4">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="mb-0 "><i class="fa-solid fa-people-group"></i> Voluntarios por Delegación</h6>
-                  <p class="text-sm ">No aparecen los inactivos aquí</p>
-                  <div class="pe-2">
-                    <div class="chart">
-                      <canvas id="chart" class="chart-canvas" height="170"></canvas>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal">
-                  <div class="d-flex ">
-                    <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                    <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mt-4 mb-4">
-              <div class="card ">
-                <div class="card-body">
-                  <h6 class="mb-0 "> Daily Sales </h6>
-                  <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
-                  <div class="pe-2">
-                    <div class="chart">
-                      <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal">
-                  <div class="d-flex ">
-                    <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                    <p class="mb-0 text-sm"> updated 4 min ago </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 mt-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="mb-0 ">Completed Tasks</h6>
-                  <p class="text-sm ">Last Campaign Performance</p>
-                  <div class="pe-2">
-                    <div class="chart">
-                      <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal">
-                  <div class="d-flex ">
-                    <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                    <p class="mb-0 text-sm">just updated</p>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-              </div>
-          </div>
-      @endsection
-
-      @push('script')
-          <script>
-              $(document).ready(function() {
-                  const data = {
-                      labels: @json($data->pluck('delegation_name')),
-                      datasets: [{
-                          label: 'Voluntarios por delegación',
-                          backgroundColor: 'rgba(255, 99, 132, 0.3)',
-                          borderColor: 'rgb(255, 99, 132)',
-                          data: @json($data->pluck('aggregate')),
-                      }]
-                  };
-                  const config = {
-                      type: 'bar',
-                      data: data
-                  };
-                  const myChart = new Chart(
-                      document.getElementById('chart'),
-                      config
-                  );
-              })
-          </script>
-      @endpush
+@push('script')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Chart.defaults.font.family = "'Segoe UI', sans-serif";
+    Chart.defaults.color = '#667c86';
+    const common = {responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,padding:16}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{beginAtZero:true,grid:{color:'rgba(23,49,62,.07)'},ticks:{precision:0,font:{size:10}}}}};
+    new Chart(document.getElementById('volunteersChart'), {type:'bar',data:{labels:@json($data->pluck('delegation_name')),datasets:[{label:'Voluntarios',data:@json($data->pluck('aggregate')),backgroundColor:'#176985',borderRadius:5}]},options:common});
+    new Chart(document.getElementById('departuresChart'), {type:'line',data:{labels:@json($monthLabels),datasets:[{label:'Avisos',data:@json($departureSeries),borderColor:'#ea4e1a',backgroundColor:'rgba(234,78,26,.12)',fill:true,tension:.35,pointRadius:3}]},options:common});
+    new Chart(document.getElementById('financeChart'), {type:'bar',data:{labels:@json($monthLabels),datasets:[{label:'Ingresos',data:@json($incomeSeries),backgroundColor:'#176985',borderRadius:4},{label:'Egresos',data:@json($expenseSeries),backgroundColor:'#ea4e1a',borderRadius:4}]},options:{...common,scales:{...common.scales,y:{...common.scales.y,ticks:{callback:value=>'$ '+new Intl.NumberFormat('es-CL').format(value),font:{size:10}}}}}});
+});
+</script>
+@endpush

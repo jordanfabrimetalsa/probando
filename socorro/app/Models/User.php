@@ -48,4 +48,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function systemRole()
+    {
+        return $this->belongsTo(SystemRole::class, 'role', 'slug');
+    }
+
+    public function voluntary()
+    {
+        return $this->belongsTo(Voluntary::class, 'voluntary_id');
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->role === 'admin') return true;
+
+        return $this->systemRole()
+            ->where('active', true)
+            ->whereHas('permissions', fn ($query) => $query->where('key', $permission))
+            ->exists();
+    }
 }

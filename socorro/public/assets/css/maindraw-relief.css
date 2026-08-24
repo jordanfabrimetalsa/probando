@@ -1,0 +1,221 @@
+/* Relieve topográfico teñido en azul institucional. */
+.maindraw-modern .services,
+.maindraw-modern .gallery {
+    background-color: #176985;
+    background-image: linear-gradient(135deg, #176985, #2186a7);
+    background-attachment: fixed;
+}
+
+.maindraw-modern .services::before,
+.maindraw-modern .gallery::before {
+    background:
+        radial-gradient(circle at 82% 8%, rgba(63, 190, 235, .15), transparent 32%),
+        radial-gradient(circle at 8% 92%, rgba(28, 166, 221, .08), transparent 35%);
+    box-shadow: inset 0 1px rgba(255, 255, 255, .05), inset 0 -1px rgba(0, 0, 0, .25);
+}
+
+.maindraw-modern .services::after,
+.maindraw-modern .gallery::after,
+.maindraw-modern .site-footer::after,
+.maindraw-modern .rescue-intro-brand::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: url('../img/fondodesnivel.png') center / cover;
+    filter: invert(1) contrast(2.4);
+    mix-blend-mode: screen;
+    opacity: .32;
+}
+
+.maindraw-modern .services > .container,
+.maindraw-modern .gallery > .container,
+.maindraw-modern .site-footer > .container,
+.maindraw-modern .rescue-intro-brand > * {
+    position: relative;
+    z-index: 1;
+}
+
+.maindraw-modern .services .service-card {
+    box-shadow: inset 0 1px rgba(255, 255, 255, .7), 0 14px 32px rgba(0, 0, 0, .2) !important;
+}
+
+.maindraw-modern .services .service-card:hover {
+    box-shadow: inset 0 1px rgba(255, 255, 255, .8), 0 18px 40px rgba(0, 0, 0, .26) !important;
+}
+
+.maindraw-modern .gallery .gallery-item {
+    box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 16px 34px rgba(0, 0, 0, .24);
+}
+
+.maindraw-modern .site-footer,
+.maindraw-modern .rescue-intro-brand {
+    position: relative;
+    overflow: hidden;
+    background-color: #176985 !important;
+    background-image: linear-gradient(135deg, #176985, #145b75) !important;
+}
+
+/* Naranjo y azul oficial en lugar de los acentos rojos. */
+:root {
+    --sa-red: #EA4E1A;
+    --flux-danger: #EA4E1A;
+    --sa-blue: #26A9D6;
+    --sa-cyan: #6DCAE8;
+    --flux-primary: #26A9D6;
+}
+
+.maindraw-modern #heroCarousel::after,
+.maindraw-modern .site-footer::before {
+    background: linear-gradient(90deg, #26A9D6 0 78%, #EA4E1A 78%);
+}
+
+.maindraw-modern #heroCarousel .hero-title span::after,
+.maindraw-modern .section-header hr,
+.maindraw-modern .services .section-header hr,
+.maindraw-modern .gallery .section-header hr {
+    border-color: #EA4E1A !important;
+    background-color: #EA4E1A;
+}
+
+.maindraw-modern .hero-eyebrow i,
+.maindraw-modern .board-member-role i,
+.maindraw-modern .departure-welcome-kicker {
+    color: #EA4E1A;
+}
+
+.maindraw-modern .news-badge,
+.maindraw-modern .btn-danger,
+.maindraw-modern .departure-welcome-deny:hover {
+    border-color: #EA4E1A;
+    background: #EA4E1A;
+}
+
+.maindraw-modern .btn-outline-danger {
+    border-color: #EA4E1A;
+    color: #C93D0F;
+}
+
+.maindraw-modern .btn-outline-danger:hover {
+    background: #EA4E1A;
+    color: #fff;
+}
+
+.maindraw-modern .safety-note {
+    border-color: rgba(234, 78, 26, .25);
+    background: #FFF6F1;
+    color: #85320F;
+}
+
+.maindraw-modern .board-member--principal {
+    border-left-color: #EA4E1A;
+}
+
+.maindraw-modern .news-link:hover,
+.maindraw-modern .departure-welcome-lead {
+    color: #EA4E1A;
+}
+
+.maindraw-modern .hero-btn-primary,
+.maindraw-modern .departure-welcome-confirm,
+.maindraw-modern #heroCarousel .carousel-control-prev:hover,
+.maindraw-modern #heroCarousel .carousel-control-next:hover,
+.maindraw-modern #heroCarousel .carousel-indicators button.active {
+    border-color: #26A9D6 !important;
+    background: #26A9D6 !important;
+}
+
+.maindraw-modern .national-board-header {
+    background: linear-gradient(135deg, #145B75, #2186A7) !important;
+}
+
+/* Versión oscura con curvas topográficas claramente visibles. */
+.maindraw-modern .services,
+.maindraw-modern .gallery {
+    isolation: isolate;
+    background-color: #071F2B;
+    background-image: linear-gradient(135deg, #071F2B, #0B4257) !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-blend-mode: normal !important;
+}
+
+.maindraw-modern .services::after,
+.maindraw-modern .gallery::after,
+.maindraw-modern .site-footer::after,
+.maindraw-modern .rescue-intro-brand::after {
+    display: block;
+    background: url('../img/fondodesnivel.png') center / cover no-repeat;
+    filter: invert(1) brightness(5.5) contrast(1.25);
+    mix-blend-mode: screen;
+    opacity: .38;
+}
+
+.maindraw-modern .site-footer,
+.maindraw-modern .rescue-intro-brand {
+    background-color: #071F2B !important;
+    background-image: linear-gradient(135deg, #071F2B, #0A3B4F) !important;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-blend-mode: normal !important;
+}
+
+.maindraw-modern .services::before,
+.maindraw-modern .gallery::before {
+    opacity: .75;
+    background:
+        radial-gradient(circle at 84% 10%, rgba(38, 169, 214, .18), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, .025), rgba(0, 0, 0, .09));
+}
+
+/* Fotografía del carrusel con tonalidad gris azulada. */
+.maindraw-modern #heroCarousel .hero-background {
+    filter: grayscale(.78) saturate(.55) contrast(1.08) brightness(.82);
+}
+
+.maindraw-modern #heroCarousel .hero-overlay {
+    background: linear-gradient(90deg, rgba(4, 20, 30, .92), rgba(13, 43, 56, .62) 50%, rgba(15, 36, 45, .25));
+}
+
+@media (max-width: 767.98px) {
+    .maindraw-modern #heroCarousel .hero-overlay {
+        background: linear-gradient(180deg, rgba(8, 25, 34, .4), rgba(8, 31, 42, .76) 38%, rgba(5, 22, 31, .97));
+    }
+}
+
+@keyframes csa-main-logo-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 5px 10px rgba(38, 169, 214, .08));
+    }
+    50% {
+        transform: scale(1.045);
+        filter: drop-shadow(0 8px 18px rgba(38, 169, 214, .28));
+    }
+}
+
+.maindraw-modern .logo-img,
+.maindraw-modern .rescue-intro-brand img,
+.maindraw-modern .national-board-logo {
+    animation: csa-main-logo-pulse 3.8s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .maindraw-modern .logo-img,
+    .maindraw-modern .rescue-intro-brand img,
+    .maindraw-modern .national-board-logo {
+        animation: none;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .maindraw-modern .services,
+    .maindraw-modern .gallery,
+    .maindraw-modern .site-footer {
+        background-attachment: scroll;
+    }
+}

@@ -22,6 +22,8 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.2.0') }}" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/loading-overlay.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/internal-flux.css') }}" rel="stylesheet">
     <!-- DataTables + Responsive + Buttons -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
@@ -87,13 +89,14 @@
     @stack('styles')
 </head>
 
-<body class="g-sidenav-show">
+<body class="g-sidenav-show flux-admin">
+    @include('partials.loading-overlay')
     @include('shared.aside')
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg text-white">
         @include('shared.header')
 
-        <div class="container-fluid py-2 ">
+        <div class="container-fluid py-3 flux-page-shell">
             @yield('content')
         </div>
 
@@ -104,6 +107,7 @@
 
     <!-- JS Libs -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('assets/js/loading-overlay.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>

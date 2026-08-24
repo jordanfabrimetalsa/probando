@@ -7,6 +7,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Cuerpo de Socorro Andino</title>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/maindraw-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/maindraw-relief.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/history-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/gallery-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/about-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/news-modern.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/loading-overlay.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-socorro.png') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -161,7 +168,8 @@
     <meta name="theme-color" content="#0b1220">
 </head>
 
-<body data-bs-theme="light">
+<body data-bs-theme="light" class="maindraw-modern">
+    @include('partials.loading-overlay')
 
     <div class="floating-buttons">
         <div class="btn-wrapper-1">
@@ -350,8 +358,6 @@
                     aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"
                     aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -366,14 +372,15 @@
                             <a href="https://www.instagram.com/socorroandinodechile/" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
                         <div class="hero-text">
+                            <span class="hero-eyebrow"><i class="fa-solid fa-shield-heart"></i> Rescate voluntario en Chile</span>
                             <h1 class="hero-title">Especialistas en Rescate <span style="color:#65bce4;">de
                                     Montaña</span></h1>
-                            <p class="hero-subtitle">Institucion sin fines de lucro</p>
+                            <p class="hero-subtitle">Preparación, compromiso y respuesta para proteger vidas en zonas de difícil acceso.</p>
                             <div class="hero-buttons">
-                                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
-                                    data-bs-target="#avisoModal">Aviso de Salida</button>
-                                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
-                                    data-bs-target="#departureModal">Detalle Salida</button>
+                                <button type="button" class="btn hero-btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#avisoModal"><i class="fa-regular fa-clipboard me-2"></i>Aviso de salida</button>
+                                <button type="button" class="btn hero-btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#departureModal">Consultar salida <i class="fa-solid fa-arrow-right ms-2"></i></button>
                                 <!--<button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#donationModal" disabled>Donación</button>-->
                             </div>
                         </div>
@@ -401,14 +408,16 @@
                             <a href="https://x.com/socorroandinocl" class="text-white me-3"><i class="fab fa-twitter"></i></a>
                             <a href="https://www.instagram.com/socorroandinodechile/" class="text-white"><i class="fab fa-instagram"></i></a>
                         </div>
-                        <h1 class="hero-title">Haz tu aviso <span style="color:#65bce4;"> de salida</span></h1>
-                        <p class="hero-subtitle">Es información relevante para tu seguridad.</p>
-                        <div class="hero-buttons">
-                            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
-                                data-bs-target="#avisoModal">Aviso de Salida</button>
-                            <button type="button" class="btn btn-outline-light" data-bs-toggle="modal"
-                                data-bs-target="#departureModal">Detalle Salida</button>
-                            <!--<button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#donationModal" disabled>Donación</button>-->
+                        <div class="hero-text">
+                            <span class="hero-eyebrow"><i class="fa-solid fa-location-dot"></i> Planifica · Informa · Regresa seguro</span>
+                            <h1 class="hero-title">Tu seguridad comienza <span style="color:#65bce4;">antes de salir</span></h1>
+                            <p class="hero-subtitle">Registra tu ruta y contactos de emergencia. Es información relevante para responder a tiempo.</p>
+                            <div class="hero-buttons">
+                                <button type="button" class="btn hero-btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#avisoModal"><i class="fa-regular fa-clipboard me-2"></i>Crear aviso</button>
+                                <button type="button" class="btn hero-btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#departureModal">Finalizar aviso <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                            </div>
                         </div>
                         <div class="hero-stats">
                             <div class="stat">
@@ -433,6 +442,26 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Siguiente</span>
             </button>
+        </div>
+    </section>
+
+    <section class="rescue-intro" aria-label="Presentación institucional">
+        <div class="container rescue-intro-grid">
+            <div class="rescue-intro-brand">
+                <img src="{{ asset('assets/img/logo-socorro.png') }}" alt="Cuerpo de Socorro Andino de Chile">
+                <div>
+                    <span>Cuerpo de Socorro Andino de Chile</span>
+                    <strong>Voluntarios al servicio de la montaña</strong>
+                </div>
+            </div>
+            <div class="rescue-intro-copy">
+                <span class="rescue-intro-kicker">Siempre preparados</span>
+                <h2>De guardia 24 horas, los 365 días del año</h2>
+                <p>Brindamos búsqueda, salvamento y rescate de forma voluntaria y gratuita en montañas y zonas de difícil acceso a lo largo de Chile.</p>
+            </div>
+            <a href="#servicios" class="rescue-intro-link" data-no-loading>
+                Conoce nuestra misión <i class="fa-solid fa-arrow-down"></i>
+            </a>
         </div>
     </section>
 
@@ -483,7 +512,47 @@
     <script src="{{ asset('assets/js/maindraw/maindraw.js') }}"></script>
     <script src="{{ asset('assets/js/maindraw/darkmode.js') }}"></script>
     <script src="{{ asset('assets/js/maindraw/progresive.js') }}"></script>
+    <script src="{{ asset('assets/js/loading-overlay.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.setTimeout(function () {
+                Swal.fire({
+                    customClass: {
+                        popup: 'departure-welcome-popup',
+                        confirmButton: 'departure-welcome-confirm',
+                        denyButton: 'departure-welcome-deny',
+                        cancelButton: 'departure-welcome-cancel'
+                    },
+                    buttonsStyling: false,
+                    showClass: { popup: 'swal2-show' },
+                    hideClass: { popup: 'swal2-hide' },
+                    imageUrl: '{{ asset('assets/img/logo-socorro.png') }}',
+                    imageWidth: 92,
+                    imageHeight: 92,
+                    imageAlt: 'Cuerpo de Socorro Andino de Chile',
+                    title: 'Gestiona tu salida de forma segura',
+                    html: '<span class="departure-welcome-kicker">Seguridad en montaña</span>' +
+                        '<p class="departure-welcome-copy">Informa tu itinerario antes de salir o confirma tu regreso si ya finalizaste la actividad.</p>',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: '<span class="departure-action-icon"><i class="fa-regular fa-clipboard"></i></span><span><strong>Crear aviso</strong><small>Registrar una nueva salida</small></span><i class="fa-solid fa-chevron-right"></i>',
+                    denyButtonText: '<span class="departure-action-icon"><i class="fa-solid fa-check"></i></span><span><strong>Finalizar aviso</strong><small>Consultar o informar mi regreso</small></span><i class="fa-solid fa-chevron-right"></i>',
+                    cancelButtonText: 'Continuar en el sitio',
+                    reverseButtons: false,
+                    allowOutsideClick: true,
+                    focusConfirm: false
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('avisoModal')).show();
+                    } else if (result.isDenied) {
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('departureModal')).show();
+                    }
+                });
+            }, 450);
+        });
+    </script>
 
     <script>
         (function () {
@@ -491,7 +560,7 @@
             if (!newsSection) return;
 
             const onClickPagination = async (e) => {
-                const link = e.target.closest('#noticias .pagination a');
+                const link = e.target.closest('#noticias .news-pager a');
                 if (!link) return;
 
                 e.preventDefault();
@@ -505,6 +574,7 @@
                 try {
                     container.style.opacity = '0.6';
                     container.style.pointerEvents = 'none';
+                    window.AppLoading?.show({ title: 'Cargando noticias' });
 
                     const response = await fetch(url, {
                         headers: {
@@ -532,6 +602,12 @@
                     window.scrollTo({ top: sectionTop - 20, behavior: 'smooth' });
                 } catch (err) {
                     window.location.href = url;
+                } finally {
+                    window.AppLoading?.hide();
+                    if (document.body.contains(container)) {
+                        container.style.opacity = '';
+                        container.style.pointerEvents = '';
+                    }
                 }
             };
 
@@ -544,8 +620,12 @@
     </script>
 
     <script>
-        function showPostulations(id) {
-            $('.btn-postulations-load').html(
+        function showPostulations(id, button) {
+            const $button = $(button);
+            const originalLabel = $button.html();
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('postulationsModal')).show();
+            $('#postulations-reflect').html('<div class="py-4 text-center text-muted">Cargando información de la postulación...</div>');
+            $button.html(
                 '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect width="7.33" height="7.33" x="1" y="1" fill="currentColor"><animate id="SVGzjrPLenI" attributeName="x" begin="0;SVGXAURnSRI.end+0.2s" dur="0.6s" values="1;4;1"/><animate attributeName="y" begin="0;SVGXAURnSRI.end+0.2s" dur="0.6s" values="1;4;1"/><animate attributeName="width" begin="0;SVGXAURnSRI.end+0.2s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="0;SVGXAURnSRI.end+0.2s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="8.33" y="1" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="1;4;1"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="1" y="8.33" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="1;4;1"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.1s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="15.66" y="1" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="1;4;1"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="8.33" y="8.33" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="1" y="15.66" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="1;4;1"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.2s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="15.66" y="8.33" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="8.33" y="15.66" fill="currentColor"><animate attributeName="x" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="8.33;11.33;8.33"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.3s" dur="0.6s" values="7.33;1.33;7.33"/></rect><rect width="7.33" height="7.33" x="15.66" y="15.66" fill="currentColor"><animate id="SVGXAURnSRI" attributeName="x" begin="SVGzjrPLenI.begin+0.4s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="y" begin="SVGzjrPLenI.begin+0.4s" dur="0.6s" values="15.66;18.66;15.66"/><animate attributeName="width" begin="SVGzjrPLenI.begin+0.4s" dur="0.6s" values="7.33;1.33;7.33"/><animate attributeName="height" begin="SVGzjrPLenI.begin+0.4s" dur="0.6s" values="7.33;1.33;7.33"/></rect></svg> Espere...'
                 ).prop('disabled', true);
 
@@ -554,8 +634,7 @@
                 type: 'GET',
                 success: function(response) {
                     if (response.length > 0) {
-                        $('#postulationsModal').modal('show');
-                        $('.btn-postulations-load').html('Postulación Abierta').prop('disabled', false);
+                        $button.html(originalLabel).prop('disabled', false);
 
                         var postulation = response[response.length -
                             1]; // Tomar el ultimo registro de postulación
@@ -614,18 +693,17 @@
                             </form>
                         `;
                     } else {
+                        $button.html(originalLabel).prop('disabled', false);
                         var html = `
-                            <div class="pt-2 pb-2"><strong class="text-warning">No hay postulaciones disponibles para esta delegación</strong></div>
+                            <div class="py-4 text-center"><strong class="text-warning">No hay un proceso publicado para esta delegación.</strong><p class="text-muted mt-2 mb-0">El estado será actualizado por el equipo regional.</p></div>
                         `;
                     }
                     $('#postulations-reflect').html(html);
                 },
                 error: function(error) {
-                    console.log(error);
-                    $('.btn-postulations-load').html('Postulación Cerrada').prop('disabled', true);
+                    $button.html(originalLabel).prop('disabled', false);
                     $('#postulations-reflect').html(
-                        '<div class="text-danger">Error al cargar postulaciones</div>' + error + error
-                        .responseJSON.message);
+                        '<div class="py-4 text-center text-danger">No fue posible cargar la postulación. Inténtalo nuevamente.</div>');
                 }
             })
         }
@@ -749,9 +827,24 @@
     </script>
 
     <script>
+        function firstValidationMessage(xhr, fallback) {
+            const errors = xhr.responseJSON?.errors;
+            if (errors) {
+                const first = Object.values(errors).flat()[0];
+                if (first) return first;
+            }
+            return xhr.responseJSON?.error || xhr.responseJSON?.message || fallback;
+        }
+
         $('#form_departure').submit(function(e) {
-            console.log('entra 1');
             e.preventDefault();
+
+            validarFecha();
+            if (!this.checkValidity()) {
+                this.classList.add('was-validated');
+                this.reportValidity();
+                return;
+            }
 
             $('.btn-save-load')
                 .html(
@@ -771,22 +864,22 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    console.log('entra 2')
                     Swal.fire({
                         icon: response.success ? 'success' : 'error',
                         title: response.success ? 'Éxito' : 'Error',
                         text: response.message
                     });
                     $('#form_departure')[0].reset();
+                    $('#form_departure').removeClass('was-validated');
+                    $('#return_date').prop('disabled', true).removeAttr('min');
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
                     $('#avisoModal').modal('hide');
                 },
                 error: function(error) {
-                    console.log(error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.responseJSON?.error
+                        text: firstValidationMessage(error, 'No fue posible registrar el aviso. Revisa los datos e inténtalo nuevamente.')
                     });
                     $('.btn-save-load').html('Guardar').prop('disabled', false);
                 }
@@ -797,6 +890,8 @@
     <script>
         function clearSearch() {
             $('#form_departure_search')[0].reset();
+            $('#form_departure_search').removeClass('was-validated');
+            $('#rut').prop('disabled', true).removeClass('is-valid is-invalid');
             if (datatableUser) {
                 datatableUser.clear().draw();
             } else {
@@ -844,6 +939,13 @@
 
         $('#form_departure_search').submit(function(e) {
             e.preventDefault();
+            const invalidRut = $('#tipo_documento').val() === '1' && !validarRut($('#rut').val());
+            $('#rut').toggleClass('is-invalid', invalidRut);
+            if (!this.checkValidity() || invalidRut) {
+                this.classList.add('was-validated');
+                this.reportValidity();
+                return;
+            }
             if (datatableUser) {
                 datatableUser.clear().draw();
             } else {
@@ -931,7 +1033,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Ups',
-                        text: 'Error al buscar salida'
+                        text: firstValidationMessage(xhr, 'No fue posible buscar la salida.')
                     });
                     if (datatableUser) {
                         datatableUser.clear().draw();
@@ -973,7 +1075,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'Error al terminar la salida'
+                                text: firstValidationMessage(xhr, 'No fue posible finalizar la salida.')
                             });
                         }
                     })
@@ -1193,9 +1295,6 @@
             });
         });
     </script>
-
-    <!-- Incluir el modal de salidas -->
-    @include('maindraw.departure')
 
     <script>
         // Inicializar tooltips

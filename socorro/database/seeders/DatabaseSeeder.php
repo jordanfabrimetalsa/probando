@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +13,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(DemoContentSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $now = now();
+        $delegationId = DB::table('delegations')->where('name', 'Metropolitana')->value('id');
+        $voluntaryId = DB::table('voluntaries')->where('document', '12345678')->value('id');
+        if (!$voluntaryId) {
+            $voluntaryId = DB::table('voluntaries')->insertGetId([
+                'delegation_id' => $delegationId, 'document' => '12345678', 'name' => 'Administrador',
+                'lastname' => 'Sistema', 'phone' => '912345678', 'birthday' => '2000-01-01',
+                'address' => 'Sede nacional', 'profession' => 'Administración', 'gender' => 'M',
+                'allergic' => false, 'disease' => false, 'medicine' => false, 'vehicle' => false,
+                'license' => false, 'payment' => false, 'blood_type' => 'N', 'type' => 'A',
+                'status' => 'A', 'busy' => true, 'created_at' => $now, 'updated_at' => $now,
+            ]);
+        }
+
+        DB::table('users')->updateOrInsert(['email' => 'admin@admin.com'], [
+            'name' => 'Administrador', 'password' => Hash::make('admin'), 'role' => 'admin',
+            'status' => 'A', 'voluntary_id' => $voluntaryId, 'updated_at' => $now, 'created_at' => $now,
         ]);
     }
 }

@@ -13,7 +13,11 @@ class PostulationController extends Controller
     public function data($id)
     {
         try{
-            $postulations = Postulation::where('delegation_id', $id)->get();
+            $postulations = Postulation::where('delegation_id', $id)
+                ->where('status', 'A')
+                ->where('end_date', '>=', now())
+                ->orderBy('start_date')
+                ->get();
 
             return response()->json($postulations);
         }catch(Exception $e){
