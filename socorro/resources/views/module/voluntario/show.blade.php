@@ -1,216 +1,25 @@
-<div class="modal fade" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-extra-background">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ShowModalLabel">Información de Voluntario</h5>
-                <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="page-header min-height-100">
-                    </div>
-                    <div class="card card-body mt-n6 mb-4">
-                        <div class="row gx-4 mb-2">
-                            <div class="col-auto my-auto">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="text-center mb-4">
-                                        <div class="position-relative d-inline-block">
-                                            <img id="image_show" src="" alt="Foto del voluntario"
-                                                class="rounded-circle"
-                                                style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #fff;">
-                                            <div class="position-absolute bottom-0 end-0 bg-success rounded-circle p-1"
-                                                style="width: 30px; height: 30px;"><i
-                                                    class="fa-solid fa-check text-white" style="font-size: 12px;"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Información Personal</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Nombre Completo:</strong> &nbsp; <span
-                                                            id="fullname_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Número de Identificación:</strong> &nbsp;
-                                                        <span id="document_show"></span>
-                                                    </li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Genero:</strong> &nbsp; <span
-                                                            id="gender_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Fecha de Nacimiento:</strong> &nbsp; <span
-                                                            id="birthday_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Edad</strong> &nbsp; <span
-                                                            id="age_show"></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Profesión:</strong> &nbsp; <span
-                                                            id="profession_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Dirección:</strong> &nbsp; <span
-                                                            id="address_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Teléfono:</strong> &nbsp; <span
-                                                            id="phone_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Estado:</strong> &nbsp; <span
-                                                            id="status_show"></span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Información Voluntariado</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Tipo:</strong> &nbsp; <span
-                                                            id="type_show"></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Cargo:</strong> &nbsp; <span
-                                                            id="cargo_show"></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Fecha Inicio Voluntariado:</strong> &nbsp; <span
-                                                            id="init_voluntary_show"></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Tiempo Servicio:</strong> &nbsp; <span
-                                                            id="servicio_show"></span></li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Información Médica</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Tipo de Sangre:</strong> &nbsp; <span
-                                                            id="blood_type_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Alergico:</strong> &nbsp; <span
-                                                            id="allergic_show"></span></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="list-group">
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Enfermedad:</strong> &nbsp; <span
-                                                            id="disease_show"></span></li>
-                                                    <li class="list-group-item border-0 ps-0 text-sm"><strong
-                                                            class="text-dark">Medicamento:</strong> &nbsp; <span
-                                                            id="medicine_show"></span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Configuración</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <ul class="list-group">
-                                            <li class="list-group-item border-0 px-0">
-                                                <div class="form-check form-switch ps-0">
-                                                    <input class="form-check-input ms-auto" type="checkbox"
-                                                        id="payment_show" checked disabled>
-                                                    <label
-                                                        class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                        for="payment_show" id="text_payment_show"></label>
-                                                </div>
-                                                <div class="form-check form-switch ps-0">
-                                                    <input class="form-check-input ms-auto" type="checkbox"
-                                                        id="license_show" checked disabled>
-                                                    <label
-                                                        class="form-check-label text-body ms-3 text-truncate w-80 mb-0"
-                                                        for="license_show" id="text_license_show"></label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Números de Emergencia</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <ul class="list-group" id="emergency_name_show">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-plain h-100">
-                                    <div class="card-header pb-0 p-3">
-                                        <h5 class="mb-0">Anotaciones</h5>
-                                    </div>
-                                    <div class="card-body p-3">
-                                        <ul class="list-group" id="remark_name_show">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
+<div class="modal fade" id="ShowModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content volunteer-modal">
+    <div class="volunteer-hero">
+      <div class="volunteer-avatar"><span id="initials_show">CSA</span><img id="image_show" src="" alt="Foto del voluntario" onerror="this.style.display='none'"><i class="fa-solid fa-check"></i></div>
+      <div class="volunteer-hero__identity"><span class="volunteer-kicker"><i class="fa-solid fa-mountain-sun"></i> Ficha institucional</span><h2 id="fullname_title_show">Voluntario</h2><p><i class="fa-solid fa-location-dot"></i> Delegación <span id="delegation_show">—</span> <b>·</b> <span id="cargo_show">Sin cargo institucional</span></p><div><span id="type_header_show"></span><span id="status_header_show"></span></div></div>
+      <div class="volunteer-hero__brand"><img src="{{ asset('assets/img/logo-socorro.png') }}" alt="Socorro Andino"><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
     </div>
+    <div class="modal-body volunteer-body">
+      <section class="volunteer-section"><header><span><i class="fa-regular fa-user"></i></span><div><small>Identificación</small><h3>Información personal</h3></div></header><div class="volunteer-grid">
+        <div><small>Nombre completo</small><strong id="fullname_show">—</strong></div><div><small>RUT / Identificación</small><strong id="document_show">—</strong></div><div><small>Género</small><strong id="gender_show">—</strong></div><div><small>Fecha de nacimiento</small><strong><span id="birthday_show">—</span> · <span id="age_show">—</span></strong></div><div><small>Profesión</small><strong id="profession_show">—</strong></div><div><small>Teléfono</small><strong id="phone_show">—</strong></div><div class="span-2"><small>Dirección</small><strong id="address_show">—</strong></div><div><small>Estado</small><strong id="status_show">—</strong></div>
+      </div></section>
+      <div class="row g-3"><div class="col-lg-7"><section class="volunteer-section h-100"><header><span><i class="fa-solid fa-shield-halved"></i></span><div><small>Trayectoria</small><h3>Servicio institucional</h3></div></header><div class="service-highlight"><div><small>Tipo de integrante</small><strong id="type_show">—</strong></div><div><small>Inicio del voluntariado</small><strong id="init_voluntary_show">—</strong></div><div><small>Tiempo de servicio</small><strong id="servicio_show">—</strong></div></div><div class="volunteer-options"><span><i class="fa-solid fa-hand-holding-dollar"></i><b id="text_payment_show">—</b></span><span><i class="fa-solid fa-id-card"></i><b id="text_license_show">—</b></span></div><input type="checkbox" id="payment_show" hidden><input type="checkbox" id="license_show" hidden></section></div>
+      <div class="col-lg-5"><section class="volunteer-section h-100 medical-section"><header><span><i class="fa-solid fa-heart-pulse"></i></span><div><small>Seguridad</small><h3>Antecedentes médicos</h3></div></header><div class="blood-card"><span>Grupo sanguíneo</span><strong id="blood_type_show">—</strong></div><div class="medical-items"><p>Alergias <b id="allergic_show">—</b></p><p>Enfermedad declarada <b id="disease_show">—</b></p><p>Uso de medicamentos <b id="medicine_show">—</b></p></div></section></div></div>
+      <div class="row g-3"><div class="col-lg-5"><section class="volunteer-section h-100"><header><span class="orange"><i class="fa-solid fa-phone-volume"></i></span><div><small>Información crítica</small><h3>Contactos de emergencia</h3></div></header><ul class="volunteer-list" id="emergency_name_show"></ul></section></div><div class="col-lg-7"><section class="volunteer-section h-100"><header><span><i class="fa-regular fa-message"></i></span><div><small>Trayectoria</small><h3>Anotaciones registradas</h3></div></header><ul class="volunteer-list" id="remark_name_show"></ul></section></div></div>
+    </div>
+    <div class="modal-footer"><span class="volunteer-footnote"><i class="fa-solid fa-lock"></i> Ficha visible según permisos de delegación</span><button class="btn btn-dark" data-bs-dismiss="modal">Cerrar ficha</button></div>
+  </div></div>
 </div>
+
+@push('styles')
+<style>
+.volunteer-modal{overflow:hidden;border:0!important;border-radius:18px!important}.volunteer-hero{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:22px;padding:28px 30px;background:repeating-radial-gradient(ellipse at 5% 120%,transparent 0 30px,#ffffff10 31px 32px),linear-gradient(125deg,#062938,#0c4b61);color:#fff}.volunteer-avatar{position:relative;display:grid;width:94px;height:94px;place-items:center;overflow:visible;border:1px solid #ffffff4d;border-radius:24px;background:#ffffff18;color:#fff;font-size:1.5rem;font-weight:800}.volunteer-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px}.volunteer-avatar>i{position:absolute;right:-5px;bottom:-5px;display:grid;width:27px;height:27px;place-items:center;border:3px solid #0b4154;border-radius:50%;background:#249266;color:#fff;font-size:.55rem}.volunteer-kicker,.volunteer-section header small{color:#f39a6e;font-size:.59rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.volunteer-hero h2{margin:6px 0 5px;color:#fff;font-size:1.5rem;font-weight:780;letter-spacing:-.035em}.volunteer-hero p{margin:0 0 9px;color:#c8dce3;font-size:.7rem}.volunteer-hero p i{color:#f39a6e}.volunteer-hero__identity .badge{margin-right:5px}.volunteer-hero__brand{display:flex;align-items:center;gap:24px}.volunteer-hero__brand>img{width:53px;filter:drop-shadow(0 7px 10px #0005)}.volunteer-body{display:grid;gap:14px;padding:20px!important;background:#f2f6f7}.volunteer-section{padding:19px;border:1px solid #dce7ea;border-radius:13px;background:#fff}.volunteer-section>header{display:flex;align-items:center;gap:10px;margin-bottom:16px}.volunteer-section>header>span{display:grid;width:35px;height:35px;place-items:center;border-radius:9px;background:#e8f4f7;color:#176985}.volunteer-section>header>span.orange{background:#fff0e9;color:#ea4e1a}.volunteer-section h3{margin:2px 0 0;color:#29444f;font-size:.8rem;font-weight:760}.volunteer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.volunteer-grid>div{padding:11px;border-radius:9px;background:#f6f9fa}.volunteer-grid .span-2{grid-column:span 2}.volunteer-grid small,.service-highlight small{display:block;margin-bottom:4px;color:#84969e;font-size:.56rem;text-transform:uppercase}.volunteer-grid strong,.service-highlight strong{display:block;color:#314b56;font-size:.7rem;word-break:break-word}.service-highlight{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;overflow:hidden;border-radius:10px;background:#d7e4e8}.service-highlight>div{padding:15px;background:linear-gradient(135deg,#0d465b,#176985)}.service-highlight small{color:#acd0da}.service-highlight strong{color:#fff}.volunteer-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.volunteer-options span{display:flex;align-items:center;gap:9px;padding:10px;border-radius:9px;background:#f4f8f9;color:#5d747e;font-size:.65rem}.volunteer-options i{color:#176985}.blood-card{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:10px;background:#fff0e9;color:#b94a25;font-size:.68rem}.blood-card strong{font-size:1.3rem}.medical-items p{display:flex;justify-content:space-between;margin:0;padding:9px 2px;border-bottom:1px solid #e9eff1;color:#6f838c;font-size:.67rem}.medical-items b{color:#29444f}.volunteer-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}.volunteer-list:empty:after{content:'Sin registros disponibles';display:block;padding:25px;text-align:center;color:#91a1a8;font-size:.68rem}.volunteer-list .list-group-item{margin:0!important;padding:11px!important;border:1px solid #e4ecef!important;border-radius:9px!important;background:#fafcfc!important}.volunteer-list .btn{width:auto!important;min-width:38px}.volunteer-footnote{margin-right:auto;color:#758b94;font-size:.62rem}.volunteer-footnote i{margin-right:5px;color:#176985}
+@media(max-width:991.98px){.volunteer-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:575.98px){.volunteer-hero{grid-template-columns:1fr;padding:22px;text-align:center}.volunteer-avatar{margin:auto}.volunteer-hero__brand{position:absolute;top:18px;right:18px}.volunteer-hero__brand>img{display:none}.volunteer-grid,.service-highlight,.volunteer-options{grid-template-columns:1fr}.volunteer-grid .span-2{grid-column:auto}.volunteer-body{padding:11px!important}.volunteer-section{padding:15px}.volunteer-footnote{display:none}}
+</style>
+@endpush

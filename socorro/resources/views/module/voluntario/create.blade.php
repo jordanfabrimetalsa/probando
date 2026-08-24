@@ -18,7 +18,7 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-select border border-gray p-2" aria-label="Default select example"
                                     id="delegation_id" name="delegation_id" required>
-                                    <option selected>Seleccione Delegación</option>
+                                    <option value="" selected disabled>Seleccione Delegación</option>
                                     @foreach ($delegations as $delegation)
                                         <option value="{{ $delegation->id }}">{{ $delegation->name }}</option>
                                     @endforeach
@@ -108,7 +108,7 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-select border border-gray p-2" aria-label="Default select example"
                                     id="gender" name="gender" required>
-                                    <option selected>Seleccione Opción</option>
+                                    <option value="" selected disabled>Seleccione Opción</option>
                                     <option value="M">Masculino</option>
                                     <option value="F">Femenino</option>
                                 </select>

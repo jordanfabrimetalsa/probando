@@ -203,16 +203,6 @@
                     details: {
                         type: 'inline'
                     }
-                },
-                rowGroup: {
-                    dataSrc: 'delegation.name',
-                    startRender: function(rows, group) {
-                        return $('<tr/>')
-                            .addClass('group-header bg-dark')
-                            .append(
-                                `<td colspan="6" class="ps-2 text-white" style="font-size: 12px">${group} (Cantidad ${rows.count()})</td>`
-                            );
-                    }
                 }
             });
         });
@@ -248,7 +238,10 @@
                         $('.btn-load').html('<i class="fa-solid fa-magnifying-glass"></i>').prop('disabled',
                             false);
                         $('#ShowModal').modal('show');
-                        $('#image_show').attr('src', response.image);
+                        const volunteerName = `${response.name || ''} ${response.lastname || ''}`.trim();
+                        const initials = volunteerName.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part.charAt(0).toUpperCase()).join('') || 'CSA';
+                        $('#initials_show').text(initials);
+                        $('#image_show').css('display', 'block').attr('src', response.image || '').one('error', function(){ $(this).hide(); });
                         $('#fullname_title_show').text(response.name + ' ' + response.lastname);
                         $('#fullname_show').text(response.name + ' ' + response.lastname);
                         $('#document_show').text(formatRut(response.document));
@@ -288,6 +281,7 @@
                                 break;
                         }
                         $('#status_show').html(statusText);
+                        $('#status_header_show').html(statusText);
                         $('#license_show').attr('checked', response.license == 1 ? $('#text_license_show').text('Tiene licencia de Conducir') : $('#text_license_show').text('No tiene licencia'));
                         $('#blood_type_show').text(response.blood_type);
                         $('#cargo_show').text(response.cargo?.nombre || 'Sin Cargo Institucional');
@@ -398,12 +392,13 @@
                     datatableVoluntaries.ajax.reload();
                 },
                 error: function(error) {
+                    const validationErrors = error.responseJSON?.errors ? Object.values(error.responseJSON.errors).flat() : [];
+                    const message = validationErrors[0] || error.responseJSON?.message || 'No fue posible registrar el voluntario.';
                     Swal.fire({
                         icon: 'error',
                         title: 'Error.',
-                        text: 'Error al registrar voluntario' + JSON.stringify(error),
+                        text: message,
                     });
-                    $('#CreateModal').modal('hide');
                 }
             })
         })
@@ -573,12 +568,12 @@
                     $('#RemarkModal').modal('hide');
                 },
                 error: function(error) {
+                    const validationErrors = error.responseJSON?.errors ? Object.values(error.responseJSON.errors).flat() : [];
                     Swal.fire({
                         icon: 'error',
                         title: 'Error.',
-                        text: 'Error al registrar anotación' + JSON.stringify(error),
+                        text: validationErrors[0] || error.responseJSON?.message || 'No fue posible registrar la anotación.',
                     });
-                    $('#RemarkModal').modal('hide');
                 }
             })
         })

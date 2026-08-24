@@ -1,40 +1,27 @@
-<div class="modal fade" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content modal-extra-background">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ShowModalLabel"><i class="fa-solid fa-plus"></i> <span id="show-title"></span></h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="text-center">
-                            <span id="show-title"></span>
-                            <span class="badge bg-warning float-end" id="show-category"></span>
-                        </h4>
+<div class="modal fade news-reader-modal" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <article class="modal-content">
+            <header class="news-reader__hero">
+                <img id="show-image" src="" alt="Portada de la noticia" class="news-reader__image">
+                <div class="news-reader__shade"></div>
+                <button type="button" class="news-reader__close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+                <div class="news-reader__heading">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <span class="news-reader__category" id="show-category"></span>
+                        <span class="news-reader__featured" id="show-featured"><i class="fa-solid fa-star"></i> Destacada</span>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <p><span class="text-dark">Publicado el:</span> <span id="show-created-at" class="badge bg-secondary"></span></p>
-                            <p><span class="text-dark">Autor:</span> <span id="show-author"></span></p>
-                        </div>
-                        <hr><br>
-                        <div class="text-justify border-radius border p-2">
-                            <p id="show-content"></p>
-                            <img id="show-image" src="" alt="Imagen de la noticia" class="img-fluid w-100 border-radius">
-                        </div>
-                        <br><br>
-                        <span class="badge bg-danger" id="show-featured"></span>
+                    <h2 id="ShowModalLabel"><span id="show-title"></span></h2>
+                    <div class="news-reader__meta">
+                        <span><i class="fa-regular fa-calendar"></i> <span id="show-created-at"></span></span>
+                        <span><i class="fa-regular fa-user"></i> <span id="show-author"></span></span>
                     </div>
                 </div>
-            </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
+            </header>
+            <div class="modal-body news-reader__body"><div id="show-content" class="news-reader__content"></div></div>
+            <footer class="modal-footer news-reader__footer">
+                <span><i class="fa-solid fa-mountain-sun"></i> Cuerpo de Socorro Andino de Chile</span>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar noticia</button>
+            </footer>
+        </article>
     </div>
-  </div>
 </div>

@@ -36,9 +36,27 @@ class VoluntarioController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['delegation_id' => ['required', 'exists:delegations,id']]);
+        $validated = $request->validate([
+            'delegation_id' => ['required', 'exists:delegations,id'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'document' => ['required', 'string', 'min:7', 'max:10', 'unique:voluntaries,document'],
+            'name' => ['required', 'string', 'min:2', 'max:80'],
+            'lastname' => ['required', 'string', 'min:2', 'max:80'],
+            'phone' => ['required', 'digits_between:8,12'],
+            'birthday' => ['required', 'date', 'before:today'],
+            'address' => ['required', 'string', 'min:3', 'max:180'],
+            'profession' => ['required', 'string', 'min:2', 'max:100'],
+            'gender' => ['required', 'in:M,F'],
+            'allergic' => ['required', 'boolean'], 'disease' => ['required', 'boolean'],
+            'medicine' => ['required', 'boolean'], 'vehicle' => ['required', 'boolean'],
+            'license' => ['required', 'boolean'], 'payment' => ['required', 'boolean'],
+            'blood_type' => ['required', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-,N'],
+            'type' => ['required', 'in:V,A,H,C'], 'status' => ['required', 'in:A,I,S,R'],
+            'init_voluntary' => ['required', 'date', 'before_or_equal:today'],
+        ], [], ['delegation_id'=>'delegación','document'=>'número de documento','birthday'=>'fecha de nacimiento','init_voluntary'=>'fecha de inicio']);
         DelegationAccess::authorize((int) $request->delegation_id);
         try{
+            DB::beginTransaction();
             $voluntary = new Voluntary();
             $voluntary->delegation_id = $request->delegation_id;
             $voluntary->document = $request->document;
@@ -61,27 +79,25 @@ class VoluntarioController extends Controller
             $voluntary->init_voluntary = $request->init_voluntary;
             $voluntary->busy = false;
 
-            if($voluntary->save()){
+            if($voluntary->save() && $request->hasFile('image')){
                 $image_voluntary = new Image_Voluntary();
                 $image_voluntary->voluntary_id = $voluntary->id;
                 $image_voluntary->name = $request->file('image')->getClientOriginalName();
                 $image_voluntary->path = $request->file('image')->store('imagenes', 'public');
                 $image_voluntary->save();
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Error al crear el voluntario'
-                ], 500);
             }
 
+            DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Voluntario registrado'
             ], 201);
         }catch(Exception $e){
+            DB::rollBack();
+            Log::error('Error al crear voluntario.', ['user_id'=>Auth::id(), 'exception'=>$e]);
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al crear el voluntario'
+                'message' => 'No fue posible crear el voluntario. Inténtalo nuevamente.'
             ], 500);
         }
     }
@@ -192,21 +208,27 @@ class VoluntarioController extends Controller
 
     public function remarkStore(Request $request)
     {
-        $target = Voluntary::findOrFail($request->id_user_remark);
+        $validated = $request->validate([
+            'id_user_remark' => ['required', 'exists:voluntaries,id'],
+            'remark' => ['required', 'string', 'min:3', 'max:255'],
+            'gravity' => ['required', 'in:0,1,2,3,4,5'],
+        ], [], ['id_user_remark'=>'voluntario','remark'=>'anotación','gravity'=>'gravedad']);
+        $target = Voluntary::findOrFail($validated['id_user_remark']);
         DelegationAccess::authorize((int) $target->delegation_id);
         try{
             $remark = new Remark();
-            $remark->voluntary_id = $request->id_user_remark;
-            $remark->remark = $request->remark;
-            $remark->gravity = $request->gravity;
+            $remark->voluntary_id = $validated['id_user_remark'];
+            $remark->remark = $validated['remark'];
+            $remark->gravity = $validated['gravity'];
             $remark->responsable_id = Auth::user()->id;
             $remark->save();
 
             return response()->json(['success' => 'Voluntario actualizado correctamente']);
         }catch(Exception $e){
+            Log::error('Error al registrar anotación.', ['user_id'=>Auth::id(), 'voluntary_id'=>$validated['id_user_remark'], 'exception'=>$e]);
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error al actualizar el voluntario'
+                'message' => 'No fue posible registrar la anotación.'
             ], 500);
         }
     }

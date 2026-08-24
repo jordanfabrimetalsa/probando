@@ -108,182 +108,18 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="infoModalLabel">Información Aviso de Salida</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div id="infoModalContent">
-                                            <form id="form_departure" type="POST" enctype="multipart/form-data">
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Nombres</label>
-                                                                <input type="text" class="form-control" id="name"
-                                                                    name="name"
-                                                                    required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Apellidos</label>
-                                                                <input type="text" class="form-control" id="last_name"
-                                                                    name="last_name"
-                                                                    required readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Tipo</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="document_type" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for=""
-                                                                    class="form-label">Rut/Pasaporte</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="document_number" name="document_number" required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row border-bottom mb-2">
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">E-mail</label>
-                                                                <input type="email" class="form-control" id="email"
-                                                                    name="email" required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Telefono</label>
-                                                                <input type="number" class="form-control" id="phone"
-                                                                    name="phone" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Región de
-                                                                    Destino</label>
-                                                                <input type="text" class="form-control" id="region"
-                                                                    name="region" required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Lugar
-                                                                    Destino</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="destination" name="destination" required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Ruta</label>
-                                                                <input type="text" class="form-control" id="route"
-                                                                    name="route"  required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Actividad</label>
-                                                                <input type="text" class="form-control" id="activity"
-                                                                    name="activity"
-                                                                    required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">N°
-                                                                    Participantes</label>
-                                                                <input type="number" class="form-control"
-                                                                    id="number_participants" name="number_participants"
-                                                                    required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Fecha de
-                                                                    Salida</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="departure_date" name="departure_date" required
-                                                                    readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Fecha de
-                                                                    Regreso</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="return_date" name="return_date" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Nombre de Emergencia</label>
-                                                                <input type="text" class="form-control" id="name_emergency_family" name="name_emergency_family" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Parentesco Emergencia</label>
-                                                                <input type="text" class="form-control" id="parentesco_family_emergency" name="parentesco_family_emergency" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Numero de Emergencia</label>
-                                                                <input type="text" class="form-control" id="number_family_emergency" name="number_family_emergency" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Nombre de Emergencia 2</label>
-                                                                <input type="text" class="form-control" id="name_emergency_family_2" name="name_emergency_family_2" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Parentesco Emergencia 2</label>
-                                                                <input type="text" class="form-control" id="parentesco_family_emergency_2" name="parentesco_family_emergency_2" required readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="mb-3">
-                                                                <label for="" class="form-label">Numero de Emergencia 2</label>
-                                                                <input type="text" class="form-control" id="number_family_emergency_2" name="number_family_emergency_2" required readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cerrar</button>
-                                    </div>
+                        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content departure-detail-modal">
+                                <div class="departure-detail-hero"><div><span class="departure-detail-kicker"><i class="fa-solid fa-person-hiking"></i> Aviso de salida</span><h2 id="infoModalLabel"><span id="name"></span> <span id="last_name"></span></h2><p><i class="fa-solid fa-location-dot"></i> <span id="destination"></span> · <span id="route"></span></p></div><div class="departure-detail-hero__mark"><img src="{{ asset('assets/img/logo-socorro.png') }}" alt="CSA"><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div></div>
+                                <div class="modal-body departure-detail-body">
+                                    <section class="departure-detail-section"><header><span><i class="fa-regular fa-user"></i></span><div><small>Identificación</small><h3>Datos personales</h3></div></header><div class="departure-info-grid">
+                                        <div><small>Documento</small><strong><span id="document_type"></span> · <span id="document_number"></span></strong></div><div><small>Correo electrónico</small><strong id="email"></strong></div><div><small>Teléfono</small><strong id="phone"></strong></div><div><small>Región de destino</small><strong id="region"></strong></div>
+                                    </div></section>
+                                    <section class="departure-detail-section"><header><span><i class="fa-solid fa-route"></i></span><div><small>Planificación</small><h3>Itinerario de la salida</h3></div></header><div class="departure-trip-highlight"><div><small>Destino</small><strong id="destination_card"></strong></div><i class="fa-solid fa-arrow-right-long"></i><div><small>Ruta declarada</small><strong id="route_card"></strong></div></div><div class="departure-info-grid mt-3"><div><small>Actividad</small><strong id="activity"></strong></div><div><small>Participantes</small><strong><span id="number_participants"></span> personas</strong></div><div><small>Fecha de salida</small><strong id="departure_date"></strong></div><div><small>Regreso estimado</small><strong id="return_date"></strong></div></div></section>
+                                    <section class="departure-detail-section departure-emergency"><header><span><i class="fa-solid fa-phone-volume"></i></span><div><small>Información crítica</small><h3>Contactos de emergencia</h3></div></header><div class="departure-contacts"><article><span>01</span><div><small>Contacto principal</small><strong id="name_emergency_family"></strong><p><b id="parentesco_family_emergency"></b> · <a id="number_family_emergency_link"><i class="fa-solid fa-phone"></i> <span id="number_family_emergency"></span></a></p></div></article><article><span>02</span><div><small>Contacto alternativo</small><strong id="name_emergency_family_2"></strong><p><b id="parentesco_family_emergency_2"></b> · <a id="number_family_emergency_2_link"><i class="fa-solid fa-phone"></i> <span id="number_family_emergency_2"></span></a></p></div></article></div></section>
                                 </div>
-                            </div>
+                                <div class="modal-footer"><span class="departure-detail-note"><i class="fa-solid fa-shield-halved"></i> Información para coordinación y respuesta operativa</span><button class="btn btn-dark" data-bs-dismiss="modal">Cerrar ficha</button></div>
+                            </div></div>
                         </div>
 
                     </div>
@@ -563,9 +399,8 @@
             if(!departureTrackMap){departureTrackMap=L.map('trackMap').setView([-33.45,-70.66],7);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(departureTrackMap);}
             setTimeout(()=>departureTrackMap.invalidateSize(),250); if(departureTrackLayer)departureTrackLayer.remove();
             try {
-                const response=await fetch(trackUrl,{headers:{Accept:'application/gpx+xml'}}); if(!response.ok)throw new Error('No fue posible abrir el archivo.');
-                const xml=new DOMParser().parseFromString(await response.text(),'application/xml'); if(xml.querySelector('parsererror'))throw new Error('El archivo GPX no tiene un formato válido.');
-                const points=[...xml.querySelectorAll('trkpt, rtept')].map(n=>[Number(n.getAttribute('lat')),Number(n.getAttribute('lon'))]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+                const response=await fetch(trackUrl,{headers:{Accept:'application/json'}}); const payload=await response.json(); if(!response.ok)throw new Error(payload.message || 'No fue posible abrir el archivo.');
+                const points=(payload.points || []).map(p=>[Number(p.lat),Number(p.lon)]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
                 if(points.length<2)throw new Error('El GPX no contiene suficientes puntos para dibujar una ruta.');
                 departureTrackLayer=L.featureGroup([L.polyline(points,{color:'#ea4e1a',weight:4,opacity:.92}),L.circleMarker(points[0],{radius:7,color:'#fff',weight:3,fillColor:'#23845d',fillOpacity:1}).bindTooltip('Inicio'),L.circleMarker(points.at(-1),{radius:7,color:'#fff',weight:3,fillColor:'#c84317',fillOpacity:1}).bindTooltip('Término')]).addTo(departureTrackMap);
                 departureTrackMap.fitBounds(departureTrackLayer.getBounds(),{padding:[35,35]}); $('#trackDistance').text(calculateTrackDistance(points).toFixed(1)+' km'); $('#trackPoints').text(points.length.toLocaleString('es-CL')); $('#trackLoading').addClass('is-hidden');
@@ -573,8 +408,6 @@
         }
 
         function showInfo(id) {
-            $('#form_departure')[0].reset();
-
             $.ajax({
                 type: 'GET',
                 url: '/aviso/show-info/' + id,
@@ -583,7 +416,7 @@
                     var document_type;
                     var activity;
 
-                    switch (response.region) {
+                    switch (String(response.region)) {
                         case "0":
                             region = 'Región Arica y Parinacota';
                             break;
@@ -647,6 +480,9 @@
                         case "15":
                             region = 'Región Magallanes';
                             break;
+                        default:
+                            region = 'Región no informada';
+                            break;
                     }
 
                     if (response.document_type == 0) {
@@ -655,7 +491,7 @@
                         document_type = 'Rut';
                     }
 
-                    switch(response.activity){
+                    switch(String(response.activity)){
                         case "0":
                             activity = 'Trekking';
                             break;
@@ -680,28 +516,23 @@
                         case "7":
                             activity = 'Kitesurf';
                             break;
+                        default:
+                            activity = 'Actividad no informada';
+                            break;
                     }
 
-                    $('#name').val(response.name);
-                    $('#last_name').val(response.lastname);
-                    $('#document_type').val(document_type);
-                    $('#document_number').val(response.document_number);
-                    $('#email').val(response.email);
-                    $('#phone').val(response.phone);
-                    $('#region').val(region);
-                    $('#destination').val(response.destination);
-                    $('#route').val(response.route);
-                    $('#activity').val(activity);
-                    $('#name_emergency_family').val(response.name_emergency_family);
-                    $('#parentesco_family_emergency').val(response.parentesco_family_emergency);
-                    $('#number_family_emergency').val(response.number_family_emergency);
-                    $('#name_emergency_family_2').val(response.name_emergency_family_2);
-                    $('#parentesco_family_emergency_2').val(response.parentesco_family_emergency_2);
-                    $('#number_family_emergency_2').val(response.number_family_emergency_2);
-
-                    $('#number_participants').val(response.number_participants);
-                    $('#departure_date').val(moment(response.departure_date).format('DD-MM-YYYY HH:MM'));
-                    $('#return_date').val(moment(response.return_date).format('DD-MM-YYYY HH:MM'));
+                    $('#name').text(response.name || ''); $('#last_name').text(response.lastname || '');
+                    $('#document_type').text(document_type); $('#document_number').text(response.document_number || '—');
+                    $('#email').text(response.email || '—'); $('#phone').text(response.phone || '—'); $('#region').text(region || '—');
+                    $('#destination, #destination_card').text(response.destination || 'Destino no informado');
+                    $('#route, #route_card').text(response.route || 'Ruta no informada'); $('#activity').text(activity || '—');
+                    $('#name_emergency_family').text(response.name_emergency_family || 'No informado'); $('#parentesco_family_emergency').text(response.parentesco_family_emergency || 'Sin relación');
+                    $('#number_family_emergency').text(response.number_family_emergency || '—'); $('#number_family_emergency_link').attr('href', response.number_family_emergency ? 'tel:'+response.number_family_emergency : null);
+                    $('#name_emergency_family_2').text(response.name_emergency_family_2 || 'No informado'); $('#parentesco_family_emergency_2').text(response.parentesco_family_emergency_2 || 'Sin relación');
+                    $('#number_family_emergency_2').text(response.number_family_emergency_2 || '—'); $('#number_family_emergency_2_link').attr('href', response.number_family_emergency_2 ? 'tel:'+response.number_family_emergency_2 : null);
+                    $('#number_participants').text(response.number_participants || '—');
+                    $('#departure_date').text(moment(response.departure_date).format('DD MMM YYYY · HH:mm'));
+                    $('#return_date').text(moment(response.return_date).format('DD MMM YYYY · HH:mm'));
                 },
                 error: function(error) {
                     console.log(error);
@@ -717,5 +548,7 @@
     .departure-resources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:26px}.resource-panel{padding:17px;border:1px solid #dfe8eb;border-radius:13px;background:#fbfcfd}.resource-panel__header{display:flex;align-items:center;gap:11px;margin-bottom:14px}.resource-panel__icon{display:grid;flex:0 0 37px;height:37px;place-items:center;border-radius:9px;background:#e8f3f6;color:#176985;font-size:.85rem}.resource-panel__header h6{margin:0;color:#29444f;font-size:.79rem;font-weight:750}.resource-panel__header p{margin:3px 0 0;color:#80929a;font-size:.62rem}.resource-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.resource-links a{display:flex;min-height:38px;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid #e5ecef;border-radius:8px;background:#fff;color:#526b75;font-size:.69rem;font-weight:650;transition:border-color .18s,background .18s,color .18s,transform .18s}.resource-links a:last-child:nth-child(odd){grid-column:1/-1}.resource-links a i{color:#96aab2;font-size:.58rem}.resource-links a:hover{border-color:#b9d4dd;background:#f1f8fa;color:#176985;transform:translateY(-1px)}.resource-links a:hover i{color:#ea4e1a}.departure-section-divider{height:1px;margin:0 0 24px;background:linear-gradient(90deg,transparent,#dce6e9 10%,#dce6e9 90%,transparent)}
     @media(max-width:767.98px){.departure-resources{grid-template-columns:1fr}.resource-panel{padding:14px}.resource-links{grid-template-columns:1fr}.resource-links a:last-child:nth-child(odd){grid-column:auto}.resource-panel__header p{font-size:.6rem}}
     .btn-track{background:#eaf5f7!important;color:#176985!important}.track-kicker{color:#ea4e1a;font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.track-map-wrap{position:relative}.track-map-wrap #trackMap{height:min(62vh,560px);min-height:390px;background:#e9eff1}.track-loading{position:absolute;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;gap:10px;background:#f7fafbe8;color:#48616b;font-size:.75rem}.track-loading.is-hidden{display:none}.track-loading>i{color:#ea4e1a}.track-summary{display:flex;align-items:center;gap:28px;padding:16px 20px;border-top:1px solid #dce6e9}.track-summary>span{display:grid;grid-template-columns:auto 1fr;column-gap:9px}.track-summary>span>i{grid-row:1/3;align-self:center;color:#176985}.track-summary small{color:#84969e;font-size:.58rem;text-transform:uppercase}.track-summary strong{color:#29444f;font-size:.73rem}.track-summary>a{margin-left:auto}@media(max-width:767.98px){.track-map-wrap #trackMap{height:52vh;min-height:330px}.track-summary{display:grid;grid-template-columns:1fr 1fr;gap:13px}.track-summary>a{grid-column:1/-1;width:100%;margin:0}}
+    .departure-detail-modal{border:0!important;border-radius:18px!important}.departure-detail-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:27px 30px;background:repeating-radial-gradient(ellipse at 5% 120%,transparent 0 29px,#ffffff10 30px 31px),linear-gradient(125deg,#062938,#0c4b61);color:#fff}.departure-detail-kicker{color:#f39a6e;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.departure-detail-hero h2{margin:6px 0 5px;color:#fff;font-size:1.55rem;font-weight:780;letter-spacing:-.03em;text-transform:capitalize}.departure-detail-hero p{margin:0;color:#c9dde4;font-size:.72rem}.departure-detail-hero p i{color:#f39a6e}.departure-detail-hero__mark{display:flex;align-items:center;gap:24px}.departure-detail-hero__mark img{width:52px;filter:drop-shadow(0 7px 10px #0005)}.departure-detail-body{display:grid;gap:15px;padding:22px!important;background:#f3f7f8}.departure-detail-section{padding:20px;border:1px solid #dce7ea;border-radius:13px;background:#fff}.departure-detail-section>header{display:flex;align-items:center;gap:11px;margin-bottom:17px}.departure-detail-section>header>span{display:grid;width:36px;height:36px;place-items:center;border-radius:9px;background:#e8f4f7;color:#176985}.departure-detail-section header small{display:block;color:#ea4e1a;font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.departure-detail-section h3{margin:2px 0 0;color:#29444f;font-size:.83rem;font-weight:760}.departure-info-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.departure-info-grid>div{padding:12px;border-radius:9px;background:#f6f9fa}.departure-info-grid small,.departure-trip-highlight small,.departure-contacts small{display:block;margin-bottom:4px;color:#84969e;font-size:.58rem;text-transform:uppercase;letter-spacing:.04em}.departure-info-grid strong,.departure-trip-highlight strong{display:block;color:#314b56;font-size:.72rem;word-break:break-word}.departure-trip-highlight{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;padding:16px 18px;border-radius:11px;background:linear-gradient(135deg,#0d465b,#176985);color:#fff}.departure-trip-highlight small{color:#a9cbd6}.departure-trip-highlight strong{color:#fff;font-size:.8rem}.departure-trip-highlight>i{color:#f39a6e}.departure-emergency>header>span{background:#fff0e9;color:#ea4e1a}.departure-contacts{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.departure-contacts article{display:flex;align-items:center;gap:13px;padding:15px;border:1px solid #e4ecef;border-radius:11px}.departure-contacts article>span{display:grid;flex:0 0 37px;height:37px;place-items:center;border-radius:50%;background:#fff0e9;color:#d84a1b;font-size:.62rem;font-weight:800}.departure-contacts strong{display:block;color:#29444f;font-size:.76rem}.departure-contacts p{margin:4px 0 0;color:#738891;font-size:.65rem}.departure-contacts a{color:#176985;font-weight:700}.departure-detail-note{margin-right:auto;color:#758b94;font-size:.64rem}.departure-detail-note i{margin-right:5px;color:#176985}
+    @media(max-width:991.98px){.departure-info-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:575.98px){.departure-detail-hero{padding:22px 19px}.departure-detail-hero__mark img{display:none}.departure-detail-hero h2{font-size:1.25rem}.departure-detail-body{padding:12px!important}.departure-detail-section{padding:16px}.departure-info-grid,.departure-contacts{grid-template-columns:1fr}.departure-trip-highlight{grid-template-columns:1fr}.departure-trip-highlight>i{transform:rotate(90deg)}.departure-detail-note{display:none}}
 </style>
 @endpush

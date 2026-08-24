@@ -202,8 +202,8 @@ class SendOutController extends Controller
             Log::error('Error al guardar la salida: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Error al guardar la salida',
-                'error' => $e->getMessage()
+                'message' => 'No fue posible registrar el aviso de salida.',
+                'error' => 'Ocurrió un problema interno. Inténtalo nuevamente o comunícate con Socorro Andino.'
             ], 500);
         }
     }
@@ -354,7 +354,28 @@ class SendOutController extends Controller
         $storageRoot = realpath(storage_path('app/public'));
         $filePath = realpath(storage_path('app/public/'.$sendout->file_path));
         abort_unless($storageRoot && $filePath && str_starts_with($filePath, $storageRoot.DIRECTORY_SEPARATOR), 404, 'Archivo GPX no encontrado.');
-        return response()->file($filePath, ['Content-Type' => 'application/gpx+xml; charset=UTF-8']);
+
+        $previousErrors = libxml_use_internal_errors(true);
+        $document = new \DOMDocument();
+        $loaded = $document->load($filePath, LIBXML_NONET | LIBXML_NOBLANKS);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previousErrors);
+        abort_unless($loaded, 422, 'El archivo GPX no tiene un formato XML válido.');
+
+        $xpath = new \DOMXPath($document);
+        $nodes = $xpath->query('//*[local-name()="trkpt" or local-name()="rtept"]');
+        $points = [];
+        foreach ($nodes as $node) {
+            $latitude = filter_var($node->getAttribute('lat'), FILTER_VALIDATE_FLOAT);
+            $longitude = filter_var($node->getAttribute('lon'), FILTER_VALIDATE_FLOAT);
+            if ($latitude !== false && $longitude !== false && $latitude >= -90 && $latitude <= 90 && $longitude >= -180 && $longitude <= 180) {
+                $elevationNode = $xpath->query('./*[local-name()="ele"]', $node)->item(0);
+                $points[] = ['lat' => $latitude, 'lon' => $longitude, 'ele' => $elevationNode ? (float) $elevationNode->textContent : null];
+            }
+        }
+        abort_if(count($points) < 2, 422, 'El GPX no contiene suficientes puntos de ruta.');
+
+        return response()->json(['points' => $points]);
     }
 
     public function changeState($id)

@@ -19,6 +19,7 @@ class Voluntary extends Model
         'lastname',
         'phone',
         'birthday',
+        'init_voluntary',
         'address',
         'profession',
         'gender',

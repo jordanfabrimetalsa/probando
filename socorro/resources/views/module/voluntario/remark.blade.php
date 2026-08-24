@@ -20,7 +20,7 @@
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Gravedad</label>
                 <select class="form-select border border-gray p-2" aria-label="Default select example" id="gravity_edit" name="gravity">
-                  <option selected>Seleccione Opción</option>
+                  <option value="" selected disabled>Seleccione Opción</option>
                   <option value="0">Felicitaciones</option>
                   <option value="1">Nula</option>
                   <option value="2">Baja</option>
