@@ -332,11 +332,13 @@
                                 return `
                                     <button class="btn btn-success" onclick="cambiarEstado('${data.id}')"><i class="fa-solid fa-calendar-check"></i></button>
                                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
+                                    <a class="btn btn-danger" href="${data.pdf_url}" target="_blank" title="Generar PDF del aviso"><i class="fa-solid fa-file-pdf"></i></a>
                                     <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>
                                     ${trackButton}<a href="${data.download_url}" class="btn btn-dark" title="Descargar archivo"><i class="fa-solid fa-download"></i></a>`;
                             }
                             return `<button class="btn btn-success" onclick="cambiarEstado('${data.id}')"><i class="fa-solid fa-calendar-check"></i></button>
                                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(${data.id})"><i class="fa-solid fa-file-invoice"></i></button>
+                                    <a class="btn btn-danger" href="${data.pdf_url}" target="_blank" title="Generar PDF del aviso"><i class="fa-solid fa-file-pdf"></i></a>
                                     <a class="btn btn-danger" href="tel:${data.phone}"><i class="fa-solid fa-phone"></i></a>`;
                         }
                     }

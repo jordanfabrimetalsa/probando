@@ -7,15 +7,98 @@
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-map-location-dot"></i> Registro
-                                de Rescate</h6>
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 rescue-form-hero">
+                        <div class="bg-gradient-dark border-radius-lg p-4">
+                            <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+                                <div>
+                                    <span class="rescue-eyebrow">SISTEMA DE COMANDO DE INCIDENTES</span>
+                                    <h4 class="text-white mb-1"><i class="fa-solid fa-shield-halved me-2"></i>Ficha operativa de rescate</h4>
+                                    <p class="mb-0">Registro clínico, operacional y de cierre para trazabilidad institucional.</p>
+                                </div>
+                                <div class="rescue-form-status"><i class="fa-regular fa-pen-to-square"></i><span>Borrador en curso<small>Complete los campos obligatorios</small></span></div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body p-4">
-                        <form id="formRescue" class="form" method="POST">
+                        <form id="formRescue" class="form" method="POST" novalidate>
                             @csrf
+                            <div class="rescue-wizard" id="rescueWizard">
+                                <div class="rescue-wizard__top">
+                                    <div><span class="rescue-wizard__counter" id="rescueWizardCounter">Paso 1</span><h5 id="rescueWizardTitle">Información del incidente</h5></div>
+                                    <strong id="rescueWizardPercent">0%</strong>
+                                </div>
+                                <div class="rescue-wizard__progress"><span id="rescueWizardProgress"></span></div>
+                                <div class="rescue-wizard__steps" id="rescueWizardIndicators" aria-label="Progreso del formulario"></div>
+                            </div>
+                            <div id="rescueWizardStage"></div>
+                            <div class="row p-2 rescue-command-section">
+                                <h5 class="modal-title mb-2">0.- Comando y organización del incidente</h5>
+                                <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <label for="incident_code">Código del incidente</label>
+                                    <input type="text" name="incident_code" id="incident_code" value="{{ old('incident_code') }}"
+                                        class="form-control" placeholder="Automático si se deja vacío" maxlength="40">
+                                </div>
+                                <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <label for="commandante_incidente">Comandante del incidente <span class="text-danger">*</span></label>
+                                    <input type="text" name="commandante_incidente" id="commandante_incidente"
+                                        value="{{ old('commandante_incidente', trim((auth()->user()->name ?? '') . ' ' . (auth()->user()->lastname ?? ''))) }}"
+                                        class="form-control" placeholder="Nombre y cargo" required maxlength="255">
+                                </div>
+                                <div class="mb-3 col-lg-4 col-md-6 col-sm-12">
+                                    <label for="nivel_activacion">Nivel de activación <span class="text-danger">*</span></label>
+                                    <select name="nivel_activacion" id="nivel_activacion" class="form-select" required>
+                                        <option value="">Seleccione el nivel</option>
+                                        <option value="Monitoreo">Monitoreo</option>
+                                        <option value="Parcial">Activación parcial</option>
+                                        <option value="Total">Activación total</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label for="puesto_comando">Puesto de comando</label>
+                                    <input type="text" name="puesto_comando" id="puesto_comando" value="{{ old('puesto_comando') }}"
+                                        class="form-control" placeholder="Base, acceso o coordenadas">
+                                </div>
+                                <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                                    <label for="zona_operaciones">Zonificación operacional</label>
+                                    <input type="text" name="zona_operaciones" id="zona_operaciones" value="{{ old('zona_operaciones') }}"
+                                        class="form-control" placeholder="Zona caliente, tibia, segura y accesos">
+                                </div>
+                                <div class="mb-3 col-lg-6 col-md-12 col-sm-12">
+                                    <label for="objetivos_incidente">Objetivos operacionales <span class="text-danger">*</span></label>
+                                    <textarea name="objetivos_incidente" id="objetivos_incidente" class="form-control" rows="3"
+                                        placeholder="Objetivos concretos y prioridades del período operacional" required>{{ old('objetivos_incidente') }}</textarea>
+                                </div>
+                                <div class="mb-3 col-lg-6 col-md-12 col-sm-12">
+                                    <label for="riesgos_operacionales">Riesgos y medidas de control <span class="text-danger">*</span></label>
+                                    <textarea name="riesgos_operacionales" id="riesgos_operacionales" class="form-control" rows="3"
+                                        placeholder="Terreno, clima, exposición, EPP y medidas preventivas" required>{{ old('riesgos_operacionales') }}</textarea>
+                                </div>
+                                <div class="mb-3 col-lg-6 col-md-12 col-sm-12">
+                                    <label for="plan_comunicaciones">Plan de comunicaciones</label>
+                                    <textarea name="plan_comunicaciones" id="plan_comunicaciones" class="form-control" rows="2"
+                                        placeholder="Canal, frecuencia, indicativos y medio alternativo">{{ old('plan_comunicaciones') }}</textarea>
+                                </div>
+                                <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                                    <label for="estado_cierre">Estado al cierre <span class="text-danger">*</span></label>
+                                    <select name="estado_cierre" id="estado_cierre" class="form-select" required>
+                                        <option value="">Seleccione estado</option>
+                                        <option value="Controlado">Controlado</option>
+                                        <option value="Cerrado">Cerrado</option>
+                                        <option value="Derivado">Derivado a otra institución</option>
+                                        <option value="Suspendido">Suspendido</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                                    <label for="hora_desmovilizacion">Hora de desmovilización</label>
+                                    <input type="time" name="hora_desmovilizacion" id="hora_desmovilizacion"
+                                        value="{{ old('hora_desmovilizacion') }}" class="form-control">
+                                </div>
+                                <div class="mb-0 col-12">
+                                    <label for="lecciones_aprendidas">Lecciones aprendidas y acciones de mejora</label>
+                                    <textarea name="lecciones_aprendidas" id="lecciones_aprendidas" class="form-control" rows="3"
+                                        placeholder="Aspectos que funcionaron, brechas detectadas y acciones de seguimiento">{{ old('lecciones_aprendidas') }}</textarea>
+                                </div>
+                            </div>
                             <div class="row p-2">
                                 <h5 class="modal-title mb-2">1.- Datos generales del operativo</h5>
                                 <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
@@ -504,8 +587,14 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
-                                Guardar Rescate</button>
+                            <div class="rescue-submit-bar">
+                                <div><i class="fa-solid fa-circle-info"></i><span>Al finalizar se generará automáticamente el informe PDF institucional.</span></div>
+                                <div class="rescue-wizard__actions">
+                                    <button type="button" class="btn btn-outline-secondary" id="rescueWizardPrevious"><i class="fa-solid fa-arrow-left me-2"></i>Anterior</button>
+                                    <button type="button" class="btn btn-dark" id="rescueWizardNext">Siguiente<i class="fa-solid fa-arrow-right ms-2"></i></button>
+                                    <button type="submit" class="btn btn-dark d-none" id="btnSubmitRescue"><i class="fa-solid fa-file-circle-check me-2"></i>Guardar y generar informe</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -513,11 +602,86 @@
         </div>
     @endsection
 
+    @push('styles')
+        <style>
+            .rescue-form-hero p{color:#c8dce4;font-size:.78rem}.rescue-eyebrow{display:block;margin-bottom:7px;color:#ff8b63;font-size:.62rem;font-weight:800;letter-spacing:.13em}.rescue-form-status{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(255,255,255,.18);border-radius:10px;color:#fff;background:rgba(255,255,255,.08);font-size:.73rem;font-weight:700}.rescue-form-status i{color:#ff8b63;font-size:1.05rem}.rescue-form-status span{display:flex;flex-direction:column}.rescue-form-status small{margin-top:2px;color:#bcd0d8;font-size:.59rem;font-weight:500}
+            #formRescue{counter-reset:rescue-section}#formRescue>.row.p-2{position:relative;margin:0 0 18px!important;padding:24px!important;border:1px solid #dbe6ea;border-radius:13px;background:#fff;box-shadow:0 4px 16px rgba(13,58,74,.035)}#formRescue>.row.p-2>h5{display:flex;align-items:center;margin-bottom:22px!important;padding-bottom:15px;border-bottom:1px solid #e5ecef;color:#173744;font-size:.95rem;font-weight:750}#formRescue>.row.p-2>h5:before{content:'';display:block;width:4px;height:22px;margin-right:10px;border-radius:4px;background:#ea4e1a}.rescue-command-section{border-top:3px solid #176985!important;background:linear-gradient(180deg,#fafdfe,#fff 90px)!important}#formRescue label{margin-bottom:7px;color:#3e5965;font-size:.72rem;font-weight:700}#formRescue textarea.form-control{min-height:88px;resize:vertical}#formRescue .table{overflow:hidden;border:1px solid #dde7eb;border-radius:9px}#formRescue .table td:first-child{width:28%;color:#214654;font-weight:700}#formRescue .form-check{height:100%;padding:10px 10px 10px 34px;border:1px solid #e0e9ec;border-radius:8px;background:#f8fafb}.rescue-submit-bar{position:sticky;z-index:5;bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:24px;padding:14px 18px;border:1px solid #cbdce2;border-radius:12px;background:rgba(255,255,255,.94);box-shadow:0 12px 35px rgba(5,40,54,.16);backdrop-filter:blur(12px)}.rescue-submit-bar>div{display:flex;align-items:center;gap:9px;color:#607983;font-size:.7rem}.rescue-submit-bar>div i{color:#176985}.rescue-submit-bar .btn{padding:11px 17px}
+            .rescue-wizard{margin-bottom:20px;padding:18px 20px;border:1px solid #d6e3e8;border-radius:13px;background:#fff;box-shadow:0 5px 18px rgba(12,57,73,.05)}.rescue-wizard__top{display:flex;align-items:flex-end;justify-content:space-between;gap:15px}.rescue-wizard__counter{color:#ea4e1a;font-size:.62rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.rescue-wizard__top h5{margin:3px 0 0;color:#173744;font-size:1rem}.rescue-wizard__top>strong{color:#176985;font-size:.78rem}.rescue-wizard__progress{height:6px;margin:13px 0;border-radius:10px;background:#e5edf0}.rescue-wizard__progress span{display:block;width:0;height:100%;border-radius:10px;background:linear-gradient(90deg,#176985,#ea4e1a);transition:width .25s ease}.rescue-wizard__steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}.rescue-wizard__indicator{display:grid;flex:0 0 26px;height:26px;place-items:center;border:1px solid #d6e2e6;border-radius:50%;background:#f6f9fa;color:#78909a;font-size:.61rem;font-weight:800}.rescue-wizard__indicator.is-current{border-color:#176985;background:#176985;color:#fff}.rescue-wizard__indicator.is-complete{border-color:#add6c0;background:#e7f6ed;color:#16824a}.rescue-wizard-step{display:none!important;position:relative;margin:0!important;padding:24px!important;border:1px solid #dbe6ea;border-radius:13px;background:#fff;box-shadow:0 4px 16px rgba(13,58,74,.035)}.rescue-wizard-step.is-active{display:flex!important}.rescue-wizard-step>h5{display:flex;align-items:center;margin-bottom:22px!important;padding-bottom:15px;border-bottom:1px solid #e5ecef;color:#173744;font-size:.95rem;font-weight:750}.rescue-wizard-step>h5:before{content:'';display:block;width:4px;height:22px;margin-right:10px;border-radius:4px;background:#ea4e1a}.rescue-wizard__actions{display:flex!important;gap:8px}.rescue-wizard__actions .btn i{color:inherit}.rescue-wizard-step.was-validated :invalid{border-color:#dc3545!important}.rescue-wizard-step.was-validated :valid{border-color:#198754!important}
+            @media(max-width:767.98px){#formRescue>.row.p-2,.rescue-wizard-step{padding:18px!important}.rescue-submit-bar{align-items:stretch;flex-direction:column}.rescue-submit-bar .btn{flex:1}.rescue-wizard__actions{width:100%}.rescue-form-status{display:none}}
+        </style>
+    @endpush
+
     @push('script')
         <script>
+            let rescueWizardSteps = $();
+            let rescueWizardIndex = 0;
+
+            function initializeRescueWizard() {
+                const seen = new Set();
+                const steps = [];
+                $('#formRescue h5.modal-title').each(function() {
+                    const step = $(this).closest('.row.p-2')[0];
+                    if (step && !seen.has(step)) {
+                        seen.add(step);
+                        steps.push(step);
+                    }
+                });
+                rescueWizardSteps = $(steps);
+                rescueWizardSteps.each(function(index) {
+                    $(this).addClass('rescue-wizard-step').attr('data-wizard-step', index).detach().appendTo('#rescueWizardStage');
+                    $('#rescueWizardIndicators').append('<span class="rescue-wizard__indicator" data-step="' + index + '">' + (index + 1) + '</span>');
+                });
+                showRescueWizardStep(0, false);
+            }
+
+            function rescueWizardStepTitle(index) {
+                return rescueWizardSteps.eq(index).find('> h5').first().text().trim().replace(/^\d+\.-\s*/, '');
+            }
+
+            function showRescueWizardStep(index, scroll = true) {
+                if (!rescueWizardSteps.length) return;
+                rescueWizardIndex = Math.max(0, Math.min(index, rescueWizardSteps.length - 1));
+                rescueWizardSteps.removeClass('is-active').eq(rescueWizardIndex).addClass('is-active');
+                const percent = Math.round(((rescueWizardIndex + 1) / rescueWizardSteps.length) * 100);
+                $('#rescueWizardCounter').text('Paso ' + (rescueWizardIndex + 1) + ' de ' + rescueWizardSteps.length);
+                $('#rescueWizardTitle').text(rescueWizardStepTitle(rescueWizardIndex));
+                $('#rescueWizardPercent').text(percent + '%');
+                $('#rescueWizardProgress').css('width', percent + '%');
+                $('.rescue-wizard__indicator').removeClass('is-current is-complete').each(function(i) {
+                    $(this).toggleClass('is-current', i === rescueWizardIndex).toggleClass('is-complete', i < rescueWizardIndex);
+                });
+                $('#rescueWizardPrevious').prop('disabled', rescueWizardIndex === 0);
+                const isLast = rescueWizardIndex === rescueWizardSteps.length - 1;
+                $('#rescueWizardNext').toggleClass('d-none', isLast);
+                $('#btnSubmitRescue').toggleClass('d-none', !isLast);
+                if (scroll) document.getElementById('rescueWizard')?.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
+
+            function validateCurrentRescueStep() {
+                const step = rescueWizardSteps.eq(rescueWizardIndex);
+                let firstInvalid = null;
+                step.find(':input[required]').each(function() {
+                    if (!this.checkValidity() && !firstInvalid) firstInvalid = this;
+                });
+                step.toggleClass('was-validated', Boolean(firstInvalid));
+                if (firstInvalid) {
+                    firstInvalid.reportValidity();
+                    firstInvalid.focus();
+                    return false;
+                }
+                return true;
+            }
+
             $(document).ready(function() {
                 let volunteerSelectIndex = 1;
                 let institutionSelectIndex = 1;
+                initializeRescueWizard();
+                $('#rescueWizardNext').on('click', function() {
+                    if (validateCurrentRescueStep()) showRescueWizardStep(rescueWizardIndex + 1);
+                });
+                $('#rescueWizardPrevious').on('click', function() {
+                    showRescueWizardStep(rescueWizardIndex - 1);
+                });
 
                 const voluntaryOptionsHtml = `
                 <option selected value="">Seleccione voluntario</option>
@@ -583,7 +747,10 @@
 
             $('#formRescue').submit(function(e) {
                 e.preventDefault();
+                $('#formRescue .is-invalid').removeClass('is-invalid');
                 let formData = $(this).serialize();
+                const button = $('#btnSubmitRescue');
+                button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Generando informe...');
 
                 $.ajax({
                     url: '{{ route('registro-rescate.store') }}',
@@ -602,12 +769,24 @@
                                 window.open(response.download_url, '_blank');
                             }
                             $('#formRescue')[0].reset();
+                            rescueWizardSteps.removeClass('was-validated');
+                            showRescueWizardStep(0);
                         }
                     },
                     error: function(xhr) {
-                        let msg = 'Error al registrar rescate';
+                        let msg = 'No fue posible registrar el rescate.';
+                        const errors = xhr.responseJSON?.errors || {};
+                        const firstField = Object.keys(errors)[0];
+                        if (firstField) {
+                            const field = $('#formRescue [name="' + firstField + '"], #formRescue [name="' + firstField.replace('.0', '[]') + '"]').first();
+                            field.addClass('is-invalid');
+                            const failedStep = Number(field.closest('.rescue-wizard-step').attr('data-wizard-step'));
+                            if (!Number.isNaN(failedStep)) showRescueWizardStep(failedStep);
+                            field[0]?.scrollIntoView({behavior: 'smooth', block: 'center'});
+                            msg = errors[firstField][0];
+                        }
                         if (xhr.responseJSON && xhr.responseJSON.message) {
-                            msg += ': ' + xhr.responseJSON.message;
+                            msg = firstField ? msg : xhr.responseJSON.message;
                         }
 
                         Swal.fire({
@@ -615,7 +794,9 @@
                             title: 'Error',
                             text: msg,
                         });
-                        $('#CreateModal').modal('hide');
+                    },
+                    complete: function() {
+                        button.prop('disabled', false).html('<i class="fa-solid fa-file-circle-check me-2"></i>Guardar y generar informe');
                     }
                 });
             });

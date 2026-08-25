@@ -88,10 +88,14 @@ Route::middleware('auth')->group(function(){
         Route::delete('/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
     });
 
-    Route::prefix('postulations')->group(function(){
+    Route::prefix('postulations')->middleware('permission:delegations.manage')->group(function(){
+        Route::get('/', [PostulationController::class, 'index'])->name('postulations.index');
+        Route::get('/admin/data', [PostulationController::class, 'adminData'])->name('postulations.admin.data');
         Route::get('/voluntaries/data/{id}', [PostulationController::class, 'voluntariesData'])->name('postulations.voluntaries.data');
         Route::post('/store', [PostulationController::class, 'store'])->name('postulations.store');
         Route::get('/details/{id}', [PostulationController::class, 'details'])->name('postulations.details');
+        Route::patch('/{postulation}/status', [PostulationController::class, 'updateStatus'])->name('postulations.status');
+        Route::delete('/{postulation}', [PostulationController::class, 'destroy'])->name('postulations.destroy');
     });
 
     Route::prefix('postulations-people')->group(function(){
@@ -195,6 +199,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/', [SendOutController::class, 'list'])->name('aviso.list');
         Route::get('/data', [SendOutController::class, 'data'])->name('aviso.data');
         Route::get('/download/{id}', [SendOutController::class, 'download'])->name('aviso.download');
+        Route::get('/pdf/{id}', [SendOutController::class, 'pdf'])->name('aviso.pdf');
         Route::get('/track/{id}', [SendOutController::class, 'track'])->name('aviso.track');
         Route::post('/cambiar-estado/{id}', [SendOutController::class, 'changeState'])->name('aviso.changeState');
         Route::get('/show-info/{id}', [SendOutController::class, 'showInfo'])->name('aviso.showInfo');

@@ -6,6 +6,7 @@ use App\Models\Delegation;
 use App\Models\Cargo;
 use App\Models\Image_Voluntary;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Voluntary extends Model
 {
@@ -52,6 +53,11 @@ class Voluntary extends Model
     public function financeTransactions()
     {
         return $this->hasMany(FinanceTransaction::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'voluntary_id');
     }
 
     public function getImageAttribute()

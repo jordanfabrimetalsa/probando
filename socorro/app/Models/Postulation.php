@@ -14,11 +14,25 @@ class Postulation extends Model
         'cant_people_selected',
         'start_date',
         'end_date',
-        'delegation_id'
+        'delegation_id',
+        'status'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
+        ];
+    }
 
     public function delegation()
     {
         return $this->belongsTo(Delegation::class);
+    }
+
+    public function people()
+    {
+        return $this->hasMany(PostulationsPeople::class, 'postulation_id');
     }
 }

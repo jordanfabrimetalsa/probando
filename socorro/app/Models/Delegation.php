@@ -22,5 +22,9 @@ class Delegation extends Model
     {
         return $this->belongsTo(Regions::class, 'region_id');
     }
-}
 
+    public function postulations()
+    {
+        return $this->hasMany(Postulation::class);
+    }
+}

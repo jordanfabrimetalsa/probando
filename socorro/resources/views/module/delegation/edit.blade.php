@@ -21,20 +21,6 @@
           <!--<button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Editar Delegación</button>-->
         </form>
 
-        <table id="datatablePostulations" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-          <thead class="bg-gradient-dark text-center">
-              <tr class="text-center">
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha de inicio</th>
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha de fin</th>
-                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
-              </tr>
-          </thead>
-          <tbody class="text-center">
-          </tbody>
-        </table>
-        <hr class="border-top border-black">
         <label for="exampleInputEmail1" class="form-label">Voluntarios pertenecientes a esta delegación</label>
         <div class="text-center">
           <table id="datatableVoluntaries" class="table table-striped dt-responsive nowrap" style="width: 100%;">

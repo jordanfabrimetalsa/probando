@@ -78,7 +78,7 @@
                       <a href="javascript:;" class="btn btn-info text-white" onclick="showRescue(${data.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
                         <i class="fa-solid fa-map-location-dot"></i>
                       </a>
-                      <a href="/storage/rescues/rescate_${data.id}.pdf" target="_blank" class="btn btn-dark text-white">
+                      <a href="{{ url('registro-rescate/pdf') }}/${data.id}" target="_blank" class="btn btn-dark text-white" title="Abrir informe SCI">
                         <i class="fa-solid fa-file-pdf"></i>
                       </a>
                       <a onclick="deleteRescue(${data.id})" class="btn btn-danger text-white">
@@ -191,6 +191,29 @@
         type: 'GET',
         success:function(response){
           console.log(response.data);
+          const rescue = response.data;
+          const displayValue = value => value === null || value === undefined || value === '' ? 'No informado' : value;
+          $('#incident_code_show').text(displayValue(rescue.incident_code || ('CSA-' + rescue.id)));
+          $('#incident_title_show').text(displayValue(rescue.tipo_emergencia));
+          $('#incident_location_show').text(displayValue(rescue.lugar_exacto || rescue.lugar));
+          $('#incident_date_show').text(rescue.fecha_operativo ? moment(rescue.fecha_operativo).format('DD/MM/YYYY') : '—');
+          $('#incident_level_show').text(displayValue(rescue.nivel_activacion));
+          $('#incident_status_show').text(displayValue(rescue.estado_cierre));
+          $('#commandante_incidente_show').val(displayValue(rescue.commandante_incidente));
+          $('#puesto_comando_show').val(displayValue(rescue.puesto_comando));
+          $('#hora_desmovilizacion_show').val(displayValue(rescue.hora_desmovilizacion));
+          $('#objetivos_incidente_show').val(displayValue(rescue.objetivos_incidente));
+          $('#riesgos_operacionales_show').val(displayValue(rescue.riesgos_operacionales));
+          $('#plan_comunicaciones_show').val(displayValue(rescue.plan_comunicaciones));
+          $('#zona_operaciones_show').val(displayValue(rescue.zona_operaciones));
+          $('#rescuePdfLink').attr('href', '{{ url("registro-rescate/pdf") }}/' + rescue.id);
+          const pills = values => values && values.length
+            ? values.map(value => '<span>' + $('<div>').text(value).html() + '</span>').join('')
+            : '<span>Sin registros</span>';
+          $('#rescue_volunteers_show').html(pills((rescue.voluntaries || []).map(v => ((v.name || '') + ' ' + (v.lastname || '')).trim())));
+          $('#rescue_institutions_show').html(pills(rescue.instituciones || []));
+          $('#rescue_materials_show').html(pills(rescue.materiales || []));
+          $('#lecciones_aprendidas_show').text(displayValue(rescue.lecciones_aprendidas));
 
           // Datos generales del operativo
           $('#fecha_operativo_show').val(response.data.fecha_operativo);
@@ -225,12 +248,13 @@
 
 
           // Evaluación primaria (XABCDE) - usar datos de la tabla relacionada si existen
-            $('#xabcde_x_show').val(response.data.xabcde.x_hemorragias);
-            $('#xabcde_a_show').val(response.data.xabcde.a_via_aerea);
-            $('#xabcde_b_show').val(response.data.xabcde.b_respiracion);
-            $('#xabcde_c_show').val(response.data.xabcde.c_circulacion);
-            $('#xabcde_d_show').val(response.data.xabcde.d_estado_neurologico);
-            $('#xabcde_e_show').val(response.data.xabcde.e_exposicion);
+            const xabcde = response.data.xabcde || {};
+            $('#xabcde_x_show').val(displayValue(xabcde.x_hemorragias));
+            $('#xabcde_a_show').val(displayValue(xabcde.a_via_aerea));
+            $('#xabcde_b_show').val(displayValue(xabcde.b_respiracion));
+            $('#xabcde_c_show').val(displayValue(xabcde.c_circulacion));
+            $('#xabcde_d_show').val(displayValue(xabcde.d_estado_neurologico));
+            $('#xabcde_e_show').val(displayValue(xabcde.e_exposicion));
 
           // Evaluación Secundaria (SAMPLE) - usar datos de la tabla relacionada si existen
           if(response.data.sample) {
@@ -257,15 +281,16 @@
           $('#destino_final_paciente_show').val(response.data.destino_final_paciente);
 
           // Bitácora
-          $('#bitacora_emergencia_presencial_show').val(response.data.bitacora.emergencia_presencial);
-          $('#bitacora_salida_cuartel_show').val(response.data.bitacora.salida_cuartel);
-          $('#bitacora_llegada_acceso_show').val(response.data.bitacora.llegada_acceso);
-          $('#bitacora_contacto_grupo_show').val(response.data.bitacora.contacto_grupo);
-          $('#bitacora_evaluacion_sanitaria_inicial_show').val(response.data.bitacora.evaluacion_sanitaria_inicial);
-          $('#bitacora_inicio_descenso_show').val(response.data.bitacora.inicio_descenso);
-          $('#bitacora_llegada_extraccion_show').val(response.data.bitacora.llegada_extraccion);
-          $('#bitacora_traslado_destino_final_show').val(response.data.bitacora.traslado_destino_final);
-          $('#bitacora_regreso_cuartel_show').val(response.data.bitacora.regreso_cuartel);
+          const bitacora = response.data.bitacora || {};
+          $('#bitacora_emergencia_presencial_show').val(displayValue(bitacora.emergencia_presencial));
+          $('#bitacora_salida_cuartel_show').val(displayValue(bitacora.salida_cuartel));
+          $('#bitacora_llegada_acceso_show').val(displayValue(bitacora.llegada_acceso));
+          $('#bitacora_contacto_grupo_show').val(displayValue(bitacora.contacto_grupo));
+          $('#bitacora_evaluacion_sanitaria_inicial_show').val(displayValue(bitacora.evaluacion_sanitaria_inicial));
+          $('#bitacora_inicio_descenso_show').val(displayValue(bitacora.inicio_descenso));
+          $('#bitacora_llegada_extraccion_show').val(displayValue(bitacora.llegada_extraccion));
+          $('#bitacora_traslado_destino_final_show').val(displayValue(bitacora.traslado_destino_final));
+          $('#bitacora_regreso_cuartel_show').val(displayValue(bitacora.regreso_cuartel));
 
           // Descripción y observaciones
           $('#descripcion_emergencia_show').val(response.data.descripcion_emergencia);

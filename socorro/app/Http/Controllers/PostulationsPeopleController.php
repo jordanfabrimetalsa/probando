@@ -2,53 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Postulation;
 use App\Models\PostulationsPeople;
-use Exception;
-use Illuminate\Support\Facades\Log;
+use App\Support\DelegationAccess;
+use Illuminate\Http\Request;
 
 class PostulationsPeopleController extends Controller
 {
-    public function data($id){
-        try{
-            // Log para depurar
-            Log::info('Buscando postulantes para postulation_id: ' . $id);
+    public function data($id)
+    {
+        $postulation = Postulation::findOrFail($id);
+        DelegationAccess::authorize((int) $postulation->delegation_id);
 
-            $postulationsPeople = PostulationsPeople::where('postulation_id', $id)->get();
-
-            Log::info('Registros encontrados: ' . $postulationsPeople->count());
-            Log::info('Datos encontrados:', $postulationsPeople->toArray());
-
-            return response()->json($postulationsPeople);
-        }catch(Exception $e){
-            Log::error('Error en data method: ' . $e->getMessage());
-            return response()->json($e);
-        }
+        return response()->json(
+            PostulationsPeople::where('postulation_id', $id)->latest()->get()
+        );
     }
 
-    public function store(Request $request){
-        try{
-            // Log simple para verificar si llega aquí
-            file_put_contents(storage_path('logs/test.log'), date('Y-m-d H:i:s') . ' - Store method called' . PHP_EOL, FILE_APPEND);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
+            'rut' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'max:30'],
+            'email' => ['required', 'email', 'max:255'],
+            'presentation' => ['required', 'string', 'min:20', 'max:5000'],
+            'postulation_id' => ['required', 'exists:postulations,id'],
+        ]);
 
-            Log::info('Datos recibidos:', $request->all());
+        $postulation = Postulation::findOrFail($validated['postulation_id']);
+        abort_unless(
+            $postulation->status === 'A'
+                && $postulation->start_date <= now()
+                && $postulation->end_date >= now(),
+            422,
+            'Esta convocatoria no se encuentra abierta.'
+        );
 
-            // Crear sin validación para pruebas
-            $postulationPeople = PostulationsPeople::create($request->all());
+        $exists = PostulationsPeople::where('postulation_id', $postulation->id)
+            ->where(function ($query) use ($validated) {
+                $query->where('rut', $validated['rut'])
+                    ->orWhere('email', $validated['email']);
+            })->exists();
+        abort_if($exists, 422, 'Ya existe una postulación asociada a este RUT o correo.');
 
-            Log::info('Postulación creada:', $postulationPeople->toArray());
+        $person = PostulationsPeople::create($validated);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Postulación enviada correctamente',
-                'data' => $postulationPeople
-            ]);
-        }catch(Exception $e){
-            Log::error('Error:', $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Postulación enviada correctamente.',
+            'data' => $person,
+        ], 201);
     }
 }

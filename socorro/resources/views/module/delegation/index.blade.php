@@ -45,10 +45,8 @@
     </div>
     </div>
 
-    @include('module.delegation.details')
     @include('module.delegation.create')
     @include('module.delegation.edit')
-    @include('module.delegation.createPostulation')
 
 @endsection
 
@@ -210,6 +208,7 @@
                 }
             });
 
+            if ($('#datatablePostulations').length) {
             datatablePostulations = $('#datatablePostulations').DataTable({
                 ajax: {
                     url: 'postulations/data/' + id,
@@ -301,6 +300,7 @@
                 ],
                 destroy: true
             });
+            }
 
 
 

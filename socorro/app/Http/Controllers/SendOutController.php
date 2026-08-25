@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SendOut;
 use App\Mail\SendOutMailable;
 use Illuminate\Support\Facades\Mail;
+use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
 use Exception;
 
 class SendOutController extends Controller
@@ -303,6 +304,7 @@ class SendOutController extends Controller
     {
         try {
             $sendouts = SendOut::all()->map(function ($sendout) {
+                $sendout->pdf_url = route('aviso.pdf', $sendout->id);
                 if ($sendout->file_path) {
                     $sendout->download_url = route('aviso.download', $sendout->id);
                     $sendout->has_gpx = strtolower(pathinfo($sendout->file_path, PATHINFO_EXTENSION)) === 'gpx';
@@ -345,6 +347,39 @@ class SendOutController extends Controller
         }
 
         return response()->download($filePath);
+    }
+
+    public function pdf($id)
+    {
+        $sendout = SendOut::findOrFail($id);
+
+        $regions = [
+            0 => 'Arica y Parinacota', 1 => 'Tarapacá', 2 => 'Antofagasta',
+            3 => 'Atacama', 4 => 'Coquimbo', 5 => 'Valparaíso',
+            6 => 'Metropolitana', 7 => "O'Higgins", 8 => 'Maule',
+            9 => 'Ñuble', 10 => 'Biobío', 11 => 'La Araucanía',
+            12 => 'Los Ríos', 13 => 'Los Lagos', 14 => 'Aysén', 15 => 'Magallanes',
+        ];
+        $activities = [
+            0 => 'Trekking', 1 => 'Hiking', 2 => 'Mountain Bike', 3 => 'Escalada',
+            4 => 'Escalada en hielo', 5 => 'Randonnée', 6 => 'Kayak', 7 => 'Kitesurf',
+        ];
+        $logoPath = public_path('assets/img/logo-socorro.png');
+        $logo = is_file($logoPath)
+            ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath))
+            : null;
+
+        $pdf = PDFFacade::loadView('module.pdf.sendout', [
+            'sendout' => $sendout,
+            'region' => $regions[(int) $sendout->region] ?? 'No informada',
+            'activity' => $activities[(int) $sendout->activity] ?? 'No informada',
+            'documentType' => (int) $sendout->document_type === 1 ? 'RUT' : 'Pasaporte',
+            'logo' => $logo,
+        ])->setPaper('a4', 'portrait');
+
+        $filename = 'aviso-salida-'.$sendout->id.'-'.now()->format('Ymd-His').'.pdf';
+
+        return $pdf->stream($filename);
     }
 
     public function track($id)

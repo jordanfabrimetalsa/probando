@@ -27,7 +27,12 @@ class UserController extends Controller
 
     public function index()
     {
-        $voluntarios = DelegationAccess::scope(Voluntary::query())->get();
+        $voluntarios = DelegationAccess::scope(
+            Voluntary::with(['delegation', 'cargo', 'images'])
+                ->whereDoesntHave('user')
+                ->orderBy('name')
+                ->orderBy('lastname')
+        )->get();
         $roles = SystemRole::where('active', true)->orderBy('name')->get();
         return view('module.usuario.index', compact('voluntarios', 'roles'));
     }
@@ -42,7 +47,7 @@ class UserController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'voluntary_id' => ['nullable', 'exists:voluntaries,id'],
+            'voluntary_id' => ['required', 'exists:voluntaries,id', 'unique:users,voluntary_id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -117,7 +122,9 @@ class UserController extends Controller
             $user = User::with('voluntary')->findOrFail($id);
             abort_unless($user->voluntary, 403);
             DelegationAccess::authorize((int) $user->voluntary->delegation_id);
+            $voluntary = $user->voluntary;
             $user->delete();
+            $voluntary->update(['busy' => false]);
             return response()->json(['success' => 'Usuario eliminado correctamente']);
         }catch(Exception $e){
             return response()->json(['error' => $e]);

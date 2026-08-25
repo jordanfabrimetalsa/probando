@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
+use Illuminate\Validation\ValidationException;
 
 class RescueController extends Controller
 {
@@ -28,7 +29,7 @@ class RescueController extends Controller
 
     public function data(){
         try{
-            $rescue = DB::table('rescates')->get();
+            $rescue = DelegationAccess::scope(DB::table('rescates'), 'id_delegation')->get();
             return response()->json($rescue);
         }catch(Exception $e){
             return response()->json([
@@ -49,18 +50,21 @@ class RescueController extends Controller
                     'message' => 'Registro no encontrado'
                 ], 404);
             }
+            DelegationAccess::authorize((int) $rescue->id_delegation);
 
             // Intentar obtener datos relacionados solo si las tablas existen
             $voluntaries = [];
             $instituciones = [];
             $xabcde = null;
             $sample = null;
+            $bitacora = null;
+            $materiales = collect();
 
             try {
                 // Obtener voluntarios relacionados
-                $voluntaries = DB::table('rescate_voluntaries')
-                                ->join('voluntaries', 'rescate_voluntaries.voluntary_id', '=', 'voluntaries.id')
-                                ->where('rescate_voluntaries.rescate_id', $id)
+                $voluntaries = DB::table('rescate_voluntarios')
+                                ->join('voluntaries', 'rescate_voluntarios.voluntario_id', '=', 'voluntaries.id')
+                                ->where('rescate_voluntarios.rescate_id', $id)
                                 ->select('voluntaries.id', 'voluntaries.name', 'voluntaries.lastname')
                                 ->get();
             } catch (Exception $e) {
@@ -104,6 +108,13 @@ class RescueController extends Controller
                 // Tabla no existe, continuar sin bitacora
             }
 
+            try {
+                $materiales = DB::table('rescate_material_equipo')
+                    ->where('rescate_id', $id)->pluck('material');
+            } catch (Exception $e) {
+                // Continuar sin materiales.
+            }
+
             // Combinar todos los datos
             $rescueData = (array) $rescue;
             $rescueData['voluntaries'] = $voluntaries;
@@ -111,6 +122,7 @@ class RescueController extends Controller
             $rescueData['xabcde'] = $xabcde;
             $rescueData['sample'] = $sample;
             $rescueData['bitacora'] = $bitacora;
+            $rescueData['materiales'] = $materiales;
 
             return response()->json([
                 'status' => 'success',
@@ -128,12 +140,52 @@ class RescueController extends Controller
 public function store(Request $request)
 {
     try{
+        $validated = $request->validate([
+            'fecha_operativo' => ['required', 'date'],
+            'hora_llamado' => ['required', 'date_format:H:i'],
+            'incident_code' => ['nullable', 'string', 'max:40'],
+            'commandante_incidente' => ['required', 'string', 'max:255'],
+            'puesto_comando' => ['nullable', 'string', 'max:255'],
+            'nivel_activacion' => ['required', 'in:Monitoreo,Parcial,Total'],
+            'objetivos_incidente' => ['required', 'string', 'min:10'],
+            'riesgos_operacionales' => ['required', 'string', 'min:5'],
+            'plan_comunicaciones' => ['nullable', 'string', 'max:2000'],
+            'zona_operaciones' => ['nullable', 'string', 'max:2000'],
+            'estado_cierre' => ['required', 'in:Controlado,Cerrado,Derivado,Suspendido'],
+            'hora_desmovilizacion' => ['nullable', 'date_format:H:i'],
+            'lecciones_aprendidas' => ['nullable', 'string', 'max:4000'],
+            'tipo_emergencia' => ['required', 'string', 'max:100'],
+            'lugar' => ['required', 'string', 'max:255'],
+            'nombre_llamado' => ['required', 'string', 'max:255'],
+            'telefono' => ['required', 'string', 'max:30'],
+            'nombre_completo' => ['required', 'string', 'max:255'],
+            'edad' => ['nullable', 'integer', 'min:0', 'max:120'],
+            'latitud' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitud' => ['nullable', 'numeric', 'between:-180,180'],
+            'descripcion_emergencia' => ['required', 'string', 'min:20'],
+            'resumen_acciones' => ['required', 'string', 'min:10'],
+            'voluntarios' => ['nullable', 'array'],
+            'voluntarios.*' => ['nullable', 'integer', 'exists:voluntaries,id'],
+            'instituciones' => ['nullable', 'array'],
+            'instituciones.*' => ['nullable', 'string', 'max:100'],
+        ]);
         if ($request->has('fecha_operativo')) {
             $rescateId = DB::transaction(function () use ($request) {
                 $now = now();
                 $rescateId = DB::table('rescates')->insertGetId([
+                    'incident_code' => $request->input('incident_code') ?: 'CSA-' . now()->format('Ymd-His'),
                     'fecha_operativo' => $request->input('fecha_operativo'),
                     'hora_llamado' => $request->input('hora_llamado'),
+                    'commandante_incidente' => $request->input('commandante_incidente'),
+                    'puesto_comando' => $request->input('puesto_comando'),
+                    'nivel_activacion' => $request->input('nivel_activacion'),
+                    'objetivos_incidente' => $request->input('objetivos_incidente'),
+                    'riesgos_operacionales' => $request->input('riesgos_operacionales'),
+                    'plan_comunicaciones' => $request->input('plan_comunicaciones'),
+                    'zona_operaciones' => $request->input('zona_operaciones'),
+                    'estado_cierre' => $request->input('estado_cierre'),
+                    'hora_desmovilizacion' => $request->input('hora_desmovilizacion'),
+                    'lecciones_aprendidas' => $request->input('lecciones_aprendidas'),
                     'tipo_emergencia' => $request->input('tipo_emergencia'),
                     'lugar' => $request->input('lugar'),
                     'nombre_llamado' => $request->input('nombre_llamado'),
@@ -297,7 +349,7 @@ public function store(Request $request)
             $nombreArchivo = 'rescate_' . $rescateId . '.pdf';
             $relativePath = 'rescues/' . $nombreArchivo;
 
-            $pdf = PDFFacade::loadView('module.pdf.rescue', $data);
+            $pdf = PDFFacade::loadView('module.pdf.rescue', $data)->setPaper('a4', 'portrait');
             Storage::disk('public')->put($relativePath, $pdf->output());
 
             return response()->json([
@@ -313,6 +365,8 @@ public function store(Request $request)
             'message' => 'Datos incompletos'
         ]);
 
+    }catch(ValidationException $e){
+        throw $e;
     }catch(\Exception $e){
 
         return response()->json([
@@ -393,6 +447,7 @@ public function store(Request $request)
                 'message' => 'Rescate no encontrado por: ' . $rescue
             ], 404);
         }
+        DelegationAccess::authorize((int) $rescue->id_delegation);
 
         DB::table('rescates')->where('id', $id)->delete();
 
@@ -400,5 +455,31 @@ public function store(Request $request)
             'status' => 'success',
             'message' => 'Rescate eliminado correctamente'
         ]);
+    }
+
+    public function pdf($id)
+    {
+        $rescate = DB::table('rescates')->where('id', $id)->first();
+        abort_unless($rescate, 404);
+        DelegationAccess::authorize((int) $rescate->id_delegation);
+
+        $data = [
+            'rescate' => $rescate,
+            'xabcde' => DB::table('rescate_xabcde')->where('rescate_id', $id)->first(),
+            'sample' => DB::table('rescate_sample')->where('rescate_id', $id)->first(),
+            'bitacora' => DB::table('rescate_bitacora')->where('rescate_id', $id)->first(),
+            'materiales' => DB::table('rescate_material_equipo')->where('rescate_id', $id)->get(),
+            'voluntarios' => DB::table('rescate_voluntarios')
+                ->join('voluntaries', 'rescate_voluntarios.voluntario_id', '=', 'voluntaries.id')
+                ->where('rescate_voluntarios.rescate_id', $id)
+                ->select('voluntaries.name', 'voluntaries.lastname')
+                ->get(),
+            'instituciones' => DB::table('rescate_instituciones')->where('rescate_id', $id)->get(),
+        ];
+
+        $pdf = PDFFacade::loadView('module.pdf.rescue', $data)->setPaper('a4', 'portrait');
+        $filename = 'informe-sci-' . ($rescate->incident_code ?: $rescate->id) . '.pdf';
+
+        return $pdf->stream($filename);
     }
 }

@@ -1,15 +1,40 @@
-<div class="modal fade" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+<div class="modal fade rescue-detail-modal" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content modal-extra-background">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ShowModalLabel"><i class="fa-solid fa-map-location-dot"></i> Detalles del Rescate</h5>
+        <div class="modal-header rescue-detail__header">
+          <div><span>REGISTRO OPERACIONAL</span><h5 class="modal-title" id="ShowModalLabel"><i class="fa-solid fa-shield-halved"></i> Detalle del rescate</h5></div>
           <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="rescue-detail__hero">
+            <div>
+                <span class="rescue-detail__code" id="incident_code_show">CSA</span>
+                <h3 id="incident_title_show">Incidente de rescate</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span id="incident_location_show">Ubicación no informada</span></p>
+            </div>
+            <div class="rescue-detail__hero-meta">
+                <span><small>FECHA</small><strong id="incident_date_show">—</strong></span>
+                <span><small>NIVEL</small><strong id="incident_level_show">—</strong></span>
+                <span><small>ESTADO</small><strong id="incident_status_show">—</strong></span>
+            </div>
+        </div>
+        <div class="modal-body rescue-detail__body">
           <form id="formRescueUpdate" class="form" method="POST">
             @method('PUT')
             @csrf
             <input type="hidden" name="id_show" id="id_show">
+
+            <div class="border mb-4 rescue-detail__command">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">Comando del incidente</h5>
+                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12"><label>Comandante</label><input id="commandante_incidente_show" class="form-control" readonly></div>
+                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12"><label>Puesto de comando</label><input id="puesto_comando_show" class="form-control" readonly></div>
+                    <div class="mb-3 col-lg-4 col-md-6 col-sm-12"><label>Desmovilización</label><input id="hora_desmovilizacion_show" class="form-control" readonly></div>
+                    <div class="mb-3 col-lg-6 col-md-12 col-sm-12"><label>Objetivos operacionales</label><textarea id="objetivos_incidente_show" class="form-control" readonly></textarea></div>
+                    <div class="mb-3 col-lg-6 col-md-12 col-sm-12"><label>Riesgos y controles</label><textarea id="riesgos_operacionales_show" class="form-control" readonly></textarea></div>
+                    <div class="mb-3 col-lg-6 col-md-12 col-sm-12"><label>Plan de comunicaciones</label><textarea id="plan_comunicaciones_show" class="form-control" readonly></textarea></div>
+                    <div class="mb-3 col-lg-6 col-md-12 col-sm-12"><label>Zonificación operacional</label><textarea id="zona_operaciones_show" class="form-control" readonly></textarea></div>
+                </div>
+            </div>
 
             <div class="border mb-4">
                 <div class="row p-2">
@@ -280,12 +305,28 @@
                     </div>
                 </div>
             </div>
+            <div class="border mb-4">
+                <div class="row p-2">
+                    <h5 class="modal-title mb-2">Recursos y coordinación</h5>
+                    <div class="mb-3 col-lg-4 col-md-12"><label>Equipo interviniente</label><div class="rescue-detail__pills" id="rescue_volunteers_show"></div></div>
+                    <div class="mb-3 col-lg-4 col-md-12"><label>Instituciones participantes</label><div class="rescue-detail__pills" id="rescue_institutions_show"></div></div>
+                    <div class="mb-3 col-lg-4 col-md-12"><label>Material utilizado</label><div class="rescue-detail__pills" id="rescue_materials_show"></div></div>
+                    <div class="mb-3 col-12"><label>Lecciones aprendidas</label><div class="rescue-detail__narrative" id="lecciones_aprendidas_show">No informado</div></div>
+                </div>
+            </div>
           </form>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer rescue-detail__footer">
+          <span><i class="fa-solid fa-mountain-sun"></i> Cuerpo de Socorro Andino de Chile</span>
+          <a href="#" target="_blank" class="btn btn-dark" id="rescuePdfLink"><i class="fa-solid fa-file-pdf me-2"></i>Abrir informe PDF</a>
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+.rescue-detail-modal .modal-dialog{height:calc(100vh - 2rem);max-height:calc(100vh - 2rem);margin-top:1rem;margin-bottom:1rem}.rescue-detail-modal .modal-content{height:100%;border:0!important;border-radius:18px!important}.rescue-detail__header{padding:16px 22px!important}.rescue-detail__header>div>span{color:#ea4e1a;font-size:.58rem;font-weight:800;letter-spacing:.12em}.rescue-detail__header h5{margin-top:3px}.rescue-detail__header h5 i{margin-right:7px;color:#176985}.rescue-detail__hero{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:28px 32px;background:linear-gradient(135deg,#082f40,#176985);color:#fff}.rescue-detail__code{display:inline-block;margin-bottom:8px;padding:5px 8px;border-radius:5px;background:#ea4e1a;font-size:.62rem;font-weight:800;letter-spacing:.08em}.rescue-detail__hero h3{margin:0 0 8px;color:#fff;font-size:1.55rem}.rescue-detail__hero p{margin:0;color:#c9dce4;font-size:.74rem}.rescue-detail__hero p i{margin-right:5px;color:#ff8b63}.rescue-detail__hero-meta{display:flex;gap:8px}.rescue-detail__hero-meta>span{min-width:100px;padding:10px 12px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(255,255,255,.08)}.rescue-detail__hero-meta small{display:block;margin-bottom:3px;color:#a9c4ce;font-size:.53rem;font-weight:700;letter-spacing:.08em}.rescue-detail__hero-meta strong{color:#fff;font-size:.72rem}.rescue-detail__body{padding:22px!important;background:#eef3f5}.rescue-detail__body form>.border{margin-bottom:16px!important;padding:4px 12px 0;border:1px solid #d7e3e7!important;border-radius:12px;background:#fff;box-shadow:0 3px 12px rgba(12,52,67,.035)}.rescue-detail__body form>.border>.row>h5{display:flex;align-items:center;margin:0 0 16px!important;padding:13px 4px 12px;border-bottom:1px solid #e5ecef;color:#173744;font-size:.9rem}.rescue-detail__body form>.border>.row>h5:before{content:'';width:4px;height:19px;margin-right:9px;border-radius:4px;background:#ea4e1a}.rescue-detail__body .row>[class*="col-"]{padding:10px 12px!important}.rescue-detail__body .row>[class*="col-"]:not(:has(table)){border:1px solid #e2eaed;border-radius:8px;background:#f8fafb}.rescue-detail__body label{display:block;margin-bottom:5px;color:#71858e!important;font-size:.59rem!important;font-weight:800!important;letter-spacing:.04em;text-transform:uppercase}.rescue-detail__body .form-control[readonly]{min-height:22px!important;padding:0!important;border:0!important;background:transparent!important;color:#24434f;font-size:.78rem;font-weight:600;box-shadow:none!important}.rescue-detail__body textarea.form-control[readonly]{min-height:45px!important;line-height:1.55;resize:none}.rescue-detail__body table{margin:0}.rescue-detail__body table .form-control[readonly]{font-weight:500}.rescue-detail__command{border-top:3px solid #176985!important}.rescue-detail__pills{display:flex;flex-wrap:wrap;gap:5px}.rescue-detail__pills span{padding:5px 8px;border-radius:10px;background:#e4f0f4;color:#17536a;font-size:.62rem;font-weight:700}.rescue-detail__narrative{color:#294955;font-size:.76rem;line-height:1.6;white-space:pre-line}.rescue-detail__footer{justify-content:flex-end!important}.rescue-detail__footer>span{margin-right:auto;color:#71858d;font-size:.65rem}.rescue-detail__footer>span i{margin-right:5px;color:#ea4e1a}
+@media(max-width:767.98px){.rescue-detail-modal .modal-dialog{height:calc(100dvh - 1rem);max-height:calc(100dvh - 1rem);margin:.5rem}.rescue-detail__hero{align-items:flex-start;flex-direction:column;padding:22px}.rescue-detail__hero-meta{width:100%;overflow-x:auto}.rescue-detail__hero-meta>span{min-width:90px}.rescue-detail__body{padding:12px!important}.rescue-detail__footer>span{display:none}.rescue-detail__footer .btn{flex:1}}
+</style>
