@@ -1,6 +1,6 @@
 @php
     $user = auth()->user();
-    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'registro-rescate*', 'registro_rescate');
+    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'registro-rescate*', 'registro_rescate', 'equipment-requests.*');
     $peopleOpen = request()->routeIs('voluntarios*', 'postulations.*');
     $adminOpen = request()->routeIs('delegaciones*', 'usuarios*', 'roles.*', 'inventario*', 'finances.*');
     $communicationsOpen = request()->routeIs('news*', 'contacto*');
@@ -24,7 +24,7 @@
                 </a>
             </li>
 
-            @if($user->hasPermission('departures.manage') || $user->hasPermission('calendar.manage') || $user->hasPermission('rescues.manage'))
+            @if($user->hasPermission('departures.manage') || $user->hasPermission('calendar.manage') || $user->hasPermission('rescues.manage') || $user->hasPermission('inventory.manage'))
                 <li class="nav-item">
                     <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseOperations" aria-expanded="{{ $operationsOpen ? 'true' : 'false' }}" aria-controls="collapseOperations">
                         <i class="fa-solid fa-person-hiking opacity-5"></i><span class="nav-link-text ms-1">Operaciones</span>
@@ -35,6 +35,9 @@
                         @endif
                         @if($user->hasPermission('calendar.manage'))
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('calendario*') ? 'active' : '' }}" href="{{ route('calendario') }}"><i class="fa-solid fa-calendar opacity-5"></i><span class="nav-link-text ms-1">Calendario y guardias</span></a></li>
+                        @endif
+                        @if($user->hasPermission('rescues.manage') || $user->hasPermission('inventory.manage'))
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('equipment-requests.*') ? 'active' : '' }}" href="{{ route('equipment-requests.index') }}"><i class="fa-solid fa-box-open opacity-5"></i><span class="nav-link-text ms-1">Solicitar equipo</span></a></li>
                         @endif
                         @if($user->hasPermission('rescues.manage'))
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate.dashboard') }}"><i class="fa-solid fa-chart-line opacity-5"></i><span class="nav-link-text ms-1">Dashboard de rescates</span></a></li>

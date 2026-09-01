@@ -15,53 +15,31 @@ use App\Support\DelegationAccess;
 class DashboardController extends Controller
 {
     public function index(){
+        $activityLabels = [0=>'Trekking',1=>'Hiking',2=>'Mountain Bike',3=>'Escalada',4=>'Escalada en hielo',5=>'Randonnée',6=>'Kayak',7=>'Kitesurf'];
+        $regionLabels = [0=>'Arica y Parinacota',1=>'Tarapacá',2=>'Antofagasta',3=>'Atacama',4=>'Coquimbo',5=>'Valparaíso',6=>'Metropolitana',7=>"O'Higgins",8=>'Maule',9=>'Ñuble',10=>'Biobío',11=>'La Araucanía',12=>'Los Ríos',13=>'Los Lagos',14=>'Aysén',15=>'Magallanes'];
+        $yearDepartures = SendOut::whereYear('departure_date', now()->year)->get();
+        $activeRecords = SendOut::where('active', true)->orderBy('return_date')->get();
+        $completed = $yearDepartures->where('active', false);
+        $durations = $completed->map(fn ($item) => Carbon::parse($item->departure_date)->diffInHours(Carbon::parse($item->return_date)));
 
-        $cant_voluntaries = DelegationAccess::scope(Voluntary::query())->count();
+        $metrics = [
+            'year_total'=>$yearDepartures->count(),
+            'active'=>$activeRecords->count(),
+            'overdue'=>$activeRecords->filter(fn ($item) => Carbon::parse($item->return_date)->isPast())->count(),
+            'people_active'=>$activeRecords->sum('number_participants'),
+            'participants'=>$yearDepartures->sum('number_participants'),
+            'avg_duration'=>$durations->isNotEmpty() ? round($durations->avg(),1) : null,
+            'completion_rate'=>$yearDepartures->count() ? round($completed->count()*100/$yearDepartures->count()) : 0,
+        ];
 
-        $cant_voluntaries_no_payment = DelegationAccess::scope(Voluntary::query())->where('payment', false)->count();
-
-        $data = Voluntary::join('delegations', 'voluntaries.delegation_id', '=', 'delegations.id')
-        ->selectRaw('voluntaries.delegation_id, COUNT(*) as aggregate, delegations.name as delegation_name')
-        ->groupBy('voluntaries.delegation_id', 'delegations.name')
-        ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('voluntaries.delegation_id', DelegationAccess::id()))
-        ->get();
-
-        $add = StockMovement::selectRaw('SUM(quantity * unit_cost) as total')
-                              ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('delegation_id', DelegationAccess::id()))
-                              ->where('type', 'add')
-                              ->first();
-
-        $reduce = StockMovement::selectRaw('SUM(quantity * unit_cost) as total')
-                              ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('delegation_id', DelegationAccess::id()))
-                              ->where('type',  'reduce')
-                              ->get();
-
-        $today = Carbon::today();
-
-        // Cumpleaños de hoy
-        $birthdaysToday = Voluntary::whereMonth('birthday', $today->month)
-            ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('delegation_id', DelegationAccess::id()))
-            ->whereDay('birthday', $today->day)
-            ->get();
-
-        // Lista ordenada por mes y día
-        $allBirthdays = Voluntary::orderByRaw('MONTH(birthday), DAY(birthday)')
-            ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('delegation_id', DelegationAccess::id()))
-            ->get();
-
-        $months = collect(range(5, 0))->map(fn ($offset) => now()->subMonths($offset)->startOfMonth());
+        $months = collect(range(7, 0))->map(fn ($offset) => now()->subMonths($offset)->startOfMonth());
         $monthLabels = $months->map(fn ($month) => $month->locale('es')->translatedFormat('M y'));
         $departureSeries = $months->map(fn ($month) => SendOut::whereBetween('departure_date', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->count());
-        $incomeSeries = $months->map(fn ($month) => DelegationAccess::scope(FinanceTransaction::query())->whereBetween('transaction_date', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->whereHas('category', fn ($query) => $query->where('type', 'income'))->sum('amount'));
-        $expenseSeries = $months->map(fn ($month) => DelegationAccess::scope(FinanceTransaction::query())->whereBetween('transaction_date', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()])->whereHas('category', fn ($query) => $query->where('type', 'expense'))->sum('amount'));
-        $activeDepartures = SendOut::where('active', true)->count();
-        $rescuesThisYear = DelegationAccess::scope(Rescue::query(), 'id_delegation')->whereYear('date_finish_rescue', now()->year)->count();
-        $financeBalance = DelegationAccess::scope(FinanceTransaction::with('category'))->get()->sum(fn ($transaction) => $transaction->category?->type === 'income' ? (float) $transaction->amount : -(float) $transaction->amount);
-        $upcomingBirthdays = $allBirthdays->sortBy(function ($voluntary) use ($today) {
-            $date = Carbon::parse($voluntary->birthday)->year($today->year);
-            return $date->lt($today) ? $date->addYear() : $date;
-        })->take(5);
+        $activities = $yearDepartures->groupBy('activity')->map->count()->sortDesc()->mapWithKeys(fn ($count,$key)=>[$activityLabels[(int)$key] ?? 'Sin informar'=>$count]);
+        $regions = $yearDepartures->groupBy('region')->map->count()->sortDesc()->mapWithKeys(fn ($count,$key)=>[$regionLabels[(int)$key] ?? 'Sin informar'=>$count]);
+        $topDestinations = $yearDepartures->groupBy('destination')->map->count()->sortDesc()->take(5);
+        $recent = SendOut::latest('departure_date')->take(8)->get();
 
-        return view('module.dashboard.dashboard', compact('data', 'cant_voluntaries', 'cant_voluntaries_no_payment', 'birthdaysToday', 'upcomingBirthdays', 'monthLabels', 'departureSeries', 'incomeSeries', 'expenseSeries', 'activeDepartures', 'rescuesThisYear', 'financeBalance'));
+        return view('module.dashboard.dashboard', compact('metrics','monthLabels','departureSeries','activities','regions','topDestinations','activeRecords','recent','activityLabels','regionLabels'));
     }
 }

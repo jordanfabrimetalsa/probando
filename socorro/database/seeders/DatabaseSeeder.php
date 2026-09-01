@@ -41,5 +41,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(RescueDashboardDemoSeeder::class);
+        $this->call(MountainEquipmentSeeder::class);
+        $this->call(DepartureDashboardDemoSeeder::class);
     }
 }

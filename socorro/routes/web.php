@@ -21,6 +21,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\CargoController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\EquipmentRequestController;
 
 Route::get('/', [MainDrawController::class,'index'])->name('maindraw');
 Route::get('/create-user', [UserController::class,'create_user'])->name('create-user');
@@ -216,6 +217,15 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
         Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
         Route::get('/pdf/{id}', [RescueController::class, 'pdf'])->name('registro-rescate.pdf');
+    });
+
+    Route::prefix('solicitud-equipo')->middleware('permission.any:rescues.manage,inventory.manage')->group(function () {
+        Route::get('/', [EquipmentRequestController::class, 'index'])->name('equipment-requests.index');
+        Route::post('/', [EquipmentRequestController::class, 'store'])->name('equipment-requests.store');
+        Route::post('/{equipmentRequest}/revision', [EquipmentRequestController::class, 'review'])
+            ->middleware('permission:inventory.manage')->name('equipment-requests.review');
+        Route::post('/{equipmentRequest}/devolucion', [EquipmentRequestController::class, 'returnEquipment'])
+            ->middleware('permission:inventory.manage')->name('equipment-requests.return');
     });
 
     Route::get('/logout', [UserController::class,'logout'])->name('logout');

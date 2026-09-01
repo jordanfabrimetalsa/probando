@@ -19,9 +19,10 @@ class InternalDashboardTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
-            ->assertSee('volunteersChart')
             ->assertSee('departuresChart')
-            ->assertSee('financeChart');
+            ->assertSee('activitiesChart')
+            ->assertSee('regionsChart')
+            ->assertSee('Salidas que requieren seguimiento');
     }
 
     public function test_finance_category_validation_is_controlled(): void
