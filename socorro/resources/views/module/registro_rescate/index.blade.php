@@ -13,6 +13,15 @@
                 </div>
               </div>
               <div class="card-body p-4">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4 rescue-list-heading">
+                  <div>
+                    <h5 class="mb-1">Historial de operaciones</h5>
+                    <p class="text-sm text-secondary mb-0">Consulta los rescates registrados y sus informes operacionales.</p>
+                  </div>
+                  <a href="{{ route('registro_rescate') }}" class="btn bg-gradient-dark mb-0 px-4">
+                    <i class="fa-solid fa-plus me-2"></i> Registrar nuevo rescate
+                  </a>
+                </div>
                 <div class="w-100 p-2 mb-4">
                   <table id="datatableRescue" class="table table-striped dt-responsive nowrap" style="width: 100%;">
                     <thead class="bg-gradient-dark text-center">
@@ -32,7 +41,6 @@
             </div>
           </div>
         </div>
-        @include('module.registro_rescate.create')
         @include('module.registro_rescate.show')
       </div>
   </div>

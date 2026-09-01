@@ -47,10 +47,19 @@ class VoluntarioController extends Controller
             'address' => ['required', 'string', 'min:3', 'max:180'],
             'profession' => ['required', 'string', 'min:2', 'max:100'],
             'gender' => ['required', 'in:M,F'],
-            'allergic' => ['required', 'boolean'], 'disease' => ['required', 'boolean'],
+            'allergic' => ['required', 'boolean'],
+            'allergy_details' => ['nullable', 'required_if:allergic,1', 'string', 'max:500'],
+            'disease' => ['required', 'boolean'],
+            'disease_details' => ['nullable', 'required_if:disease,1', 'string', 'max:500'],
             'medicine' => ['required', 'boolean'], 'vehicle' => ['required', 'boolean'],
-            'license' => ['required', 'boolean'], 'payment' => ['required', 'boolean'],
+            'license' => ['required', 'boolean'],
             'blood_type' => ['required', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-,N'],
+            'rope_technical_level' => ['required', 'in:low,medium,high'],
+            'health_level' => ['required', 'in:low,medium,high'],
+            'stretcher_level' => ['required', 'in:low,medium,high'],
+            'leadership_level' => ['required', 'in:low,medium,high'],
+            'physical_performance_level' => ['required', 'in:low,medium,high'],
+            'snow_ice_level' => ['required', 'in:low,medium,high'],
             'type' => ['required', 'in:V,A,H,C'], 'status' => ['required', 'in:A,I,S,R'],
             'init_voluntary' => ['required', 'date', 'before_or_equal:today'],
         ], [], ['delegation_id'=>'delegación','document'=>'número de documento','birthday'=>'fecha de nacimiento','init_voluntary'=>'fecha de inicio']);
@@ -68,12 +77,19 @@ class VoluntarioController extends Controller
             $voluntary->profession = $request->profession;
             $voluntary->gender = $request->gender;
             $voluntary->allergic = $request->allergic;
+            $voluntary->allergy_details = $request->boolean('allergic') ? $validated['allergy_details'] : null;
             $voluntary->disease = $request->disease;
+            $voluntary->disease_details = $request->boolean('disease') ? $validated['disease_details'] : null;
             $voluntary->medicine = $request->medicine;
             $voluntary->vehicle = $request->vehicle;
             $voluntary->license = $request->license;
-            $voluntary->payment = $request->payment;
             $voluntary->blood_type = $request->blood_type;
+            $voluntary->rope_technical_level = $request->rope_technical_level;
+            $voluntary->health_level = $request->health_level;
+            $voluntary->stretcher_level = $request->stretcher_level;
+            $voluntary->leadership_level = $request->leadership_level;
+            $voluntary->physical_performance_level = $request->physical_performance_level;
+            $voluntary->snow_ice_level = $request->snow_ice_level;
             $voluntary->type = $request->type;
             $voluntary->status = $request->status;
             $voluntary->init_voluntary = $request->init_voluntary;

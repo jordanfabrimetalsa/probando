@@ -68,7 +68,7 @@ return new class extends Migration
         DB::table('system_roles')->insert(array_map(fn ($r) => $r + ['active' => true, 'created_at' => $now, 'updated_at' => $now], $roles));
 
         $grants = [
-            'administrador_nacional' => ['dashboard.view','users.manage','volunteers.manage','delegations.manage','inventory.manage','finances.manage','vehicles.manage','news.manage','contacts.manage','calendar.manage','departures.manage','rescues.manage'],
+            'administrador_nacional' => ['dashboard.view','users.manage','roles.manage','volunteers.manage','delegations.manage','inventory.manage','finances.manage','vehicles.manage','news.manage','contacts.manage','calendar.manage','departures.manage','rescues.manage'],
             'jefe_operaciones' => ['dashboard.view','volunteers.manage','inventory.manage','vehicles.manage','calendar.manage','departures.manage','rescues.manage'],
             'organizador_guardia' => ['dashboard.view','calendar.manage','departures.manage'],
             'comunicaciones' => ['dashboard.view','news.manage','contacts.manage'],

@@ -13,6 +13,8 @@ use Exception;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf as PDFFacade;
 use Illuminate\Validation\ValidationException;
+use App\Models\Delegation;
+use Carbon\Carbon;
 
 class RescueController extends Controller
 {
@@ -25,6 +27,90 @@ class RescueController extends Controller
     public function registerComun(){
         $voluntaries = DelegationAccess::scope(Voluntary::query())->get();
         return view('module.registro_rescate.register_comun', compact('voluntaries'));
+    }
+
+    public function dashboard(Request $request)
+    {
+        $filters = $request->validate([
+            'from' => ['nullable', 'date'],
+            'to' => ['nullable', 'date', 'after_or_equal:from'],
+            'type' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', 'in:Controlado,Cerrado,Derivado,Suspendido'],
+            'delegation' => ['nullable', 'integer', 'exists:delegations,id'],
+        ]);
+
+        $query = DelegationAccess::scope(
+            DB::table('rescates')->leftJoin('delegations', 'delegations.id', '=', 'rescates.id_delegation'),
+            'rescates.id_delegation'
+        );
+
+        if (!empty($filters['from'])) $query->whereDate('rescates.fecha_operativo', '>=', $filters['from']);
+        if (!empty($filters['to'])) $query->whereDate('rescates.fecha_operativo', '<=', $filters['to']);
+        if (!empty($filters['type'])) $query->where('rescates.tipo_emergencia', $filters['type']);
+        if (!empty($filters['status'])) $query->where('rescates.estado_cierre', $filters['status']);
+        if (!empty($filters['delegation']) && DelegationAccess::isNational()) {
+            $query->where('rescates.id_delegation', $filters['delegation']);
+        }
+
+        $rescues = $query->select('rescates.*', 'delegations.name as delegation_name')
+            ->orderByDesc('rescates.fecha_operativo')->get();
+        $rescueIds = $rescues->pluck('id');
+
+        $durationMinutes = $rescues->map(function ($rescue) {
+            if (!$rescue->hora_llamado || !$rescue->hora_desmovilizacion) return null;
+            $start = Carbon::parse($rescue->fecha_operativo.' '.$rescue->hora_llamado);
+            $finish = Carbon::parse($rescue->fecha_operativo.' '.$rescue->hora_desmovilizacion);
+            if ($finish->lt($start)) $finish->addDay();
+            return $start->diffInMinutes($finish);
+        })->filter(fn ($value) => $value !== null);
+
+        $mobilizationMinutes = collect();
+        if ($rescueIds->isNotEmpty()) {
+            $bitacoras = DB::table('rescate_bitacora')->whereIn('rescate_id', $rescueIds)->get()->keyBy('rescate_id');
+            $mobilizationMinutes = $rescues->map(function ($rescue) use ($bitacoras) {
+                $departure = $bitacoras->get($rescue->id)?->salida_cuartel;
+                if (!$departure || !$rescue->hora_llamado) return null;
+                $call = Carbon::parse($rescue->fecha_operativo.' '.$rescue->hora_llamado);
+                $out = Carbon::parse($rescue->fecha_operativo.' '.$departure);
+                if ($out->lt($call)) $out->addDay();
+                return $call->diffInMinutes($out);
+            })->filter(fn ($value) => $value !== null);
+        }
+
+        $volunteerParticipations = $rescueIds->isEmpty() ? 0 : DB::table('rescate_voluntarios')->whereIn('rescate_id', $rescueIds)->count();
+        $institutions = $rescueIds->isEmpty() ? 0 : DB::table('rescate_instituciones')->whereIn('rescate_id', $rescueIds)->distinct('institucion')->count('institucion');
+
+        $metrics = [
+            'total' => $rescues->count(),
+            'closed' => $rescues->whereIn('estado_cierre', ['Cerrado', 'Controlado'])->count(),
+            'closure_rate' => $rescues->count() ? round($rescues->whereIn('estado_cierre', ['Cerrado', 'Controlado'])->count() * 100 / $rescues->count()) : 0,
+            'avg_duration' => $durationMinutes->isNotEmpty() ? round($durationMinutes->avg()) : null,
+            'avg_mobilization' => $mobilizationMinutes->isNotEmpty() ? round($mobilizationMinutes->avg()) : null,
+            'volunteers' => $volunteerParticipations,
+            'avg_volunteers' => $rescues->count() ? round($volunteerParticipations / $rescues->count(), 1) : 0,
+            'institutions' => $institutions,
+            'avg_age' => ($ages = $rescues->pluck('edad')->filter(fn ($v) => $v !== null))->isNotEmpty() ? round($ages->avg()) : null,
+            'avg_altitude' => ($altitudes = $rescues->pluck('altitud')->filter(fn ($v) => $v !== null))->isNotEmpty() ? round($altitudes->avg()) : null,
+        ];
+
+        $groupCounts = fn (string $field) => $rescues->groupBy(fn ($item) => $item->{$field} ?: 'Sin informar')
+            ->map->count()->sortDesc();
+
+        $monthly = $rescues->groupBy(fn ($item) => Carbon::parse($item->fecha_operativo)->format('Y-m'))
+            ->map->count()->sortKeys();
+
+        return view('module.registro_rescate.dashboard', [
+            'filters' => $filters,
+            'metrics' => $metrics,
+            'rescues' => $rescues->take(8),
+            'types' => $groupCounts('tipo_emergencia'),
+            'statuses' => $groupCounts('estado_cierre'),
+            'activations' => $groupCounts('nivel_activacion'),
+            'evacuations' => $groupCounts('metodo_evacuacion'),
+            'monthly' => $monthly,
+            'filterTypes' => DelegationAccess::scope(DB::table('rescates'), 'id_delegation')->whereNotNull('tipo_emergencia')->distinct()->orderBy('tipo_emergencia')->pluck('tipo_emergencia'),
+            'delegations' => DelegationAccess::isNational() ? Delegation::orderBy('name')->get() : collect(),
+        ]);
     }
 
     public function data(){

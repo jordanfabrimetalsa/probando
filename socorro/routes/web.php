@@ -206,6 +206,7 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('registro-rescate')->middleware('permission:rescues.manage')->group(function(){
+        Route::get('/dashboard', [RescueController::class, 'dashboard'])->name('registro-rescate.dashboard');
         Route::get('/registro_rescate', [RescueController::class, 'registerComun'])->name('registro_rescate');
         Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
         Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');

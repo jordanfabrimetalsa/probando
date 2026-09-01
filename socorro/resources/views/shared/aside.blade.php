@@ -1,6 +1,6 @@
 @php
     $user = auth()->user();
-    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'registro-rescate*');
+    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'registro-rescate*', 'registro_rescate');
     $peopleOpen = request()->routeIs('voluntarios*', 'postulations.*');
     $adminOpen = request()->routeIs('delegaciones*', 'usuarios*', 'roles.*', 'inventario*', 'finances.*');
     $communicationsOpen = request()->routeIs('news*', 'contacto*');
@@ -37,7 +37,9 @@
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('calendario*') ? 'active' : '' }}" href="{{ route('calendario') }}"><i class="fa-solid fa-calendar opacity-5"></i><span class="nav-link-text ms-1">Calendario y guardias</span></a></li>
                         @endif
                         @if($user->hasPermission('rescues.manage'))
-                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate*') ? 'active' : '' }}" href="{{ route('registro-rescate') }}"><i class="material-symbols-rounded opacity-5">medical_services</i><span class="nav-link-text ms-1">Registros de rescate</span></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate.dashboard') }}"><i class="fa-solid fa-chart-line opacity-5"></i><span class="nav-link-text ms-1">Dashboard de rescates</span></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro_rescate') ? 'active' : '' }}" href="{{ route('registro_rescate') }}"><i class="fa-solid fa-file-circle-plus opacity-5"></i><span class="nav-link-text ms-1">Registrar rescate</span></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate*') && !request()->routeIs('registro_rescate', 'registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate') }}"><i class="material-symbols-rounded opacity-5">medical_services</i><span class="nav-link-text ms-1">Registros de rescate</span></a></li>
                         @endif
                     </ul></div>
                 </li>
