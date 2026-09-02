@@ -135,6 +135,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/warehouse/data', [InventarioController::class,'dataWarehouse'])->name('inventario.warehouse');
         Route::get('/category/data', [InventarioController::class,'dataCategory'])->name('inventario.category');
         Route::get('/stock_movements', [InventarioController::class,'stock_movements'])->name('inventario.stock_movements');
+        Route::get('/movimientos', [InventarioController::class,'movements'])->name('inventario.movements');
         Route::post('/reduce_stock', [InventarioController::class,'reduce_stock'])->name('inventario.reduce_stock');
         Route::get('/create', [InventarioController::class,'create'])->name('inventario.create');
         Route::post('/store', [InventarioController::class,'store'])->name('inventario.store');
@@ -178,6 +179,7 @@ Route::middleware('auth')->group(function(){
     Route::prefix('calendario')->middleware('permission:calendar.manage')->group(function(){
         Route::get('/', [ScheduleController::class, 'index'])->name('calendario');
         Route::post('/store', [ScheduleController::class, 'store'])->name('calendario.store');
+        Route::put('/guard/{schedule}', [ScheduleController::class, 'configureGuard'])->name('calendario.guard.configure');
         Route::get('/events', [ScheduleController::class, 'getEvents'])->name('calendario.events');
         Route::delete('/destroy/{id}', [ScheduleController::class, 'destroy'])->name('calendario.destroy');
 
@@ -190,6 +192,10 @@ Route::middleware('auth')->group(function(){
 
         Route::get('/file/download/{id}', [ScheduleController::class, 'downloadFile'])->name('calendario.download');
     });
+
+    Route::get('/guardias-disponibles', [ScheduleController::class, 'availableGuards'])->name('guardias.available');
+    Route::post('/guardias-disponibles/{schedule}/inscribir', [ScheduleController::class, 'joinGuard'])->name('guardias.join');
+    Route::delete('/guardias-disponibles/{schedule}/retirar', [ScheduleController::class, 'leaveGuard'])->name('guardias.leave');
 
     Route::prefix('contacto')->middleware('permission:contacts.manage')->group(function(){
         Route::get('/', [ContactFormController::class, 'index'])->name('contacto');
@@ -207,16 +213,19 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::prefix('registro-rescate')->middleware('permission:rescues.manage')->group(function(){
-        Route::get('/dashboard', [RescueController::class, 'dashboard'])->name('registro-rescate.dashboard');
         Route::get('/registro_rescate', [RescueController::class, 'registerComun'])->name('registro_rescate');
-        Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
-        Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
-        Route::get('/show/{id}', [RescueController::class, 'show'])->name('registro-rescate.show');
         Route::post('/store', [RescueController::class, 'store'])->name('registro-rescate.store');
-        Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
-        Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
-        Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
-        Route::get('/pdf/{id}', [RescueController::class, 'pdf'])->name('registro-rescate.pdf');
+
+        Route::middleware('can:view-rescue-records')->group(function () {
+            Route::get('/dashboard', [RescueController::class, 'dashboard'])->name('registro-rescate.dashboard');
+            Route::get('/', [RescueController::class, 'index'])->name('registro-rescate');
+            Route::get('/data', [RescueController::class, 'data'])->name('registro-rescate.data');
+            Route::get('/show/{id}', [RescueController::class, 'show'])->name('registro-rescate.show');
+            Route::get('/edit/{id}', [RescueController::class, 'edit'])->name('registro-rescate.edit');
+            Route::put('/update/{id}', [RescueController::class, 'update'])->name('registro-rescate.update');
+            Route::delete('/destroy/{id}', [RescueController::class, 'destroy'])->name('registro-rescate.destroy');
+            Route::get('/pdf/{id}', [RescueController::class, 'pdf'])->name('registro-rescate.pdf');
+        });
     });
 
     Route::prefix('solicitud-equipo')->middleware('permission.any:rescues.manage,inventory.manage')->group(function () {

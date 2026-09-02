@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
             return $user->role == 'comun';
         });
 
+        Gate::define('view-rescue-records', function (User $user) {
+            return $user->role !== 'comun' && $user->hasPermission('rescues.manage');
+        });
+
         Gate::define('watch-jefe-operaciones', function (User $user){
             return $user->role == 'jefe_operaciones' || $user->hasPermission('rescues.manage');
         });
@@ -37,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('watch-organizador-guardia', function (User $user){
             return $user->role == 'organizador_guardia' || $user->hasPermission('calendar.manage');
         });
+
+        Gate::define('manage-guards', fn (User $user) => in_array($user->role, ['admin', 'organizador_guardia'], true));
 
         Gate::define('watch-cuartelero', function (User $user){
             return $user->role == 'cuartelero' || $user->hasPermission('inventory.manage');

@@ -1,104 +1,53 @@
 @extends('layout.main')
 
-@section('title', 'Voluntarios')
+@section('title', 'Inventario')
+
+@push('styles')
+<style>
+.inventory-page-header{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.4rem 1.5rem;border-radius:1rem;color:#fff;background:linear-gradient(125deg,#212529,#455a64);box-shadow:0 12px 30px rgba(20,30,40,.18)}.inventory-page-header h1{margin:0;color:#fff;font-size:1.75rem}.inventory-page-header p{margin:.25rem 0 0;color:rgba(255,255,255,.68)}.inventory-stat{height:100%;padding:1.05rem;background:#fff;border:1px solid rgba(38,50,56,.08);border-radius:.85rem;box-shadow:0 8px 22px rgba(20,30,40,.06)}.inventory-stat>span{display:grid;place-items:center;width:2.35rem;height:2.35rem;border-radius:.65rem;background:#263238;color:#fff}.inventory-stat small{display:block;margin-top:.65rem;color:#78909c;font-weight:700}.inventory-stat strong{display:block;color:#263238;font-size:1.65rem;line-height:1.15}.inventory-stat p{margin:.25rem 0 0;color:#90a4ae;font-size:.72rem}.inventory-panel{border:0!important;border-radius:.95rem!important;box-shadow:0 8px 24px rgba(20,30,40,.07)!important;overflow:hidden}.inventory-panel-heading{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem}.inventory-panel-heading span{color:#EA4E1A;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}.inventory-panel-heading h2{margin:.12rem 0;color:#263238;font-size:1.05rem;font-weight:800}.inventory-panel-heading p{margin:0;color:#78909c;font-size:.78rem}.inventory-panel-heading>i{display:grid;place-items:center;width:2.7rem;height:2.7rem;border-radius:.7rem;background:#edf2f4;color:#455a64}.inventory-panel table thead,.inventory-panel table tfoot{background:#263238!important}.inventory-panel .dataTables_filter input{border:1px solid #dce3e7;border-radius:.6rem;padding:.45rem .7rem}.inventory-panel .dt-buttons .btn{border-radius:.55rem}.inventory-panel table tbody td{vertical-align:middle}.inventory-panel table tbody img{border-radius:.55rem;object-fit:cover}.inventory-panel .group-header td{background:#455a64!important}.inventory-panel .pagination .page-link{border-radius:.4rem!important;margin:0 .1rem}@media(max-width:767.98px){.inventory-page-header{align-items:flex-start;flex-direction:column;padding:1.1rem}.inventory-page-header .btn{flex:1}.inventory-stat strong{font-size:1.4rem}.inventory-panel-heading{padding:1rem}.inventory-panel .card-body{padding:1rem!important}}
+</style>
+@endpush
 
 @section('content')
 
-<div class="container mt-2 mb-2">
-  <div class="ticker-container bg-gradient-dark border-radius-lg">
-      <div class="ticker" id="currencyTicker">
-          <span class="currency">Con fecha del {{ now()->toDateTimeString() }}</span>
-          <span class="currency">USD <span class="text-success" id="usd"></span></span>
-          <span class="currency">EUR <span class="text-success" id="eur"></span></span>
-          <span class="currency">UF <span class="text-success" id="uf"></span></span>
-          <span class="currency">UTM <span class="text-success" id="utm"></span></span>
-          <span class="currency">IMACEC <span class="text-success" id="imacec"></span></span>
-          <span class="currency">IPC <span class="text-success" id="ipc"></span></span>
-      </div>
+<div class="inventory-page-header mb-4">
+  <div><span class="badge bg-warning text-dark mb-2">Logística institucional</span><h1>Inventario y bodegas</h1><p>Controla existencias, ubicaciones y movimientos con trazabilidad completa.</p></div>
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-outline-light mb-0" href="{{ route('inventario.movements') }}"><i class="fa-solid fa-clock-rotate-left me-2"></i>Historial</a>
+    <button class="btn btn-outline-light mb-0" data-bs-toggle="modal" data-bs-target="#CreateCategoryModal"><i class="fa-solid fa-tags me-2"></i>Nueva categoría</button>
+    <button class="btn btn-outline-light mb-0" data-bs-toggle="modal" data-bs-target="#CreateWarehouseModal"><i class="fa-solid fa-warehouse me-2"></i>Nueva bodega</button>
+    <button class="btn btn-warning mb-0" data-bs-toggle="modal" data-bs-target="#CreateModal"><i class="fa-solid fa-plus me-2"></i>Nuevo producto</button>
   </div>
+</div>
+
+<div class="row g-3 mb-4">
+  @foreach([
+    ['boxes-stacked','Productos',$inventorySummary['products'],'Referencias registradas'],
+    ['cubes-stacked','Unidades',$inventorySummary['units'],'Existencias disponibles'],
+    ['triangle-exclamation','Stock bajo',$inventorySummary['low_stock'],'Entre 1 y 5 unidades'],
+    ['circle-xmark','Agotados',$inventorySummary['out_of_stock'],'Requieren reposición'],
+    ['warehouse','Bodegas activas',$inventorySummary['warehouses'],'Ubicaciones operativas'],
+  ] as [$icon,$label,$value,$copy])
+  <div class="col-6 col-lg"><div class="inventory-stat"><span><i class="fa-solid fa-{{ $icon }}"></i></span><small>{{ $label }}</small><strong>{{ number_format($value,0,',','.') }}</strong><p>{{ $copy }}</p></div></div>
+  @endforeach
 </div>
 
 <div class="container-fluid py-2">
     <div class="row">
         <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-warehouse"></i> Administración de Inventario</h6>
-              </div>
-            </div>
-
-            <div class="card-body p-4">
-              <div class="row">
-                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                  <div class="card">
-                    <div class="card-header p-2 ps-3">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <p class="text-sm mb-0 text-capitalize">Valor</p>
-                          <h4 class="mb-0">$ <span id="totalCLPUF">0</span> CLP</h4>
-                        </div>
-                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
-                          <p class="m-0" style="color: white">UF</p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-2 ps-3">
-                      <input type="number" id="uf_input" class="form-control" placeholder="0 UF" oninput="calculateTotalCLPUF(this)">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                  <div class="card">
-                    <div class="card-header p-2 ps-3">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <p class="text-sm mb-0 text-capitalize">Valor</p>
-                          <h4 class="mb-0">$ <span id="totalIVA">0</span> CLP</h4>
-                        </div>
-                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
-                          <p class="m-0" style="color: white">IVA</p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-2 ps-3">
-                      <input type="number" id="uf_input" class="form-control" placeholder="0 CLP" oninput="calculateIVA(this)">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                  <div class="card">
-                    <div class="card-header p-2 ps-3">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <p class="text-sm mb-0 text-capitalize">Valor</p>
-                          <h4 class="mb-0">$ <span id="totalCLPUSD">0</span> CLP</h4>
-                        </div>
-                        <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow d-flex align-items-center justify-content-center border-radius-lg">
-                          <p class="m-0" style="color: white">USD</p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal my-0">
-                    <div class="card-footer p-2 ps-3">
-                      <input type="number" id="uf_input" class="form-control" placeholder="0 USD" oninput="calculateTotalCLPUSD(this)">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-body p-4">
+          <div class="card inventory-panel my-3">
+            <div class="inventory-panel-heading"><div><span>Catálogo</span><h2>Productos y existencias</h2><p>Consulta el stock y registra entradas o salidas desde las acciones de cada producto.</p></div><i class="fa-solid fa-boxes-stacked"></i></div>
+            <div class="card-body p-4 pt-2">
               <div class="w-100 p-2 mb-4">
 
-                <table id="datatableInventories" class="table table-striped dt-responsive nowrap" style="width: 100%;">
+                <table id="datatableInventories" class="table table-hover align-middle dt-responsive nowrap" style="width: 100%;">
                   <thead class="bg-gradient-dark text-center">
                     <tr class="text-center">
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Código</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Imagen</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoría</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Bodega</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
@@ -108,9 +57,11 @@
                   </tbody>
                   <tfoot  class="bg-gradient-dark text-center">
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Codigo</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Código</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Imagen</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Categoría</th>
+                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Bodega</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Stock</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Estado</th>
                       <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Acciones</th>
@@ -122,37 +73,6 @@
           </div>
         </div>
 
-        <div class="col-12">
-          <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"><i class="fa-solid fa-arrow-right-arrow-left"></i> Movimientos del Stock</h6>
-              </div>
-            </div>
-            <div class="card-body p-4">
-              <div class="w-100 p-2 mb-4">
-                <table id="datatableStockMovements" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                    <thead class="bg-gradient-dark text-center">
-                    <tr class="text-center">
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Producto</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Bodega</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Cantidad</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Saldo</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Unitario</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Costo Total</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Motivo / Referencia</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Responsable</th>
-                      <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Fecha</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-center">
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 </div>
@@ -168,79 +88,7 @@
 
 @push('script')
 
-<script>
-  // https://mindicador.cl/
-  $(document).ready(function(){
-      Warehouse();
-      Category();
-
-      $.getJSON('https://mindicador.cl/api', function(data) {
-      var dailyIndicators = data;
-
-      $("#utm").text(dailyIndicators.utm.valor);
-      $("#uf").text(dailyIndicators.uf.valor);
-      $("#usd").text(dailyIndicators.dolar.valor);
-      $("#eur").text(dailyIndicators.euro.valor);
-      $("#imacec").text(dailyIndicators.imacec.valor);
-      $("#ipc").text(dailyIndicators.ipc.valor);
-    }).fail(function() {
-        console.log('Error al consumir la API!');
-    });
-  });
-</script>
-
-<script>
-  function calculateTotalCLPUF(el){
-    var uf = el.value;
-
-    if(uf === ""){
-      document.getElementById("totalCLPUF").textContent = "0";
-      return;
-    }
-
-    fetch('https://mindicador.cl/api')
-      .then(response => response.json())
-      .then(data => {
-        var totalCLPUF = data.uf.valor * uf;
-        document.getElementById("totalCLPUF").textContent =
-          totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
-      })
-      .catch(() => console.log('Error al consumir la API!'));
-  }
-
-  function calculateIVA(el){
-    var valueTotal = el.value;
-    var iva = 19;
-
-    if(valueTotal === ""){
-      document.getElementById("totalIVA").textContent = "0";
-      return;
-    }
-
-    var totalIVA = (valueTotal * iva)/100;
-    document.getElementById("totalIVA").textContent =
-    totalIVA.toLocaleString("es-CL", { minimumFractionDigits: 0 });
-  }
-
-  function calculateTotalCLPUSD(el){
-    var uf = el.value;
-
-    if(uf === ""){
-      document.getElementById("totalCLPUSD").textContent = "0";
-      return;
-    }
-
-    fetch('https://mindicador.cl/api')
-      .then(response => response.json())
-      .then(data => {
-        var totalCLPUF = data.dolar.valor * uf;
-        document.getElementById("totalCLPUSD").textContent =
-          totalCLPUF.toLocaleString("es-CL", { minimumFractionDigits: 0 });
-      })
-      .catch(() => console.log('Error al consumir la API!'));
-  }
-
-</script>
+<script>$(document).ready(function(){ Warehouse(); Category(); });</script>
 
 <script>
     let scannerRunning = false;
@@ -296,6 +144,8 @@
         { data: 'barcode', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         { data: 'image', render: d => d ? `<img src="{{ asset('storage/') }}/${d}" alt="Imagen" width="40" height="40" onerror="this.src='{{ asset('assets/img/sinimagenproducto.png') }}'">` : '<img src="{{ asset('assets/img/sinimagenproducto.png') }}" alt="Sin imagen" width="40" height="40">' },
         { data: 'name', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
+        { data: 'category_name', render: d => `<span class="badge bg-light text-dark border">${d || 'Sin categoría'}</span>` },
+        { data: 'warehouse_name', render: d => `<p class="text-xs text-secondary mb-0"><i class="fa-solid fa-warehouse me-1"></i>${d || 'Sin bodega'}</p>` },
         { data: 'stock', render: d => `<p class="text-xs text-secondary mb-0">${d}</p>` },
         {
           data: 'status',
@@ -308,13 +158,13 @@
           orderable: false,
           searchable: false,
           render: d => `
-            <a href="javascript:;" class="btn btn-dark text-white" onclick="addStock(${d.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal">
+            <a href="javascript:;" class="btn btn-success text-white" onclick="addStock(${d.id})" data-bs-toggle="modal" data-bs-target="#AddStockModal" title="Ingresar existencias">
               <i class="fa-solid fa-circle-plus"></i>
             </a>
-            <a href="javascript:;" class="btn btn-dark text-white" onclick="reduceStock(${d.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal">
+            <a href="javascript:;" class="btn btn-warning text-dark" onclick="reduceStock(${d.id})" data-bs-toggle="modal" data-bs-target="#ReduceStockModal" title="Registrar salida">
               <i class="fa-solid fa-circle-minus"></i>
             </a>
-            <a href="javascript:;" class="btn btn-dark text-white" onclick="showInventory(${d.id})" data-bs-toggle="modal" data-bs-target="#ShowModal">
+            <a href="javascript:;" class="btn btn-info text-white" onclick="showInventory(${d.id})" data-bs-toggle="modal" data-bs-target="#ShowModal" title="Ver ficha del producto">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </a>
             <a onclick="deleteInventory(${d.id})" class="btn btn-danger text-white">
@@ -324,11 +174,6 @@
         }
       ],
       buttons: [
-        {
-          text: '<i class="fa-solid fa-circle-plus"></i>',
-          className: 'btn btn-dark text-white gap-2 me-2',
-          action: () => $("#CreateModal").modal('show')
-        },
         {
           extend: 'excelHtml5',
           text: '<i class="fa-solid fa-file-excel"></i>',
@@ -389,6 +234,7 @@
       }
     });
 
+      if ($('#datatableStockMovements').length) {
       datatableStockMovements = $('#datatableStockMovements').DataTable({
         ajax: {
           url: '{{ route("inventario.stock_movements") }}',
@@ -488,6 +334,7 @@
           }
         }
       });
+      }
     });
 
     function showInventory(id){
@@ -498,7 +345,13 @@
                 $('#ShowModal').modal('show');
                 $('#fullname_title_show').text(response[0].name);
                 $('#brand_show').text(response[0].brand);
-                $('#stock_show').text(response[0].stock > 0 ? response[0].stock : 'Agotado');
+                $('#barcode_show').text(response[0].barcode || 'SIN CÓDIGO');
+                $('#description_product_show').text(response[0].description || 'Sin descripción registrada.');
+                $('#colour_show').text(response[0].colour || 'Sin color');
+                $('#size_show').text(response[0].size || 'Sin talla');
+                $('#stock_show').text(response[0].stock);
+                $('#product_status_show').text(response[0].stock > 0 ? 'Disponible' : 'Agotado');
+                $('#inventory_image_show').attr('src', response[0].image ? '{{ asset('storage') }}/' + response[0].image : '{{ asset('assets/img/sinimagenproducto.png') }}');
 
                 $('#category_show').text(response[0].category_name);
                 $('#description_category_show').text(response[0].category_description);
@@ -536,7 +389,7 @@
           $('#formInventario')[0].reset();
           $('#CreateModal').modal('hide');
           datatableInventories.ajax.reload();
-          datatableStockMovements.ajax.reload();
+          if (datatableStockMovements) datatableStockMovements.ajax.reload();
         },
         error: function(error){
           Swal.fire({
@@ -645,8 +498,36 @@
             });
     }
 
+    function loadStockProduct(id, mode){
+      $('#' + mode + '_stock_product_name').text('Cargando…');
+      $('#' + mode + '_stock_current').text('—');
+      $('#' + mode + '_stock_warehouse').text('—');
+      $.ajax({
+        url: 'inventario/show/' + id,
+        type: 'GET',
+        success: function(response){
+          const product = response[0];
+          if (!product) return;
+          $('#' + mode + '_stock_product_name').text(product.name || 'Producto');
+          $('#' + mode + '_stock_current').text(product.stock || 0);
+          $('#' + mode + '_stock_warehouse').text(product.warehouse_name || 'Sin bodega');
+          if (mode === 'reduce') $('#reduce_quantity').attr('max', product.stock).val('');
+          if (mode === 'add') $('#add_quantity').val('');
+          updateStockPreview(mode);
+        }
+      });
+    }
+
+    function updateStockPreview(mode){
+      const current = parseInt($('#' + mode + '_stock_current').text(), 10) || 0;
+      const quantity = parseInt($('#' + mode + '_quantity').val(), 10) || 0;
+      const result = mode === 'add' ? current + quantity : Math.max(0, current - quantity);
+      $('#' + mode + '_stock_result').text(result);
+    }
+
     function addStock(id){
       $('#product_id_show').val(id);
+      loadStockProduct(id, 'add');
       $('#AddStockModal').modal('show');
     }
 
@@ -665,7 +546,7 @@
           $('#formAddStock')[0].reset();
           $('#AddStockModal').modal('hide');
           datatableInventories.ajax.reload();
-          datatableStockMovements.ajax.reload();
+          if (datatableStockMovements) datatableStockMovements.ajax.reload();
         },
         error: function(error){
           Swal.fire({
@@ -673,13 +554,13 @@
             title: 'Error.',
             text: 'Error al agregar stock ' + error.responseJSON.message,
           });
-          $('#AddStockModal').modal('hide');
         }
       })
     })
 
     function reduceStock(id){
       $('#product_id_reduce').val(id);
+      loadStockProduct(id, 'reduce');
       $('#ReduceStockModal').modal('show');
     }
 
@@ -706,10 +587,22 @@
             title: 'Error.',
             text: 'Error al reducir stock: ' + error.responseJSON.message,
           });
-          $('#ReduceStockModal').modal('hide');
         }
       })
     })
+
+    $(document).on('input', '#add_quantity', function(){ updateStockPreview('add'); });
+    $(document).on('input', '#reduce_quantity', function(){ updateStockPreview('reduce'); });
+    $(document).on('click', '.inventory-step', function(){
+      const input = document.getElementById($(this).data('target'));
+      if (!input) return;
+      const step = parseInt($(this).data('step'), 10);
+      const min = parseInt(input.min || '1', 10);
+      const max = input.max ? parseInt(input.max, 10) : Number.MAX_SAFE_INTEGER;
+      const current = parseInt(input.value || '0', 10);
+      input.value = Math.min(max, Math.max(min, current + step));
+      $(input).trigger('input');
+    });
 
     function Warehouse(){
       $.ajax({

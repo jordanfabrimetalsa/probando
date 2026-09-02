@@ -1,64 +1,26 @@
 <div class="modal fade" id="ShowModal" tabindex="-1" aria-labelledby="ShowModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content modal-extra-background">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ShowModalLabel">Información del Producto</h5>
-        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content inventory-detail-modal">
+      <div class="modal-header inventory-detail-header">
+        <div><small>Ficha de inventario</small><h5 class="modal-title" id="ShowModalLabel">Información del producto</h5></div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="modal-body">
-        <div class="container-fluid px-1 px-md-4">
-          <div class="page-header min-height-100 mt-2">
-          </div>
-          <div class="card card-body mx-2 mx-md-2 mt-n6 mb-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card card-plain h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Detalles del Producto</h6>
-                        </div>
-                        <div class="card-body p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nombre Producto:</strong> &nbsp; <span id="fullname_title_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Stock:</strong> &nbsp; <span id="stock_show"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="card card-plain h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Detalles de la Categoria</h6>
-                        </div>
-                        <div class="card-body p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nombre:</strong> &nbsp; <span id="category_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Descripción:</strong> &nbsp; <span id="description_category_show"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="card card-plain h-100">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">Detalles de la Bodega</h6>
-                        </div>
-                        <div class="card-body p-3">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nombre:</strong> &nbsp; <span id="warehouse_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Descripción:</strong> &nbsp; <span id="description_warehouse_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Estado:</strong> &nbsp; <span id="status_warehouse_show"></span></li>
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Ubicación:</strong> &nbsp; <span id="path_warehouse_show"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-</div>
+      <div class="modal-body p-4">
+        <section class="inventory-detail-hero mb-4">
+          <img id="inventory_image_show" src="{{ asset('assets/img/sinimagenproducto.png') }}" alt="Producto" onerror="this.src='{{ asset('assets/img/sinimagenproducto.png') }}'">
+          <div class="flex-grow-1"><span class="inventory-detail-code" id="barcode_show">—</span><h3 id="fullname_title_show">Cargando…</h3><p id="description_product_show">Sin descripción</p><div class="d-flex flex-wrap gap-2"><span class="inventory-chip"><i class="fa-solid fa-tag"></i><b id="brand_show">—</b></span><span class="inventory-chip"><i class="fa-solid fa-palette"></i><b id="colour_show">—</b></span><span class="inventory-chip"><i class="fa-solid fa-ruler"></i><b id="size_show">—</b></span></div></div>
+          <div class="inventory-stock-card"><small>Stock actual</small><strong id="stock_show">—</strong><span id="product_status_show">—</span></div>
+        </section>
+        <div class="row g-3">
+          <div class="col-md-6"><section class="inventory-info-card h-100"><header><span><i class="fa-solid fa-layer-group"></i></span><div><small>Clasificación</small><h6>Categoría</h6></div></header><dl><div><dt>Nombre</dt><dd id="category_show">—</dd></div><div><dt>Descripción</dt><dd id="description_category_show">—</dd></div></dl></section></div>
+          <div class="col-md-6"><section class="inventory-info-card h-100"><header><span><i class="fa-solid fa-warehouse"></i></span><div><small>Almacenamiento</small><h6>Bodega</h6></div></header><dl><div><dt>Nombre</dt><dd id="warehouse_show">—</dd></div><div><dt>Ubicación</dt><dd id="path_warehouse_show">—</dd></div><div><dt>Estado</dt><dd id="status_warehouse_show">—</dd></div><div><dt>Descripción</dt><dd id="description_warehouse_show">—</dd></div></dl></section></div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
+      <div class="modal-footer px-4"><button type="button" class="btn btn-dark px-4" data-bs-dismiss="modal">Cerrar ficha</button></div>
     </div>
   </div>
 </div>
+
+<style>
+.inventory-action-modal,.inventory-detail-modal{border:0;border-radius:1rem;overflow:hidden;box-shadow:0 1.5rem 4rem rgba(20,30,40,.25)}.inventory-action-header,.inventory-detail-header{padding:1.1rem 1.25rem;color:#fff;border:0;background:linear-gradient(125deg,#263238,#455a64)}.inventory-action-header--add{background:linear-gradient(125deg,#176985,#2387a4)}.inventory-action-header--reduce{background:linear-gradient(125deg,#9f2f19,#d44825)}.inventory-action-header small,.inventory-detail-header small{display:block;color:rgba(255,255,255,.65);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}.inventory-action-header h5,.inventory-detail-header h5{color:#fff;margin:0}.inventory-action-icon{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:.7rem;background:rgba(255,255,255,.15);font-size:1.1rem}.inventory-action-modal label{color:#526771;font-size:.8rem;font-weight:700}.inventory-action-modal .form-control,.inventory-action-modal .input-group-text{min-height:2.7rem;border-color:#dce3e7}.inventory-product-summary{display:flex;align-items:center;gap:.85rem;padding:1rem;border-radius:.75rem;background:#f4f7f8}.inventory-product-summary__icon{display:grid;place-items:center;width:2.8rem;height:2.8rem;border-radius:.65rem;background:#263238;color:#fff}.inventory-product-summary small,.inventory-product-summary strong,.inventory-product-summary span{display:block}.inventory-product-summary small{color:#78909c;font-size:.7rem}.inventory-product-summary strong{color:#263238}.inventory-product-summary>div>span{color:#78909c;font-size:.76rem}.inventory-quantity .btn{margin:0;border:1px solid #dce3e7;min-width:45px}.inventory-result-preview{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1rem;border-radius:.7rem;background:#e8f5f7;color:#176985}.inventory-result-preview--reduce{background:#fff0ed;color:#b93610}.inventory-warning{display:flex;gap:.65rem;padding:.75rem;border-radius:.65rem;background:#fff8e1;color:#806100;font-size:.78rem}.inventory-detail-hero{display:flex;align-items:center;gap:1.2rem;padding:1.1rem;border:1px solid #e5eaed;border-radius:.85rem;background:linear-gradient(145deg,#fff,#f6f8f9)}.inventory-detail-hero img{width:105px;height:105px;border-radius:.75rem;object-fit:cover;background:#fff;border:1px solid #e1e6e9}.inventory-detail-code{color:#EA4E1A;font-size:.7rem;font-weight:800;letter-spacing:.08em}.inventory-detail-hero h3{margin:.2rem 0;color:#263238;font-size:1.3rem}.inventory-detail-hero p{margin:0 0 .65rem;color:#78909c;font-size:.8rem}.inventory-chip{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .55rem;border-radius:999px;background:#edf2f4;color:#526771;font-size:.72rem}.inventory-stock-card{min-width:125px;padding:1rem;text-align:center;border-radius:.8rem;background:#263238;color:#fff}.inventory-stock-card small,.inventory-stock-card span{display:block}.inventory-stock-card small{color:rgba(255,255,255,.65)}.inventory-stock-card strong{display:block;font-size:2rem;line-height:1.15}.inventory-stock-card span{font-size:.7rem}.inventory-info-card{padding:1rem;border:1px solid #e5eaed;border-radius:.8rem}.inventory-info-card header{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem}.inventory-info-card header>span{display:grid;place-items:center;width:2.3rem;height:2.3rem;border-radius:.6rem;background:#263238;color:#fff}.inventory-info-card header small{display:block;color:#90a4ae;font-size:.68rem}.inventory-info-card h6{margin:0;color:#263238}.inventory-info-card dl{margin:0}.inventory-info-card dl>div{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:1px dashed #e1e6e9;font-size:.78rem}.inventory-info-card dl>div:last-child{border:0}.inventory-info-card dt{color:#78909c}.inventory-info-card dd{margin:0;text-align:right;color:#263238;font-weight:600}@media(max-width:575.98px){.inventory-detail-hero{align-items:flex-start;flex-wrap:wrap}.inventory-detail-hero img{width:75px;height:75px}.inventory-stock-card{width:100%}}
+</style>

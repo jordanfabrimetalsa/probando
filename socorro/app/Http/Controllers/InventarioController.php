@@ -19,7 +19,17 @@ class InventarioController extends Controller
     public function index()
     {
         $delegations = DelegationAccess::isNational() ? Delegation::all() : Delegation::whereKey(DelegationAccess::id())->get();
-        return view('module.inventario.index', compact('delegations'));
+        $productsQuery = Product::join('warehouses', 'products.id_warehouse', '=', 'warehouses.id')
+            ->when(!DelegationAccess::isNational(), fn ($query) => $query->where('warehouses.delegation_id', DelegationAccess::id()));
+        $warehousesQuery = DelegationAccess::scope(Warehouse::query());
+        $inventorySummary = [
+            'products' => (clone $productsQuery)->count('products.id'),
+            'units' => (int) (clone $productsQuery)->sum('products.stock'),
+            'low_stock' => (clone $productsQuery)->where('products.stock', '>', 0)->where('products.stock', '<=', 5)->count('products.id'),
+            'out_of_stock' => (clone $productsQuery)->where('products.stock', '<=', 0)->count('products.id'),
+            'warehouses' => (clone $warehousesQuery)->where('status', true)->count(),
+        ];
+        return view('module.inventario.index', compact('delegations', 'inventorySummary'));
     }
 
     public function data(){
@@ -55,6 +65,11 @@ class InventarioController extends Controller
                 'message' => 'Error al obtener los movimientos de stock'
             ], 500);
         }
+    }
+
+    public function movements()
+    {
+        return view('module.inventario.movements');
     }
 
     public function categoryStore(Request $request){

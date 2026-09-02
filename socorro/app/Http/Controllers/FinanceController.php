@@ -14,7 +14,7 @@ class FinanceController extends Controller
     public function index()
     {
         $categories = FinanceCategory::orderBy('type')->orderBy('name')->get();
-        $transactions = DelegationAccess::scope(FinanceTransaction::with(['category', 'user', 'voluntary']))->latest('transaction_date')->latest()->paginate(15);
+        $transactions = DelegationAccess::scope(FinanceTransaction::with(['category', 'user', 'voluntary']))->latest('transaction_date')->latest()->get();
         $voluntaries = DelegationAccess::scope(Voluntary::query())->orderBy('name')->orderBy('lastname')->get(['id', 'name', 'lastname', 'document']);
         $income = DelegationAccess::scope(FinanceTransaction::query())->whereHas('category', fn ($query) => $query->where('type', 'income'))->sum('amount');
         $expense = DelegationAccess::scope(FinanceTransaction::query())->whereHas('category', fn ($query) => $query->where('type', 'expense'))->sum('amount');

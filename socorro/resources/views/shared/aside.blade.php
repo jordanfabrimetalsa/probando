@@ -1,6 +1,6 @@
 @php
     $user = auth()->user();
-    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'registro-rescate*', 'registro_rescate', 'equipment-requests.*');
+    $operationsOpen = request()->routeIs('aviso.*', 'calendario*', 'guardias.*', 'registro-rescate*', 'registro_rescate', 'equipment-requests.*');
     $peopleOpen = request()->routeIs('voluntarios*', 'postulations.*');
     $adminOpen = request()->routeIs('delegaciones*', 'usuarios*', 'roles.*', 'inventario*', 'finances.*');
     $communicationsOpen = request()->routeIs('news*', 'contacto*');
@@ -24,7 +24,7 @@
                 </a>
             </li>
 
-            @if($user->hasPermission('departures.manage') || $user->hasPermission('calendar.manage') || $user->hasPermission('rescues.manage') || $user->hasPermission('inventory.manage'))
+            @if($user->hasPermission('departures.manage') || $user->hasPermission('calendar.manage') || $user->hasPermission('rescues.manage') || $user->hasPermission('inventory.manage') || $user->voluntary_id)
                 <li class="nav-item">
                     <a class="nav-link text-dark" data-bs-toggle="collapse" href="#collapseOperations" aria-expanded="{{ $operationsOpen ? 'true' : 'false' }}" aria-controls="collapseOperations">
                         <i class="fa-solid fa-person-hiking opacity-5"></i><span class="nav-link-text ms-1">Operaciones</span>
@@ -36,13 +36,18 @@
                         @if($user->hasPermission('calendar.manage'))
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('calendario*') ? 'active' : '' }}" href="{{ route('calendario') }}"><i class="fa-solid fa-calendar opacity-5"></i><span class="nav-link-text ms-1">Calendario y guardias</span></a></li>
                         @endif
+                        @if($user->voluntary_id)
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('guardias.*') ? 'active' : '' }}" href="{{ route('guardias.available') }}"><i class="fa-solid fa-user-shield opacity-5"></i><span class="nav-link-text ms-1">Inscribirme a guardia</span></a></li>
+                        @endif
                         @if($user->hasPermission('rescues.manage') || $user->hasPermission('inventory.manage'))
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('equipment-requests.*') ? 'active' : '' }}" href="{{ route('equipment-requests.index') }}"><i class="fa-solid fa-box-open opacity-5"></i><span class="nav-link-text ms-1">Solicitar equipo</span></a></li>
                         @endif
                         @if($user->hasPermission('rescues.manage'))
-                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate.dashboard') }}"><i class="fa-solid fa-chart-line opacity-5"></i><span class="nav-link-text ms-1">Dashboard de rescates</span></a></li>
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro_rescate') ? 'active' : '' }}" href="{{ route('registro_rescate') }}"><i class="fa-solid fa-file-circle-plus opacity-5"></i><span class="nav-link-text ms-1">Registrar rescate</span></a></li>
-                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate*') && !request()->routeIs('registro_rescate', 'registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate') }}"><i class="material-symbols-rounded opacity-5">medical_services</i><span class="nav-link-text ms-1">Registros de rescate</span></a></li>
+                            @can('view-rescue-records')
+                                <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate.dashboard') }}"><i class="fa-solid fa-chart-line opacity-5"></i><span class="nav-link-text ms-1">Dashboard de rescates</span></a></li>
+                                <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('registro-rescate*') && !request()->routeIs('registro_rescate', 'registro-rescate.dashboard') ? 'active' : '' }}" href="{{ route('registro-rescate') }}"><i class="material-symbols-rounded opacity-5">medical_services</i><span class="nav-link-text ms-1">Registros de rescate</span></a></li>
+                            @endcan
                         @endif
                     </ul></div>
                 </li>
@@ -80,7 +85,8 @@
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('roles.*') ? 'active' : '' }}" href="{{ route('roles.index') }}"><i class="fa-solid fa-user-shield opacity-5"></i><span class="nav-link-text ms-1">Roles y permisos</span></a></li>
                         @endif
                         @if($user->hasPermission('inventory.manage'))
-                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('inventario*') ? 'active' : '' }}" href="{{ route('inventario') }}"><i class="material-symbols-rounded opacity-5">inventory_2</i><span class="nav-link-text ms-1">Inventario</span></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('inventario') ? 'active' : '' }}" href="{{ route('inventario') }}"><i class="material-symbols-rounded opacity-5">inventory_2</i><span class="nav-link-text ms-1">Inventario</span></a></li>
+                            <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('inventario.movements') ? 'active' : '' }}" href="{{ route('inventario.movements') }}"><i class="fa-solid fa-clock-rotate-left opacity-5"></i><span class="nav-link-text ms-1">Movimientos de stock</span></a></li>
                         @endif
                         @if($user->hasPermission('finances.manage'))
                             <li class="nav-item"><a class="nav-link text-dark {{ request()->routeIs('finances.*') ? 'active' : '' }}" href="{{ route('finances.index') }}"><i class="fa-solid fa-wallet opacity-5"></i><span class="nav-link-text ms-1">Finanzas</span></a></li>

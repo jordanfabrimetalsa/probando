@@ -10,6 +10,9 @@ use App\Models\BossEvent;
 use App\Models\FileSchedule;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller
 {
@@ -28,7 +31,11 @@ class ScheduleController extends Controller
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'extendedProps' => [
-                    'type' => $appointment->type
+                    'type' => $appointment->type,
+                    'description' => $appointment->description,
+                    'guard_enabled' => $appointment->guard_enabled,
+                    'guard_capacity' => $appointment->guard_capacity,
+                    'guard_leader_id' => $appointment->guard_leader_id,
                 ],
                 'backgroundColor' => $this->getEventColor($appointment->type),
                 'borderColor' => $this->getEventColor($appointment->type)
@@ -84,24 +91,45 @@ class ScheduleController extends Controller
     }
     public function store(Request $request)
     {
+        Gate::authorize('manage-guards');
+
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|string|in:Class,Guard,Event',
             'start' => 'required|date',
-            'end' => 'required|date|after_or_equal:start'
+            'end' => 'required|date|after_or_equal:start',
+            'guard_enabled' => 'nullable|boolean',
+            'guard_capacity' => 'required|integer|min:1|max:200',
+            'guard_leader_id' => 'nullable|integer|exists:voluntaries,id',
         ]);
 
         $start = Carbon::parse($validated['start'])->startOfDay();
         $end = Carbon::parse($validated['end'])->addDay()->startOfDay(); // end exclusivo
 
-        $schedule = Schedule::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'type' => $validated['type'],
-            'start' => $start->toDateString(),
-            'end' => $end->toDateString()
-        ]);
+        $schedule = DB::transaction(function () use ($validated, $request, $start, $end) {
+            $guardNumber = Schedule::where('type', 'Guard')
+                ->whereYear('start', $start->year)
+                ->whereMonth('start', $start->month)
+                ->lockForUpdate()
+                ->pluck('title')
+                ->map(fn ($title) => preg_match('/Guardia N°\s*(\d+)/u', $title, $match) ? (int) $match[1] : 0)
+                ->max() + 1;
+            $schedule = Schedule::create([
+                'title' => 'Guardia N° '.$guardNumber,
+                'description' => $validated['description'],
+                'type' => 'Guard',
+                'start' => $start->toDateString(),
+                'end' => $end->toDateString(),
+                'guard_enabled' => $request->boolean('guard_enabled'),
+                'guard_capacity' => $validated['guard_capacity'],
+                'guard_leader_id' => $validated['guard_leader_id'] ?? null,
+            ]);
+
+            if ($schedule->guard_leader_id) {
+                Guard::create(['id_event' => $schedule->id, 'id_voluntary' => $schedule->guard_leader_id, 'type' => 'leader']);
+            }
+
+            return $schedule;
+        });
 
         return response()->json([
             'success' => true,
@@ -112,26 +140,70 @@ class ScheduleController extends Controller
                 'end' => $schedule->end,
                 'extendedProps' => [
                     'type' => $schedule->type,
-                    'description' => $schedule->description
+                    'description' => $schedule->description,
+                    'guard_enabled' => $schedule->guard_enabled,
+                    'guard_capacity' => $schedule->guard_capacity,
+                    'guard_leader_id' => $schedule->guard_leader_id,
                 ]
             ]
         ]);
     }
 
+    public function configureGuard(Request $request, Schedule $schedule)
+    {
+        Gate::authorize('manage-guards');
+        abort_unless($schedule->type === 'Guard', 422, 'El evento seleccionado no es una guardia.');
+        $validated = $request->validate([
+            'guard_enabled' => ['nullable', 'boolean'],
+            'guard_capacity' => ['required', 'integer', 'min:1', 'max:200'],
+            'guard_leader_id' => ['nullable', 'integer', 'exists:voluntaries,id'],
+        ]);
+
+        DB::transaction(function () use ($schedule, $validated, $request) {
+            $event = Schedule::lockForUpdate()->findOrFail($schedule->id);
+            $currentCount = Guard::where('id_event', $event->id)->count();
+            $newLeaderId = $validated['guard_leader_id'] ?? null;
+            $newLeaderExists = $newLeaderId && Guard::where('id_event', $event->id)->where('id_voluntary', $newLeaderId)->exists();
+            $resultingCount = $currentCount + ($newLeaderId && !$newLeaderExists ? 1 : 0);
+            if ($validated['guard_capacity'] < $resultingCount) {
+                throw ValidationException::withMessages(['guard_capacity' => "El cupo no puede ser menor a los {$resultingCount} participantes actuales."]);
+            }
+
+            Guard::where('id_event', $event->id)->where('type', 'leader')->update(['type' => 'assistant']);
+            if ($newLeaderId) {
+                Guard::updateOrCreate(['id_event' => $event->id, 'id_voluntary' => $newLeaderId], ['type' => 'leader']);
+            }
+            $event->update([
+                'guard_enabled' => $request->boolean('guard_enabled'),
+                'guard_capacity' => $validated['guard_capacity'],
+                'guard_leader_id' => $newLeaderId,
+            ]);
+        });
+
+        return response()->json(['success' => true, 'message' => 'Configuración de guardia actualizada.']);
+    }
+
     public function storeGuard(Request $request){
         try{
+            Gate::authorize('manage-guards');
             $request->validate([
                 'id_event' => 'required|integer|exists:events,id',
                 'id_voluntary' => 'required|integer|exists:voluntaries,id',
                 'type' => 'required|string'
             ]);
 
-            $guard = new Guard;
-            $guard->id_event = $request->id_event;
-            $guard->id_voluntary = $request->id_voluntary;
-            $guard->type = $request->type;
+            $guard = DB::transaction(function () use ($request) {
+                $event = Schedule::lockForUpdate()->findOrFail($request->id_event);
+                if (Guard::where('id_event', $event->id)->where('id_voluntary', $request->id_voluntary)->exists()) {
+                    throw ValidationException::withMessages(['id_voluntary' => 'Este voluntario ya pertenece a la actividad.']);
+                }
+                if ($event->type === 'Guard' && Guard::where('id_event', $event->id)->count() >= $event->guard_capacity) {
+                    throw ValidationException::withMessages(['id_voluntary' => 'La guardia ya alcanzó su cupo máximo.']);
+                }
+                return Guard::create($request->only('id_event', 'id_voluntary', 'type'));
+            });
 
-            if ($guard->save()) {
+            if ($guard) {
                 return response()->json([
                     'success' => true,
                     'guard' => $guard,
@@ -189,6 +261,7 @@ class ScheduleController extends Controller
     public function destroy(string $id)
     {
         try{
+            Gate::authorize('manage-guards');
             $schedule = Schedule::find($id);
             $schedule->delete();
 
@@ -203,7 +276,11 @@ class ScheduleController extends Controller
 
     public function destroyGuard($id){
         try{
+            Gate::authorize('manage-guards');
             $guard = Guard::find($id);
+            if ($guard?->type === 'leader') {
+                return response()->json(['success' => false, 'message' => 'El jefe de guardia no se puede eliminar.'], 422);
+            }
             $guard->delete();
 
             return response()->json([
@@ -213,5 +290,52 @@ class ScheduleController extends Controller
         }catch(Exception $e){
             return response()->json($e);
         }
+    }
+
+    public function availableGuards(Request $request)
+    {
+        abort_unless($request->user()->voluntary_id, 403, 'Su usuario no está vinculado a una ficha de voluntario.');
+
+        $guards = Schedule::query()
+            ->with('guardLeader')
+            ->withCount('guards')
+            ->where('type', 'Guard')
+            ->where('guard_enabled', true)
+            ->whereDate('end', '>=', now()->toDateString())
+            ->orderBy('start')
+            ->get();
+        $registrations = Guard::where('id_voluntary', $request->user()->voluntary_id)->pluck('id', 'id_event');
+
+        return view('module.schedule.available', compact('guards', 'registrations'));
+    }
+
+    public function joinGuard(Request $request, Schedule $schedule)
+    {
+        $voluntaryId = $request->user()->voluntary_id;
+        abort_unless($voluntaryId, 403, 'Su usuario no está vinculado a una ficha de voluntario.');
+
+        DB::transaction(function () use ($schedule, $voluntaryId) {
+            $guard = Schedule::lockForUpdate()->findOrFail($schedule->id);
+            abort_unless($guard->type === 'Guard' && $guard->guard_enabled, 422, 'Esta guardia no está habilitada para inscripciones.');
+            if (Guard::where('id_event', $guard->id)->where('id_voluntary', $voluntaryId)->exists()) {
+                throw ValidationException::withMessages(['guard' => 'Ya se encuentra inscrito en esta guardia.']);
+            }
+            if (Guard::where('id_event', $guard->id)->count() >= $guard->guard_capacity) {
+                throw ValidationException::withMessages(['guard' => 'La guardia ya alcanzó su cupo máximo.']);
+            }
+            Guard::create(['id_event' => $guard->id, 'id_voluntary' => $voluntaryId, 'type' => 'assistant']);
+        });
+
+        return back()->with('success', 'Su inscripción en la guardia fue registrada.');
+    }
+
+    public function leaveGuard(Request $request, Schedule $schedule)
+    {
+        $voluntaryId = $request->user()->voluntary_id;
+        abort_unless($voluntaryId, 403);
+        abort_if((int) $schedule->guard_leader_id === (int) $voluntaryId, 422, 'El jefe de guardia no puede retirar su asignación.');
+        Guard::where('id_event', $schedule->id)->where('id_voluntary', $voluntaryId)->delete();
+
+        return back()->with('success', 'Su inscripción fue retirada.');
     }
 }

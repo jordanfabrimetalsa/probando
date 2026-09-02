@@ -1,80 +1,39 @@
 <div class="modal fade" id="eventReadModal" tabindex="-1" aria-labelledby="eventReadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content modal-extra-background">
-            <div class="modal-header">
-                <h6 class="modal-title" id="eventReadModalLabel">Tipo de Evento es <span class="badge bg-danger" id="type_read"></span></h6>
-            </div>
-            
-            <div class="modal-body">
-                <p class="text-dark">Información detallada.</p>
-                <div>
-                    <label>Titulo:</label>
-                    <input type="text" class="form-control" id="title_read" name="title_read" disabled>
-                </div>
-                <div>
-                    <label>Descripcion:</label>
-                    <textarea id="description_read" name="description_read" class="form-control" disabled></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <label>Inicio:</label>
-                        <input type="text" class="form-control" id="start_read" name="start_read" disabled>
-                    </div>
-                    <div class="col-6">
-                        <label>Termino:</label>
-                        <input type="text" class="form-control" id="end_read" name="end_read" disabled>
-                    </div>
-                </div>
+ <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content guard-detail-modal">
+  <header class="guard-detail-header">
+   <div class="guard-detail-mark"><i class="fa-solid fa-mountain-sun"></i></div>
+   <div class="guard-detail-heading"><span>PROGRAMACIÓN OPERATIVA</span><h2 id="eventReadModalLabel"><i class="fa-solid fa-user-shield"></i> <span id="title_read_display">Detalle de guardia</span></h2><p>Consulta la dotación, jefatura y material asociado a esta guardia.</p></div>
+   <span class="guard-type-badge"><i class="fa-solid fa-circle"></i><span id="type_read">Guardia</span></span>
+   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+  </header>
 
-                <br>
+  <div class="modal-body guard-detail-body">
+   <section class="guard-summary">
+    <div class="guard-summary__main"><small>NOMBRE DE LA GUARDIA</small><input type="text" id="title_read" name="title_read" disabled><label>Descripción e instrucciones</label><textarea id="description_read" name="description_read" disabled></textarea></div>
+    <div class="guard-summary__dates"><div><i class="fa-regular fa-calendar-check"></i><span><small>INICIO</small><input type="text" id="start_read" name="start_read" disabled></span></div><i class="fa-solid fa-arrow-right"></i><div><i class="fa-regular fa-calendar-xmark"></i><span><small>TÉRMINO</small><input type="text" id="end_read" name="end_read" disabled></span></div></div>
+   </section>
 
-                <div class="d-flex justify-content-center">
-                    <div class="btn-group d-inline-flex" role="group" aria-label="Basic mixed styles example">
-                        <button type="button" class="btn btn-dark me-2" data-bs-toggle="modal" data-bs-target="#assistantModal">
-                            <i class="fa-solid fa-user-plus"></i>
-                        </button>  
-                        <button type="button" class="btn btn-dark me-2" data-bs-toggle="modal" data-bs-target="#fileModal">
-                            <i class="fa-solid fa-file-circle-plus"></i>
-                        </button>                        
-                        <button type="button" id="btnDeleteEvent" class="btn btn-danger">
-                            <i class="fa-solid fa-calendar-xmark"></i>
-                        </button>
-                    </div>
-                </div>
+   @can('manage-guards')
+   <form id="guardConfigurationForm" class="d-none guard-control-card">
+    @csrf @method('PUT')
+    <div class="guard-card-title"><span><i class="fa-solid fa-sliders"></i></span><div><h3>Control de inscripciones</h3><p>Administra la apertura, capacidad y responsable de la guardia.</p></div><label class="guard-state-switch"><input type="hidden" name="guard_enabled" value="0"><input class="form-check-input" type="checkbox" id="guard_enabled_read" name="guard_enabled" value="1"><span><b>Inscripciones</b><small>Habilitadas</small></span></label></div>
+    <div class="row g-3 align-items-end"><div class="col-md-3"><label>Cupos totales</label><div class="input-group"><span class="input-group-text"><i class="fa-solid fa-users"></i></span><input class="form-control" type="number" id="guard_capacity_read" name="guard_capacity" min="1" max="200" required></div></div><div class="col-md-6"><label>Jefe de guardia <span class="text-muted fw-normal">(opcional)</span></label><select class="form-select" id="guard_leader_read" name="guard_leader_id"><option value="">Sin jefe asignado</option>@foreach($voluntaries as $voluntary)<option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>@endforeach</select></div><div class="col-md-3"><button class="btn btn-dark w-100 mb-0" type="submit"><i class="fa-solid fa-floppy-disk me-2"></i>Guardar cambios</button></div></div>
+   </form>
+   @endcan
 
-                <div class="border border-radius-sm p-2">
-                    <p class="text-dark">Participantes.</p>
-                    <table id="datatableGuards" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                        <thead class="bg-gradient-dark text-center">
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Asignación</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                        </tbody>
-                    </table>
-                </div>
-                <br>
-                <div class="border border-radius-sm p-2">
-                    <p class="text-dark">Material digital.</p>
-                    <table id="datatableFile" class="table table-striped dt-responsive nowrap" style="width: 100%;">
-                        <thead class="bg-gradient-dark text-center">
-                            <tr>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Nombre</th>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Tipo</th>
-                                <th class="text-uppercase text-secondary text-xxs text-white font-weight-bolder text-center">Descarga</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-left">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+   <div class="guard-detail-actions">
+    <div><h3>Gestión de participantes</h3><p>Administra la dotación asignada a esta guardia.</p></div>
+    <div><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#assistantModal"><i class="fa-solid fa-user-plus me-2"></i>Agregar participante</button><button type="button" id="btnDeleteEvent" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can me-2"></i>Eliminar guardia</button></div>
+   </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
+   <section class="guard-data-card"><header><span><i class="fa-solid fa-people-group"></i></span><div><h3>Dotación de la guardia</h3><p>Participantes inscritos y función asignada.</p></div><b class="guard-participant-count" id="guardParticipantCount">0 participantes</b></header><div class="table-responsive"><table id="datatableGuards" class="table dt-responsive nowrap mb-0" style="width:100%"><thead><tr><th>Voluntario</th><th>Función en la guardia</th><th class="text-center">Acciones</th></tr></thead><tbody></tbody></table></div></section>
+  </div>
+  <footer class="modal-footer guard-detail-footer"><span><i class="fa-solid fa-shield-halved"></i> Información operacional interna</span><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar detalle</button></footer>
+ </div></div>
 </div>
+
+@push('styles')
+<style>
+.guard-detail-modal{overflow:hidden;border:0!important;border-radius:20px!important;box-shadow:0 30px 90px rgba(5,31,43,.32)}.guard-detail-header{display:flex;align-items:center;gap:15px;padding:21px 24px;border:0;background:linear-gradient(135deg,#082f40,#176985);color:#fff}.guard-detail-mark{display:grid;flex:0 0 48px;height:48px;place-items:center;border-radius:14px;background:#ea4e1a;font-size:1.25rem}.guard-detail-heading{flex:1}.guard-detail-heading>span{color:#ffad90;font-size:.56rem;font-weight:900;letter-spacing:.13em}.guard-detail-heading h2{margin:2px 0;color:#fff;font-size:1.25rem}.guard-detail-heading h2 i{margin-right:5px;color:#7bd0e8}.guard-detail-heading p{margin:0;color:#bdd3dc;font-size:.67rem}.guard-type-badge{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(255,255,255,.1);font-size:.64rem;font-weight:800;text-transform:uppercase}.guard-type-badge i{color:#60d394;font-size:.46rem}.guard-detail-body{padding:22px!important;background:#eff4f6}.guard-summary{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-bottom:18px;padding:19px;border:1px solid #d8e4e8;border-radius:14px;background:#fff}.guard-summary__main small,.guard-summary__dates small{color:#78909a;font-size:.53rem;font-weight:900;letter-spacing:.08em}.guard-summary__main>input{display:block;width:100%;padding:0;border:0;background:transparent;color:#173b49;font-size:1.2rem;font-weight:850}.guard-summary__main>label{display:block;margin-top:9px;color:#78909a;font-size:.58rem;font-weight:800}.guard-summary__main textarea{width:100%;height:43px;padding:3px 0;border:0;background:transparent;color:#546e78;font-size:.72rem;resize:none}.guard-summary__dates{display:flex;align-items:center;justify-content:center;gap:13px;padding:12px;border-radius:11px;background:#f3f8fa}.guard-summary__dates>div{display:flex;align-items:center;gap:9px}.guard-summary__dates>div>i{color:#176985;font-size:1.05rem}.guard-summary__dates span{display:flex;flex-direction:column}.guard-summary__dates input{width:86px;padding:0;border:0;background:transparent;color:#294b58;font-size:.72rem;font-weight:800}.guard-summary__dates>i{color:#a6b7bd;font-size:.7rem}.guard-control-card{margin-bottom:18px;padding:18px;border:1px solid #cadde4;border-left:4px solid #176985;border-radius:14px;background:#fff}.guard-card-title{display:flex;align-items:center;gap:11px;margin-bottom:15px}.guard-card-title>span{display:grid;width:36px;height:36px;place-items:center;border-radius:10px;background:#e4f2f6;color:#176985}.guard-card-title>div{flex:1}.guard-card-title h3,.guard-detail-actions h3,.guard-data-card h3{margin:0;color:#193d4b;font-size:.86rem}.guard-card-title p,.guard-detail-actions p,.guard-data-card p{margin:2px 0 0;color:#80939b;font-size:.61rem}.guard-state-switch{display:flex;align-items:center;gap:8px;margin:0;padding:7px 10px;border-radius:9px;background:#edf8f1}.guard-state-switch .form-check-input{margin:0}.guard-state-switch span{display:flex;flex-direction:column}.guard-state-switch b{color:#28603f;font-size:.63rem}.guard-state-switch small{color:#789984;font-size:.52rem}.guard-control-card label{margin-bottom:5px;color:#526b75;font-size:.63rem;font-weight:800}.guard-control-card .form-control,.guard-control-card .form-select,.guard-control-card .input-group-text{min-height:42px;border-color:#d3e0e4}.guard-detail-actions{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;padding:14px 17px;border:1px solid #dae5e9;border-radius:13px;background:#fff}.guard-detail-actions>div:last-child{display:flex;flex-wrap:wrap;gap:7px}.guard-detail-actions .btn{margin:0;padding:.55rem .75rem}.guard-data-card{overflow:hidden;border:1px solid #d8e4e8;border-radius:14px;background:#fff}.guard-data-card>header{display:flex;align-items:center;gap:10px;padding:15px 17px;border-bottom:1px solid #e2eaed}.guard-data-card>header>span{display:grid;width:34px;height:34px;place-items:center;border-radius:9px;background:#e7f3f6;color:#176985}.guard-data-card>header>div{flex:1}.guard-participant-count{padding:6px 10px;border-radius:999px;background:#e7f3f6;color:#176985;font-size:.6rem}.guard-data-card .table thead th{background:#0c4b62!important;color:#fff!important}.guard-detail-footer{justify-content:space-between!important;padding:13px 22px!important;background:#fff!important}.guard-detail-footer>span{color:#78909a;font-size:.61rem}.guard-detail-footer>span i{margin-right:5px;color:#ea4e1a}@media(max-width:767.98px){.guard-detail-header{padding:17px}.guard-detail-heading p,.guard-type-badge{display:none}.guard-summary{grid-template-columns:1fr}.guard-detail-actions{align-items:flex-start;flex-direction:column}.guard-detail-actions>div:last-child,.guard-detail-actions .btn{width:100%}.guard-detail-footer>span{display:none}}
+</style>
+@endpush

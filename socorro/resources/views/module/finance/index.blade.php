@@ -2,6 +2,12 @@
 
 @section('title', 'Finanzas')
 
+@push('styles')
+<style>
+.finance-table-panel{overflow:hidden}.finance-table-wrap{padding:0;border:1px solid #e0e8eb;border-radius:.75rem;overflow:hidden}.finance-table{margin:0!important}.finance-table tbody tr{transition:background .15s}.finance-table tbody tr:hover{background:#f5f9fa}.finance-description{display:flex;align-items:center;gap:.65rem}.finance-description>span{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:.6rem}.finance-description>span.income{color:#176985;background:#e7f4f7}.finance-description>span.expense{color:#c84317;background:#fff0ea}.finance-description strong{display:block;color:#263f4a}.finance-kind{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .55rem;border-radius:999px;font-size:.68rem;font-weight:800}.finance-kind.income{color:#0f5132;background:#d1e7dd}.finance-kind.expense{color:#842029;background:#f8d7da}.finance-amount{font-size:.84rem;white-space:nowrap}.finance-table-panel .dataTables_wrapper>.row:first-child{align-items:center;margin-bottom:1rem}.finance-table-panel .dataTables_filter{display:flex;justify-content:flex-end}.finance-table-panel .dataTables_filter label{display:flex;align-items:center;gap:.5rem}.finance-table-panel .dataTables_filter input{min-width:220px;padding:.45rem .7rem}.finance-table-panel .dt-buttons{display:flex;flex-wrap:wrap;gap:.35rem}.finance-table-panel .dt-buttons .btn{margin:0!important}.finance-table-panel .dataTables_length label{display:flex;align-items:center;gap:.4rem}.finance-table-panel .dataTables_info{color:#78909c;font-size:.72rem}@media(max-width:767.98px){.finance-table-panel .dataTables_filter{justify-content:flex-start;margin-top:.75rem}.finance-table-panel .dataTables_filter input{min-width:150px}.finance-table-wrap{border:0}}
+</style>
+@endpush
+
 @section('content')
 <div class="flux-toolbar">
     <div><h1 class="flux-page-title">Finanzas</h1><p class="flux-page-copy">Organiza ingresos y egresos por categoría y mantén una trazabilidad simple de los movimientos.</p></div>
@@ -19,29 +25,27 @@
 
 <div class="row g-3">
     <div class="col-xl-9">
-        <div class="flux-panel">
+        <div class="flux-panel finance-table-panel">
             <div class="d-flex justify-content-between align-items-center mb-3"><div><h2 class="flux-panel__title">Movimientos</h2><p class="flux-panel__copy mb-0">Últimos registros ordenados por fecha.</p></div></div>
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th>Origen / destino</th><th>Voluntario</th><th class="text-end">Monto</th><th></th></tr></thead>
+            <div class="table-responsive finance-table-wrap">
+                <table id="financeTransactionsTable" class="table align-middle finance-table" style="width:100%">
+                    <thead><tr><th>Fecha</th><th>Descripción</th><th>Tipo</th><th>Categoría</th><th>Origen / destino</th><th>Voluntario</th><th class="text-end">Monto</th><th data-orderable="false"></th></tr></thead>
                     <tbody>
-                        @forelse($transactions as $transaction)
+                        @foreach($transactions as $transaction)
                             <tr>
-                                <td>{{ $transaction->transaction_date->format('d/m/Y') }}</td>
-                                <td><strong>{{ $transaction->description }}</strong><div class="text-muted small">{{ $transaction->user?->name ?? 'Sistema' }}</div></td>
+                                <td data-order="{{ $transaction->transaction_date->format('Y-m-d') }}">{{ $transaction->transaction_date->format('d/m/Y') }}</td>
+                                <td><div class="finance-description"><span class="{{ $transaction->category->type }}"><i class="fa-solid {{ $transaction->category->type === 'income' ? 'fa-arrow-down':'fa-arrow-up' }}"></i></span><div><strong>{{ $transaction->description }}</strong><small class="text-muted">Registrado por {{ $transaction->user?->name ?? 'Sistema' }}</small></div></div></td>
+                                <td><span class="finance-kind {{ $transaction->category->type }}">{{ $transaction->category->type === 'income' ? 'Ingreso':'Egreso' }}</span></td>
                                 <td><span class="badge" style="background:{{ $transaction->category->color }}">{{ $transaction->category->name }}</span></td>
                                 <td><strong>{{ $transaction->counterparty ?: '—' }}</strong>@if($transaction->reference)<div class="text-muted small">Ref. {{ $transaction->reference }}</div>@endif</td>
                                 <td>{{ $transaction->voluntary ? $transaction->voluntary->name.' '.$transaction->voluntary->lastname : '—' }}</td>
-                                <td class="text-end fw-bold {{ $transaction->category->type === 'income' ? 'text-success' : 'text-danger' }}">{{ $transaction->category->type === 'income' ? '+' : '-' }} $ {{ number_format($transaction->amount, 0, ',', '.') }}</td>
+                                <td data-order="{{ $transaction->category->type === 'income' ? $transaction->amount : -$transaction->amount }}" class="text-end fw-bold finance-amount {{ $transaction->category->type === 'income' ? 'text-success' : 'text-danger' }}">{{ $transaction->category->type === 'income' ? '+' : '−' }} $ {{ number_format($transaction->amount, 0, ',', '.') }}</td>
                                 <td class="text-end"><form method="POST" action="{{ route('finances.transactions.destroy', $transaction) }}" data-loading-title="Eliminando movimiento" onsubmit="return confirm('¿Eliminar este movimiento?')">@csrf @method('DELETE')<button class="btn btn-sm btn-outline-danger" aria-label="Eliminar"><i class="fa-regular fa-trash-can"></i></button></form></td>
                             </tr>
-                        @empty
-                            <tr><td colspan="7" class="text-center py-5 text-muted">Aún no hay movimientos registrados.</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="mt-3">{{ $transactions->links() }}</div>
         </div>
     </div>
     <div class="col-xl-3"><div class="flux-panel"><h2 class="flux-panel__title">Categorías</h2><p class="flux-panel__copy">Separación contable disponible.</p>
@@ -72,6 +76,38 @@ document.getElementById('finance_category_id')?.addEventListener('change', funct
     document.getElementById('voluntary_id').required = isDues;
     document.getElementById('counterparty_label').textContent = isDues ? 'Origen del pago' : (isExpense ? 'Pagado a / destinatario' : 'Origen del ingreso');
     if (isDues) document.getElementById('counterparty').value = 'Voluntario CSA';
+});
+
+$(document).ready(function () {
+    $('#financeTransactionsTable').DataTable({
+        pageLength: 15,
+        lengthMenu: [[10, 15, 25, 50, -1], [10, 15, 25, 50, 'Todos']],
+        order: [[0, 'desc']],
+        columnDefs: [
+            { targets: 7, orderable: false, searchable: false },
+            { targets: 6, className: 'text-end' }
+        ],
+        buttons: [
+            { extend: 'excelHtml5', text: '<i class="fa-solid fa-file-excel me-1"></i> Excel', className: 'btn btn-success' },
+            { extend: 'csvHtml5', text: '<i class="fa-solid fa-file-csv me-1"></i> CSV', className: 'btn btn-outline-dark' },
+            { extend: 'pdfHtml5', text: '<i class="fa-solid fa-file-pdf me-1"></i> PDF', className: 'btn btn-danger', orientation: 'landscape', pageSize: 'A4' },
+            { extend: 'print', text: '<i class="fa-solid fa-print me-1"></i> Imprimir', className: 'btn btn-dark' }
+        ],
+        dom: "<'row'<'col-lg-8 d-flex flex-wrap align-items-center gap-2'Bl><'col-lg-4'f>><'row'<'col-12'tr>><'row mt-3 align-items-center'<'col-md-6'i><'col-md-6'p>>",
+        responsive: true,
+        language: {
+            emptyTable: 'No hay movimientos financieros registrados',
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ movimientos',
+            infoEmpty: 'Sin movimientos para mostrar',
+            infoFiltered: '(filtrado de _MAX_ movimientos)',
+            lengthMenu: 'Mostrar _MENU_',
+            loadingRecords: 'Cargando...',
+            processing: 'Procesando...',
+            search: 'Buscar:',
+            zeroRecords: 'No se encontraron movimientos',
+            paginate: { first: 'Primero', last: 'Último', next: 'Siguiente', previous: 'Anterior' }
+        }
+    });
 });
 </script>
 @endpush

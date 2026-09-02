@@ -1,44 +1,21 @@
 <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form id="createEventForm" method="POST">
-            @csrf
-            <div class="modal-content  modal-extra-background">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventModalLabel">Crear evento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Título</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="title" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="description" name="description" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="date" class="form-label">Tipo Evento</label>
-                    <select class="form-selected form-control" id="type" name="type">
-                        <option disabled selected>Seleccionar</option>
-                        <option value="Guard">Guardia</option>
-                        <option value="Class">Clase</option>
-                        <option value="Event">Evento</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="date" class="form-label">Inicio</label>
-                    <input type="date" class="form-control" id="start" name="start" readonly required>
-                </div>
-                <div class="mb-3">
-                    <label for="date" class="form-label">Termino</label>
-                    <input type="date" class="form-control" id="end" name="end" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </div>
-            </div>
-        </form>
-    </div>
+ <div class="modal-dialog modal-lg modal-dialog-centered"><form id="createEventForm" method="POST" class="w-100">@csrf
+  <div class="modal-content guard-create-modal">
+   <header class="guard-create-header"><span class="guard-create-header__icon"><i class="fa-solid fa-user-shield"></i></span><div><small>NUEVA PROGRAMACIÓN OPERATIVA</small><h2 id="eventModalLabel">Crear guardia</h2><p>El nombre se asignará automáticamente según el orden del mes.</p></div><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></header>
+   <div class="modal-body guard-create-body">
+    <div class="guard-auto-name"><i class="fa-solid fa-hashtag"></i><div><small>NOMBRE AUTOMÁTICO</small><strong>Guardia N° —</strong><span>El número se calculará al guardar según el mes de inicio.</span></div></div>
+    <section class="guard-form-section"><div class="guard-section-title"><i class="fa-regular fa-calendar"></i><div><h3>Período de la guardia</h3><p>Selecciona el inicio y término del turno.</p></div></div><div class="row g-3"><div class="col-md-6"><label for="start">Fecha de inicio</label><input type="date" class="form-control" id="start" name="start" readonly required></div><div class="col-md-6"><label for="end">Fecha de término</label><input type="date" class="form-control" id="end" name="end" required></div></div></section>
+    <section class="guard-form-section"><div class="guard-section-title"><i class="fa-solid fa-people-group"></i><div><h3>Dotación y jefatura</h3><p>Define el equipo máximo. La jefatura puede asignarse ahora o después.</p></div></div><div class="row g-3"><div class="col-md-4"><label for="guard_capacity">Cupos totales</label><div class="input-group"><span class="input-group-text"><i class="fa-solid fa-users"></i></span><input class="form-control" type="number" id="guard_capacity" name="guard_capacity" min="1" max="200" placeholder="Ej.: 10" required></div><small class="guard-help">El jefe ocupará un cupo cuando sea asignado.</small></div><div class="col-md-8"><label for="guard_leader_id">Jefe de guardia <span class="text-muted fw-normal">(opcional)</span></label><select class="form-select" id="guard_leader_id" name="guard_leader_id"><option value="">Asignar más adelante</option>@foreach($voluntaries as $voluntary)<option value="{{ $voluntary->id }}">{{ $voluntary->name }} {{ $voluntary->lastname }}</option>@endforeach</select><small class="guard-help"><i class="fa-regular fa-clock me-1"></i>Podrás asignarlo desde el detalle de la guardia.</small></div></div></section>
+    <section class="guard-form-section"><div class="guard-section-title"><i class="fa-regular fa-note-sticky"></i><div><h3>Información para el equipo</h3><p>Indica instrucciones o detalles relevantes.</p></div></div><label for="description">Descripción de la guardia</label><textarea class="form-control" id="description" name="description" rows="3" maxlength="1000" placeholder="Horario, lugar, equipo requerido o indicaciones especiales..." required></textarea></section>
+    <label class="guard-enable-card" for="guard_enabled"><input type="hidden" name="guard_enabled" value="0"><input class="form-check-input" type="checkbox" id="guard_enabled" name="guard_enabled" value="1" checked><span class="guard-enable-card__icon"><i class="fa-solid fa-door-open"></i></span><span><strong>Habilitar inscripciones al crear</strong><small>Los voluntarios podrán inscribirse de inmediato.</small></span><b>ABIERTA</b></label>
+   </div>
+   <footer class="modal-footer guard-create-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-dark"><i class="fa-solid fa-calendar-plus me-2"></i>Crear guardia</button></footer>
+  </div>
+ </form></div>
 </div>
+
+@push('styles')
+<style>
+.guard-create-modal{overflow:hidden;border:0!important;border-radius:20px!important;box-shadow:0 28px 80px rgba(5,35,48,.3)}.guard-create-header{display:flex;align-items:center;gap:15px;padding:22px 25px;background:linear-gradient(135deg,#082f40,#176985);color:#fff}.guard-create-header__icon{display:grid;flex:0 0 48px;height:48px;place-items:center;border-radius:14px;background:#ea4e1a;font-size:1.25rem}.guard-create-header>div{flex:1}.guard-create-header small{color:#ffab8d;font-size:.58rem;font-weight:900;letter-spacing:.13em}.guard-create-header h2{margin:2px 0;color:#fff;font-size:1.35rem}.guard-create-header p{margin:0;color:#bed5de;font-size:.7rem}.guard-create-body{padding:24px!important;background:#f4f8f9}.guard-auto-name{display:flex;align-items:center;gap:14px;margin-bottom:15px;padding:15px 18px;border:1px solid #b9dce7;border-radius:13px;background:linear-gradient(135deg,#e8f6fa,#fff)}.guard-auto-name>i{color:#176985;font-size:1.35rem}.guard-auto-name div{display:flex;flex-direction:column}.guard-auto-name small{color:#62808b;font-size:.54rem;font-weight:900;letter-spacing:.1em}.guard-auto-name strong{color:#123e50;font-size:1rem}.guard-auto-name span{color:#78909a;font-size:.62rem}.guard-form-section{margin-bottom:15px;padding:18px;border:1px solid #dbe6ea;border-radius:13px;background:#fff}.guard-section-title{display:flex;align-items:center;gap:11px;margin-bottom:15px}.guard-section-title>i{display:grid;width:36px;height:36px;place-items:center;border-radius:10px;background:#e6f3f7;color:#176985}.guard-section-title h3{margin:0;color:#193d4b;font-size:.88rem}.guard-section-title p{margin:2px 0 0;color:#80939b;font-size:.62rem}.guard-form-section label{margin-bottom:6px;color:#425e69;font-size:.68rem;font-weight:800}.guard-form-section .form-control,.guard-form-section .form-select,.guard-form-section .input-group-text{min-height:44px;border-color:#d2e0e5;border-radius:9px}.guard-form-section .input-group-text{border-radius:9px 0 0 9px;background:#edf5f7;color:#176985}.guard-form-section textarea.form-control{min-height:88px}.guard-help{display:block;margin-top:5px;color:#7c9098;font-size:.59rem}.guard-enable-card{display:flex;align-items:center;gap:13px;margin:0;padding:15px 17px;border:1px solid #b9dbc8;border-radius:13px;background:#f2fbf5;cursor:pointer}.guard-enable-card .form-check-input{flex:0 0 auto;width:2.2rem;height:1.15rem;margin:0}.guard-enable-card__icon{display:grid;width:36px;height:36px;place-items:center;border-radius:10px;background:#d9f1e1;color:#16824a}.guard-enable-card>span:nth-of-type(2){display:flex;flex:1;flex-direction:column}.guard-enable-card strong{color:#22533a;font-size:.74rem}.guard-enable-card small{color:#6f8c79;font-size:.61rem}.guard-enable-card>b{padding:5px 8px;border-radius:7px;background:#16824a;color:#fff;font-size:.54rem}.guard-enable-card:has(.form-check-input:not(:checked)){border-color:#d8e0e3;background:#f7f8f9}.guard-enable-card:has(.form-check-input:not(:checked)) b{background:#85949a}.guard-create-footer{padding:16px 24px!important;border-top:1px solid #dce7ea!important;background:#fff!important}@media(max-width:767.98px){.guard-create-header,.guard-create-body{padding:18px!important}.guard-enable-card>b{display:none}}
+</style>
+@endpush

@@ -23,4 +23,9 @@ class Guard extends Model
     {
         return $this->belongsTo(Voluntary::class, 'id_voluntary');
     }
+
+    public function voluntary()
+    {
+        return $this->belongsTo(Voluntary::class, 'id_voluntary');
+    }
 }
